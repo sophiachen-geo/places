@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-label="Placeholder cover">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2a6f97"/>
+      <stop offset="100%" stop-color="#14304a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <g fill="none" stroke="#f5efe6" stroke-width="4" opacity="0.85">
+    <circle cx="400" cy="230" r="70"/>
+    <path d="M330 230 H470 M400 160 V300"/>
+  </g>
+  <text x="400" y="360" fill="#f5efe6" font-family="Segoe UI, sans-serif" font-size="30" font-weight="700" text-anchor="middle" opacity="0.9">Add a cover image</text>
+</svg>

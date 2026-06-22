@@ -1,0 +1,16 @@
+{
+  "places": [
+    {
+      "id": "athens",
+      "name": "Athens",
+      "country": "Greece",
+      "year": "",
+      "lat": 37.9838,
+      "lng": 23.7275,
+      "tags": ["visited", "studied"],
+      "summary": "The cradle of democracy and Western philosophy — marble temples, olive light, and 2,500 years of ideas.",
+      "image": "places/athens/cover.svg",
+      "page": "places/athens/"
+    }
+  ]
+}

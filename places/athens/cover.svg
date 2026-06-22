@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-label="Stylized Acropolis at sunset">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f6c177"/>
+      <stop offset="45%" stop-color="#e8956b"/>
+      <stop offset="100%" stop-color="#c1632e"/>
+    </linearGradient>
+    <linearGradient id="marble" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fbf6ec"/>
+      <stop offset="100%" stop-color="#e3d6c0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#sky)"/>
+  <circle cx="600" cy="150" r="70" fill="#fce9c8" opacity="0.85"/>
+
+  <!-- hill -->
+  <path d="M0 420 Q 200 360 400 380 T 800 420 V500 H0 Z" fill="#9a6b43" opacity="0.55"/>
+
+  <!-- Parthenon -->
+  <g transform="translate(250,210)" fill="url(#marble)">
+    <!-- pediment -->
+    <polygon points="0,60 150,10 300,60"/>
+    <!-- architrave -->
+    <rect x="0" y="60" width="300" height="22"/>
+    <!-- columns -->
+    <g>
+      <rect x="14" y="82" width="22" height="130"/>
+      <rect x="60" y="82" width="22" height="130"/>
+      <rect x="106" y="82" width="22" height="130"/>
+      <rect x="152" y="82" width="22" height="130"/>
+      <rect x="198" y="82" width="22" height="130"/>
+      <rect x="244" y="82" width="22" height="130"/>
+    </g>
+    <!-- stylobate -->
+    <rect x="-14" y="212" width="328" height="16"/>
+    <rect x="-26" y="228" width="352" height="14"/>
+  </g>
+</svg>

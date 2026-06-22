@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Places · A map of where I've been & studied</title>
+  <meta name="description" content="An interactive map and gallery of the places I have visited and studied." />
+
+  <!-- Leaflet (OpenStreetMap, no API key required) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <h1 class="site-title">Places</h1>
+      <p class="site-tagline">A growing map of everywhere I&rsquo;ve been &amp; studied.</p>
+    </div>
+  </header>
+
+  <main>
+    <section id="map-section" aria-label="Map of places">
+      <div id="map"></div>
+      <div class="map-legend" aria-hidden="true">
+        <span class="legend-item"><span class="dot dot-visited"></span> Visited</span>
+        <span class="legend-item"><span class="dot dot-studied"></span> Studied</span>
+        <span class="legend-item"><span class="dot dot-both"></span> Both</span>
+      </div>
+    </section>
+
+    <section id="gallery-section" class="wrap" aria-label="Gallery of places">
+      <div class="gallery-head">
+        <h2>The collection</h2>
+        <div class="filters" role="group" aria-label="Filter places">
+          <button class="filter is-active" data-filter="all">All</button>
+          <button class="filter" data-filter="visited">Visited</button>
+          <button class="filter" data-filter="studied">Studied</button>
+        </div>
+      </div>
+      <div id="gallery" class="gallery-grid"></div>
+      <p id="empty-state" class="empty-state" hidden>No places match this filter yet.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Built place by place. Each new destination starts as its own branch.</p>
+    </div>
+  </footer>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
