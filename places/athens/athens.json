@@ -97,98 +97,111 @@
     {
       "id": "typography",
       "name": "Typography",
+      "category": "Parcours documentaires",
       "color": "#20242b",
       "description": "A walk through the vernacular lettering of Athens and Piraeus — hand-painted shopfronts, old signage, and storefront type.",
       "places": [
-        {
-          "label": "Stock Market",
-          "year": 2020,
-          "address": "89 Ioannou Drosopoulou St, Athens",
-          "lat": 38.005285,
-          "lng": 23.735927
-        },
-        {
-          "label": "N. Basilakos",
-          "year": 2022,
-          "address": "7 Kleisthenous St, Athens",
-          "lat": 37.981705,
-          "lng": 23.726583
-        },
-        {
-          "label": "Antigoni Travel",
-          "year": 2021,
-          "address": "56-58 Spirou Trikoupi St, Exarcheia, Athens 11473",
-          "lat": 37.990507,
-          "lng": 23.735564,
-          "note": "Print sign reads 60 Spirou Trikoupi; directories list 56–58 (same block). OSM has a node named 'Αντιγόνη' at #56."
-        },
-        {
-          "label": "Laskaratos",
-          "year": 2023,
-          "address": "62 Kolokotroni St, Piraeus",
-          "lat": 37.943935,
-          "lng": 23.646470
-        },
-        {
-          "label": "Stereo Shop",
-          "year": 2022,
-          "address": "33 Filonos St, Piraeus",
-          "lat": 37.944893,
-          "lng": 23.646524
-        },
-        {
-          "label": "Βιτρίνα Εκείνη",
-          "year": 2021,
-          "address": "13 Navarinou St, Athens",
-          "lat": 37.983322,
-          "lng": 23.735559
-        },
-        {
-          "label": "Μεταποιήσεις",
-          "year": 2019,
-          "address": "3 Skopelou St, Kypseli, Athens 11361",
-          "lat": 38.000879,
-          "lng": 23.742304,
-          "approx": true,
-          "note": "Photo reads 'Kopelou'; corrected to Σκοπέλου (Skopelou) in Kypseli — likely OCR/transliteration. Medium-high confidence."
-        },
-        {
-          "label": "Ζαχαροπλαστείον Έβγα",
-          "year": 2019,
-          "address": "24 Idras St, Athens",
-          "lat": 38.012529,
-          "lng": 23.757418
-        },
-        {
-          "label": "Βενίρδος",
-          "year": 2019,
-          "address": "40 Fokionos Negri St, Athens",
-          "lat": 38.000896,
-          "lng": 23.737430
-        },
-        {
-          "label": "City of Athens",
-          "year": 2019,
-          "address": "93 Aiolou St, Athens",
-          "lat": 37.981127,
-          "lng": 23.728254
-        },
-        {
-          "label": "Κομμώσεις Νίτσα",
-          "year": 2019,
-          "address": "142 Trion Ierarchon St, Athens",
-          "lat": 37.975536,
-          "lng": 23.714071
-        },
-        {
-          "label": "Τρόφιμα / KORA Bakery",
-          "year": 2023,
-          "address": "44 Panagiotou Anagnostopoulou St, Kolonaki, Athens 10673",
-          "lat": 37.978479,
-          "lng": 23.740807,
-          "approx": true,
-          "note": "Confirmed as KORA Bakery; 'Τρόφιμα' (food) appears to be a generic category, not the shop name."
-        }
+        { "label": "Stock Market", "year": 2020, "address": "89 Ioannou Drosopoulou St, Athens", "lat": 38.005285, "lng": 23.735927 },
+        { "label": "N. Basilakos", "year": 2022, "address": "7 Kleisthenous St, Athens", "lat": 37.981705, "lng": 23.726583 },
+        { "label": "Antigoni Travel", "year": 2021, "address": "56-58 Spirou Trikoupi St, Exarcheia, Athens 11473", "lat": 37.990507, "lng": 23.735564, "note": "Print sign reads 60 Spirou Trikoupi; directories list 56–58 (same block). OSM has a node named 'Αντιγόνη' at #56." },
+        { "label": "Laskaratos", "year": 2023, "address": "62 Kolokotroni St, Piraeus", "lat": 37.943935, "lng": 23.646470 },
+        { "label": "Stereo Shop", "year": 2022, "address": "33 Filonos St, Piraeus", "lat": 37.944893, "lng": 23.646524 },
+        { "label": "Βιτρίνα Εκείνη", "year": 2021, "address": "13 Navarinou St, Athens", "lat": 37.983322, "lng": 23.735559 },
+        { "label": "Μεταποιήσεις", "year": 2019, "address": "3 Skopelou St, Kypseli, Athens 11361", "lat": 38.000879, "lng": 23.742304, "approx": true, "note": "Photo reads 'Kopelou'; corrected to Σκοπέλου (Skopelou) in Kypseli — likely OCR/transliteration. Medium-high confidence." },
+        { "label": "Ζαχαροπλαστείον Έβγα", "year": 2019, "address": "24 Idras St, Athens", "lat": 38.012529, "lng": 23.757418 },
+        { "label": "Βενίρδος", "year": 2019, "address": "40 Fokionos Negri St, Athens", "lat": 38.000896, "lng": 23.737430 },
+        { "label": "City of Athens", "year": 2019, "address": "93 Aiolou St, Athens", "lat": 37.981127, "lng": 23.728254 },
+        { "label": "Κομμώσεις Νίτσα", "year": 2019, "address": "142 Trion Ierarchon St, Athens", "lat": 37.975536, "lng": 23.714071 },
+        { "label": "Τρόφιμα / KORA Bakery", "year": 2023, "address": "44 Panagiotou Anagnostopoulou St, Kolonaki, Athens 10673", "lat": 37.978479, "lng": 23.740807, "approx": true, "note": "Confirmed as KORA Bakery; 'Τρόφιμα' (food) appears to be a generic category, not the shop name." }
+      ]
+    },
+    {
+      "id": "antique-maritime",
+      "name": "Athènes antique maritime",
+      "category": "Parcours spéculatifs — Athènes & la mer",
+      "color": "#b5413b",
+      "description": "La ville politique intérieure tendue vers la mer : Acropole, corridor des Longs Murs, et les ports antiques du Pirée.",
+      "places": [
+        { "label": "Acropole d'Athènes", "address": "Athens", "lat": 37.970833, "lng": 23.726110, "note": "Centre politique de la ville intérieure, à relier au Pirée et aux Longs Murs." },
+        { "label": "Parthénon", "address": "Acropolis, Athens", "lat": 37.971523, "lng": 23.726591, "note": "Repère précis sur l'Acropole." },
+        { "label": "Musée de l'Acropole", "address": "Athens", "lat": 37.968460, "lng": 23.728373, "note": "Contextualiser l'Athènes antique avant d'aller vers le Pirée." },
+        { "label": "Colline de Philopappou (Mouseion)", "address": "Athens", "lat": 37.967400, "lng": 23.721500, "note": "Relief, visibilité, axe vers le Pirée, matérialité du corridor ville-port." },
+        { "label": "Koile Road", "address": "Philopappou, Athens", "lat": 37.969800, "lng": 23.718900, "note": "Ancien axe Athènes–Pirée, situé entre les Longs Murs." },
+        { "label": "Longs Murs (Long Walls)", "address": "Athens ↔ Piraeus corridor", "lat": 37.954600, "lng": 23.681850, "approx": true, "note": "Corridor reliant Athènes à ses ports : système défensif et logistique continu. Tracé indicatif en ligne.", "line": [[37.969800, 23.718900], [37.939400, 23.644800]] },
+        { "label": "Ancient Phaleron", "address": "Palaio Faliro", "lat": 37.937300, "lng": 23.706200, "note": "Port antérieur à la centralité du Pirée ; déplacement historique des rapports ville-mer." },
+        { "label": "Piraeus / Le Pirée", "address": "Piraeus", "lat": 37.942030, "lng": 23.646190, "note": "Le grand contrepoint maritime d'Athènes : port antique et ville portuaire moderne." },
+        { "label": "Port de Piraeus", "address": "Piraeus", "lat": 37.946060, "lng": 23.615960, "note": "Infrastructure contemporaine majeure : logistique, commerce, croisières, géopolitique." },
+        { "label": "Kantharos / Megas Limen", "address": "Piraeus", "lat": 37.942000, "lng": 23.642000, "note": "Le grand bassin antique du Pirée. Avec Zea et Mounichia, il forme le système des trois ports antiques." },
+        { "label": "Zea Harbour / Pasalimani", "address": "Piraeus", "lat": 37.932471, "lng": 23.646290, "note": "Anciens shipsheds et port militaire, devenu marina : superposition puissance navale / loisirs." },
+        { "label": "Hellenic Maritime Museum", "address": "Zea, Piraeus", "lat": 37.932580, "lng": 23.646110, "note": "Trirèmes, histoire navale, cartes, mémoire maritime." },
+        { "label": "Musée archéologique de Piraeus", "address": "Piraeus", "lat": 37.937022, "lng": 23.644074, "note": "Profondeur urbaine et archéologique du Pirée, souvent réduit à un port de passage." },
+        { "label": "Mounichia / Mikrolimano / Kastella", "address": "Piraeus", "lat": 37.938000, "lng": 23.658000, "approx": true, "note": "Ancien port militaire, aujourd'hui marina et front de mer : transformation des usages du littoral." }
+      ]
+    },
+    {
+      "id": "littoral-contemporain",
+      "name": "Littoral contemporain transformé",
+      "category": "Parcours spéculatifs — Athènes & la mer",
+      "color": "#2a6f97",
+      "description": "Le front de mer recomposé : mémoire navale, parcs métropolitains, marinas et grands projets immobiliers spéculatifs.",
+      "places": [
+        { "label": "Palaio Faliro", "address": "Palaio Faliro", "lat": 37.928100, "lng": 23.701100, "note": "Zone clé entre Pirée, Faliro Bay, marinas et waterfront contemporain." },
+        { "label": "Faliro Bay", "address": "Phaleron Bay", "lat": 37.936383, "lng": 23.669644, "note": "Recomposition littorale : autoroutes, parcs, infrastructures, héritages olympiques." },
+        { "label": "Aenaon / Faleron Metropolitan Park", "address": "Faliro", "lat": 37.934000, "lng": 23.687000, "approx": true, "note": "Reconnexion ville-mer, paysage, adaptation climatique, protection contre les inondations." },
+        { "label": "SNFCC — Stavros Niarchos Foundation Cultural Center", "address": "Kallithea / Faliro", "lat": 37.939835, "lng": 23.692038, "note": "Nouvelle centralité culturelle côtière. Inclut la Bibliothèque nationale de Grèce, l'Opéra national grec et le parc Stavros Niarchos." },
+        { "label": "Kallithea", "address": "Kallithea", "lat": 37.955894, "lng": 23.702099, "note": "Contexte urbain du SNFCC : ville rapprochée du littoral par projet architectural." },
+        { "label": "Flisvos Marina", "address": "Palaio Faliro", "lat": 37.932667, "lng": 23.682028, "note": "Privatisation douce du littoral : loisirs nautiques, yachts, accès public contrôlé." },
+        { "label": "Trocadero / Naval Tradition Park", "address": "Faliro", "lat": 37.933300, "lng": 23.684400, "approx": true, "note": "Navires-musées : mémoire navale, promenade littorale, muséification de la mer." },
+        { "label": "Battleship Georgios Averof (Floating Naval Museum)", "address": "Faliro", "lat": 37.933277, "lng": 23.684444, "note": "Objet militaire flottant : la mer comme infrastructure nationale et stratégique." },
+        { "label": "Trireme Olympias", "address": "Faliro", "lat": 37.934500, "lng": 23.684859, "approx": true, "note": "Reconstruction d'une trirème antique : corps, rameurs, guerre, bois, port, empire." },
+        { "label": "Edem Beach", "address": "Palaio Faliro", "lat": 37.915000, "lng": 23.705000, "approx": true, "note": "Littoral ordinaire : plage urbaine, tramway côtier, accès à l'eau. Coordonnée à vérifier sur place." },
+        { "label": "Ellinikon (ancien aéroport international)", "address": "Elliniko", "lat": 37.892331, "lng": 23.724331, "note": "Infrastructure aérienne transformée en ville littorale spéculative, verte, 'smart', immobilière." },
+        { "label": "The Ellinikon Experience Park", "address": "Elliniko", "lat": 37.891000, "lng": 23.728000, "approx": true, "note": "Vitrine publique du projet : dispositif de communication et promesse de ville future." },
+        { "label": "Athenian Riviera (point représentatif)", "address": "Saronic coast", "lat": 37.783740, "lng": 23.814240, "approx": true, "note": "Long corridor côtier Pirée→Sounion : imaginaire immobilier et touristique, pas un point unique." },
+        { "label": "Alimos", "address": "Alimos", "lat": 37.906200, "lng": 23.706200, "note": "Transition entre ville dense, marina, plage, tramway et Riviera." },
+        { "label": "Alimos Marina", "address": "Alimos", "lat": 37.913139, "lng": 23.704056, "note": "À comparer avec Flisvos et Zea : nautisme, privatisation, accès, infrastructures." },
+        { "label": "Glyfada", "address": "Glyfada", "lat": 37.865044, "lng": 23.755045, "note": "La Riviera comme paysage de consommation : plage, marina, route côtière, immobilier." }
+      ]
+    },
+    {
+      "id": "ecologies",
+      "name": "Écologies et métabolisme urbain",
+      "category": "Parcours spéculatifs — Athènes & la mer",
+      "color": "#3f8f7a",
+      "description": "Le revers écologique de la métropole : golfe récepteur, eaux usées, zones humides protégées.",
+      "places": [
+        { "label": "Golfe Saronique (point représentatif)", "address": "Saronic Gulf", "lat": 37.763056, "lng": 23.690833, "approx": true, "note": "Récepteur écologique de la métropole : ports, eaux usées, navigation, pollution, baignade." },
+        { "label": "Psyttalia (île + station d'épuration)", "address": "Saronic Gulf", "lat": 37.940891, "lng": 23.588390, "note": "Île des eaux usées : la station traite les eaux du Grand Athènes — infrastructure cachée du métabolisme urbain." },
+        { "label": "Vravrona / Brauron (zone marine côtière, Natura 2000)", "address": "Vravrona", "lat": 37.918889, "lng": 23.998333, "approx": true, "note": "Contrepoint écologique au Pirée et à Ellinikon : zone humide, habitats côtiers, mer peu profonde." },
+        { "label": "Sanctuaire d'Artémis à Brauron", "address": "Vravrona", "lat": 37.926200, "lng": 23.993700, "note": "Sanctuaire antique + vallée humide + littoral + faible urbanisation." },
+        { "label": "Lake Vouliagmeni", "address": "Vouliagmeni", "lat": 37.807700, "lng": 23.785719, "note": "Lac côtier : nature, géologie, thermalité, privatisation, accès payant à un milieu naturel." }
+      ]
+    },
+    {
+      "id": "extraction",
+      "name": "Extraction et seuils maritimes",
+      "category": "Parcours spéculatifs — Athènes & la mer",
+      "color": "#9c5b8b",
+      "description": "La puissance maritime adossée à la terre : mines d'argent du Laurion et seuil sacré du Cap Sounion.",
+      "places": [
+        { "label": "Lavrion / Laurium", "address": "Lavrio", "lat": 37.714500, "lng": 24.056500, "note": "La puissance maritime d'Athènes dépend aussi de l'extraction, de l'argent, du travail et des mines." },
+        { "label": "Thorikos", "address": "Thorikos", "lat": 37.739200, "lng": 24.051600, "note": "Théâtre, habitat, double baie, mines, paysage côtier et extraction." },
+        { "label": "Sounion / Temple de Poséidon", "address": "Cape Sounion", "lat": 37.659200, "lng": 24.014800, "note": "Extrémité symbolique de l'Attique maritime : temple, routes maritimes, promontoire, seuil terre-mer." }
+      ]
+    },
+    {
+      "id": "cadre-general",
+      "name": "Cadre général (échelles)",
+      "category": "Parcours spéculatifs — Athènes & la mer",
+      "color": "#6b7280",
+      "default": false,
+      "description": "Points de cadrage à grande échelle — villes, régions et mers. Masqué par défaut (ces points s'étendent bien au-delà de l'Attique).",
+      "places": [
+        { "label": "Athènes", "address": "Athens", "lat": 37.983810, "lng": 23.727539, "note": "Point de départ urbain : ville intérieure dont la puissance dépend du rapport à la mer." },
+        { "label": "Attique", "address": "Attica region", "lat": 38.083300, "lng": 23.500000, "approx": true, "note": "Échelle territoriale : Athènes, Pirée, Faliro, Riviera, Vravrona, Lavrion, Sounion." },
+        { "label": "Syros / Ermoupoli", "address": "Syros", "lat": 37.463493, "lng": 24.916088, "note": "Contraste insulaire avec la métropole côtière athénienne." },
+        { "label": "Méditerranée (point représentatif)", "address": "Mediterranean Sea", "lat": 38.130650, "lng": 19.700670, "approx": true, "note": "Échelle écologique et historique : circulation, ports, empire, climat, littoralisation." },
+        { "label": "Mer Égée (point représentatif)", "address": "Aegean Sea", "lat": 37.852359, "lng": 25.174613, "approx": true, "note": "Contexte maritime direct entre Athènes, les Cyclades et Syros." }
       ]
     }
   ]

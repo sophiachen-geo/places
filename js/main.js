@@ -73,7 +73,14 @@ function buildPopup(place) {
 }
 
 async function init() {
-  const map = L.map("map", { scrollWheelZoom: false }).setView([30, 15], 2);
+  const map = L.map("map", {
+    scrollWheelZoom: true,   // zoom with the mouse wheel / trackpad
+    wheelPxPerZoomLevel: 80, // smoother, less jumpy wheel zoom
+    zoomSnap: 0.25,          // finer zoom increments
+    zoomDelta: 0.5,
+    worldCopyJump: true,     // seamless panning across the date line
+  }).setView([30, 15], 2);
+  map.zoomControl.setPosition("topright");
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',

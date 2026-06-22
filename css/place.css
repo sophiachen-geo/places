@@ -142,6 +142,15 @@
 }
 
 /* ---------- Parcours ---------- */
+.parcours-cat {
+  margin: 32px 0 4px;
+  color: var(--deep);
+  font-size: 1.05rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 2px solid var(--sand);
+  padding-bottom: 6px;
+}
 .parcours {
   background: var(--white);
   border: 1px solid var(--sand);
@@ -155,15 +164,16 @@
   align-items: center;
   gap: 10px;
 }
-.parcours-head h3 {
+.parcours-head h4 {
   margin: 0;
   color: var(--deep);
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   flex: 1;
 }
 .parcours-swatch {
   width: 14px; height: 14px; border-radius: 3px;
   transform: rotate(45deg);
+  flex-shrink: 0;
 }
 .parcours-count {
   font-size: 0.78rem;
@@ -173,6 +183,17 @@
   border-radius: 999px;
   padding: 2px 9px;
 }
+.parcours-toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--aegean);
+  cursor: pointer;
+  user-select: none;
+}
+.parcours-toggle input { cursor: pointer; accent-color: var(--aegean); }
 .parcours-desc {
   margin: 8px 0 4px;
   color: #5a6573;
