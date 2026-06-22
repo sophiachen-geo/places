@@ -2,7 +2,9 @@
  *
  * - Neighborhoods are plotted as soft colored zones with a label marker.
  * - Each parcours (e.g. "typography") is a themed collection of places,
- *   plotted as diamond markers in the parcours color.
+ *   plotted as diamond markers in the parcours color. A place may also carry a
+ *   "line" ([[lat,lng], ...]) drawn as a dashed corridor (e.g. the Long Walls).
+ * - Parcours can be toggled on/off; the map refits to whatever is visible.
  *
  * A place may carry explicit "lat"/"lng" or just an "address" string, which is
  * geocoded on load via OpenStreetMap Nominatim (cached in localStorage). */
@@ -60,6 +62,9 @@ async function resolveCoords(item, cache) {
   if (typeof item.lat === "number" && typeof item.lng === "number") {
     return { lat: item.lat, lng: item.lng };
   }
+  if (Array.isArray(item.line) && item.line.length) {
+    return { lat: item.line[0][0], lng: item.line[0][1] };
+  }
   if (item.address) {
     const q = /greece/i.test(item.address) ? item.address : `${item.address}, Greece`;
     try { return await geocode(q, cache); }
@@ -72,8 +77,9 @@ function placePopup(place, parcoursName) {
   const approx = place.approx ? " <em>(approx.)</em>" : "";
   return (
     `<div class="popup-card"><h3>${place.label}</h3>` +
-    `<p>${place.address || ""}${approx}` +
-    (place.year ? `<br><strong>${parcoursName} · ${place.year}</strong>` : "") +
+    `<p>${place.address ? place.address + approx : ""}` +
+    (place.year ? `<br><strong>${parcoursName} · ${place.year}</strong>` :
+      `<br><strong>${parcoursName}</strong>`) +
     (place.note ? `<br><span class="popup-note">${place.note}</span>` : "") +
     `</p></div>`
   );
@@ -98,17 +104,17 @@ async function init() {
   }).addTo(map);
 
   const cache = loadCache();
-  const bounds = [];
 
-  /* ---- Neighborhoods ---- */
+  /* ---- Neighborhoods (always visible) ---- */
+  const hoodGroup = L.featureGroup().addTo(map);
   const hoodListEl = document.getElementById("hood-list");
   (data.neighborhoods || []).forEach((hood) => {
     L.circle([hood.lat, hood.lng], {
       radius: 320, color: hood.color, weight: 1.5,
       fillColor: hood.color, fillOpacity: 0.12,
-    }).addTo(map);
+    }).addTo(hoodGroup);
     L.marker([hood.lat, hood.lng], { icon: neighborhoodIcon(hood.color) })
-      .addTo(map)
+      .addTo(hoodGroup)
       .bindPopup(`<div class="popup-card"><h3>${hood.name}</h3><p>${hood.blurb || ""}</p></div>`);
 
     const item = document.createElement("li");
@@ -118,46 +124,96 @@ async function init() {
       `<span class="hood-name">${hood.name}</span>`;
     item.addEventListener("click", () => map.flyTo([hood.lat, hood.lng], 16));
     hoodListEl.appendChild(item);
-    bounds.push([hood.lat, hood.lng]);
   });
 
   /* ---- Parcours (themed routes) ---- */
   const parcoursEl = document.getElementById("parcours-container");
+  const groups = []; // { group: featureGroup, visible: bool }
+
+  function refit() {
+    let bounds = null;
+    const collect = (fg) => {
+      if (!fg) return;
+      const b = fg.getBounds();
+      if (b && b.isValid()) bounds = bounds ? bounds.extend(b) : L.latLngBounds(b.getSouthWest(), b.getNorthEast());
+    };
+    collect(hoodGroup);
+    groups.forEach((g) => { if (g.visible) collect(g.group); });
+    if (bounds && bounds.isValid()) map.fitBounds(bounds, { padding: [40, 40] });
+  }
+
+  let lastCategory = null;
   for (const parcours of data.parcours || []) {
+    // Category subheading
+    if (parcours.category && parcours.category !== lastCategory) {
+      const cat = document.createElement("h3");
+      cat.className = "parcours-cat";
+      cat.textContent = parcours.category;
+      parcoursEl.appendChild(cat);
+      lastCategory = parcours.category;
+    }
+
+    const visible = parcours.default !== false;
+    const group = L.featureGroup();
+    if (visible) group.addTo(map);
+    const entry = { group, visible };
+    groups.push(entry);
+
     const block = document.createElement("div");
     block.className = "parcours";
+    const toggleId = `toggle-${parcours.id}`;
     block.innerHTML =
       `<div class="parcours-head">` +
       `<span class="parcours-swatch" style="background:${parcours.color}"></span>` +
-      `<h3>${parcours.name}</h3>` +
-      `<span class="parcours-count">${parcours.places.length}</span></div>` +
+      `<h4>${parcours.name}</h4>` +
+      `<span class="parcours-count">${parcours.places.length}</span>` +
+      `<label class="parcours-toggle"><input type="checkbox" id="${toggleId}" ${visible ? "checked" : ""}> carte</label>` +
+      `</div>` +
       (parcours.description ? `<p class="parcours-desc">${parcours.description}</p>` : "");
     const list = document.createElement("ol");
     list.className = "parcours-list";
     block.appendChild(list);
     parcoursEl.appendChild(block);
 
+    block.querySelector(`#${toggleId}`).addEventListener("change", (e) => {
+      entry.visible = e.target.checked;
+      if (entry.visible) group.addTo(map); else map.removeLayer(group);
+      refit();
+    });
+
     for (const place of parcours.places) {
       const coords = await resolveCoords(place, cache);
+
+      if (Array.isArray(place.line) && place.line.length > 1) {
+        L.polyline(place.line, {
+          color: parcours.color, weight: 3, opacity: 0.7, dashArray: "6 6",
+        }).addTo(group);
+      }
+
       let marker = null;
       if (coords) {
         marker = L.marker([coords.lat, coords.lng], { icon: placeIcon(parcours.color) })
-          .addTo(map)
+          .addTo(group)
           .bindPopup(placePopup(place, parcours.name));
-        bounds.push([coords.lat, coords.lng]);
       }
 
       const li = document.createElement("li");
       li.className = "parcours-item" + (coords ? "" : " is-unmapped");
       li.innerHTML =
         `<span class="pi-label">${place.label}` +
-        (place.approx ? ` <span class="pi-flag" title="Approximate location">~</span>` : "") +
+        (place.approx ? ` <span class="pi-flag" title="Approximate / representative location">~</span>` : "") +
         (coords ? "" : ` <span class="pi-flag" title="Not mapped">?</span>`) +
         `</span>` +
         `<span class="pi-meta">${place.address || ""}${place.year ? " · " + place.year : ""}</span>`;
       if (coords && marker) {
         li.addEventListener("click", () => {
-          map.flyTo([coords.lat, coords.lng], 17);
+          if (!entry.visible) {
+            entry.visible = true;
+            group.addTo(map);
+            const cb = block.querySelector(`#${toggleId}`);
+            if (cb) cb.checked = true;
+          }
+          map.flyTo([coords.lat, coords.lng], 16);
           marker.openPopup();
         });
       }
@@ -165,7 +221,7 @@ async function init() {
     }
   }
 
-  if (bounds.length > 1) map.fitBounds(bounds, { padding: [40, 40] });
+  refit();
 }
 
 document.addEventListener("DOMContentLoaded", init);
