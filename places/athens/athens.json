@@ -92,5 +92,101 @@
       "blurb": "An old gasworks reinvented as a nightlife and arts hub, beside the ancient Kerameikos cemetery.",
       "addresses": []
     }
+  ],
+  "parcours": [
+    {
+      "id": "typography",
+      "name": "Typography",
+      "color": "#20242b",
+      "description": "A walk through the vernacular lettering of Athens and Piraeus — hand-painted shopfronts, old signage, and storefront type.",
+      "places": [
+        {
+          "label": "Stock Market",
+          "year": 2020,
+          "address": "89 Ioannou Drosopoulou St, Athens",
+          "lat": 38.005285,
+          "lng": 23.735927
+        },
+        {
+          "label": "N. Basilakos",
+          "year": 2022,
+          "address": "7 Kleisthenous St, Athens",
+          "lat": 37.981705,
+          "lng": 23.726583
+        },
+        {
+          "label": "Antigoni Travel",
+          "year": 2021,
+          "address": "60 Spirou Trikoupi St, Athens",
+          "lat": 37.988068,
+          "lng": 23.734907,
+          "approx": true
+        },
+        {
+          "label": "Laskaratos",
+          "year": 2023,
+          "address": "62 Kolokotroni St, Piraeus",
+          "lat": 37.943935,
+          "lng": 23.646470
+        },
+        {
+          "label": "Stereo Shop",
+          "year": 2022,
+          "address": "33 Filonos St, Piraeus",
+          "lat": 37.944893,
+          "lng": 23.646524
+        },
+        {
+          "label": "Βιτρίνα Εκείνη",
+          "year": 2021,
+          "address": "13 Navarinou St, Athens",
+          "lat": 37.983322,
+          "lng": 23.735559
+        },
+        {
+          "label": "Μεταποιήσεις",
+          "year": 2019,
+          "address": "3 Kopelou St, Athens",
+          "lat": null,
+          "lng": null
+        },
+        {
+          "label": "Ζαχαροπλαστείον Έβγα",
+          "year": 2019,
+          "address": "24 Idras St, Athens",
+          "lat": 38.012529,
+          "lng": 23.757418
+        },
+        {
+          "label": "Βενίρδος",
+          "year": 2019,
+          "address": "40 Fokionos Negri St, Athens",
+          "lat": 38.000896,
+          "lng": 23.737430
+        },
+        {
+          "label": "City of Athens",
+          "year": 2019,
+          "address": "93 Aiolou St, Athens",
+          "lat": 37.981127,
+          "lng": 23.728254
+        },
+        {
+          "label": "Κομμώσεις Νίτσα",
+          "year": 2019,
+          "address": "142 Trion Ierarchon St, Athens",
+          "lat": 37.975536,
+          "lng": 23.714071
+        },
+        {
+          "label": "Τρόφιμα",
+          "year": 2023,
+          "address": "44 Panagiotou Anagnostopoulou St, Athens",
+          "lat": 37.978479,
+          "lng": 23.740807,
+          "approx": true
+        }
+      ]
+    }
   ]
 }
