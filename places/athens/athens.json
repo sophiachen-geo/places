@@ -1,0 +1,195 @@
+{
+  "center": { "lat": 37.9755, "lng": 23.7330 },
+  "zoom": 14,
+  "neighborhoods": [
+    {
+      "id": "plaka",
+      "name": "Plaka",
+      "lat": 37.9715,
+      "lng": 23.7281,
+      "color": "#c1632e",
+      "blurb": "The oldest neighborhood, a maze of neoclassical houses and stepped lanes climbing the slopes of the Acropolis.",
+      "addresses": []
+    },
+    {
+      "id": "monastiraki",
+      "name": "Monastiraki",
+      "lat": 37.9760,
+      "lng": 23.7256,
+      "color": "#2a6f97",
+      "blurb": "The bustling flea-market square where the ancient and modern city collide.",
+      "addresses": []
+    },
+    {
+      "id": "syntagma",
+      "name": "Syntagma",
+      "lat": 37.9755,
+      "lng": 23.7350,
+      "color": "#6a7b53",
+      "blurb": "The civic heart of Athens — Parliament, the Tomb of the Unknown Soldier, and the central square.",
+      "addresses": []
+    },
+    {
+      "id": "kolonaki",
+      "name": "Kolonaki",
+      "lat": 37.9795,
+      "lng": 23.7440,
+      "color": "#9c5b8b",
+      "blurb": "Chic and leafy, climbing toward Lycabettus Hill — galleries, cafes, and designer boutiques.",
+      "addresses": []
+    },
+    {
+      "id": "exarcheia",
+      "name": "Exarcheia",
+      "lat": 37.9866,
+      "lng": 23.7337,
+      "color": "#b5413b",
+      "blurb": "The bohemian, politically charged quarter known for street art, bookshops, and student life.",
+      "addresses": []
+    },
+    {
+      "id": "psyrri",
+      "name": "Psyrri",
+      "lat": 37.9788,
+      "lng": 23.7253,
+      "color": "#d49a2f",
+      "blurb": "Former workshops turned nightlife district — tavernas, mezedopoleia, and murals.",
+      "addresses": []
+    },
+    {
+      "id": "thiseio",
+      "name": "Thiseio",
+      "lat": 37.9762,
+      "lng": 23.7197,
+      "color": "#3f8f7a",
+      "blurb": "A relaxed quarter with the best free views of the Acropolis along its pedestrian promenade.",
+      "addresses": []
+    },
+    {
+      "id": "koukaki",
+      "name": "Koukaki",
+      "lat": 37.9645,
+      "lng": 23.7258,
+      "color": "#7a6cae",
+      "blurb": "An up-and-coming residential neighborhood just south of the Acropolis Museum.",
+      "addresses": []
+    },
+    {
+      "id": "pangrati",
+      "name": "Pangrati",
+      "lat": 37.9690,
+      "lng": 23.7470,
+      "color": "#c97b3f",
+      "blurb": "Easygoing and local, anchored by the Panathenaic Stadium and the Varnava square cafes.",
+      "addresses": []
+    },
+    {
+      "id": "gazi-kerameikos",
+      "name": "Gazi & Kerameikos",
+      "lat": 37.9779,
+      "lng": 23.7117,
+      "color": "#4d7ea8",
+      "blurb": "An old gasworks reinvented as a nightlife and arts hub, beside the ancient Kerameikos cemetery.",
+      "addresses": []
+    }
+  ],
+  "parcours": [
+    {
+      "id": "typography",
+      "name": "Typography",
+      "color": "#20242b",
+      "description": "A walk through the vernacular lettering of Athens and Piraeus — hand-painted shopfronts, old signage, and storefront type.",
+      "places": [
+        {
+          "label": "Stock Market",
+          "year": 2020,
+          "address": "89 Ioannou Drosopoulou St, Athens",
+          "lat": 38.005285,
+          "lng": 23.735927
+        },
+        {
+          "label": "N. Basilakos",
+          "year": 2022,
+          "address": "7 Kleisthenous St, Athens",
+          "lat": 37.981705,
+          "lng": 23.726583
+        },
+        {
+          "label": "Antigoni Travel",
+          "year": 2021,
+          "address": "56-58 Spirou Trikoupi St, Exarcheia, Athens 11473",
+          "lat": 37.990507,
+          "lng": 23.735564,
+          "note": "Print sign reads 60 Spirou Trikoupi; directories list 56–58 (same block). OSM has a node named 'Αντιγόνη' at #56."
+        },
+        {
+          "label": "Laskaratos",
+          "year": 2023,
+          "address": "62 Kolokotroni St, Piraeus",
+          "lat": 37.943935,
+          "lng": 23.646470
+        },
+        {
+          "label": "Stereo Shop",
+          "year": 2022,
+          "address": "33 Filonos St, Piraeus",
+          "lat": 37.944893,
+          "lng": 23.646524
+        },
+        {
+          "label": "Βιτρίνα Εκείνη",
+          "year": 2021,
+          "address": "13 Navarinou St, Athens",
+          "lat": 37.983322,
+          "lng": 23.735559
+        },
+        {
+          "label": "Μεταποιήσεις",
+          "year": 2019,
+          "address": "3 Skopelou St, Kypseli, Athens 11361",
+          "lat": 38.000879,
+          "lng": 23.742304,
+          "approx": true,
+          "note": "Photo reads 'Kopelou'; corrected to Σκοπέλου (Skopelou) in Kypseli — likely OCR/transliteration. Medium-high confidence."
+        },
+        {
+          "label": "Ζαχαροπλαστείον Έβγα",
+          "year": 2019,
+          "address": "24 Idras St, Athens",
+          "lat": 38.012529,
+          "lng": 23.757418
+        },
+        {
+          "label": "Βενίρδος",
+          "year": 2019,
+          "address": "40 Fokionos Negri St, Athens",
+          "lat": 38.000896,
+          "lng": 23.737430
+        },
+        {
+          "label": "City of Athens",
+          "year": 2019,
+          "address": "93 Aiolou St, Athens",
+          "lat": 37.981127,
+          "lng": 23.728254
+        },
+        {
+          "label": "Κομμώσεις Νίτσα",
+          "year": 2019,
+          "address": "142 Trion Ierarchon St, Athens",
+          "lat": 37.975536,
+          "lng": 23.714071
+        },
+        {
+          "label": "Τρόφιμα / KORA Bakery",
+          "year": 2023,
+          "address": "44 Panagiotou Anagnostopoulou St, Kolonaki, Athens 10673",
+          "lat": 37.978479,
+          "lng": 23.740807,
+          "approx": true,
+          "note": "Confirmed as KORA Bakery; 'Τρόφιμα' (food) appears to be a generic category, not the shop name."
+        }
+      ]
+    }
+  ]
+}
