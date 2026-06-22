@@ -199,11 +199,21 @@
   color: #5a6573;
   font-size: 0.95rem;
 }
+.parcours-route {
+  margin: 6px 0 2px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--terracotta);
+}
 .parcours-list {
   margin: 8px 0 0;
-  padding-left: 1.4em;
+  padding: 0;
+  list-style: none;
 }
 .parcours-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
   padding: 8px 6px;
   border-bottom: 1px solid var(--marble);
   cursor: pointer;
@@ -212,6 +222,20 @@
 .parcours-item:last-child { border-bottom: none; }
 .parcours-item:hover { background: var(--marble); }
 .parcours-item.is-unmapped { cursor: default; opacity: 0.7; }
+.pi-num {
+  flex-shrink: 0;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+.pi-num-empty { background: transparent !important; }
+.pi-text { display: block; }
 .pi-label {
   display: block;
   font-weight: 600;
@@ -223,6 +247,17 @@
   font-size: 0.85rem;
   color: #6a7682;
 }
+.boundaries-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--aegean);
+  cursor: pointer;
+  margin-bottom: 14px;
+}
+.boundaries-toggle input { cursor: pointer; accent-color: var(--aegean); }
 .pi-flag {
   font-weight: 700;
   color: var(--terracotta);

@@ -57,9 +57,14 @@
     <section class="place-section" id="neighborhoods">
       <h2>Neighborhoods</h2>
       <p>
-        A map of the central Athens neighborhoods. Click a name to fly there.
-        Specific addresses get pinned under their neighborhood as they&rsquo;re added.
+        A map of the central Athens neighborhoods, with real OpenStreetMap
+        boundaries for neighborhoods and surrounding municipalities. Click a name
+        to fly there.
       </p>
+      <label class="boundaries-toggle">
+        <input type="checkbox" id="toggle-boundaries" checked>
+        Afficher les limites (quartiers &amp; communes)
+      </label>
       <div class="hood-layout">
         <div id="hood-map"></div>
         <ul id="hood-list" class="hood-list" aria-label="Neighborhoods"></ul>
