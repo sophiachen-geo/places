@@ -75,8 +75,15 @@
       <h2>Parcours</h2>
       <p>
         Themed routes through the city. Each one collects places around a single
-        idea; click any entry to fly to it on the map above.
+        idea; click any entry to fly to it on the map above. Stops are shown in a
+        suggested visiting order along real streets.
       </p>
+      <div class="route-mode" role="group" aria-label="Mode d'itinéraire">
+        <span class="rm-label">Itinéraires :</span>
+        <button class="rm-btn is-active" data-mode="walking">À pied</button>
+        <button class="rm-btn" data-mode="driving">En voiture</button>
+        <button class="rm-btn" data-mode="straight">Vol d'oiseau</button>
+      </div>
       <div id="parcours-container"></div>
     </section>
 

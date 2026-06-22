@@ -199,6 +199,27 @@
   color: #5a6573;
   font-size: 0.95rem;
 }
+.route-mode {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 4px 0 8px;
+}
+.rm-label { font-size: 0.9rem; font-weight: 600; color: var(--deep); }
+.rm-btn {
+  border: 1.5px solid var(--sand);
+  background: var(--white);
+  color: var(--ink);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.rm-btn:hover { border-color: var(--aegean); color: var(--aegean); }
+.rm-btn.is-active { background: var(--deep); border-color: var(--deep); color: var(--white); }
 .parcours-route {
   margin: 6px 0 2px;
   font-size: 0.85rem;

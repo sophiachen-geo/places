@@ -157,7 +157,7 @@
         { "label": "Edem Beach", "address": "Palaio Faliro", "lat": 37.915000, "lng": 23.705000, "approx": true, "note": "Littoral ordinaire : plage urbaine, tramway côtier, accès à l'eau. Coordonnée à vérifier sur place." },
         { "label": "Ellinikon (ancien aéroport international)", "address": "Elliniko", "lat": 37.892331, "lng": 23.724331, "note": "Infrastructure aérienne transformée en ville littorale spéculative, verte, 'smart', immobilière." },
         { "label": "The Ellinikon Experience Park", "address": "Elliniko", "lat": 37.891000, "lng": 23.728000, "approx": true, "note": "Vitrine publique du projet : dispositif de communication et promesse de ville future." },
-        { "label": "Athenian Riviera (point représentatif)", "address": "Saronic coast", "lat": 37.783740, "lng": 23.814240, "approx": true, "note": "Long corridor côtier Pirée→Sounion : imaginaire immobilier et touristique, pas un point unique." },
+        { "label": "Athenian Riviera (point représentatif)", "address": "Saronic coast", "lat": 37.783740, "lng": 23.814240, "approx": true, "noroute": true, "note": "Long corridor côtier Pirée→Sounion : imaginaire immobilier et touristique, pas un point unique." },
         { "label": "Alimos", "address": "Alimos", "lat": 37.906200, "lng": 23.706200, "note": "Transition entre ville dense, marina, plage, tramway et Riviera." },
         { "label": "Alimos Marina", "address": "Alimos", "lat": 37.913139, "lng": 23.704056, "note": "À comparer avec Flisvos et Zea : nautisme, privatisation, accès, infrastructures." },
         { "label": "Glyfada", "address": "Glyfada", "lat": 37.865044, "lng": 23.755045, "note": "La Riviera comme paysage de consommation : plage, marina, route côtière, immobilier." }
@@ -170,8 +170,8 @@
       "color": "#3f8f7a",
       "description": "Le revers écologique de la métropole : golfe récepteur, eaux usées, zones humides protégées.",
       "places": [
-        { "label": "Golfe Saronique (point représentatif)", "address": "Saronic Gulf", "lat": 37.763056, "lng": 23.690833, "approx": true, "note": "Récepteur écologique de la métropole : ports, eaux usées, navigation, pollution, baignade." },
-        { "label": "Psyttalia (île + station d'épuration)", "address": "Saronic Gulf", "lat": 37.940891, "lng": 23.588390, "note": "Île des eaux usées : la station traite les eaux du Grand Athènes — infrastructure cachée du métabolisme urbain." },
+        { "label": "Golfe Saronique (point représentatif)", "address": "Saronic Gulf", "lat": 37.763056, "lng": 23.690833, "approx": true, "noroute": true, "note": "Récepteur écologique de la métropole : ports, eaux usées, navigation, pollution, baignade." },
+        { "label": "Psyttalia (île + station d'épuration)", "address": "Saronic Gulf", "lat": 37.940891, "lng": 23.588390, "noroute": true, "note": "Île des eaux usées : la station traite les eaux du Grand Athènes — infrastructure cachée du métabolisme urbain." },
         { "label": "Vravrona / Brauron (zone marine côtière, Natura 2000)", "address": "Vravrona", "lat": 37.918889, "lng": 23.998333, "approx": true, "note": "Contrepoint écologique au Pirée et à Ellinikon : zone humide, habitats côtiers, mer peu profonde." },
         { "label": "Sanctuaire d'Artémis à Brauron", "address": "Vravrona", "lat": 37.926200, "lng": 23.993700, "note": "Sanctuaire antique + vallée humide + littoral + faible urbanisation." },
         { "label": "Lake Vouliagmeni", "address": "Vouliagmeni", "lat": 37.807700, "lng": 23.785719, "note": "Lac côtier : nature, géologie, thermalité, privatisation, accès payant à un milieu naturel." }
