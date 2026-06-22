@@ -1,0 +1,96 @@
+{
+  "center": { "lat": 37.9755, "lng": 23.7330 },
+  "zoom": 14,
+  "neighborhoods": [
+    {
+      "id": "plaka",
+      "name": "Plaka",
+      "lat": 37.9715,
+      "lng": 23.7281,
+      "color": "#c1632e",
+      "blurb": "The oldest neighborhood, a maze of neoclassical houses and stepped lanes climbing the slopes of the Acropolis.",
+      "addresses": []
+    },
+    {
+      "id": "monastiraki",
+      "name": "Monastiraki",
+      "lat": 37.9760,
+      "lng": 23.7256,
+      "color": "#2a6f97",
+      "blurb": "The bustling flea-market square where the ancient and modern city collide.",
+      "addresses": []
+    },
+    {
+      "id": "syntagma",
+      "name": "Syntagma",
+      "lat": 37.9755,
+      "lng": 23.7350,
+      "color": "#6a7b53",
+      "blurb": "The civic heart of Athens — Parliament, the Tomb of the Unknown Soldier, and the central square.",
+      "addresses": []
+    },
+    {
+      "id": "kolonaki",
+      "name": "Kolonaki",
+      "lat": 37.9795,
+      "lng": 23.7440,
+      "color": "#9c5b8b",
+      "blurb": "Chic and leafy, climbing toward Lycabettus Hill — galleries, cafes, and designer boutiques.",
+      "addresses": []
+    },
+    {
+      "id": "exarcheia",
+      "name": "Exarcheia",
+      "lat": 37.9866,
+      "lng": 23.7337,
+      "color": "#b5413b",
+      "blurb": "The bohemian, politically charged quarter known for street art, bookshops, and student life.",
+      "addresses": []
+    },
+    {
+      "id": "psyrri",
+      "name": "Psyrri",
+      "lat": 37.9788,
+      "lng": 23.7253,
+      "color": "#d49a2f",
+      "blurb": "Former workshops turned nightlife district — tavernas, mezedopoleia, and murals.",
+      "addresses": []
+    },
+    {
+      "id": "thiseio",
+      "name": "Thiseio",
+      "lat": 37.9762,
+      "lng": 23.7197,
+      "color": "#3f8f7a",
+      "blurb": "A relaxed quarter with the best free views of the Acropolis along its pedestrian promenade.",
+      "addresses": []
+    },
+    {
+      "id": "koukaki",
+      "name": "Koukaki",
+      "lat": 37.9645,
+      "lng": 23.7258,
+      "color": "#7a6cae",
+      "blurb": "An up-and-coming residential neighborhood just south of the Acropolis Museum.",
+      "addresses": []
+    },
+    {
+      "id": "pangrati",
+      "name": "Pangrati",
+      "lat": 37.9690,
+      "lng": 23.7470,
+      "color": "#c97b3f",
+      "blurb": "Easygoing and local, anchored by the Panathenaic Stadium and the Varnava square cafes.",
+      "addresses": []
+    },
+    {
+      "id": "gazi-kerameikos",
+      "name": "Gazi & Kerameikos",
+      "lat": 37.9779,
+      "lng": 23.7117,
+      "color": "#4d7ea8",
+      "blurb": "An old gasworks reinvented as a nightlife and arts hub, beside the ancient Kerameikos cemetery.",
+      "addresses": []
+    }
+  ]
+}

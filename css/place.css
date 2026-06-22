@@ -83,3 +83,60 @@
   padding: 1px 6px;
   border-radius: 5px;
 }
+
+/* ---------- Neighborhood map ---------- */
+.hood-layout {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 18px;
+  margin-top: 18px;
+}
+#hood-map {
+  height: 460px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  z-index: 1;
+}
+.hood-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 460px;
+  overflow-y: auto;
+  border: 1px solid var(--sand);
+  border-radius: 12px;
+  background: var(--white);
+}
+.hood-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--sand);
+  font-size: 0.95rem;
+  transition: background 0.12s ease;
+}
+.hood-item:last-child { border-bottom: none; }
+.hood-item:hover { background: var(--marble); }
+.hood-swatch {
+  width: 12px; height: 12px; border-radius: 50%;
+  flex-shrink: 0;
+}
+.hood-name { font-weight: 600; color: var(--deep); flex: 1; }
+.hood-count {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--white);
+  background: var(--aegean);
+  border-radius: 999px;
+  min-width: 20px;
+  text-align: center;
+  padding: 1px 7px;
+}
+.hood-count:empty { display: none; }
+
+@media (max-width: 720px) {
+  .hood-layout { grid-template-columns: 1fr; }
+  .hood-list { max-height: 240px; }
+}
