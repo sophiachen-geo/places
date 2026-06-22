@@ -195,6 +195,7 @@
       "category": "Parcours spéculatifs — Athènes & la mer",
       "color": "#6b7280",
       "default": false,
+      "route": false,
       "description": "Points de cadrage à grande échelle — villes, régions et mers. Masqué par défaut (ces points s'étendent bien au-delà de l'Attique).",
       "places": [
         { "label": "Athènes", "address": "Athens", "lat": 37.983810, "lng": 23.727539, "note": "Point de départ urbain : ville intérieure dont la puissance dépend du rapport à la mer." },
