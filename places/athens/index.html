@@ -28,78 +28,74 @@
     </div>
   </header>
 
-  <main class="place-body wrap">
-    <p class="place-lead">
-      The cradle of democracy and Western philosophy — marble temples, olive
-      light, and two and a half thousand years of ideas still echoing through
-      the city&rsquo;s streets.
-    </p>
-
-    <section class="place-section">
-      <h2>Why this place</h2>
-      <p>
-        Athens sits at the intersection of everywhere I&rsquo;ve been and
-        everything I&rsquo;ve studied. To walk up to the Acropolis is to walk
-        into the origin story of so much of how the West thinks about politics,
-        art, and reason.
+  <main>
+    <div class="place-body wrap">
+      <p class="place-lead">
+        The cradle of democracy and Western philosophy — marble temples, olive
+        light, and two and a half thousand years of ideas still echoing through
+        the city&rsquo;s streets.
       </p>
-    </section>
 
-    <section class="place-section">
-      <h2>What I studied</h2>
-      <ul>
-        <li>The birth of Athenian democracy and the institutions of the <em>polis</em>.</li>
-        <li>Classical philosophy — Socrates, Plato, and Aristotle.</li>
-        <li>The architecture of the Acropolis and the Doric order.</li>
-      </ul>
-    </section>
+      <section class="place-section">
+        <h2>Why this place</h2>
+        <p>
+          Athens sits at the intersection of everywhere I&rsquo;ve been and
+          everything I&rsquo;ve studied. To walk up to the Acropolis is to walk
+          into the origin story of so much of how the West thinks about politics,
+          art, and reason.
+        </p>
+      </section>
 
-    <section class="place-section" id="neighborhoods">
-      <h2>Neighborhoods</h2>
-      <p>
-        A map of the central Athens neighborhoods, with real OpenStreetMap
-        boundaries for neighborhoods and surrounding municipalities. Click a name
-        to fly there.
-      </p>
-      <label class="boundaries-toggle">
-        <input type="checkbox" id="toggle-boundaries" checked>
-        Afficher les limites (quartiers &amp; communes)
-      </label>
-      <div class="hood-layout">
-        <div id="hood-map"></div>
-        <ul id="hood-list" class="hood-list" aria-label="Neighborhoods"></ul>
+      <section class="place-section">
+        <h2>What I studied</h2>
+        <ul>
+          <li>The birth of Athenian democracy and the institutions of the <em>polis</em>.</li>
+          <li>Classical philosophy — Socrates, Plato, and Aristotle.</li>
+          <li>The architecture of the Acropolis and the Doric order.</li>
+        </ul>
+      </section>
+
+      <section class="place-section">
+        <h2>Highlights</h2>
+        <ul>
+          <li>The Parthenon at golden hour.</li>
+          <li>The Ancient Agora — the literal marketplace of ideas.</li>
+          <li>The view over the city from Lycabettus Hill.</li>
+        </ul>
+      </section>
+    </div>
+
+    <section class="explore" id="explore">
+      <div class="wrap-wide">
+        <h2>Carte &amp; parcours</h2>
+        <p class="explore-intro">
+          Neighborhood and municipality boundaries from OpenStreetMap — click a
+          neighborhood to read about it. Each parcours is its own map layer; the
+          notes on the right list every stop in a suggested visiting order along
+          real streets. Scroll over the map to zoom.
+        </p>
+        <div class="explore-controls">
+          <label class="boundaries-toggle">
+            <input type="checkbox" id="toggle-boundaries" checked>
+            Afficher les limites (quartiers &amp; communes)
+          </label>
+          <div class="route-mode" role="group" aria-label="Mode d'itinéraire">
+            <span class="rm-label">Itinéraires :</span>
+            <button class="rm-btn is-active" data-mode="walking">À pied</button>
+            <button class="rm-btn" data-mode="transit">Transports en commun</button>
+            <button class="rm-btn" data-mode="straight">Vol d'oiseau</button>
+          </div>
+        </div>
+        <div class="explore-layout">
+          <div class="explore-map-col">
+            <div id="hood-map"></div>
+          </div>
+          <div class="explore-side">
+            <div id="parcours-container"></div>
+          </div>
+        </div>
       </div>
     </section>
-
-    <section class="place-section" id="parcours">
-      <h2>Parcours</h2>
-      <p>
-        Themed routes through the city. Each one collects places around a single
-        idea; click any entry to fly to it on the map above. Stops are shown in a
-        suggested visiting order along real streets.
-      </p>
-      <div class="route-mode" role="group" aria-label="Mode d'itinéraire">
-        <span class="rm-label">Itinéraires :</span>
-        <button class="rm-btn is-active" data-mode="walking">À pied</button>
-        <button class="rm-btn" data-mode="driving">En voiture</button>
-        <button class="rm-btn" data-mode="straight">Vol d'oiseau</button>
-      </div>
-      <div id="parcours-container"></div>
-    </section>
-
-    <section class="place-section">
-      <h2>Highlights</h2>
-      <ul>
-        <li>The Parthenon at golden hour.</li>
-        <li>The Ancient Agora — the literal marketplace of ideas.</li>
-        <li>The view over the city from Lycabettus Hill.</li>
-      </ul>
-    </section>
-
-    <p class="place-note">
-      <em>This page is a starting template. Swap in your own photos, notes, and
-      memories — replace <code>cover.svg</code> and edit the sections above.</em>
-    </p>
   </main>
 
   <footer class="site-footer">

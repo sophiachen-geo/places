@@ -1,36 +1,24 @@
-/* Athens map: boundaries + neighborhoods + themed "parcours" (routes).
+/* Athens map: boundaries + themed "parcours" (routes).
  *
- * - City/municipality and neighborhood boundary polygons (boundaries.geojson).
- *   Hand-traced (approximate) neighborhood polygons are drawn dashed.
- * - Each parcours is ONE toggleable layer (a Leaflet featureGroup).
- * - Per parcours a visiting order is computed (open-path TSP: nearest-neighbour
- *   from every start + 2-opt). Stops are numbered and joined by a route.
- * - The route follows REAL STREETS via OSRM (walking or driving), fetched in the
- *   browser. If a router is unreachable it falls back to a straight-line route.
+ * - Neighborhoods and municipalities are drawn as boundary polygons
+ *   (boundaries.geojson). Click a neighborhood to read its description.
+ *   Hand-traced (approximate) neighborhood polygons are dashed.
+ * - Each parcours is ONE toggleable Leaflet layer (a featureGroup).
+ * - Per parcours a visiting order is computed (open-path TSP); stops are
+ *   numbered and joined by a route that follows REAL STREETS / TRANSIT:
+ *     • À pied  -> OSRM foot router
+ *     • Transports en commun -> transitous (MOTIS), routed leg by leg
+ *     • Vol d'oiseau -> straight lines
+ *   Routing happens in the browser, with a straight-line fallback.
  *
- * A place may carry explicit "lat"/"lng" or just an "address" string, which is
- * geocoded on load via OpenStreetMap Nominatim (cached in localStorage). */
+ * Addresses without coords are geocoded via Nominatim (cached in localStorage). */
 
 const GEOCODE_URL = "https://nominatim.openstreetmap.org/search";
 const CACHE_KEY = "athens-geocode-cache-v1";
-
-/* Routing back-ends (called from the visitor's browser). Path token "driving"
- * is ignored by OSRM — the profile is fixed per instance. */
-const ROUTERS = {
-  walking: {
-    label: "à pied",
-    url: (c) => `https://routing.openstreetmap.de/routed-foot/route/v1/driving/${c}?overview=full&geometries=geojson`,
-  },
-  driving: {
-    label: "en voiture",
-    url: (c) => `https://router.project-osrm.org/route/v1/driving/${c}?overview=full&geometries=geojson`,
-  },
-};
 let currentMode = "walking";
 
 function loadCache() {
-  try { return JSON.parse(localStorage.getItem(CACHE_KEY)) || {}; }
-  catch { return {}; }
+  try { return JSON.parse(localStorage.getItem(CACHE_KEY)) || {}; } catch { return {}; }
 }
 function saveCache(cache) {
   try { localStorage.setItem(CACHE_KEY, JSON.stringify(cache)); } catch {}
@@ -44,13 +32,11 @@ async function geocode(query, cache) {
   const data = await res.json();
   if (!data.length) return null;
   const coords = { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
-  cache[query] = coords;
-  saveCache(cache);
-  await sleep(1100);
+  cache[query] = coords; saveCache(cache); await sleep(1100);
   return coords;
 }
 
-/* ---------- geometry / routing ---------- */
+/* ---------- geometry / routing helpers ---------- */
 function distKm(a, b) {
   const R = 6371, toRad = (x) => (x * Math.PI) / 180;
   const dLat = toRad(b.lat - a.lat), dLng = toRad(b.lng - a.lng);
@@ -70,8 +56,7 @@ function nearestNeighbour(pts, start) {
     const last = order[order.length - 1];
     let best = -1, bd = Infinity;
     for (let j = 0; j < n; j++) if (!used[j]) {
-      const d = distKm(pts[last], pts[j]);
-      if (d < bd) { bd = d; best = j; }
+      const d = distKm(pts[last], pts[j]); if (d < bd) { bd = d; best = j; }
     }
     order.push(best); used[best] = true;
   }
@@ -100,13 +85,23 @@ function optimizeRoute(pts) {
   }
   return best;
 }
+/* Google encoded polyline decoder (configurable precision). */
+function decodePolyline(str, precision) {
+  let index = 0, lat = 0, lng = 0;
+  const coords = [], factor = Math.pow(10, precision || 5);
+  while (index < str.length) {
+    let b, shift = 0, result = 0;
+    do { b = str.charCodeAt(index++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
+    lat += (result & 1) ? ~(result >> 1) : (result >> 1);
+    shift = 0; result = 0;
+    do { b = str.charCodeAt(index++) - 63; result |= (b & 0x1f) << shift; shift += 5; } while (b >= 0x20);
+    lng += (result & 1) ? ~(result >> 1) : (result >> 1);
+    coords.push([lat / factor, lng / factor]);
+  }
+  return coords;
+}
 
 /* ---------- icons ---------- */
-function neighborhoodIcon(color) {
-  return L.divIcon({ className: "hood-marker",
-    html: `<span style="display:block;width:14px;height:14px;border-radius:50%;background:${color};border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)"></span>`,
-    iconSize: [14, 14], iconAnchor: [7, 7], popupAnchor: [0, -8] });
-}
 function placeIcon(color) {
   return L.divIcon({ className: "addr-marker",
     html: `<span style="display:block;width:14px;height:14px;background:${color};border:2px solid #fff;border-radius:3px;transform:rotate(45deg);box-shadow:0 1px 4px rgba(0,0,0,.4)"></span>`,
@@ -138,51 +133,85 @@ function placePopup(place, parcoursName, order) {
     (place.note ? `<br><span class="popup-note">${place.note}</span>` : "") + `</p></div>`;
 }
 
-/* Draw/refresh a parcours route line for the given mode. */
+/* ---------- routers (browser-side) ---------- */
+async function osrmFoot(coords) {
+  const cstr = coords.map((c) => `${c.lng},${c.lat}`).join(";");
+  const url = `https://routing.openstreetmap.de/routed-foot/route/v1/driving/${cstr}?overview=full&geometries=geojson`;
+  const j = await (await fetch(url)).json();
+  if (j.code === "Ok" && j.routes && j.routes[0]) return j.routes[0];
+  throw new Error("foot code " + (j.code || "?"));
+}
+async function transitRoute(coords, color) {
+  const group = L.featureGroup();
+  let totalMin = 0, anyTransit = false;
+  for (let i = 0; i < coords.length - 1; i++) {
+    const a = coords[i], b = coords[i + 1];
+    let it = null;
+    try {
+      const url = `https://api.transitous.org/api/v1/plan?fromPlace=${a.lat},${a.lng}&toPlace=${b.lat},${b.lng}`;
+      const j = await (await fetch(url)).json();
+      it = (j.itineraries || [])[0];
+    } catch (e) { it = null; }
+    if (it) {
+      totalMin += (it.duration || 0) / 60;
+      for (const leg of it.legs || []) {
+        const g = leg.legGeometry || {};
+        const pts = g.points ? decodePolyline(g.points, g.precision || 7) : [];
+        if (pts.length < 2) continue;
+        const transit = leg.mode !== "WALK";
+        if (transit) anyTransit = true;
+        L.polyline(pts, {
+          color: transit ? color : "#8a8f98",
+          weight: transit ? 5 : 3,
+          opacity: transit ? 0.75 : 0.6,
+          dashArray: transit ? null : "4 5",
+        }).addTo(group);
+      }
+    } else {
+      totalMin += (distKm(a, b) / 5) * 60; // rough walk estimate for the gap
+      L.polyline([[a.lat, a.lng], [b.lat, b.lng]], { color: "#8a8f98", weight: 2, opacity: 0.5, dashArray: "2 6" }).addTo(group);
+    }
+  }
+  if (group.getLayers().length === 0) throw new Error("no transit geometry");
+  return { layer: group, min: totalMin, anyTransit };
+}
+
+/* Draw/refresh a parcours route for the given mode (cached per mode). */
 async function renderRoute(entry, mode) {
   const coords = entry.routeCoords;
-  if (!coords || coords.length < 2) return;
+  if (!coords || coords.length < 2 || !entry.summaryEl) return;
   if (entry.routeLayer) { entry.group.removeLayer(entry.routeLayer); entry.routeLayer = null; }
 
-  const straightKm = tourLength(coords.map((_, i) => i), coords);
+  const show = (layer, text) => {
+    entry.routeLayers[mode] = layer; entry.routeSummaries[mode] = text;
+    entry.routeLayer = layer; entry.group.addLayer(layer); entry.summaryEl.textContent = text;
+  };
+  if (entry.routeLayers[mode]) { show(entry.routeLayers[mode], entry.routeSummaries[mode]); return; }
+
   const n = coords.length;
+  const straightKm = tourLength(coords.map((_, i) => i), coords);
+  const straightLayer = () => L.polyline(coords.map((c) => [c.lat, c.lng]),
+    { color: entry.color, weight: 2.5, opacity: 0.55, dashArray: "1 6" });
 
-  const drawStraight = (suffix) => {
-    entry.routeLayer = L.polyline(coords.map((c) => [c.lat, c.lng]), {
-      color: entry.color, weight: 2.5, opacity: 0.55, dashArray: "1 6",
-    }).addTo(entry.group);
-    entry.summaryEl.textContent = `Itinéraire (vol d'oiseau${suffix || ""}) : ${n} arrêts · ≈ ${straightKm.toFixed(1)} km`;
-  };
+  if (mode === "straight") {
+    show(straightLayer(), `Itinéraire (vol d'oiseau) : ${n} arrêts · ≈ ${straightKm.toFixed(1)} km`);
+    return;
+  }
 
-  if (mode === "straight") { drawStraight(); return; }
-
-  // cached?
-  const cached = entry.routeCache[mode];
-  const render = (geo, km, min) => {
-    entry.routeLayer = L.geoJSON({ type: "Feature", geometry: geo }, {
-      style: { color: entry.color, weight: 4, opacity: 0.65 },
-    }).addTo(entry.group);
-    entry.summaryEl.textContent =
-      `Itinéraire ${ROUTERS[mode].label} : ${n} arrêts · ≈ ${km.toFixed(1)} km · ~${Math.round(min)} min`;
-  };
-  if (cached) { render(cached.geo, cached.km, cached.min); return; }
-
-  entry.summaryEl.textContent = `Calcul de l'itinéraire (${ROUTERS[mode].label})…`;
-  const cstr = coords.map((c) => `${c.lng},${c.lat}`).join(";");
+  entry.summaryEl.textContent = "Calcul de l'itinéraire…";
   try {
-    const res = await fetch(ROUTERS[mode].url(cstr));
-    const json = await res.json();
-    if (json.code === "Ok" && json.routes && json.routes[0]) {
-      const r = json.routes[0];
-      const km = r.distance / 1000, min = r.duration / 60;
-      entry.routeCache[mode] = { geo: r.geometry, km, min };
-      render(r.geometry, km, min);
-      return;
+    if (mode === "walking") {
+      const r = await osrmFoot(coords);
+      const layer = L.geoJSON({ type: "Feature", geometry: r.geometry },
+        { style: { color: entry.color, weight: 4, opacity: 0.65 } });
+      show(layer, `Itinéraire à pied : ${n} arrêts · ≈ ${(r.distance / 1000).toFixed(1)} km · ~${Math.round(r.duration / 60)} min`);
+    } else if (mode === "transit") {
+      const { layer, min, anyTransit } = await transitRoute(coords, entry.color);
+      show(layer, `${anyTransit ? "Transports en commun" : "Transports en commun (partiel)"} : ${n} arrêts · ~${Math.round(min)} min`);
     }
-    throw new Error("router code " + (json.code || "?"));
   } catch (e) {
-    console.warn("Routing failed for", entry.id, mode, e);
-    drawStraight(", routage indisponible");
+    console.warn("Routing failed", entry.id, mode, e);
+    show(straightLayer(), `Itinéraire (vol d'oiseau, routage indisponible) : ${n} arrêts · ≈ ${straightKm.toFixed(1)} km`);
   }
 }
 
@@ -196,7 +225,7 @@ async function init() {
     data = d; boundaries = b;
   } catch (e) { console.error("Could not load athens data", e); return; }
 
-  const map = L.map("hood-map", { scrollWheelZoom: false })
+  const map = L.map("hood-map", { scrollWheelZoom: true, wheelPxPerZoomLevel: 90, zoomSnap: 0.25 })
     .setView([data.center.lat, data.center.lng], data.zoom || 14);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -204,46 +233,37 @@ async function init() {
   }).addTo(map);
 
   const cache = loadCache();
+  const hoodInfo = {};
+  (data.neighborhoods || []).forEach((h) => { hoodInfo[h.id] = h; });
 
-  /* ---- Boundary polygons ---- */
+  /* ---- Boundary polygons (neighborhoods + municipalities) ---- */
   const boundaryGroup = L.featureGroup().addTo(map);
-  const hoodsWithPolygon = new Set();
   if (boundaries && boundaries.features) {
     L.geoJSON(boundaries, {
       style: (f) => {
         const p = f.properties || {};
         if (p.kind === "city") return { color: "#14304a", weight: 2, opacity: 0.6, dashArray: "5 5", fill: false };
-        return { color: p.color || "#2a6f97", weight: 2, opacity: 0.8,
-                 fillColor: p.color || "#2a6f97", fillOpacity: 0.10,
+        return { color: p.color || "#2a6f97", weight: 2, opacity: 0.85,
+                 fillColor: p.color || "#2a6f97", fillOpacity: 0.12,
                  dashArray: p.approx ? "6 5" : null };
       },
       onEachFeature: (f, layer) => {
         const p = f.properties || {};
-        if (p.kind === "neighborhood") hoodsWithPolygon.add(p.name);
-        const label = p.kind === "city" ? `${p.name} (commune)`
-          : (p.approx ? `${p.name} (approx.)` : p.name);
-        layer.bindTooltip(label, { sticky: true });
+        if (p.kind === "city") {
+          layer.bindTooltip(`${p.name} (commune)`, { sticky: true });
+          layer.bindPopup(`<div class="popup-card"><h3>${p.name}</h3><p>Commune de l'agglomération.</p></div>`);
+          return;
+        }
+        const info = hoodInfo[p.name] || {};
+        const name = info.name || p.name;
+        layer.bindTooltip(name + (p.approx ? " (approx.)" : ""), { sticky: true });
+        layer.bindPopup(
+          `<div class="popup-card"><h3>${name}</h3>` +
+          `<p>${info.blurb || ""}${p.approx ? "<br><em>Limites approximatives (tracées à la main).</em>" : ""}</p></div>`
+        );
       },
     }).addTo(boundaryGroup);
   }
-
-  /* ---- Neighborhood labels (+ circle fallback) ---- */
-  const hoodGroup = L.featureGroup().addTo(map);
-  const hoodListEl = document.getElementById("hood-list");
-  (data.neighborhoods || []).forEach((hood) => {
-    if (!hoodsWithPolygon.has(hood.id)) {
-      L.circle([hood.lat, hood.lng], { radius: 320, color: hood.color, weight: 1.5,
-        fillColor: hood.color, fillOpacity: 0.12, dashArray: "4 4" }).addTo(hoodGroup);
-    }
-    L.marker([hood.lat, hood.lng], { icon: neighborhoodIcon(hood.color) })
-      .addTo(hoodGroup)
-      .bindPopup(`<div class="popup-card"><h3>${hood.name}</h3><p>${hood.blurb || ""}</p></div>`);
-    const item = document.createElement("li");
-    item.className = "hood-item";
-    item.innerHTML = `<span class="hood-swatch" style="background:${hood.color}"></span><span class="hood-name">${hood.name}</span>`;
-    item.addEventListener("click", () => map.flyTo([hood.lat, hood.lng], 16));
-    hoodListEl.appendChild(item);
-  });
 
   const bToggle = document.getElementById("toggle-boundaries");
   if (bToggle) bToggle.addEventListener("change", (e) => {
@@ -253,7 +273,7 @@ async function init() {
   /* ---- Parcours ---- */
   const parcoursEl = document.getElementById("parcours-container");
   const groups = [];   // { group, visible }
-  const routed = [];   // entries with a route (for mode switching)
+  const routed = [];   // entries with a route
 
   function refit() {
     let bounds = null;
@@ -262,8 +282,8 @@ async function init() {
       const b = fg.getBounds();
       if (b && b.isValid()) bounds = bounds ? bounds.extend(b) : L.latLngBounds(b.getSouthWest(), b.getNorthEast());
     };
-    collect(hoodGroup);
     groups.forEach((g) => { if (g.visible) collect(g.group); });
+    if (!bounds) collect(boundaryGroup);
     if (bounds && bounds.isValid()) map.fitBounds(bounds, { padding: [40, 40] });
   }
 
@@ -282,7 +302,7 @@ async function init() {
     const group = L.featureGroup();
     if (visible) group.addTo(map);
     const entry = { id: parcours.id, group, visible, color: parcours.color,
-                    routeCoords: null, routeLayer: null, routeCache: {}, summaryEl: null };
+                    routeCoords: null, routeLayer: null, routeLayers: {}, routeSummaries: {}, summaryEl: null };
     groups.push(entry);
 
     const resolved = [];
@@ -293,7 +313,6 @@ async function init() {
 
     const numberOf = {};
     let listOrder = resolved.map((_, i) => i);
-
     if (doRoute && stopIdx.length >= 2) {
       const pts = stopIdx.map((i) => resolved[i].coords);
       const order = optimizeRoute(pts);
@@ -304,7 +323,6 @@ async function init() {
       listOrder = routedIdx.concat(rest);
     }
 
-    // markers + corridors
     resolved.forEach((r, i) => {
       const { place, coords } = r;
       if (Array.isArray(place.line) && place.line.length > 1) {
@@ -316,7 +334,6 @@ async function init() {
       }
     });
 
-    // DOM block
     const block = document.createElement("div");
     block.className = "parcours";
     const toggleId = `toggle-${parcours.id}`;
@@ -342,7 +359,8 @@ async function init() {
 
     block.querySelector(`#${toggleId}`).addEventListener("change", (e) => {
       entry.visible = e.target.checked;
-      if (entry.visible) group.addTo(map); else map.removeLayer(group);
+      if (entry.visible) { group.addTo(map); if (entry.routeCoords) renderRoute(entry, currentMode); }
+      else map.removeLayer(group);
       refit();
     });
 
@@ -360,6 +378,7 @@ async function init() {
       if (coords) li.addEventListener("click", () => {
         if (!entry.visible) {
           entry.visible = true; group.addTo(map);
+          if (entry.routeCoords) renderRoute(entry, currentMode);
           const cb = block.querySelector(`#${toggleId}`); if (cb) cb.checked = true;
         }
         map.flyTo([coords.lat, coords.lng], 16);
@@ -368,15 +387,12 @@ async function init() {
     });
   }
 
-  /* Route-mode toggle */
   function applyMode(mode) {
     currentMode = mode;
-    document.querySelectorAll(".rm-btn").forEach((b) =>
-      b.classList.toggle("is-active", b.dataset.mode === mode));
-    routed.forEach((entry) => renderRoute(entry, mode));
+    document.querySelectorAll(".rm-btn").forEach((b) => b.classList.toggle("is-active", b.dataset.mode === mode));
+    routed.forEach((entry) => { if (entry.visible) renderRoute(entry, mode); });
   }
-  document.querySelectorAll(".rm-btn").forEach((b) =>
-    b.addEventListener("click", () => applyMode(b.dataset.mode)));
+  document.querySelectorAll(".rm-btn").forEach((b) => b.addEventListener("click", () => applyMode(b.dataset.mode)));
 
   refit();
   applyMode(currentMode);
