@@ -117,10 +117,10 @@
         {
           "label": "Antigoni Travel",
           "year": 2021,
-          "address": "60 Spirou Trikoupi St, Athens",
-          "lat": 37.988068,
-          "lng": 23.734907,
-          "approx": true
+          "address": "56-58 Spirou Trikoupi St, Exarcheia, Athens 11473",
+          "lat": 37.990507,
+          "lng": 23.735564,
+          "note": "Print sign reads 60 Spirou Trikoupi; directories list 56–58 (same block). OSM has a node named 'Αντιγόνη' at #56."
         },
         {
           "label": "Laskaratos",
@@ -146,9 +146,11 @@
         {
           "label": "Μεταποιήσεις",
           "year": 2019,
-          "address": "3 Kopelou St, Athens",
-          "lat": null,
-          "lng": null
+          "address": "3 Skopelou St, Kypseli, Athens 11361",
+          "lat": 38.000879,
+          "lng": 23.742304,
+          "approx": true,
+          "note": "Photo reads 'Kopelou'; corrected to Σκοπέλου (Skopelou) in Kypseli — likely OCR/transliteration. Medium-high confidence."
         },
         {
           "label": "Ζαχαροπλαστείον Έβγα",
@@ -179,12 +181,13 @@
           "lng": 23.714071
         },
         {
-          "label": "Τρόφιμα",
+          "label": "Τρόφιμα / KORA Bakery",
           "year": 2023,
-          "address": "44 Panagiotou Anagnostopoulou St, Athens",
+          "address": "44 Panagiotou Anagnostopoulou St, Kolonaki, Athens 10673",
           "lat": 37.978479,
           "lng": 23.740807,
-          "approx": true
+          "approx": true,
+          "note": "Confirmed as KORA Bakery; 'Τρόφιμα' (food) appears to be a generic category, not the shop name."
         }
       ]
     }

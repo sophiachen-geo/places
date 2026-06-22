@@ -74,6 +74,7 @@ function placePopup(place, parcoursName) {
     `<div class="popup-card"><h3>${place.label}</h3>` +
     `<p>${place.address || ""}${approx}` +
     (place.year ? `<br><strong>${parcoursName} · ${place.year}</strong>` : "") +
+    (place.note ? `<br><span class="popup-note">${place.note}</span>` : "") +
     `</p></div>`
   );
 }
