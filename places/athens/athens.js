@@ -227,40 +227,48 @@ async function init() {
 
   const map = L.map("hood-map", { scrollWheelZoom: true, wheelPxPerZoomLevel: 90, zoomSnap: 0.25 })
     .setView([data.center.lat, data.center.lng], data.zoom || 14);
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 19,
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    subdomains: "abcd", maxZoom: 20,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
   }).addTo(map);
 
   const cache = loadCache();
   const hoodInfo = {};
   (data.neighborhoods || []).forEach((h) => { hoodInfo[h.id] = h; });
 
-  /* ---- Boundary polygons (neighborhoods + municipalities) ---- */
+  /* ---- Boundary polygons: communities (complete tiling) + neighborhoods ---- */
   const boundaryGroup = L.featureGroup().addTo(map);
   if (boundaries && boundaries.features) {
     L.geoJSON(boundaries, {
       style: (f) => {
         const p = f.properties || {};
-        if (p.kind === "city") return { color: "#14304a", weight: 2, opacity: 0.6, dashArray: "5 5", fill: false };
-        return { color: p.color || "#2a6f97", weight: 2, opacity: 0.85,
-                 fillColor: p.color || "#2a6f97", fillOpacity: 0.12,
-                 dashArray: p.approx ? "6 5" : null };
+        if (p.kind === "city")
+          return { color: "#14304a", weight: 2, opacity: 0.55, dashArray: "5 5", fill: false };
+        if (p.kind === "community")
+          return { color: p.color || "#bbb", weight: 1.5, opacity: 0.5,
+                   fillColor: p.color || "#ddd", fillOpacity: 0.20 };
+        // neighborhood
+        return { color: p.color || "#2a6f97", weight: 2.5, opacity: 0.9,
+                 fillColor: p.color || "#2a6f97", fillOpacity: 0.10,
+                 dashArray: p.osm ? null : "6 5" };
       },
       onEachFeature: (f, layer) => {
         const p = f.properties || {};
+        const info = hoodInfo[p.name] || {};
         if (p.kind === "city") {
           layer.bindTooltip(`${p.name} (commune)`, { sticky: true });
-          layer.bindPopup(`<div class="popup-card"><h3>${p.name}</h3><p>Commune de l'agglomération.</p></div>`);
-          return;
+          layer.bindPopup(`<div class="popup-card"><h3>${p.name}</h3><p>Commune voisine de l'agglomération.</p></div>`);
+        } else if (p.kind === "community") {
+          layer.bindTooltip(p.name, { sticky: true });
+          layer.bindPopup(`<div class="popup-card"><h3>${p.name}</h3><p>Division administrative officielle (κοινότητα) du Δήμος Αθηναίων.</p></div>`);
+        } else {
+          const en = p.name_en && p.name_en !== p.name ? ` · ${p.name_en}` : "";
+          layer.bindTooltip(p.name + en, { sticky: true });
+          layer.bindPopup(
+            `<div class="popup-card"><h3>${p.name}${en}</h3>` +
+            `<p>${info.blurb || "Quartier officiel d'Athènes (OpenStreetMap)."}</p></div>`
+          );
         }
-        const info = hoodInfo[p.name] || {};
-        const name = info.name || p.name;
-        layer.bindTooltip(name + (p.approx ? " (approx.)" : ""), { sticky: true });
-        layer.bindPopup(
-          `<div class="popup-card"><h3>${name}</h3>` +
-          `<p>${info.blurb || ""}${p.approx ? "<br><em>Limites approximatives (tracées à la main).</em>" : ""}</p></div>`
-        );
       },
     }).addTo(boundaryGroup);
   }
