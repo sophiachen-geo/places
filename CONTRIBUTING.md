@@ -13,13 +13,13 @@ git checkout -b paris        # use the place's id (lowercase, no spaces)
 
 ## 2. Create the place's folder
 
-Copy the template and rename it:
+Copy the template and rename it (place folders live at the repo root):
 
 ```bash
-cp -r places/_template places/paris
+cp -r _template paris
 ```
 
-Then edit `places/paris/index.html`:
+Then edit `paris/index.html`:
 
 - Replace the title, eyebrow (country), and `<h1>` name.
 - Keep only the tags that apply (`visited`, `studied`, or both).
@@ -42,8 +42,8 @@ Add one object to the `places` array:
   "lng": 2.3522,
   "tags": ["visited"],
   "summary": "One sentence that shows up on the gallery card and the map popup.",
-  "image": "places/paris/cover.jpg",
-  "page": "places/paris/"
+  "image": "paris/cover.jpg",
+  "page": "paris/"
 }
 ```
 
