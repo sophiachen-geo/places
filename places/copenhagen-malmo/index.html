@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>København–Malmö · Places</title>
+  <meta name="description" content="København–Malmö across the Øresund — urban regeneration and city development, studied alongside the culture and sites that fill it." />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <link rel="stylesheet" href="../../css/style.css" />
+  <link rel="stylesheet" href="../../css/place.css" />
+</head>
+<body class="place-page">
+  <a class="back-link" href="../../">&larr; Back to the map</a>
+
+  <header class="place-hero" style="background-image:url('cover.svg')">
+    <div class="place-hero-overlay">
+      <p class="place-eyebrow">Danmark · Sverige — Øresund</p>
+      <h1 class="place-title">København&ndash;Malmö</h1>
+      <div class="place-tags">
+        <span class="tag tag-studied">studied</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="place-body wrap">
+      <p class="place-lead">
+        Deux villes, un détroit. De part et d&rsquo;autre de l&rsquo;Øresund, une
+        même question : comment une métropole se régénère-t-elle sans devenir une
+        simple vitrine&nbsp;? Cette page tient deux fils — l&rsquo;urbanisme et le
+        développement urbain d&rsquo;un côté, la culture et les lieux de
+        l&rsquo;autre — et les pose tous sur une seule carte, en couches que
+        l&rsquo;on allume et éteint.
+      </p>
+
+      <!-- ===================== SECTION 1 — URBANISME ===================== -->
+      <section class="place-section" id="section-urbanisme">
+        <h2>1 · Urbanisme, développement &amp; design</h2>
+
+        <h3>Thèse générale</h3>
+        <p>
+          La régénération de Copenhague n&rsquo;est pas un seul projet mais une
+          <strong>machine urbaine en plusieurs vagues</strong> : d&rsquo;abord la
+          reconquête du port industriel, puis la ville orientée transport, puis la
+          ville-éponge / climatique, puis aujourd&rsquo;hui la ville de la
+          réutilisation, du carbone, du foncier rare et des grands conflits
+          écologiques. <strong>2019 est une vraie charnière</strong> : ouverture de
+          Cityringen, CopenHill, Enghaveparken rénové, Karen Blixens Plads, puis
+          bascule vers Lynetteholm, Jernbanebyen, Paper Island, Postbyen, Fælledby,
+          M5 et la densification post-carbone.
+        </p>
+        <p>
+          On prend ici la <em>grande région de Copenhague</em> au sens large :
+          Copenhague / Frederiksberg, la région capitale,
+          Køge / Roskilde / Frederikssund / Hedehusene, et les projets Øresund côté
+          Malmö quand ils éclairent le modèle régional.
+        </p>
+
+        <h3>Vague 1 — Pré-2019 · la matrice de la régénération</h3>
+        <p>
+          Ce que la période pré-2019 fait de mieux : elle invente une
+          <strong>esthétique copenhaguoise de la régénération</strong> — eau propre,
+          vélo, rez-de-chaussée actifs, anciennes infrastructures rendues
+          désirables, grands terrains publics valorisés, architecture comme outil de
+          branding urbain. Sa limite : elle produit aussi des quartiers très chers,
+          très dessinés, parfois trop propres, où la régénération peut glisser vers
+          une ville vitrine.
+        </p>
+        <ul>
+          <li><strong>Finger Plan / ville ferroviaire régionale</strong> — la logique fondatrice : développement le long des « doigts » ferroviaires, espaces verts entre les axes.</li>
+          <li><strong>Ørestad</strong> (Amager) — ville nouvelle linéaire autour du métro, financée par valorisation foncière publique. Laboratoire puissant mais controversé.</li>
+          <li><strong>Sluseholmen / Teglholmen / Sydhavn canal city</strong> — la « domestication » du waterfront en quartier de villes-canaux.</li>
+          <li><strong>Harbour Baths / Islands Brygge / Kalvebod</strong> — le tournant symbolique : le port devient espace public et baignade.</li>
+          <li><strong>Nørreport Station</strong> — régénération par l&rsquo;infrastructure quotidienne : la station la plus fréquentée du pays rendue lisible et cyclable.</li>
+          <li><strong>Superkilen</strong> (Nørrebro) — l&rsquo;espace public multiculturel iconique, participatif, et ses débats.</li>
+          <li><strong>Israels Plads</strong> — un parking mort transformé en tapis urbain actif, stationnement enterré.</li>
+          <li><strong>Carlsberg Byen</strong> — patrimoine industriel dense et habité : le meilleur cas de réemploi brassicole.</li>
+          <li><strong>Kødbyen / Meatpacking District</strong> — régénération douce : food, nuit, art et créatifs dans une architecture fonctionnaliste préservée.</li>
+          <li><strong>Nordhavn</strong> (masterplan 2008–09) — le grand laboratoire portuaire : archipel urbain dense, « 5-minute city ».</li>
+          <li><strong>The Silo / Portland Towers / UN City / Århusgadekvarteret</strong> — la transformation fine du patrimoine portuaire.</li>
+          <li><strong>Skt. Kjelds Klimakvarter / Tåsinge Plads</strong> (Østerbro) — premier grand quartier-éponge résilient.</li>
+          <li><strong>Enghaveparken</strong> — parc historique transformé en infrastructure de rétention d&rsquo;eau (cloudburst).</li>
+          <li><strong>Tingbjerg Library and Culture House</strong> — la bibliothèque comme « social condenser » dans un quartier moderniste stigmatisé.</li>
+          <li><strong>Refshaleøen / Reffen / Copenhagen Contemporary</strong> — l&rsquo;ancien chantier naval comme laboratoire temporaire.</li>
+          <li><strong>CopenHill / Amager Bakke</strong> — l&rsquo;incinérateur-montagne : le cas le plus caricatural de « hedonistic sustainability ».</li>
+        </ul>
+
+        <h3>Vague 2 — Post-2019 · densification, climat, controverse, carbone</h3>
+        <p>
+          La vraie évolution post-2019 est là : Copenhague n&rsquo;est plus seulement
+          « la ville du vélo et du waterfront heureux ». Elle devient un
+          <strong>terrain de conflit</strong> entre climat, logement, biodiversité,
+          carbone, méga-infrastructures et foncier rare. Lynetteholm, Fælledby,
+          Jernbanebyen et le Light Rail sont donc probablement plus importants à
+          étudier que les icônes déjà célèbres.
+        </p>
+        <ul>
+          <li><strong>Lynetteholm</strong> — péninsule artificielle, protection anti-tempête, futur quartier, M5 / Østlig Ringvej. Le projet le plus important <em>et</em> le plus controversé : climat ou méga-projet foncier&nbsp;?</li>
+          <li><strong>M5 Metro / Østhavnen</strong> — la prochaine grande colonne vertébrale (phases 2036 puis 2045).</li>
+          <li><strong>Jernbanebyen</strong> — l&rsquo;un des derniers grands terrains ferroviaires centraux : masterplan car-free, production, réemploi.</li>
+          <li><strong>BaneGaarden</strong> — micro-laboratoire de circularité dans les anciennes remises ferroviaires.</li>
+          <li><strong>Postbyen</strong> — ancien site postal devenu hyperdensité centrale : tours, bureaux, logements. À voir de façon critique.</li>
+          <li><strong>Paper Island / Papirøen / Christiansholm</strong> — street food devenu quartier ; Water Culture House attendu en 2026.</li>
+          <li><strong>Opera Park</strong> — un site portuaire qui devient parc plutôt qu&rsquo;immobilier : densifier ou laisser respirer.</li>
+          <li><strong>Fælledby / Vejlands Kvarter</strong> — premier grand quartier en bois massif, politiquement sensible (Amager Fælled).</li>
+          <li><strong>Grønttorvet</strong> (Valby) — l&rsquo;ancien marché de gros devenu quartier résidentiel vert.</li>
+          <li><strong>Valby Maskinfabrik</strong> — traces industrielles FLSmidth conservées dans une densification résidentielle.</li>
+          <li><strong>Nordhavn — phases extérieures / Tunnelfabrikken / Levantkaj / Sundmolen</strong> — du showcase à la ville en extension.</li>
+          <li><strong>Sydhavn Metro / nouvelles stations M4</strong> — nouvelle accessibilité au waterfront sud.</li>
+          <li><strong>Karen Blixens Plads</strong> — place-campus, relief artificiel, 2 000 vélos, gestion climatique.</li>
+        </ul>
+
+        <h3>Région capitale &amp; Øresund</h3>
+        <p>
+          La régénération régionale, pas seulement intra-muros — masquée par défaut
+          sur la carte car ces points s&rsquo;étendent jusqu&rsquo;à ~60 km du
+          centre&nbsp;: <strong>Køge Kyst</strong> + <strong>Køge Nord Station</strong>
+          (port reconverti + infrastructure ferroviaire), <strong>Musicon</strong>
+          (Roskilde, friche culturelle et circularité), le
+          <strong>Greater Copenhagen Light Rail / Ring 3</strong> et
+          <strong>Loop City</strong> (régénérer les banlieues par le rail),
+          <strong>Vinge / Frederikssund</strong> (ville nouvelle TOD), et le miroir
+          suédois — <strong>Västra Hamnen / Bo01</strong>,
+          <strong>Varvsstaden</strong> et <strong>Hyllie</strong> à Malmö.
+        </p>
+
+        <h3>À prioriser si tu veux vraiment comprendre Copenhague</h3>
+        <p><strong>À voir absolument à Copenhague même :</strong> Nordhavn · Carlsberg Byen · Skt. Kjelds + Tåsinge Plads + Enghaveparken · Superkilen + Nørrebro · Sluseholmen / Teglholmen / Sydhavn · CopenHill + Refshaleøen · Jernbanebyen + BaneGaarden · Paper Island + Opera Park · Postbyen (critique) · Lynetteholm (comme débat).</p>
+        <p><strong>En excursion régionale :</strong> Køge Kyst + Køge Nord Station · Roskilde Musicon · Malmö Västra Hamnen + Varvsstaden + Hyllie · Hedehusene / Nærheden et/ou Vinge.</p>
+
+        <div class="place-note">
+          <strong>Lecture critique — ce qu&rsquo;il faut regarder sur place.</strong>
+          Pour chaque projet, quatre questions : <em>qui possédait le sol&nbsp;?
+          qui profite de la valeur créée&nbsp;? qu&rsquo;est-ce qui est réellement
+          public&nbsp;? qu&rsquo;est-ce qui a été conservé ou effacé&nbsp;?</em>
+          Copenhague est brillante pour transformer des infrastructures en lieux
+          désirables — mais la question la plus intéressante reste : la régénération
+          produit-elle une ville plus <em>juste</em>, ou seulement une ville plus
+          <em>photogénique</em>&nbsp;?
+        </div>
+      </section>
+
+      <!-- ===================== SECTION 2 — CULTURE ===================== -->
+      <section class="place-section" id="section-culture">
+        <h2>2 · Culture &amp; sites</h2>
+        <p>
+          La seconde couche : musées, scènes, monuments, lieux et quartiers
+          culturels de Copenhague et de Malmö. <em>À remplir au fil de la
+          conversation</em> — chaque lieu ajouté ici apparaîtra comme une couche
+          culturelle distincte sur la même carte ci-dessous.
+        </p>
+      </section>
+    </div>
+
+    <!-- ===================== ONE MAP, MANY LAYERS ===================== -->
+    <section class="explore" id="explore">
+      <div class="wrap-wide">
+        <h2>Carte &amp; couches</h2>
+        <p class="explore-intro">
+          Tous les lieux des deux sections sur une seule carte. Chaque
+          <strong>parcours est une couche</strong> que l&rsquo;on allume ou éteint
+          via sa case « carte » à droite&nbsp;; les couches sont regroupées par
+          section (Urbanisme, puis Culture). La couche régionale Øresund est
+          masquée par défaut. La liste de droite reprend chaque lieu — cliquez-le
+          pour voler jusqu&rsquo;à lui. Scrollez sur la carte pour zoomer.
+        </p>
+        <div class="explore-controls">
+          <div class="route-mode" role="group" aria-label="Mode d'itinéraire">
+            <span class="rm-label">Itinéraires (parcours guidés) :</span>
+            <button class="rm-btn is-active" data-mode="walking">À pied</button>
+            <button class="rm-btn" data-mode="transit">Transports en commun</button>
+            <button class="rm-btn" data-mode="straight">Vol d'oiseau</button>
+          </div>
+        </div>
+        <div class="explore-layout">
+          <div class="explore-map-col">
+            <div id="hood-map"></div>
+          </div>
+          <div class="explore-side">
+            <div id="parcours-container"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><p>Part of <a href="../../" style="color:#fff">Places</a>.</p></div>
+  </footer>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script src="copenhagen.js"></script>
+</body>
+</html>
