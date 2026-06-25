@@ -132,7 +132,8 @@ function placePopup(place, parcoursName, order) {
   return `<div class="popup-card"><h3>${head}</h3>` +
     `<p>${place.address ? place.address + approx : ""}` +
     (place.year ? `<br><strong>${parcoursName} · ${place.year}</strong>` : `<br><strong>${parcoursName}</strong>`) +
-    (place.note ? `<br><span class="popup-note">${place.note}</span>` : "") + `</p></div>`;
+    (place.note ? `<br><span class="popup-note">${place.note}</span>` : "") +
+    (place.photos ? `<br><span class="popup-note">📷 ${place.photos} photos</span>` : "") + `</p></div>`;
 }
 
 /* ---------- routers (browser-side) ---------- */
@@ -335,7 +336,7 @@ async function init() {
         `<span class="pi-text"><span class="pi-label">${place.label}` +
         (place.approx ? ` <span class="pi-flag" title="Approximate / representative location">~</span>` : "") +
         (coords ? "" : ` <span class="pi-flag" title="Not mapped">?</span>`) + `</span>` +
-        `<span class="pi-meta">${place.address || ""}${place.year ? " · " + place.year : ""}</span></span>`;
+        `<span class="pi-meta">${place.address || ""}${place.year ? " · " + place.year : ""}${place.photos ? " · 📷 " + place.photos : ""}</span></span>`;
       if (coords) li.addEventListener("click", () => {
         if (!entry.visible) {
           entry.visible = true; group.addTo(map);

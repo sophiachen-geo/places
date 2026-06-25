@@ -1,5 +1,8 @@
 {
-  "center": { "lat": 55.685, "lng": 12.585 },
+  "center": {
+    "lat": 55.685,
+    "lng": 12.585
+  },
   "zoom": 12,
   "parcours": [
     {
@@ -10,22 +13,120 @@
       "route": false,
       "description": "La matrice copenhaguoise : reconquête du port industriel, ville orientée transport, premiers quartiers-éponge. Une esthétique de la régénération — eau propre, vélo, rez-de-chaussée actifs, infrastructures rendues désirables — mais aussi des quartiers chers et très dessinés.",
       "places": [
-        { "label": "Finger Plan / ville ferroviaire régionale", "address": "Région capitale", "lat": 55.6761, "lng": 12.5683, "approx": true, "noroute": true, "note": "Base historique du modèle : développement le long des « doigts » ferroviaires, espaces verts entre les axes. La grande logique derrière le TOD, la densification et la protection paysagère. Point de cadrage (concept régional)." },
-        { "label": "Ørestad", "address": "Amager, København", "lat": 55.6299, "lng": 12.5785, "note": "Ville nouvelle linéaire autour du métro, financée par valorisation foncière publique. Laboratoire puissant mais controversé : très stratégique, parfois critiqué pour ses grands objets architecturaux et ses espaces urbains moins fins." },
-        { "label": "Sluseholmen / Teglholmen / Sydhavn canal city", "address": "Sydhavn, København", "lat": 55.6470, "lng": 12.5430, "note": "Anciens terrains industriels/portuaires transformés en quartier résidentiel dense sur l'eau, inspiré des villes-canaux. Utile pour étudier la « domestication » du waterfront." },
-        { "label": "Harbour Baths / Islands Brygge / Kalvebod", "address": "Islands Brygge, København", "lat": 55.6655, "lng": 12.5790, "note": "Le tournant symbolique : le port n'est plus une infrastructure sale et fermée mais espace public, baignade, promenade, culture urbaine." },
-        { "label": "Nørreport Station", "address": "Centre-ville, København", "lat": 55.6831, "lng": 12.5713, "note": "Régénération par l'infrastructure quotidienne : la station la plus fréquentée du Danemark devient un espace urbain lisible, cyclable, transparent." },
-        { "label": "Superkilen", "address": "Nørrebro, København", "lat": 55.6993, "lng": 12.5424, "note": "Projet iconique de l'espace public multiculturel : participation, objets venus du monde entier, identité visuelle forte, quartier populaire rendu visible sans être « lissé »." },
-        { "label": "Israels Plads", "address": "Nørreport, København", "lat": 55.6826, "lng": 12.5686, "note": "Ancien parking mort transformé en tapis urbain actif : sport, écoles, marché, parc voisin et stationnement relégué sous terre." },
-        { "label": "Carlsberg Byen", "address": "Vesterbro / Valby, København", "lat": 55.6650, "lng": 12.5360, "note": "Ancienne brasserie devenue quartier dense, mixte, patrimonial : tours, places, rues et bâtiments industriels réutilisés. Cas central de « patrimoine industriel + densification »." },
-        { "label": "Kødbyen / Meatpacking District", "address": "Vesterbro, København", "lat": 55.6672, "lng": 12.5565, "note": "Régénération douce / adaptive : industrie alimentaire, nuit, galeries, restaurants et créatifs coexistent dans une architecture fonctionnaliste préservée." },
-        { "label": "Nordhavn — masterplan 2008–2009", "address": "Nordhavn, København", "lat": 55.7050, "lng": 12.5970, "note": "Probablement le cas le plus important : ancien port industriel devenu archipel urbain dense, « 5-minute city », extension métropolitaine sur plusieurs décennies." },
-        { "label": "The Silo / Portland Towers / UN City / Århusgadekvarteret", "address": "Nordhavn, København", "lat": 55.7080, "lng": 12.5990, "note": "Sous-projets montrant la transformation fine du patrimoine portuaire : silos, quais, bassins, rez-de-chaussée actifs, logements et institutions globales." },
-        { "label": "Skt. Kjelds Klimakvarter / Tåsinge Plads", "address": "Østerbro, København", "lat": 55.7122, "lng": 12.5748, "note": "Premier grand laboratoire de quartier résilient : désasphaltage, pluie visible, placettes vertes, rues climatiques, co-bénéfices sociaux." },
-        { "label": "Enghaveparken (climate park)", "address": "Vesterbro, København", "lat": 55.6678, "lng": 12.5440, "note": "Parc historique transformé en infrastructure de rétention d'eau (cloudburst). Réouvert en 2019, mais relève de la vague pré-2019 du cloudburst planning." },
-        { "label": "Tingbjerg Library and Culture House", "address": "Tingbjerg, København", "lat": 55.7095, "lng": 12.4865, "note": "Régénération sociale par équipement public dans un quartier moderniste stigmatisé : la bibliothèque comme « social condenser »." },
-        { "label": "Refshaleøen / Reffen / Copenhagen Contemporary", "address": "Refshaleøen, København", "lat": 55.6920, "lng": 12.6060, "note": "Ancien chantier naval fonctionnant comme laboratoire temporaire : street food, art, friches, festivals, réemploi industriel, avant sa planification en futur grand quartier." },
-        { "label": "CopenHill / Amager Bakke", "address": "Amager, København", "lat": 55.6913, "lng": 12.6166, "note": "Infrastructure énergétique transformée en montagne publique : ski, randonnée, mur d'escalade, pédagogie environnementale. Cas presque caricatural mais fascinant de « hedonistic sustainability »." }
+        {
+          "label": "Finger Plan / ville ferroviaire régionale",
+          "address": "Région capitale",
+          "lat": 55.6761,
+          "lng": 12.5683,
+          "approx": true,
+          "noroute": true,
+          "note": "Base historique du modèle : développement le long des « doigts » ferroviaires, espaces verts entre les axes. La grande logique derrière le TOD, la densification et la protection paysagère. Point de cadrage (concept régional)."
+        },
+        {
+          "label": "Ørestad",
+          "address": "Amager, København",
+          "lat": 55.6299,
+          "lng": 12.5785,
+          "note": "Ville nouvelle linéaire autour du métro, financée par valorisation foncière publique. Laboratoire puissant mais controversé : très stratégique, parfois critiqué pour ses grands objets architecturaux et ses espaces urbains moins fins."
+        },
+        {
+          "label": "Sluseholmen / Teglholmen / Sydhavn canal city",
+          "address": "Sydhavn, København",
+          "lat": 55.647,
+          "lng": 12.543,
+          "note": "Anciens terrains industriels/portuaires transformés en quartier résidentiel dense sur l'eau, inspiré des villes-canaux. Utile pour étudier la « domestication » du waterfront."
+        },
+        {
+          "label": "Harbour Baths / Islands Brygge / Kalvebod",
+          "address": "Islands Brygge, København",
+          "lat": 55.6655,
+          "lng": 12.579,
+          "note": "Le tournant symbolique : le port n'est plus une infrastructure sale et fermée mais espace public, baignade, promenade, culture urbaine."
+        },
+        {
+          "label": "Nørreport Station",
+          "address": "Centre-ville, København",
+          "lat": 55.6831,
+          "lng": 12.5713,
+          "note": "Régénération par l'infrastructure quotidienne : la station la plus fréquentée du Danemark devient un espace urbain lisible, cyclable, transparent."
+        },
+        {
+          "label": "Superkilen",
+          "address": "Nørrebro, København",
+          "lat": 55.6993,
+          "lng": 12.5424,
+          "note": "Projet iconique de l'espace public multiculturel : participation, objets venus du monde entier, identité visuelle forte, quartier populaire rendu visible sans être « lissé »."
+        },
+        {
+          "label": "Israels Plads",
+          "address": "Nørreport, København",
+          "lat": 55.6826,
+          "lng": 12.5686,
+          "note": "Ancien parking mort transformé en tapis urbain actif : sport, écoles, marché, parc voisin et stationnement relégué sous terre."
+        },
+        {
+          "label": "Carlsberg Byen",
+          "address": "Vesterbro / Valby, København",
+          "lat": 55.665,
+          "lng": 12.536,
+          "note": "Ancienne brasserie devenue quartier dense, mixte, patrimonial : tours, places, rues et bâtiments industriels réutilisés. Cas central de « patrimoine industriel + densification »."
+        },
+        {
+          "label": "Kødbyen / Meatpacking District",
+          "address": "Vesterbro, København",
+          "lat": 55.6672,
+          "lng": 12.5565,
+          "note": "Régénération douce / adaptive : industrie alimentaire, nuit, galeries, restaurants et créatifs coexistent dans une architecture fonctionnaliste préservée."
+        },
+        {
+          "label": "Nordhavn — masterplan 2008–2009",
+          "address": "Nordhavn, København",
+          "lat": 55.705,
+          "lng": 12.597,
+          "note": "Probablement le cas le plus important : ancien port industriel devenu archipel urbain dense, « 5-minute city », extension métropolitaine sur plusieurs décennies."
+        },
+        {
+          "label": "The Silo / Portland Towers / UN City / Århusgadekvarteret",
+          "address": "Nordhavn, København",
+          "lat": 55.708,
+          "lng": 12.599,
+          "note": "Sous-projets montrant la transformation fine du patrimoine portuaire : silos, quais, bassins, rez-de-chaussée actifs, logements et institutions globales."
+        },
+        {
+          "label": "Skt. Kjelds Klimakvarter / Tåsinge Plads",
+          "address": "Østerbro, København",
+          "lat": 55.7122,
+          "lng": 12.5748,
+          "note": "Premier grand laboratoire de quartier résilient : désasphaltage, pluie visible, placettes vertes, rues climatiques, co-bénéfices sociaux."
+        },
+        {
+          "label": "Enghaveparken (climate park)",
+          "address": "Vesterbro, København",
+          "lat": 55.6678,
+          "lng": 12.544,
+          "note": "Parc historique transformé en infrastructure de rétention d'eau (cloudburst). Réouvert en 2019, mais relève de la vague pré-2019 du cloudburst planning."
+        },
+        {
+          "label": "Tingbjerg Library and Culture House",
+          "address": "Tingbjerg, København",
+          "lat": 55.7095,
+          "lng": 12.4865,
+          "note": "Régénération sociale par équipement public dans un quartier moderniste stigmatisé : la bibliothèque comme « social condenser »."
+        },
+        {
+          "label": "Refshaleøen / Reffen / Copenhagen Contemporary",
+          "address": "Refshaleøen, København",
+          "lat": 55.692,
+          "lng": 12.606,
+          "note": "Ancien chantier naval fonctionnant comme laboratoire temporaire : street food, art, friches, festivals, réemploi industriel, avant sa planification en futur grand quartier."
+        },
+        {
+          "label": "CopenHill / Amager Bakke",
+          "address": "Amager, København",
+          "lat": 55.6913,
+          "lng": 12.6166,
+          "note": "Infrastructure énergétique transformée en montagne publique : ski, randonnée, mur d'escalade, pédagogie environnementale. Cas presque caricatural mais fascinant de « hedonistic sustainability »."
+        }
       ]
     },
     {
@@ -36,19 +137,100 @@
       "route": false,
       "description": "Copenhague n'est plus seulement la ville du vélo et du waterfront heureux : elle devient un terrain de conflit entre climat, logement, biodiversité, carbone, méga-infrastructures et foncier rare. Lynetteholm, Fælledby, Jernbanebyen et le Light Rail y sont souvent plus instructifs que les icônes déjà célèbres.",
       "places": [
-        { "label": "Lynetteholm (+ controverse)", "address": "Entre Refshaleøen et Nordhavn, København", "lat": 55.7020, "lng": 12.6250, "approx": true, "note": "Le projet le plus important et le plus controversé : péninsule artificielle, protection anti-tempête, dépôt de terres excavées, futur quartier, infrastructures M5 / Østlig Ringvej. Loi adoptée en 2021 ; accord de 2025 (infrastructures ~2045, développement complet ~2070). À étudier de façon critique : impact marin, flux vers la Baltique, carbone, phasage, logique immobilière derrière le discours climatique." },
-        { "label": "M5 Metro / Østhavnen", "address": "København H – Amager – Refshaleøen – Lynetteholm", "lat": 55.6900, "lng": 12.6100, "approx": true, "noroute": true, "note": "Nouvelle ligne en deux phases (2036 puis 2045) pour desservir Amager, Refshaleøen et Lynetteholm et soulager le réseau existant. La prochaine grande colonne vertébrale de la ville." },
-        { "label": "Jernbanebyen", "address": "Entre Vesterbro, Kgs. Enghave et Teglholmen", "lat": 55.6555, "lng": 12.5435, "note": "Ancien site ferroviaire DSB, l'un des derniers grands terrains industriels centraux. Masterplan car-free, espaces verts, production locale, ateliers, patrimoine ferroviaire. Très fort pour « productive city + reuse »." },
-        { "label": "BaneGaarden", "address": "Jernbanebyen, København", "lat": 55.6548, "lng": 12.5455, "note": "Micro-laboratoire de circularité : food, culture, bois, anciennes remises ferroviaires. Urbanisme temporaire qui prépare le quartier futur." },
-        { "label": "Postbyen", "address": "Derrière la gare centrale, København", "lat": 55.6718, "lng": 12.5615, "note": "Ancien site postal transformé en quartier mixte très dense : bureaux, logements, hôtel, tours, parc urbain, liens piétons vers Kalvebod Brygge. Instructif mais discutable en échelle et skyline." },
-        { "label": "Paper Island / Papirøen / Christiansholm", "address": "Port intérieur, København", "lat": 55.6838, "lng": 12.6005, "note": "Ancien stockage de papier devenu destination street food, puis nouveau quartier résidentiel/culturel avec rez-de-chaussée public. Water Culture House attendu en 2026." },
-        { "label": "Opera Park", "address": "Dokøen, près de l'Opéra, København", "lat": 55.6818, "lng": 12.6018, "note": "Un site portuaire central qui aurait pu devenir immobilier devient parc luxuriant (ouvert 2023) : 21 500 m², serre, jardins, biodiversité, parking souterrain. La nouvelle tension : densifier ou laisser respirer." },
-        { "label": "Fælledby / Vejlands Kvarter", "address": "Amager Fælled, København", "lat": 55.6475, "lng": 12.5715, "note": "Premier grand quartier annoncé en bois massif à Copenhague, sur ancien dépôt, avec ambition de relation forte à la nature. Très intéressant mais politiquement sensible (voisinage d'Amager Fælled)." },
-        { "label": "Grønttorvet", "address": "Valby, København", "lat": 55.6512, "lng": 12.5175, "note": "Ancien marché de gros (fruits/fleurs/légumes), déplacé en 2016, devenu quartier résidentiel vert avec parc central et références au passé marchand." },
-        { "label": "Valby Maskinfabrik", "address": "Valby, København", "lat": 55.6600, "lng": 12.5130, "note": "Ancien site industriel FLSmidth transformé en quartier mixte. Conservation de traces industrielles dans une densification résidentielle." },
-        { "label": "Nordhavn — phases extérieures / Tunnelfabrikken / Levantkaj / Sundmolen", "address": "Nordhavn, København", "lat": 55.7150, "lng": 12.6060, "note": "Après 2019, Nordhavn passe du « showcase » Århusgadekvarteret à une vraie ville en extension. À suivre : le modèle reste-t-il urbain, mixte et vivant à grande échelle ?" },
-        { "label": "Sydhavn Metro / nouvelles stations M4", "address": "Sydhavn, København", "lat": 55.6500, "lng": 12.5460, "note": "Nouvelle accessibilité aux quartiers portuaires du sud, avec effets directs sur Sluseholmen, Teglholmen, Enghave Brygge et la densification du waterfront." },
-        { "label": "Karen Blixens Plads", "address": "Campus Amager (KUA), København", "lat": 55.6592, "lng": 12.5915, "note": "Grande place-campus : relief artificiel, stationnement pour 2 000 vélos, biodiversité et gestion climatique. Techniquement 2019, post-2019 dans son usage." }
+        {
+          "label": "Lynetteholm (+ controverse)",
+          "address": "Entre Refshaleøen et Nordhavn, København",
+          "lat": 55.702,
+          "lng": 12.625,
+          "approx": true,
+          "note": "Le projet le plus important et le plus controversé : péninsule artificielle, protection anti-tempête, dépôt de terres excavées, futur quartier, infrastructures M5 / Østlig Ringvej. Loi adoptée en 2021 ; accord de 2025 (infrastructures ~2045, développement complet ~2070). À étudier de façon critique : impact marin, flux vers la Baltique, carbone, phasage, logique immobilière derrière le discours climatique."
+        },
+        {
+          "label": "M5 Metro / Østhavnen",
+          "address": "København H – Amager – Refshaleøen – Lynetteholm",
+          "lat": 55.69,
+          "lng": 12.61,
+          "approx": true,
+          "noroute": true,
+          "note": "Nouvelle ligne en deux phases (2036 puis 2045) pour desservir Amager, Refshaleøen et Lynetteholm et soulager le réseau existant. La prochaine grande colonne vertébrale de la ville."
+        },
+        {
+          "label": "Jernbanebyen",
+          "address": "Entre Vesterbro, Kgs. Enghave et Teglholmen",
+          "lat": 55.6555,
+          "lng": 12.5435,
+          "note": "Ancien site ferroviaire DSB, l'un des derniers grands terrains industriels centraux. Masterplan car-free, espaces verts, production locale, ateliers, patrimoine ferroviaire. Très fort pour « productive city + reuse »."
+        },
+        {
+          "label": "BaneGaarden",
+          "address": "Jernbanebyen, København",
+          "lat": 55.6548,
+          "lng": 12.5455,
+          "note": "Micro-laboratoire de circularité : food, culture, bois, anciennes remises ferroviaires. Urbanisme temporaire qui prépare le quartier futur."
+        },
+        {
+          "label": "Postbyen",
+          "address": "Derrière la gare centrale, København",
+          "lat": 55.6718,
+          "lng": 12.5615,
+          "note": "Ancien site postal transformé en quartier mixte très dense : bureaux, logements, hôtel, tours, parc urbain, liens piétons vers Kalvebod Brygge. Instructif mais discutable en échelle et skyline."
+        },
+        {
+          "label": "Paper Island / Papirøen / Christiansholm",
+          "address": "Port intérieur, København",
+          "lat": 55.6838,
+          "lng": 12.6005,
+          "note": "Ancien stockage de papier devenu destination street food, puis nouveau quartier résidentiel/culturel avec rez-de-chaussée public. Water Culture House attendu en 2026."
+        },
+        {
+          "label": "Opera Park",
+          "address": "Dokøen, près de l'Opéra, København",
+          "lat": 55.6818,
+          "lng": 12.6018,
+          "note": "Un site portuaire central qui aurait pu devenir immobilier devient parc luxuriant (ouvert 2023) : 21 500 m², serre, jardins, biodiversité, parking souterrain. La nouvelle tension : densifier ou laisser respirer."
+        },
+        {
+          "label": "Fælledby / Vejlands Kvarter",
+          "address": "Amager Fælled, København",
+          "lat": 55.6475,
+          "lng": 12.5715,
+          "note": "Premier grand quartier annoncé en bois massif à Copenhague, sur ancien dépôt, avec ambition de relation forte à la nature. Très intéressant mais politiquement sensible (voisinage d'Amager Fælled)."
+        },
+        {
+          "label": "Grønttorvet",
+          "address": "Valby, København",
+          "lat": 55.6512,
+          "lng": 12.5175,
+          "note": "Ancien marché de gros (fruits/fleurs/légumes), déplacé en 2016, devenu quartier résidentiel vert avec parc central et références au passé marchand."
+        },
+        {
+          "label": "Valby Maskinfabrik",
+          "address": "Valby, København",
+          "lat": 55.66,
+          "lng": 12.513,
+          "note": "Ancien site industriel FLSmidth transformé en quartier mixte. Conservation de traces industrielles dans une densification résidentielle."
+        },
+        {
+          "label": "Nordhavn — phases extérieures / Tunnelfabrikken / Levantkaj / Sundmolen",
+          "address": "Nordhavn, København",
+          "lat": 55.715,
+          "lng": 12.606,
+          "note": "Après 2019, Nordhavn passe du « showcase » Århusgadekvarteret à une vraie ville en extension. À suivre : le modèle reste-t-il urbain, mixte et vivant à grande échelle ?"
+        },
+        {
+          "label": "Sydhavn Metro / nouvelles stations M4",
+          "address": "Sydhavn, København",
+          "lat": 55.65,
+          "lng": 12.546,
+          "note": "Nouvelle accessibilité aux quartiers portuaires du sud, avec effets directs sur Sluseholmen, Teglholmen, Enghave Brygge et la densification du waterfront."
+        },
+        {
+          "label": "Karen Blixens Plads",
+          "address": "Campus Amager (KUA), København",
+          "lat": 55.6592,
+          "lng": 12.5915,
+          "note": "Grande place-campus : relief artificiel, stationnement pour 2 000 vélos, biodiversité et gestion climatique. Techniquement 2019, post-2019 dans son usage."
+        }
       ]
     },
     {
@@ -60,15 +242,254 @@
       "default": false,
       "description": "La régénération à l'échelle régionale, pas seulement intra-muros : ports reconvertis, nouvelles gares TOD, light rail des banlieues, villes nouvelles, et le miroir suédois de l'Øresund (Malmö). Masqué par défaut — ces points s'étendent jusqu'à 60 km du centre.",
       "places": [
-        { "label": "Køge Kyst", "address": "Køge", "lat": 55.4565, "lng": 12.1850, "note": "Ancien port industriel et terrains ferroviaires transformés en quartier durable jusqu'en 2040. Régénération régionale, pas seulement copenhaguoise." },
-        { "label": "Køge Nord Station", "address": "Køge / corridor régional", "lat": 55.4877, "lng": 12.1618, "note": "Pont-gare spectaculaire, hub de mobilité verte entre train, S-train, autoroute et park-and-ride. Important pour l'échelle régionale." },
-        { "label": "Musicon", "address": "Roskilde", "lat": 55.6280, "lng": 12.0790, "note": "Ancienne usine de béton devenue district culturel, musical, entrepreneurial et circulaire. Très bon cas de friche productive réutilisée sans effacer sa rugosité." },
-        { "label": "Greater Copenhagen Light Rail / Ring 3", "address": "Ishøj – Glostrup – Lyngby / Lundtofte", "lat": 55.6660, "lng": 12.4030, "approx": true, "noroute": true, "note": "Projet régional fondamental : 28 km, 29 stations, connexion de corridors S-train sans passer par le centre. La régénération des banlieues par le rail." },
-        { "label": "Loop City / Ringbyen", "address": "Municipalités de banlieue (Lyngby)", "lat": 55.7700, "lng": 12.5030, "approx": true, "noroute": true, "note": "Vision de développement autour du light rail : densifier et requalifier les centralités suburbaines plutôt que tout concentrer dans Copenhague intra-muros." },
-        { "label": "Vinge / Frederikssund", "address": "Frederikssund", "lat": 55.8340, "lng": 12.0760, "note": "Nouvelle ville régionale autour du S-train, pensée avec nature et mobilité dès le départ. Réalisation inégale, mais utile pour comprendre les ambitions métropolitaines hors centre." },
-        { "label": "Västra Hamnen / Bo01", "address": "Malmö, Sweden", "lat": 55.6132, "lng": 12.9766, "note": "Le miroir suédois : ancien port / chantier naval contaminé transformé en quartier durable, avec Bo01 comme moment fondateur en 2001." },
-        { "label": "Varvsstaden", "address": "Malmö, Sweden", "lat": 55.6108, "lng": 12.9875, "note": "Ancien chantier naval Kockums transformé sur 25 ans : logements, emplois, écoles, espaces verts, avec réemploi de bâtiments et matériaux. Probablement le meilleur pendant suédois de Refshaleøen / Jernbanebyen." },
-        { "label": "Hyllie", "address": "Malmö, Sweden", "lat": 55.5634, "lng": 12.9759, "note": "Nouveau district TOD / climate-smart autour de la gare, relié à l'espace Øresund / Copenhague par le train et le pont. Post-2019, surtout intéressant comme testbed énergétique : énergie renouvelable/recyclée, smart grids, partenariat public-privé." }
+        {
+          "label": "Køge Kyst",
+          "address": "Køge",
+          "lat": 55.4565,
+          "lng": 12.185,
+          "note": "Ancien port industriel et terrains ferroviaires transformés en quartier durable jusqu'en 2040. Régénération régionale, pas seulement copenhaguoise."
+        },
+        {
+          "label": "Køge Nord Station",
+          "address": "Køge / corridor régional",
+          "lat": 55.4877,
+          "lng": 12.1618,
+          "note": "Pont-gare spectaculaire, hub de mobilité verte entre train, S-train, autoroute et park-and-ride. Important pour l'échelle régionale."
+        },
+        {
+          "label": "Musicon",
+          "address": "Roskilde",
+          "lat": 55.628,
+          "lng": 12.079,
+          "note": "Ancienne usine de béton devenue district culturel, musical, entrepreneurial et circulaire. Très bon cas de friche productive réutilisée sans effacer sa rugosité."
+        },
+        {
+          "label": "Greater Copenhagen Light Rail / Ring 3",
+          "address": "Ishøj – Glostrup – Lyngby / Lundtofte",
+          "lat": 55.666,
+          "lng": 12.403,
+          "approx": true,
+          "noroute": true,
+          "note": "Projet régional fondamental : 28 km, 29 stations, connexion de corridors S-train sans passer par le centre. La régénération des banlieues par le rail."
+        },
+        {
+          "label": "Loop City / Ringbyen",
+          "address": "Municipalités de banlieue (Lyngby)",
+          "lat": 55.77,
+          "lng": 12.503,
+          "approx": true,
+          "noroute": true,
+          "note": "Vision de développement autour du light rail : densifier et requalifier les centralités suburbaines plutôt que tout concentrer dans Copenhague intra-muros."
+        },
+        {
+          "label": "Vinge / Frederikssund",
+          "address": "Frederikssund",
+          "lat": 55.834,
+          "lng": 12.076,
+          "note": "Nouvelle ville régionale autour du S-train, pensée avec nature et mobilité dès le départ. Réalisation inégale, mais utile pour comprendre les ambitions métropolitaines hors centre."
+        },
+        {
+          "label": "Västra Hamnen / Bo01",
+          "address": "Malmö, Sweden",
+          "lat": 55.6132,
+          "lng": 12.9766,
+          "note": "Le miroir suédois : ancien port / chantier naval contaminé transformé en quartier durable, avec Bo01 comme moment fondateur en 2001."
+        },
+        {
+          "label": "Varvsstaden",
+          "address": "Malmö, Sweden",
+          "lat": 55.6108,
+          "lng": 12.9875,
+          "note": "Ancien chantier naval Kockums transformé sur 25 ans : logements, emplois, écoles, espaces verts, avec réemploi de bâtiments et matériaux. Probablement le meilleur pendant suédois de Refshaleøen / Jernbanebyen."
+        },
+        {
+          "label": "Hyllie",
+          "address": "Malmö, Sweden",
+          "lat": 55.5634,
+          "lng": 12.9759,
+          "note": "Nouveau district TOD / climate-smart autour de la gare, relié à l'espace Øresund / Copenhague par le train et le pont. Post-2019, surtout intéressant comme testbed énergétique : énergie renouvelable/recyclée, smart grids, partenariat public-privé."
+        }
+      ]
+    },
+    {
+      "id": "section2-culture",
+      "name": "Lieux visités & patrimoine (Øresund)",
+      "category": "Section 2 · Culture, patrimoine & lieux visités",
+      "color": "#9c4a86",
+      "route": false,
+      "description": "Lieux visités et photographiés autour de l'Øresund — musées, châteaux, fronts de mer, vieilles villes (Danemark & Suède). Triés par nombre de photos.",
+      "places": [
+        {
+          "label": "Louisiana Museum of Modern Art",
+          "city": "Humlebæk",
+          "address": "Gammel Strandvej 13, 3050 Humlebæk",
+          "lat": 55.969279,
+          "lng": 12.543201,
+          "photos": 178
+        },
+        {
+          "label": "Slotsholmen / BLOX – Danish Architecture Centre",
+          "city": "Copenhagen K",
+          "address": "Bryghusgade 12, 1473 Copenhagen K",
+          "lat": 55.673392,
+          "lng": 12.579813,
+          "photos": 126
+        },
+        {
+          "label": "Nyhavn & Amalienborg",
+          "city": "Copenhagen K",
+          "address": "Nyhavn, 1051 Copenhagen K",
+          "lat": 55.679949,
+          "lng": 12.59082,
+          "photos": 88
+        },
+        {
+          "label": "Kalvebod Fælled (Vestamager)",
+          "city": "København S",
+          "address": "Robert Jacobsens Vej 84, 2300 København S",
+          "lat": 55.616951,
+          "lng": 12.572239,
+          "photos": 66
+        },
+        {
+          "label": "Kastellet (the Citadel)",
+          "city": "Copenhagen K",
+          "address": "Elsdyrsgade 22, 1324 Copenhagen K",
+          "lat": 55.689211,
+          "lng": 12.58808,
+          "photos": 58
+        },
+        {
+          "label": "Rundetårn / Trinitatis Church",
+          "city": "Copenhagen K",
+          "address": "Købmagergade 52A, 1150 Copenhagen K",
+          "lat": 55.682378,
+          "lng": 12.57621,
+          "photos": 57
+        },
+        {
+          "label": "Kronborg Castle",
+          "city": "Helsingør",
+          "address": "Kronborg 3–7, 3000 Helsingør",
+          "lat": 56.037138,
+          "lng": 12.619658,
+          "photos": 49
+        },
+        {
+          "label": "Dragør old town & harbour",
+          "city": "Dragør",
+          "address": "Dragør Havn, Prins Knuds Dæmning 4, 2791 Dragør",
+          "lat": 55.589245,
+          "lng": 12.678446,
+          "photos": 39
+        },
+        {
+          "label": "Islands Brygge / Amager waterfront",
+          "city": "København S",
+          "address": "Amager, 2300 København S",
+          "lat": 55.659426,
+          "lng": 12.56563,
+          "photos": 29
+        },
+        {
+          "label": "Superkilen park",
+          "city": "København N",
+          "address": "Nørrebrogade 208–210, 2200 København N",
+          "lat": 55.69992,
+          "lng": 12.541836,
+          "photos": 28
+        },
+        {
+          "label": "Helsingør old town",
+          "city": "Helsingør",
+          "address": "Munkegade 10A, 3000 Helsingør",
+          "lat": 56.03349,
+          "lng": 12.609606,
+          "photos": 23
+        },
+        {
+          "label": "Kalvebod Brygge waterfront",
+          "city": "Copenhagen V",
+          "address": "Kalvebod Brygge 5, 1560 Copenhagen V",
+          "lat": 55.668465,
+          "lng": 12.57351,
+          "photos": 12
+        },
+        {
+          "label": "Øresund / Helsingør waterfront",
+          "city": "Helsingør",
+          "address": "The Sound (Øresund)",
+          "lat": 56.036534,
+          "lng": 12.643848,
+          "photos": 11,
+          "approx": true
+        },
+        {
+          "label": "Sydhavn – Teglholmen marina",
+          "city": "København SV",
+          "address": "Teglholmens Østkaj 16, 2450 København SV",
+          "lat": 55.647691,
+          "lng": 12.553539,
+          "photos": 10
+        },
+        {
+          "label": "Ørestad / Sundby",
+          "city": "København S",
+          "address": "Ørestads Boulevard 25, 2300 København S",
+          "lat": 55.645288,
+          "lng": 12.585731,
+          "photos": 8
+        },
+        {
+          "label": "Bispebjerg Torv",
+          "city": "København NV",
+          "address": "Bispebjerg Torv 1, 2400 København NV",
+          "lat": 55.716185,
+          "lng": 12.530847,
+          "photos": 7
+        },
+        {
+          "label": "Øresund / Helsingør coast (south)",
+          "city": "Helsingør",
+          "address": "The Sound (Øresund)",
+          "lat": 56.030669,
+          "lng": 12.629084,
+          "photos": 5,
+          "approx": true
+        },
+        {
+          "label": "Rådhuspladsen (City Hall Square)",
+          "city": "Copenhagen V",
+          "address": "H C Andersens Boulevard 21, 1553 Copenhagen V",
+          "lat": 55.675239,
+          "lng": 12.5691,
+          "photos": 5
+        },
+        {
+          "label": "Port of Copenhagen (Inner Harbour)",
+          "city": "Copenhagen K",
+          "address": "Port of Copenhagen, 1432 Copenhagen K",
+          "lat": 55.690581,
+          "lng": 12.60569,
+          "photos": 4,
+          "approx": true
+        },
+        {
+          "label": "Kärnan (medieval tower & museum)",
+          "city": "Helsingborg (SE)",
+          "address": "Stortorget, 252 20 Helsingborg",
+          "lat": 56.047076,
+          "lng": 12.695639,
+          "photos": 73
+        },
+        {
+          "label": "Malmö old town – Caroli / St Petri",
+          "city": "Malmö (SE)",
+          "address": "Göran Olsgatan, 211 22 Malmö",
+          "lat": 55.607239,
+          "lng": 13.004238,
+          "photos": 18
+        }
       ]
     }
   ]
