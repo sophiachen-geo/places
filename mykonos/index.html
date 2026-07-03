@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mykonos, Greece · Places</title>
+  <meta name="description" content="Mykonos, an ecological reading of a rocky Cycladic island that survived on sun, air, sea, and Delos, and the architecture of Chora and its hamlets." />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/place.css" />
+  <style>
+    .myk-pin span {
+      display: block;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(20, 48, 74, 0.5);
+    }
+    .myk-pop-cat {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 3px 0 5px;
+    }
+    .myk-pop-note { display: block; font-size: 0.9rem; color: #3a4756; }
+    .leaflet-popup-content { max-width: 240px; }
+    .myk-legend {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(3px);
+      padding: 9px 12px;
+      border-radius: 9px;
+      box-shadow: var(--shadow);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .myk-legend strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--deep);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .myk-legend .lg-row { display: flex; align-items: center; gap: 7px; }
+    .myk-legend .lg-sw {
+      width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+      border: 1.5px solid #fff; box-shadow: 0 0 0 1px rgba(20,48,74,0.25);
+    }
+    #mykonos-map {
+      height: 62vh;
+      min-height: 460px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body class="place-page">
+  <a class="back-link" href="../">&larr; Back to the map</a>
+
+  <header class="place-hero" style="background-image:url('cover.svg')">
+    <div class="place-hero-overlay">
+      <p class="place-eyebrow">Greece</p>
+      <h1 class="place-title">Mykonos</h1>
+      <div class="place-tags">
+        <span class="tag tag-studied">studied</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="place-body wrap">
+      <p class="place-lead">
+        The history of Mykonos before the Revolution does not show us any brilliant
+        pages. It is the history of a place that only barely, and with difficulty,
+        managed to survive through the centuries, at least until the twentieth century.
+      </p>
+      <p><em>Aristidis Romanos, architect</em></p>
+
+      <p>
+        Indeed, the most interesting events and characteristics of its historical
+        development are precisely those that describe the often agonizing effort of
+        its inhabitants to devise a way of surviving on a rocky place which, beyond
+        the usual products of the self-sufficient economy of the Cycladic islands,
+        such as wine and livestock products, always had as its principal resources
+        abundant sun, air, sea, and also neighboring Delos. To some extent, the
+        island&rsquo;s periods of greatest prosperity were those that offered the
+        best possibilities for exploiting these natural resources. This ecological
+        reading is what gives the history of Mykonos its particular interest and
+        instructive value; a brief overview of it follows.
+      </p>
+
+      <section class="place-section">
+        <h2>Map of the sites</h2>
+        <p>
+          Every place named in the text and the research notes, gathered onto one
+          map: the town core of Chora, the ring of wind-dependent harbours and bays,
+          the inland villages and monasteries, the ancient and fortified sites, and
+          the capes and heights. Click any pin for a short note; scroll to zoom.
+        </p>
+        <div id="mykonos-map"></div>
+      </section>
+
+      <section class="place-section">
+        <h2>Ancient settlement</h2>
+        <p>
+          Very little is known about the settlement of the island during the ancient
+          historical period. The most likely possibility is that there were two towns
+          on the island, according to Scylax, who lived in the time of Darius, and
+          certainly more than one. One of them appears on Ptolemy&rsquo;s map as
+          fortified. The most probable sites of the towns are:
+        </p>
+        <ul>
+          <li>
+            Palaiokastro, on a hill east of the bay of Panormos, where in the medieval
+            period a fortified mansion of the Ghizi family was built, and where today
+            the monastery of the same name stands.
+          </li>
+          <li>
+            The Kastro of Chora, which is one of the sites with clear traces of
+            prehistoric Cycladic culture and is advantageously located in relation to
+            the bays of Agios Stefanos and Tourlos and of Korfos and Ornos.
+          </li>
+          <li>
+            The site of Lino, where ruins survive of two towers from the Classical
+            period, probably watchtowers, as well as sections of wall.
+          </li>
+        </ul>
+        <p>
+          It seems, however, that beyond the towns, &ldquo;the Mykonians, who in
+          ancient times appear to have been almost all farmers, preserved, like the
+          Aeginetans, the tendency to live in scattered dwellings in their
+          fields.&rdquo; This settlement form has survived until today.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>Medieval decline and Ottoman rule</h2>
+        <p>
+          During the medieval and modern periods, demographic fluctuations and
+          socio-economic developments formed broader regional phenomena that
+          determined the fate of Mykonos and the other Aegean islands. These
+          developments led them from the misery of the end of Frankish rule to the
+          economic prosperity of the eighteenth and early nineteenth centuries.
+        </p>
+        <p>The main stages of this process are the following:</p>
+        <p>
+          In the last decades of the sixteenth century and during the seventeenth
+          century, the situation of Greek subjects was tragic. The internal decline of
+          the Ottoman Empire, the weakening of central authority, the penetration of
+          European powers into the trade of the East, and, at the same time, wars such
+          as the Venetian and Turkish wars, conversions to Islam, enslavements,
+          massacres, mass migrations to Italy, and internal migrations to mountainous
+          and island regions, all significantly reduced the Greek population.
+        </p>
+        <p>
+          The Greek population was reduced from about 1,500,000 to 700,000 by 1700, and
+          certain places were periodically abandoned. Mykonos in the middle of the
+          sixteenth century was almost deserted; between 1633 and 1667 it was almost
+          uninhabited. Around 1678 only a small number of houses are mentioned, while in
+          the years 1674, 1687, and 1692 the island is recorded as having about 2,000
+          inhabitants.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>The Koinon of the Mykonians</h2>
+        <p>
+          A historical moment of particular importance was 1615, when the Koinon of the
+          Mykonians was established, that is, when the local centre of self-government,
+          which had already been allowed in 1537 by Kapudan Pasha through the granting
+          of privileges, became institutionalized. The memoranda and petitions of the
+          Koinon to the Pasha, together with the notarial acts of the period, constitute
+          valuable sources of information not only about living conditions on Mykonos in
+          the seventeenth and eighteenth centuries, but especially about the poverty and
+          crushing debts of the community to the island&rsquo;s creditors.
+        </p>
+        <p>
+          On 8 October 1615, the people and clergy of Mykonos gathered outside the
+          Kastro at the church of Prophet Elias, overthrew the government of the
+          captains, and founded the Koinon of the Mykonians. By universal vote, held
+          every year on 1 March, the islanders elected trustees and other officials, and
+          ratified the election through a notarial act between the community and the
+          trustees. The Koinon sent embassies to Constantinople and elsewhere, judged
+          common disputes, imposed fines and penalties, dealt with taxation and customs
+          duties, and managed other economic privileges.
+        </p>
+        <p>
+          In the eighteenth century, the political unity of the Greek world was restored
+          under the Turks, and the great period of economic prosperity of the
+          &ldquo;enslaved&rdquo; Greeks began. With European commercial penetration into
+          the Balkans, and with the establishment of houses and representatives in
+          Turkish ports, Greeks first acquired the role of local brokers and
+          intermediaries. Later, however, after accumulating their own capital, they
+          covered the entire commercial circuit themselves, establishing shipping
+          enterprises and building their own vessels in local shipyards, and even in
+          foreign shipyards.
+        </p>
+        <p>
+          Chora, or Mykonos, is the only settlement of some size. The rest of the named
+          places on the island, Ano Mera, Platis Gialos, Ornos, and others, are only
+          denser concentrations of scattered dwellings.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>Economy: agriculture, the sea, and piracy</h2>
+        <p>
+          On Mykonos, economic life had long been based on agricultural and livestock
+          production and on maritime activities. Agricultural and livestock production
+          was limited. The only significant export product was wine, with which the
+          Mykonians supplied the Venetian army in the Morea. The main driving force of
+          the island&rsquo;s economy, however, was the maritime professions: shipping,
+          always in combination with trade, fishing, boat-building and boat repair, and
+          even piracy and the slave trade.
+        </p>
+        <p>
+          There are indications that Greeks participated in piracy, although it is
+          difficult to determine the exact extent. What is certain is that until the end
+          of the seventeenth century, Greek pirates acted as local bandits of limited
+          range, mainly on islands that offered refuge. According to testimonies, Mykonos
+          was one such island. Pirates usually formed excellent relations with local
+          merchants, who bought their loot at low prices; with local authorities, who
+          left them undisturbed; and even with foreign merchants.
+        </p>
+        <p>
+          On Mykonos in particular, piracy was so widespread that it took on the
+          character of a &ldquo;communal enterprise.&rdquo; The special relationship
+          between the islanders and both local and foreign pirates was a basic factor of
+          prosperity. Thus pirates were not clearly distinct from captains, and the first
+          &ldquo;urban&rdquo; elements of the Aegean came out of commercial development
+          and the accumulation of capital, which was partly based on piracy.
+        </p>
+        <p>
+          According to one documented version, in the Venetian Quarter of Mykonos, on the
+          southern side of the Kastro, the houses of the captains had their famous
+          sea-facing doors: semi-urban doors at the waterfront that led directly, or
+          through a courtyard, to underground storage areas. These were used for the
+          secret transfer and hiding of pirate loot.
+        </p>
+        <p>
+          The main agricultural products were grapes, especially for wine, and barley.
+          Secondary products included other cereals, figs, a few garden products, dairy
+          and livestock products, fishing, and hunting. There may also once have been
+          olive trees. At the beginning of the eighteenth century, Mykonos produced
+          around 25,000 to 30,000 barrels of wine per year.
+        </p>
+        <p>
+          Natural and social factors limited agricultural production: lack of water,
+          absence of irrigation works, soil composition, the sloped surface of the land,
+          and the island&rsquo;s position on international routes. These conditions pushed
+          the Mykonians early toward maritime occupations. From the beginning of the
+          sixteenth century, Greeks turned toward the sea. Some served as sailors in the
+          Ottoman fleet; others sought work in naval expeditions; others enlisted as
+          armed seamen; and others acted as pirates, either independently or in
+          cooperation with buccaneers, often under the flag of a foreign power.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>Commercial shipping and prosperity</h2>
+        <p>
+          The peak of Mykonian commercial shipping began at the start of the eighteenth
+          century and was based on the fact that the route of French shipping toward
+          Smyrna and Constantinople passed between Tinos and Mykonos, while the English
+          route passed between Andros and Euboea. Thus, at the beginning of the century,
+          Mykonos possessed forty to fifty large ca&iuml;ques used in short-distance
+          maritime trade, especially for island trade with the Peloponnese and Asia
+          Minor. On this route alone there were more than one hundred boats and a total
+          population of about 3,000 inhabitants.
+        </p>
+        <p>
+          At the end of the eighteenth century, within the context of the Napoleonic
+          blockade and the English counter-blockade, the merchant captains of the Aegean
+          grew rich mainly through the illicit provisioning of blockaded ports with grain.
+          This was also a period of great prosperity for Mykonos, lasting approximately
+          from 1750 to 1815. During this period, the newly formed bourgeois class gave
+          Chora the form of the town that it has largely preserved until today.
+        </p>
+        <p>
+          At that time most of the shipowners&rsquo; houses were built, often with
+          multiple fa&ccedil;ades or forms, both in the older neighborhoods of the Kastro and
+          Parikia, through reconstruction or additions, and especially in the newer
+          neighborhoods of Alexandra, Matogianni, and Agia Kyriaki. It was also the period
+          when many of the larger churches of Chora were built.
+        </p>
+        <p>
+          At the beginning of the nineteenth century, the population of the island had
+          already reached 4,000 inhabitants. Its maritime development was combined with,
+          or complemented by, the development of manufacturing with an export orientation
+          in two sectors: the weaving of cotton, woolen, and silk fabrics, mainly carried
+          out by the women of the island, and the milling of flour and baking of bread and
+          ship&rsquo;s biscuit. The numerical predominance of women was evident because
+          the men were often absent on maritime expeditions, and this impressed travelers.
+          The development of the second sector, flour milling and bread-making, is a
+          particularly interesting example of the ecological character of the
+          island&rsquo;s economic history.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>Revolution, decline, and tourism</h2>
+        <p>
+          Later, the island&rsquo;s merchant fleet entered the service of the Greek
+          Revolution. The population immediately before and after the Revolution increased
+          because of refugees arriving from other islands, mainly Chios, Psara, Kasos, and
+          Crete. From the middle of the nineteenth century, emigration abroad began, as did
+          the decline of shipping, with the dominance of steam power and the inability of
+          the captains to cooperate in order to meet the new, increased need for capital.
+        </p>
+        <p>
+          The period of occupation during the Second World War finally exhausted the
+          Mykonians through hunger and depopulation. Only in the 1950s, with the
+          development of tourism, which began with the growing prosperity of the
+          inhabitants, did a new period of economic prosperity open for the island.
+        </p>
+        <p>
+          Thus the sun, the air, the sea, and Delos, which for eighteen centuries the
+          Mykonians had used in order to sell its marble, cultivate its land, and graze
+          their goats and sheep, entered the economic circuit once again. In a new form,
+          Mykonos survived and developed by exploiting its least costly natural resources.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>Settlement structure</h2>
+        <p><em>Mykonos: one town and hamlets.</em></p>
+        <p>
+          It appears that, at least from the medieval period onward, Chora was always the
+          only settlement of Mykonos. The rest of the island was inhabited only by
+          hamlets, that is, denser zones of permanent rural settlement. These were
+          scattered both in the eastern part of the island, on the eastern slopes of the
+          central mountainous mass, forming the core of the community of Ano Mera and Kalo
+          Livadi, and in the western part of the island.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>The mills</h2>
+        <p>
+          The Upper Mills served the needs of the rural population, while the roughly ten
+          Lower Mills processed grain brought from other regions and unloaded by ships at
+          the nearby anchorage of Vido. The mills either reloaded the flour, or the flour
+          was made into bread or ship&rsquo;s biscuit in the many large ovens of Chora.
+          These supplied the foreign ships that stopped at the island specifically to
+          acquire provisions. After the full bread-making cycle was completed, the two
+          almost cost-free local sources of energy used in pre-industrial processing were
+          water and wind, the wind and ovens of a poor, barren land.
+        </p>
+        <p>
+          Even more noteworthy, and characteristic of the way Mykonos&rsquo;s economic and
+          social development functioned, is the fact that mills, boats, and fishing vessels
+          were often organized in cooperative forms. Shares in these cooperative structures
+          were arranged according to technical and economic participation.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>Chora: harbours and setting</h2>
+        <p>
+          Travelers mention more than one secondary settlement on Mykonos. Others wrote of
+          a second village, but in this case it should probably be understood as
+          Palaiokastro, the settlement east of the bay of Panormos with the medieval
+          mansion of the Ghizi family.
+        </p>
+        <p>
+          Chora lies on the western coast of the island, which is also the most interesting
+          part in terms of bays and coves. It is located in the middle of a roughly large
+          and deep gulf, formed by the bays of Agios Stefanos and Tourlos, or Agios
+          Georgios of Tourlos, to the north, the isthmus between Korfos and Ornos to the
+          south, the peninsula of Agios Ioannis or Diakoftis, and the small island to the
+          west.
+        </p>
+        <p>
+          Of these bays, Tourlos offered the best anchorage for large ships, protected from
+          the northern winds. Korfos also had a particularly safe anchorage for large
+          ships. The smaller cove of Kanalia, on the Diakoftis peninsula, was used mainly
+          for loading grain during the period of prosperity of sailing navigation and of
+          milling and bread-making activity. The bay of Ornos also had an anchorage, but it
+          was exposed to southerly winds, which, although rarer than the northerlies, are
+          nevertheless stronger.
+        </p>
+        <p>
+          Chora itself had a small and unsafe harbor, formed between the coast east of the
+          Kastro and the islets of Agios Nikolakis of Kadenas or Gialos. Since this position
+          was exposed to the northern winds, the harbor of Chora was used only for loading
+          and only in favorable weather. With the north winds, boats fled to the bay of
+          Tourlos. Thus, the lack of a safe harbor for Chora was compensated for by its
+          central position between the outer bays of Tourlos and Korfos.
+        </p>
+        <p>
+          It is necessary to define geographically the extent of the traditional settlement
+          of Chora of Mykonos, because its present condition gives, at first glance, the
+          impression of a settlement five times larger. The traditional settlement of Chora,
+          at the beginning of the 1960s, was still separated from the island&rsquo;s rural
+          hamlets by agricultural land, especially by the slopes of Vouno to the east. These
+          slopes formed a rim at about 100 metres above sea level and constituted the
+          settlement&rsquo;s immediate natural frame.
+        </p>
+        <p>
+          The settlement is built on a level area that forms two projections, and at the
+          same time two slight rises toward the sea: the hillock of the Kastro further
+          north, which creates the hollow of the harbor, and the rise with the Lower Mills
+          further south. The level ground on which the town was built, with the exception of
+          Pano Matogianni, gives Chora of Mykonos a form completely different from most
+          Aegean settlements. Those settlements, spread amphitheatrically on slopes, are
+          perceived more as sculptural volumes than as spaces. By contrast, Chora of Mykonos
+          is perceived as a labyrinthine inner urban space of life, cut through a compact
+          white mass of unified character.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>A white, labyrinthine town</h2>
+        <p>
+          This impression is strongly helped by the unified style of the buildings, the
+          overwhelming majority of which are two-storeyed. It is also helped by the presence
+          of balconies, stairs, terraces, steps, and by the care taken in maintaining the
+          street surfaces, especially the outer fa&ccedil;ades of the buildings.
+        </p>
+        <p>
+          The feeling that one is inside an interior space, with the only reminders of the
+          exterior and natural world being the view of the sea at the end of an alley, or
+          the sound of the wind, creates a strong sense of intimacy and protection. This
+          feeling is only gradually lifted when the passer-by arrives at Paralia or
+          Alefkandra.
+        </p>
+        <p>
+          The urban form of Chora is a remarkable example, though not an exceptional one, of
+          balance between the whole and its parts. On the one hand, there are elements that
+          give the urban ensemble its harmonious continuity. On the other hand, the
+          individual elements and parts preserve a certain individuality, which stands out
+          through its variety.
+        </p>
+        <p>
+          This aesthetic observation can be established on two levels. First, at the level of
+          the overall image of the typical house of Chora, which is characterized by austere
+          abstract coherence, even though it is the result of the gradual addition of
+          sections of different forms. This development may have unfolded over centuries.
+          Second, the same is true at the level of the typical public living space of the
+          settlement: the street. In one glance, one understands how labyrinthine the urban
+          whole is, while at the same time perceiving the variety of the house fa&ccedil;ades
+          that shape its front.
+        </p>
+        <p>It is therefore worth analyzing these two points in more detail:</p>
+        <ul>
+          <li>the urban evolution of Chora;</li>
+          <li>the form and function of the typical house of Chora of Mykonos.</li>
+        </ul>
+      </section>
+
+      <section class="place-section">
+        <h2>The urban fabric and evolution of Chora</h2>
+        <p>
+          The gradual evolution of Chora through time is clearly reflected in the form of
+          its urban fabric. Until the middle of the seventeenth century, Chora was probably
+          limited to the Kastro, a rise in the land at the northwestern edge of present-day
+          Chora.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>The Kastro and the first medieval settlement</h2>
+        <p>
+          The Kastro stood about 10 metres from the sea. It was one of the island&rsquo;s
+          two fortified settlements. Technically speaking, it was a weak form of
+          fortification: it was formed by the strengthened outer walls of the surrounding
+          houses, rather than by a true fortress-castle.
+        </p>
+        <p>
+          Similar fortifications were used, between the fourteenth century and the first
+          years of Ottoman rule, as places of protection for the inhabitants of island
+          settlements in the Aegean against raids. Effective protection, however, was
+          offered only by the true fortress-type fortifications of the larger islands, such
+          as Tinos. Smaller and less important islands, such as Mykonos, had rudimentary
+          enclosing walls that could not withstand powerful attacks.
+        </p>
+        <p>
+          Another fortified place is also mentioned on Mykonos: Palaiokastro, in the
+          interior of the island, on a height dominating the bay of Panormos to the north,
+          where the ruins of the local palace of the Ghizi family are found. The Kastro of
+          Chora nevertheless had basic equipment for the protection and feeding of the
+          inhabitants enclosed within it in the event of a raid. Evidence of this is the
+          Kastrapnos Mill, traces of which survive at the northwestern edge, almost directly
+          above the sea.
+        </p>
+        <p>
+          The urban layout of this first medieval settlement of Mykonos has not survived.
+          Its present structure clearly resulted from the construction of new buildings over
+          older ones, which were either destroyed or gradually demolished as the settlement
+          expanded beyond the walls. This expansion must have begun in the early or middle
+          eighteenth century, perhaps between 1754 and 1782.
+        </p>
+        <p>
+          The present street layout of the Kastro, with its comfortable open spaces around
+          Paraportiani, does not even approximate the urban image of the medieval settlement,
+          which, within a total area of 7.2 stremmas, housed at least 2,000 permanent
+          inhabitants. Such density could only have been achieved under extremely poor urban
+          conditions. We must therefore assume that uncovered spaces, mainly streets,
+          occupied only 10% of the total area, and that 60% of those were katastegia, that
+          is, &ldquo;long, narrow, shared covered corridors beneath dwellings and sometimes
+          churches.&rdquo; We must also assume that churches were built on 10% of the plots,
+          that plot coverage was complete, and that most buildings were three storeys high,
+          with an average building coefficient of 2.8. Finally, the inhabitants of the Kastro
+          lived in about 500 rooms, with an average occupancy of four people per room.
+        </p>
+        <p>The living conditions inside the Kastro are described vividly by V. Kyriazopoulos:</p>
+        <blockquote>
+          <p>
+            Before the town spread outside the Kastro, and for many years afterward, the
+            small enclosure of the Kastro described above was suffocatingly full of buildings.
+            The houses there did not have the form of distinct buildings, but formed a
+            confused system of cells, small spaces placed next to each other in complete
+            disorder and at different levels, so that the description &ldquo;the Kastro was
+            like a pomegranate&rdquo; is very apt.
+          </p>
+          <p>
+            If we consider that in this cramped space of 7,200 square metres, 2,000 or more
+            people lived permanently, together with many animals, perhaps pigs and hens; that
+            the dead were buried in family chapels beside the houses; if we also think of the
+            abundance of rats and vermin of every kind; that waste was thrown into the narrow
+            lanes, where roaming pigs cleaned it up; that water was scarce in summer; and that
+            no real sewerage system or medical care existed, we can imagine the stench of this
+            place and understand the spread of tuberculosis and the occasional great epidemics.
+          </p>
+          <p>
+            In fact, the hygienic and living conditions there must have been terrible, though
+            not worse than those in similar castles on other islands. The antidotes to all
+            this were the winter rain, the frequent whitewashing of everything, and the north
+            winds. Especially in summer, life would have been unlivable without the natural
+            factor of the annual seasonal wind, the meltemi. These violent, cool, clean masses
+            of air entered everywhere, renewed the air, lowered the temperature, and carried
+            everything away.
+          </p>
+        </blockquote>
+      </section>
+
+      <section class="place-section">
+        <h2>Expansion of Chora beyond the Kastro</h2>
+        <p>
+          The growth of the population and the improvement of the island&rsquo;s economy,
+          through the flourishing of commercial shipping and crafts during the peaceful years
+          before the outbreak of the Revolution, led to the gradual expansion of the
+          settlement of Chora over an area many times larger than that of the Kastro.
+        </p>
+        <p>
+          We distinguish Mbarkia or Parkia and Parikia, the area of the first
+          eighteenth-century expansion. It forms the central nucleus of the newer settlement,
+          covering about 20 stremmas, with dense construction and a labyrinthine, initially
+          unclear street network.
+        </p>
+        <p>
+          We can also distinguish the newer neighborhoods of Matogiannia, with an orthogonal
+          street grid, and Niochori, from the nineteenth and twentieth centuries, with linear
+          development. Finally, there is the central area of gardens, Limni, which was
+          gradually enclosed by residential zones.
+        </p>
+        <p>
+          Among these areas, some are characterized by urban regularity, while others seem to
+          fill in the gaps of the earlier ones, and their urban form remains unclear and
+          confused. Yet a more careful look at the network of these later small streets,
+          combined with information from older inhabitants and with observation of the
+          established routes linking the settlement&rsquo;s core to the rural roads, removes
+          this ambiguity and reveals the hierarchical order of the street network.
+        </p>
+        <p>
+          It also reveals two alternative ways in which the &ldquo;building blocks&rdquo; were
+          formed: the planned or urban type, and the accidental or rural type. The first type
+          has a regularity that is not geometric, but functional; in other words, it expresses
+          a clear compositional intention. Usually its form is narrow and elongated, because
+          it consists either of one row of through-buildings or of a double row.
+        </p>
+        <p>
+          These blocks may preserve a memory of older fortified settlements, where the
+          uninterrupted line of fa&ccedil;ades formed the wall, as C. Papas observes. The second
+          type has shapes that, as &ldquo;building blocks,&rdquo; seem completely unjustified;
+          but they make sense if they are understood as former agricultural plots that were
+          later subdivided for building. It is easy, then, to imagine how a dry-stone wall
+          that once followed the turns and slight changes in level of a rural path, marking
+          the boundary of a farmstead, was later replaced by a polygonal row of residential
+          fa&ccedil;ades.
+        </p>
+        <p>
+          In the end, however, all these structural differences in Chora&rsquo;s urban fabric,
+          from one area to another, fade and harmonize into a whole that we perceive as
+          unified. Despite the gradual evolution of the settlement and its heterogeneous
+          street layout, its urban form has a unified character. This is mainly due to its
+          chromatic and volumetric cohesion: its completely white, compact, mostly
+          two-storeyed mass, and the homogeneity of the architectural elements of its
+          buildings.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>The street and the house</h2>
+        <p>
+          The public spaces of the settlement are usually small. One rarely encounters a
+          square. The typical shared space is the street. At the scale of the street, one
+          observes a remarkable balance between the whole and its parts. The whole is the
+          street; the parts are the exterior fa&ccedil;ades of the houses that define it.
+        </p>
+        <p>
+          The characteristic street is formed by rows of houses, the great majority of which
+          belong to two types: narrow-fronted and wide-fronted houses. The houses of the same
+          block or cluster usually belong to the same type and share remarkably similar
+          characteristics.
+        </p>
+        <p>
+          The fa&ccedil;ades of a row of narrow-fronted houses, for example, show great
+          similarity in their dimensions and an identical organization of the fa&ccedil;ade. They
+          are two-storeyed, with a ground-floor height of about 2.50 metres, an upper-floor
+          height of 3 to 5 metres, and a frontage usually of 4 to 5 metres. Solid surfaces
+          dominate over openings. There are two openings per floor, door and window, with a
+          central transom for lighting and ventilating the high-ceilinged upper room, the
+          moutsoulos. The upper floor has separate access from the street through an external
+          stone stair leaning against the outer wall. This occurs whether the house is used as
+          a single dwelling or whether the ground floor and upper floor belong to different
+          owners.
+        </p>
+        <p>
+          The morphology of the fa&ccedil;ade elements is also common: the extremely simple
+          wooden balusters on the stairs, the wooden bountia or balconies, with equally
+          restrained wooden railings, the treatment of the openings, the channels or
+          drainpipes, and the chimneys. Similar morphology, similar organization, and similar
+          dimensions on the fa&ccedil;ades produce an urban image in which individualized elements
+          are balanced with a unified whole.
+        </p>
+        <p>
+          Where individual elements, the houses, contribute, through their external
+          morphological kinship, to the creation of a unified and harmonious whole, the
+          street, they nevertheless preserve their individuality through quantitative and
+          geometric differences.
+        </p>
+        <p>
+          At another level, the volumetric compactness of Mykonian houses and the openness of
+          Chora&rsquo;s urban fabric were once less clear. The streets were bridged, at rather
+          high density, by built volumes. The katastegia, which extended the surface of
+          neighboring houses over shared spaces and created covered streets, gave Chora the
+          form of a complex honeycomb, with frequent alternations and contrasts of solid and
+          void, shade and light, private and shared spaces. The only signs that remain today
+          from many such covered passages are the bases of the arches that covered the street
+          and supported the external walls, or even the floors, of rooms above.
+        </p>
+        <p>
+          It is more reasonable to suppose that the same conditions of spatial narrowness
+          produced similar solutions in the house to those that shaped the ship&rsquo;s stair
+          in naval architecture, even though the analogies, the steepness, and the elements of
+          the interior stair recall the ship&rsquo;s ladder. Even if there is some doubt about
+          the interior stairs, in the exterior stairs the available length of the fa&ccedil;ade
+          and the position of the entrance door of the neighboring house certainly impose a
+          steep slope. Moreover, the narrowness of the street does not allow another kind of
+          stair, except a straight, single-flight one. The only variation, for an easier
+          ascent, is the addition of two or three steps where the stair meets the street, set
+          crosswise to its direction.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>The organization and construction of the Mykonian house</h2>
+        <p>
+          The interior organization of the narrow-fronted house into spaces of distinct use is
+          rudimentary. The elongated space is subdivided into two parts, one toward the street
+          and one toward the opposite side. On both the ground floor and the upper floor, this
+          division is usually made with a light partition wall, a bagdati or wooden partition,
+          especially on the upper floor.
+        </p>
+        <p>
+          This is because, in the narrow-fronted house, the support of the floor and roof is
+          carried by beams placed parallel to the fa&ccedil;ade wall, without any transverse
+          load-bearing element. Only in the case of a large house depth, and in order to tie
+          together the two party walls, does the dividing wall become a structural element and
+          is built in masonry.
+        </p>
+        <p>
+          The front part of the house is larger in area and multifunctional. It served as the
+          sala, as a sitting room, often as a work space for women, with a loom, and even as a
+          kitchen. The rear part was mainly used for sleeping, though sometimes also for
+          cooking. Because the older building blocks with narrow-fronted houses are more
+          numerous, and because, under the conditions in which it developed, space was a basic
+          necessity, many narrow-fronted houses have party walls on three sides and are lit
+          only from the fa&ccedil;ade wall.
+        </p>
+        <p>
+          In this case, the ground floor, whose height was clearly lower than that of the upper
+          floor, 2.50 metres as opposed to 3, 4, or 5 metres, often remains single-roomed.
+          This was done either to avoid making lighting and ventilation conditions even worse,
+          or because it was used as storage and as temporary lodging for rural people,
+          inhabitants of the villages and the countryside.
+        </p>
+        <p>
+          The overwhelming majority of narrow-fronted houses have two openings per floor: one
+          door and one window. The doors of the ground floors open directly onto the street, and
+          in the newer, more spacious neighborhoods a small courtyard may intervene, while the
+          doors of the upper floors open onto the wooden bountia.
+        </p>
+        <p>
+          The constant presence of the external stone stair, and more rarely a wooden one, as
+          well as the possibility of internal communication through a wooden &ldquo;ship&rsquo;s
+          ladder,&rdquo; always steeply inclined, whose opening closes with a trapdoor, allows
+          us to suppose that the house could function either as a single whole or as two
+          separate apartments: one ground-floor apartment and one upper-floor apartment.
+        </p>
+        <p>
+          In the wide-fronted houses, the organization shows somewhat greater variety, but its
+          basic elements remain the same. The plan is divided into two unequal parts, of which
+          the larger is always the sala.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>The wide-fronted house and interior organization</h2>
+        <p>
+          The remaining part is usually subdivided into two very small bedrooms, with access
+          from the main space. The arrangement of the fa&ccedil;ade of the wide-fronted type is
+          more free, and is not governed by the order seen in the narrow-fronted type.
+        </p>
+        <p>
+          In the wide-fronted houses, the doors are placed vertically on the fa&ccedil;ade, while
+          in the direction of the large opening, parallel to the fa&ccedil;ade, one or two,
+          depending on the depth of the house, travedzenia, or main beams, are placed
+          approximately in the middle of the house. These subdivide the plan into smaller
+          rectangular spaces. On these travedzenia, or on walls that play the same structural
+          role, rest the ribes, the main horizontal load-bearing structure of the roof.
+        </p>
+        <p>
+          Older sanitary spaces were not integrated into dwellings. On some fa&ccedil;ades, a
+          section of the wooden balcony was closed in at some point and used as a rudimentary
+          sanitary space, something that generally seems to have happened in more recent years.
+          Elsewhere, the sanitary space was built beneath the stone stair, in the offered space
+          between the private and the shared area. It was often enclosed by a low wall, so that
+          a small courtyard was created.
+        </p>
+        <p>
+          Most houses in Chora are two-storeyed. Some, especially captains&rsquo; houses, such
+          as those in the northern commercial sector of Venetia and in Alefkandra, are
+          three-storeyed. There are also many houses with a lower second storey above the upper
+          floor or the ground floor, occupying only one third or one half of the plan, and
+          always the rear part. In this case, the floor level of the second storey is one or
+          two steps lower than the level of the roof terrace.
+        </p>
+        <p>
+          Fireplaces for heating do not appear in Mykonos. They are usually built in kitchens
+          and are used exclusively for cooking, which is why they are called mageiria. Often,
+          for reasons of discretion and cleanliness, the fireplaces are closed with wooden
+          leaves like cupboards, especially in captains&rsquo; houses, although they can also
+          be found with many other functions.
+        </p>
+        <p>
+          To save interior space, because of the small dimensions of the houses and the great
+          thickness of the stone walls, the smoke flues of the fireplaces projected from the
+          surface of the exterior wall. The entire projection rested on four or five wooden
+          brackets, which form a characteristic element of the fa&ccedil;ades.
+        </p>
+        <p>
+          The construction of the Mykonian house follows the general principles and shows the
+          usual characteristics of Cycladic building, shaped by the particularities of the
+          island&rsquo;s economy and resources.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>Construction materials, roofs, masonry, and plaster</h2>
+        <p>
+          In the construction of the roof terrace, the main beams were made of imported wood,
+          oak, cypress, plane tree, chestnut, or larch, as were the secondary beams, made of
+          chestnut or elm hardwood. Above them were placed boards or reeds, in a layer about 3
+          to 4 cm thick. Then came a layer of seaweed, dried after being washed and cleaned.
+          On top of this was placed soil, about 10 to 12 cm thick, and finally a layer of
+          mortar, lime and coarse sand, sometimes also kourasani. When kourasani was not used,
+          the waterproof quality of the final layer was perhaps due to the type of lime or to
+          another admixture material. The roof boards were made of good wood, and when their
+          length reached 1.00 to 1.30 m, they were also used as beams.
+        </p>
+        <p>
+          The masonry in Chora is rubble masonry and often slab masonry. Marble is frequently
+          used for small frames, mainly around doors, windows, and openings; for corner stones;
+          for surfaces around openings where a row of dressed stones was sometimes inserted; and
+          for columns, supports, or friezes, especially in newer houses after the end of the
+          nineteenth century, when certain neoclassical elements began to appear in Mykonian
+          architecture. Marble is Parian and, more rarely, Naxiot. Moreover, many of the marbles
+          found in Chora clearly come from Delos.
+        </p>
+        <p>
+          Mykonian plasters are especially plastic in form. They are pressed plasters made of
+          coarse sand and lime. The sand used for roofs is about the size of a lentil, while for
+          walls it is about half that size. In the past, plaster was applied by hand, without a
+          straightedge, and was not smoothed down in the modern way; instead, it was pressed.
+          For roof terraces, a special trowel was used. Essential tools of the mason also
+          included the pelekia, which held the mortar, and the dintili, or plumb line.
+        </p>
+        <p>
+          The arrangement of openings, lintels, frames, parapets, and the evolution of the two
+          types of openings in Cycladic architecture have been analyzed extensively by C.
+          Pappas. The basic types of openings still survive and are reproduced today in Mykonos.
+          The type that tends to disappear completely is the old door-window type. The type that
+          now tends to dominate is the window with three or four leaves, and the door with two
+          leaves and shutters, allowing the upper part to open independently from the lower part,
+          and the lower part independently from the upper.
+        </p>
+        <p>
+          On the fa&ccedil;ades of houses, characteristic elements include the gutters, which were
+          either formed as concave channels in the plaster or built out of ceramic pipe sections.
+          On the roof terrace, the formation of the parapet is especially characteristic. It
+          retains rainwater.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>The countryside and its hamlets</h2>
+        <p>
+          The landscape of the Mykonian countryside is austere and extremely spare in aesthetic
+          expression. White and ochre dominate, together with smooth or rough, often whitewashed
+          rocks, usually joined by dry-stone walls. On them, or beside them, are planted white
+          farmhouse dwellings, gathered in small rural settlements, or scattered farm-chapels and
+          churches.
+        </p>
+        <p>
+          Trees are rare; they appear in certain sheltered ravines, in only a few valleys. The
+          dry-stone walls, austere and skillful arrangements made of the black natural stone of
+          the island, define enclosures, vineyards, and grazing fields, and accompany the rural
+          roads, the gates, and the smaller passages. The footpath network becomes denser around
+          the island&rsquo;s heights and projections. A second concentration of the road network
+          appears around the settlement of Ano Mera.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>Rural architecture and the microcosm of the hamlet</h2>
+        <p>
+          In strong contrast with the brown and grey colours of the fields and rocks stand the
+          white hamlets and farmhouses. These consist of a multitude of small, clearly
+          distinguishable building volumes. They are elongated spaces with specialized uses and
+          functions, forming the strict microcosm of rural life.
+        </p>
+        <p>
+          One can distinguish: the house, usually two or three rooms in a row, with a small open
+          or partly roofed courtyard; the barn and the cellar; the oven; the stable or animal
+          shelter; the pigeon house; the place for keeping animals and producing manure; the
+          winepress; the trough for watering animals; sometimes the threshing floor and the
+          courtyard; and sometimes the church, with a red-tiled roof. The church is sometimes
+          integrated into the hamlet as a family ossuary, and more rarely appears together with a
+          windmill, especially in rural hamlets where care and use were shared by two or three
+          families.
+        </p>
+        <p>
+          The hamlets of Mykonos often touch, or are founded directly upon, the same granite
+          rocks that define the character of the island&rsquo;s landscape. Like elsewhere in the
+          Cyclades, they are extremely intelligent responses to the needs of a people who had very
+          limited resources.
+        </p>
+        <p>
+          Their organization is standardized: single-storey houses arranged in sequence, often
+          built in different periods, one beside another. They either form an elongated volume,
+          with each fa&ccedil;ade having a separate entrance, or they are arranged in the shape of a
+          &Gamma; or &Pi;, enclosing a small paved courtyard on two or three sides.
+        </p>
+      </section>
+
+      <section class="place-section">
+        <h2>Courtyards, orientation, and the ecological logic of the hamlet</h2>
+        <p>
+          In the first case, the outer fa&ccedil;ade, toward the side of the road or the neighbouring
+          property, is closed and completely without openings. In the case of the women&rsquo;s
+          courtyard, its orientation is south-southeast or southwest. Often, in the courtyard,
+          instead of slab paving, the local polished granite is used as flooring.
+        </p>
+        <p>
+          With the living spaces of human beings, a small outdoor space is created. Often, one or
+          two projecting steps define the courtyard or the passage that connects the spaces of the
+          house, separating it from the public space or from the surrounding circulation area of
+          animals.
+        </p>
+        <p>
+          Inside the house, the building elements are the same as in the urban house of Chora: the
+          same general arrangement of the mageirio or cooking area, the same ledges and shelves for
+          storing food and utensils, and the volto, the shelf above the wooden window, for storing
+          bread. Even the construction methods, techniques, and other elements are the same or
+          similar. The geometry, however, is freer; the detailing is more raw; the equipment is
+          more rudimentary. In other words, the economy of means is even more sharply expressed.
+        </p>
+        <p>
+          These characteristics emphasize the primary element of the architecture of the Mykonian
+          hamlets. More than anything else, this is what makes one see it as the same kind of
+          &ldquo;natural&rdquo; and unrefined ecological necessity as the dry-stone walls, the
+          terraces, the rocks, and the cactus hedges of the island.
+        </p>
+        <p>
+          The Mykonian hamlet is the highest and most refined functional creation of a people who
+          chose, on a rocky island, with only the sun, the air, the sea, and the inventiveness of
+          poverty as resources.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><p>Part of <a href="../" style="color:#fff">Places</a>.</p></div>
+  </footer>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script src="mykonos.js"></script>
+</body>
+</html>

@@ -50,3 +50,4 @@ The site will be live at `https://<user>.github.io/places/`.
 ## Places so far
 
 - **Athens, Greece** — visited & studied. The cradle of democracy.
+- **Mykonos, Greece** — studied. An ecological reading of a rocky Cycladic island and the architecture of Chora and its hamlets.

@@ -23,6 +23,18 @@
       "summary": "Across the Øresund: four waves of urban regeneration — harbour reclamation, the climate / sponge city, and today's carbon, land-scarcity and ecological conflicts — plus the culture that fills it.",
       "image": "copenhagen-malmo/cover.svg",
       "page": "copenhagen-malmo/"
+    },
+    {
+      "id": "mykonos",
+      "name": "Mykonos",
+      "country": "Greece",
+      "year": "",
+      "lat": 37.4467,
+      "lng": 25.3289,
+      "tags": ["studied"],
+      "summary": "An ecological reading of a rocky Cycladic island that survived on sun, air, sea, and Delos: the history and architecture of Chora and its hamlets.",
+      "image": "mykonos/cover.svg",
+      "page": "mykonos/"
     }
   ]
 }
