@@ -5,8 +5,63 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mykonos, Greece · Places</title>
   <meta name="description" content="Mykonos, an ecological reading of a rocky Cycladic island that survived on sun, air, sea, and Delos, and the architecture of Chora and its hamlets." />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+  />
   <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/place.css" />
+  <style>
+    .myk-pin span {
+      display: block;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      box-shadow: 0 1px 4px rgba(20, 48, 74, 0.5);
+    }
+    .myk-pop-cat {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 3px 0 5px;
+    }
+    .myk-pop-note { display: block; font-size: 0.9rem; color: #3a4756; }
+    .leaflet-popup-content { max-width: 240px; }
+    .myk-legend {
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(3px);
+      padding: 9px 12px;
+      border-radius: 9px;
+      box-shadow: var(--shadow);
+      font-size: 0.82rem;
+      line-height: 1.6;
+      color: var(--ink);
+    }
+    .myk-legend strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--deep);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .myk-legend .lg-row { display: flex; align-items: center; gap: 7px; }
+    .myk-legend .lg-sw {
+      width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+      border: 1.5px solid #fff; box-shadow: 0 0 0 1px rgba(20,48,74,0.25);
+    }
+    #mykonos-map {
+      height: 62vh;
+      min-height: 460px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      z-index: 1;
+    }
+  </style>
 </head>
 <body class="place-page">
   <a class="back-link" href="../">&larr; Back to the map</a>
@@ -42,6 +97,17 @@
         reading is what gives the history of Mykonos its particular interest and
         instructive value; a brief overview of it follows.
       </p>
+
+      <section class="place-section">
+        <h2>Map of the sites</h2>
+        <p>
+          Every place named in the text and the research notes, gathered onto one
+          map: the town core of Chora, the ring of wind-dependent harbours and bays,
+          the inland villages and monasteries, the ancient and fortified sites, and
+          the capes and heights. Click any pin for a short note; scroll to zoom.
+        </p>
+        <div id="mykonos-map"></div>
+      </section>
 
       <section class="place-section">
         <h2>Ancient settlement</h2>
@@ -838,5 +904,12 @@
   <footer class="site-footer">
     <div class="wrap"><p>Part of <a href="../" style="color:#fff">Places</a>.</p></div>
   </footer>
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""
+  ></script>
+  <script src="mykonos.js"></script>
 </body>
 </html>
