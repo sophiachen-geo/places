@@ -17,9 +17,12 @@ css/style.css         ← shared styles
 css/place.css         ← styles for individual place pages
 js/main.js            ← loads data/places.json, draws the map + cards
 data/places.json      ← the single source of truth (every place lives here)
-places/<id>/          ← one folder per place: index.html + cover image
-places/_template/     ← copy this to start a new place
+<id>/                 ← one folder per place at the repo root (e.g. athens/)
+_template/            ← copy this to start a new place
 ```
+
+Place folders live at the repo root, so a place is served at
+`https://<user>.github.io/places/<id>/` (e.g. `…/places/athens/`).
 
 Each place is listed once in [`data/places.json`](data/places.json). The map and
 gallery are generated from that file, so adding a place is mostly a matter of
@@ -32,8 +35,8 @@ Every place starts life as its own branch named after it (the first one is
 in short:
 
 1. `git checkout -b <place-name>` (e.g. `paris`)
-2. Copy `places/_template/` to `places/<place-name>/` and fill it in.
-3. Add an entry for the place to `data/places.json`.
+2. Copy `_template/` to `<place-name>/` (at the repo root) and fill it in.
+3. Add an entry for the place to `data/places.json` (`page` and `image` point at `<place-name>/`).
 4. Commit, push, open a PR, and merge — the new pin appears on the map.
 
 ## Publishing to GitHub Pages

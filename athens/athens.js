@@ -263,14 +263,30 @@ async function init() {
           layer.bindPopup(`<div class="popup-card"><h3>${p.name}</h3><p>Division administrative officielle (κοινότητα) du Δήμος Αθηναίων.</p></div>`);
         } else {
           const en = p.name_en && p.name_en !== p.name ? ` · ${p.name_en}` : "";
-          layer.bindTooltip(p.name + en, { sticky: true });
-          layer.bindPopup(
-            `<div class="popup-card"><h3>${p.name}${en}</h3>` +
-            `<p>${info.blurb || "Quartier officiel d'Athènes (OpenStreetMap)."}</p></div>`
-          );
+          const desc = p.blurb || info.blurb ||
+            (p.osm ? "Quartier officiel d'Athènes (OpenStreetMap)." : "Quartier d'Athènes.");
+          const approxNote = p.osm ? "" : "<br><em>Limites approximatives (tracées à la main).</em>";
+          layer.bindTooltip(p.name + en + (p.osm ? "" : " (approx.)"), { sticky: true });
+          layer.bindPopup(`<div class="popup-card"><h3>${p.name}${en}</h3><p>${desc}${approxNote}</p></div>`);
         }
       },
     }).addTo(boundaryGroup);
+
+    // Legend for the 7 municipal communities
+    const comms = boundaries.features.filter((f) => (f.properties || {}).kind === "community");
+    if (comms.length) {
+      const legend = L.control({ position: "bottomleft" });
+      legend.onAdd = () => {
+        const div = L.DomUtil.create("div", "comm-legend");
+        const short = (n) => (n.match(/^\d+η/) || [n])[0];
+        div.innerHTML = "<strong>Κοινότητες</strong>" +
+          comms.slice().sort((a, b) => (a.properties.name > b.properties.name ? 1 : -1))
+            .map((f) => `<span class="lg-row"><span class="lg-sw" style="background:${f.properties.color}"></span>${short(f.properties.name)}</span>`)
+            .join("");
+        return div;
+      };
+      legend.addTo(map);
+    }
   }
 
   const bToggle = document.getElementById("toggle-boundaries");
