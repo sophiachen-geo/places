@@ -312,183 +312,206 @@
       ]
     },
     {
-      "id": "section2-culture",
-      "name": "Lieux visités & patrimoine (Øresund)",
+      "id": "s2-copenhagen-core",
+      "name": "Copenhague — centre, port & Amager",
       "category": "Section 2 · Culture, patrimoine & lieux visités",
       "color": "#9c4a86",
-      "route": false,
-      "description": "Lieux visités et photographiés autour de l'Øresund — musées, châteaux, fronts de mer, vieilles villes (Danemark & Suède). Triés par nombre de photos.",
+      "route": true,
+      "description": "Le cœur de Copenhague et le waterfront de l'Amager — musées, places, bains de port, quartiers-canaux. Ordre de visite suggéré.",
       "places": [
         {
-          "label": "Louisiana Museum of Modern Art",
-          "city": "Humlebæk",
-          "address": "Gammel Strandvej 13, 3050 Humlebæk",
-          "lat": 55.969279,
-          "lng": 12.543201,
-          "photos": 178
-        },
-        {
           "label": "Slotsholmen / BLOX – Danish Architecture Centre",
-          "city": "Copenhagen K",
           "address": "Bryghusgade 12, 1473 Copenhagen K",
           "lat": 55.673392,
           "lng": 12.579813,
-          "photos": 126
+          "photos": 126,
+          "note": "Centre d'architecture danois (DAC) dans le bâtiment BLOX d'OMA, sur Slotsholmen au bord du port."
         },
         {
           "label": "Nyhavn & Amalienborg",
-          "city": "Copenhagen K",
           "address": "Nyhavn, 1051 Copenhagen K",
           "lat": 55.679949,
           "lng": 12.59082,
-          "photos": 88
-        },
-        {
-          "label": "Kalvebod Fælled (Vestamager)",
-          "city": "København S",
-          "address": "Robert Jacobsens Vej 84, 2300 København S",
-          "lat": 55.616951,
-          "lng": 12.572239,
-          "photos": 66
+          "photos": 88,
+          "note": "Le canal aux façades colorées et le palais royal — la carte postale du vieux Copenhague."
         },
         {
           "label": "Kastellet (the Citadel)",
-          "city": "Copenhagen K",
           "address": "Elsdyrsgade 22, 1324 Copenhagen K",
           "lat": 55.689211,
           "lng": 12.58808,
-          "photos": 58
+          "photos": 58,
+          "note": "Citadelle en étoile du XVIIe siècle : remparts, douves et moulin, toujours militaire et publique."
         },
         {
           "label": "Rundetårn / Trinitatis Church",
-          "city": "Copenhagen K",
           "address": "Købmagergade 52A, 1150 Copenhagen K",
           "lat": 55.682378,
           "lng": 12.57621,
-          "photos": 57
-        },
-        {
-          "label": "Kronborg Castle",
-          "city": "Helsingør",
-          "address": "Kronborg 3–7, 3000 Helsingør",
-          "lat": 56.037138,
-          "lng": 12.619658,
-          "photos": 49
-        },
-        {
-          "label": "Dragør old town & harbour",
-          "city": "Dragør",
-          "address": "Dragør Havn, Prins Knuds Dæmning 4, 2791 Dragør",
-          "lat": 55.589245,
-          "lng": 12.678446,
-          "photos": 39
-        },
-        {
-          "label": "Islands Brygge / Amager waterfront",
-          "city": "København S",
-          "address": "Amager, 2300 København S",
-          "lat": 55.659426,
-          "lng": 12.56563,
-          "photos": 29
+          "photos": 57,
+          "note": "Tour ronde du XVIIe à rampe hélicoïdale, ancien observatoire, accolée à l'église Trinitatis."
         },
         {
           "label": "Superkilen park",
-          "city": "København N",
           "address": "Nørrebrogade 208–210, 2200 København N",
           "lat": 55.69992,
           "lng": 12.541836,
-          "photos": 28
-        },
-        {
-          "label": "Helsingør old town",
-          "city": "Helsingør",
-          "address": "Munkegade 10A, 3000 Helsingør",
-          "lat": 56.03349,
-          "lng": 12.609606,
-          "photos": 23
-        },
-        {
-          "label": "Kalvebod Brygge waterfront",
-          "city": "Copenhagen V",
-          "address": "Kalvebod Brygge 5, 1560 Copenhagen V",
-          "lat": 55.668465,
-          "lng": 12.57351,
-          "photos": 12
-        },
-        {
-          "label": "Øresund / Helsingør waterfront",
-          "city": "Helsingør",
-          "address": "The Sound (Øresund)",
-          "lat": 56.036534,
-          "lng": 12.643848,
-          "photos": 11,
-          "approx": true
-        },
-        {
-          "label": "Sydhavn – Teglholmen marina",
-          "city": "København SV",
-          "address": "Teglholmens Østkaj 16, 2450 København SV",
-          "lat": 55.647691,
-          "lng": 12.553539,
-          "photos": 10
-        },
-        {
-          "label": "Ørestad / Sundby",
-          "city": "København S",
-          "address": "Ørestads Boulevard 25, 2300 København S",
-          "lat": 55.645288,
-          "lng": 12.585731,
-          "photos": 8
-        },
-        {
-          "label": "Bispebjerg Torv",
-          "city": "København NV",
-          "address": "Bispebjerg Torv 1, 2400 København NV",
-          "lat": 55.716185,
-          "lng": 12.530847,
-          "photos": 7
-        },
-        {
-          "label": "Øresund / Helsingør coast (south)",
-          "city": "Helsingør",
-          "address": "The Sound (Øresund)",
-          "lat": 56.030669,
-          "lng": 12.629084,
-          "photos": 5,
-          "approx": true
+          "photos": 28,
+          "note": "Parc multiculturel de Nørrebro (BIG · Topotek1 · Superflex) — objets du monde entier, quartier populaire mis en visibilité."
         },
         {
           "label": "Rådhuspladsen (City Hall Square)",
-          "city": "Copenhagen V",
           "address": "H C Andersens Boulevard 21, 1553 Copenhagen V",
           "lat": 55.675239,
           "lng": 12.5691,
-          "photos": 5
+          "photos": 5,
+          "note": "La place de l'hôtel de ville : cœur civique et point zéro de Copenhague."
         },
         {
           "label": "Port of Copenhagen (Inner Harbour)",
-          "city": "Copenhagen K",
           "address": "Port of Copenhagen, 1432 Copenhagen K",
           "lat": 55.690581,
           "lng": 12.60569,
           "photos": 4,
-          "approx": true
+          "note": "Le port intérieur, devenu voie d'eau et espace public au centre-ville.",
+          "approx": true,
+          "noroute": true
         },
         {
+          "label": "Islands Brygge / Amager waterfront",
+          "address": "Amager, 2300 København S",
+          "lat": 55.659426,
+          "lng": 12.56563,
+          "photos": 29,
+          "note": "Front de mer transformé : bains de port, pelouses et baignade urbaine sur l'Amager."
+        },
+        {
+          "label": "Kalvebod Brygge waterfront",
+          "address": "Kalvebod Brygge 5, 1560 Copenhagen V",
+          "lat": 55.668465,
+          "lng": 12.57351,
+          "photos": 12,
+          "note": "Front de port réaménagé au sud du centre — bureaux, passerelles et promenades sur l'eau."
+        },
+        {
+          "label": "Sydhavn – Teglholmen marina",
+          "address": "Teglholmens Østkaj 16, 2450 København SV",
+          "lat": 55.647691,
+          "lng": 12.553539,
+          "photos": 10,
+          "note": "Marina et quartier-canal sur d'anciens terrains industrialo-portuaires du Sydhavn."
+        },
+        {
+          "label": "Ørestad / Sundby",
+          "address": "Ørestads Boulevard 25, 2300 København S",
+          "lat": 55.645288,
+          "lng": 12.585731,
+          "photos": 8,
+          "note": "Ville nouvelle linéaire autour du métro sur l'Amager — grands objets architecturaux, laboratoire controversé."
+        },
+        {
+          "label": "Kalvebod Fælled (Vestamager)",
+          "address": "Robert Jacobsens Vej 84, 2300 København S",
+          "lat": 55.616951,
+          "lng": 12.572239,
+          "photos": 66,
+          "note": "Vaste réserve naturelle sur l'Amager gagné sur la mer — polders, oiseaux et grands horizons."
+        },
+        {
+          "label": "Bispebjerg Torv",
+          "address": "Bispebjerg Torv 1, 2400 København NV",
+          "lat": 55.716185,
+          "lng": 12.530847,
+          "photos": 7,
+          "note": "Place de quartier au nord-ouest, près du cimetière de Bispebjerg et de l'église de Grundtvig."
+        },
+        {
+          "label": "Dragør old town & harbour",
+          "address": "Dragør Havn, Prins Knuds Dæmning 4, 2791 Dragør",
+          "lat": 55.589245,
+          "lng": 12.678446,
+          "photos": 39,
+          "note": "Ancien port de pêche au sud d'Amager : maisons jaunes, ruelles pavées et front de mer."
+        }
+      ]
+    },
+    {
+      "id": "s2-oresund-north",
+      "name": "Côte du Sund — Humlebæk & Helsingør",
+      "category": "Section 2 · Culture, patrimoine & lieux visités",
+      "color": "#c1632e",
+      "route": true,
+      "description": "Excursion vers le nord le long du Sund : Louisiana, Kronborg et la vieille Helsingør.",
+      "places": [
+        {
+          "label": "Louisiana Museum of Modern Art",
+          "address": "Gammel Strandvej 13, 3050 Humlebæk",
+          "lat": 55.969279,
+          "lng": 12.543201,
+          "photos": 178,
+          "note": "Musée d'art moderne dans un parc en bord de Sund — architecture, sculpture et paysage réunis."
+        },
+        {
+          "label": "Kronborg Castle",
+          "address": "Kronborg 3–7, 3000 Helsingør",
+          "lat": 56.037138,
+          "lng": 12.619658,
+          "photos": 49,
+          "note": "Le château d'Hamlet à Helsingør, gardien du détroit — Renaissance et forteresse (UNESCO)."
+        },
+        {
+          "label": "Helsingør old town",
+          "address": "Munkegade 10A, 3000 Helsingør",
+          "lat": 56.03349,
+          "lng": 12.609606,
+          "photos": 23,
+          "note": "Vieille ville portuaire : maisons à colombages, cathédrale St-Olaf et le Kulturhavn."
+        },
+        {
+          "label": "Øresund / Helsingør waterfront",
+          "address": "The Sound (Øresund)",
+          "lat": 56.036534,
+          "lng": 12.643848,
+          "photos": 11,
+          "note": "Le détroit face à la Suède, là où passent les ferries Helsingør–Helsingborg.",
+          "approx": true,
+          "noroute": true
+        },
+        {
+          "label": "Øresund / Helsingør coast (south)",
+          "address": "The Sound (Øresund)",
+          "lat": 56.030669,
+          "lng": 12.629084,
+          "photos": 5,
+          "note": "La côte du Sund au sud d'Helsingør, vues ouvertes sur le détroit.",
+          "approx": true,
+          "noroute": true
+        }
+      ]
+    },
+    {
+      "id": "s2-sweden",
+      "name": "Côté suédois — Helsingborg & Malmö",
+      "category": "Section 2 · Culture, patrimoine & lieux visités",
+      "color": "#2a6f97",
+      "route": true,
+      "description": "L'autre rive du détroit : Helsingborg face à Helsingør, et le vieux Malmö.",
+      "places": [
+        {
           "label": "Kärnan (medieval tower & museum)",
-          "city": "Helsingborg (SE)",
-          "address": "Stortorget, 252 20 Helsingborg",
+          "address": "Stortorget, 252 20 Helsingborg (SE)",
           "lat": 56.047076,
           "lng": 12.695639,
-          "photos": 73
+          "photos": 73,
+          "note": "Donjon médiéval d'Helsingborg dominant le Sund, face à Kronborg — côté suédois du détroit."
         },
         {
           "label": "Malmö old town – Caroli / St Petri",
-          "city": "Malmö (SE)",
-          "address": "Göran Olsgatan, 211 22 Malmö",
+          "address": "Göran Olsgatan, 211 22 Malmö (SE)",
           "lat": 55.607239,
           "lng": 13.004238,
-          "photos": 18
+          "photos": 18,
+          "note": "Le vieux Malmö autour de Caroli et de St Petri — brique gothique, places et ruelles."
         }
       ]
     }
