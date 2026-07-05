@@ -150,6 +150,7 @@ async function init() {
     fetch("frames.json", { cache: "no-cache" }).then((r) => r.json()),
   ]);
 
+  // Keyless terrain + imagery (GEE stand-ins, rendered in the browser).
   const style = {
     version: 8,
     sources: {
@@ -161,8 +162,25 @@ async function init() {
         tileSize: 256,
         attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
       },
+      esri: {
+        type: "raster",
+        tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+        tileSize: 256,
+        attribution: 'Imagery &copy; Esri, Maxar, Earthstar Geographics',
+      },
+      dem: {
+        type: "raster-dem",
+        tiles: ["https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png"],
+        encoding: "terrarium", tileSize: 256, maxzoom: 15,
+        attribution: 'Elevation: AWS Terrain Tiles (SRTM / Copernicus GLO-30 / GMTED)',
+      },
     },
-    layers: [{ id: "base", type: "raster", source: "positron" }],
+    layers: [
+      { id: "base-positron", type: "raster", source: "positron" },
+      { id: "base-esri", type: "raster", source: "esri", layout: { visibility: "none" } },
+      { id: "hillshade", type: "hillshade", source: "dem",
+        paint: { "hillshade-exaggeration": 0.45, "hillshade-shadow-color": "#4a4234", "hillshade-accent-color": "#6a6152" } },
+    ],
   };
 
   map = new maplibregl.Map({
@@ -204,6 +222,16 @@ async function init() {
     renderLegend();
     setYear(START_YEAR);
   });
+
+  // basemap + relief controls
+  document.querySelectorAll('input[name="base"]').forEach((r) =>
+    r.addEventListener("change", (e) => {
+      const sat = e.target.value === "satellite";
+      map.setLayoutProperty("base-esri", "visibility", sat ? "visible" : "none");
+      map.setLayoutProperty("base-positron", "visibility", sat ? "none" : "visible");
+    }));
+  document.getElementById("relief").addEventListener("change", (e) =>
+    map.setLayoutProperty("hillshade", "visibility", e.target.checked ? "visible" : "none"));
 
   // slider + play
   document.getElementById("year-slider").addEventListener("input", (e) => setYear(+e.target.value));

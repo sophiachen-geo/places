@@ -43,6 +43,9 @@
     .al-name { font-weight: 600; color: var(--deep); font-size: 0.95rem; }
     .al-meta { font-size: 0.8rem; color: #6a7682; }
     .al-event { font-size: 0.8rem; color: var(--terracotta); font-weight: 600; }
+    .basemap-controls { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; font-size: 0.88rem; }
+    .basemap-controls label { display: inline-flex; align-items: center; gap: 5px; cursor: pointer; font-weight: 600; color: var(--ink); }
+    .basemap-controls input { accent-color: var(--terracotta); cursor: pointer; }
     .maplibregl-popup-content { border-radius: 10px; }
     .sp-pop h3 { margin: 0 0 4px; color: var(--deep); font-size: 1.05rem; }
     .sp-pop p { margin: 0 0 4px; font-size: 0.85rem; color: #56646f; }
@@ -90,14 +93,17 @@
         </ul>
       </section>
       <p class="place-note">
-        <strong>Scope of this build.</strong> This is the fully-scriptable analytical
-        spine: the settlement time-series and the naming/cartographic timeline. The
-        historical raster layers are deliberately <em>not</em> included yet, per the
-        brief&rsquo;s two hard rules — pre-modern isolarios (Buondelmonti, Sonetti,
-        Camocio) must be shown <em>unwarped</em>, and only the 18–19c planimetric
-        Admiralty charts get georeferenced, whose <em>GCP selection is a manual step</em>.
-        The frame card cites each source and links to OldMapsOnline so those layers
-        can be dropped in next.
+        <strong>Scope of this build.</strong> The settlement time-series, the
+        naming/cartographic timeline, and a <em>DEM hillshade + satellite base</em>
+        are all live. The terrain is rendered client-side from open AWS Terrain
+        Tiles (SRTM / Copernicus GLO-30) — Google Earth Engine can&rsquo;t be
+        authenticated in this headless build, so this keyless DEM stands in for the
+        GEE export with the same result. What remains is the <em>historical raster</em>
+        pipeline, held back on purpose per the brief&rsquo;s two hard rules:
+        pre-modern isolarios (Buondelmonti, Sonetti, Camocio) must be shown
+        <em>unwarped</em>, and only the 18–19c planimetric Admiralty charts get
+        georeferenced — whose <em>GCP selection is a manual step</em>. The frame card
+        cites each source and links to OldMapsOnline so those layers drop in next.
       </p>
     </div>
 
@@ -112,6 +118,12 @@
           </div>
           <input type="range" id="year-slider" min="-3200" max="2025" step="5" value="1537" />
           <div class="frame-ticks" id="frame-ticks"></div>
+        </div>
+        <div class="basemap-controls">
+          <span class="rm-label">Fond :</span>
+          <label><input type="radio" name="base" value="plan" checked> Plan</label>
+          <label><input type="radio" name="base" value="satellite"> Satellite</label>
+          <label style="margin-left:8px"><input type="checkbox" id="relief" checked> Relief (hillshade)</label>
         </div>
         <div class="explore-layout">
           <div class="explore-map-col">
