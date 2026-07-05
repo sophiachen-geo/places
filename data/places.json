@@ -35,6 +35,18 @@
       "summary": "An ecological reading of a rocky Cycladic island that survived on sun, air, sea, and Delos: the history and architecture of Chora and its hamlets.",
       "image": "mykonos/cover.svg",
       "page": "mykonos/"
+    },
+    {
+      "id": "syros",
+      "name": "Syros",
+      "country": "Greece · Cyclades",
+      "year": "",
+      "lat": 37.4446,
+      "lng": 24.9423,
+      "tags": ["studied"],
+      "summary": "A time-sliced reconstruction of Syros: settlement displacement as a proxy for Aegean pacification — from hilltop citadel and piracy-refuge to open commercial port.",
+      "image": "syros/cover.svg",
+      "page": "syros/"
     }
   ]
 }

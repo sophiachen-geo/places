@@ -1,0 +1,85 @@
+{
+  "frames": [
+    {
+      "id": "F1", "name": "Early Cycladic", "period_start": -3200, "period_end": -2000,
+      "period_label": "c. 3200–2000 BC",
+      "island_name": "— (pre-Greek Cycladic)",
+      "control": "Pre-state (Keros-Syros culture)",
+      "settlement_focus": "Kastri citadel + Chalandriani cemetery (north)",
+      "carto": { "title": "None — archaeology only", "repo": "", "license": "", "planimetric": null,
+                 "note": "Fortified hilltop citadel: defence against maritime raiding, before any chart exists." }
+    },
+    {
+      "id": "F2", "name": "Archaic–Hellenistic", "period_start": -700, "period_end": -1,
+      "period_label": "c. 700–1 BC",
+      "island_name": "Syrie / Syros",
+      "control": "Cycladic → Athenian",
+      "settlement_focus": "Ancient Syros (west, Galissas); Grammata votives; Kabeirion (Alithini)",
+      "carto": { "title": "None — texts only (Homer's 'Syrie', Odyssey 15)", "repo": "", "license": "", "planimetric": null,
+                 "note": "Open coastal settlement and maritime sanctuaries: the seas are relatively safe." }
+    },
+    {
+      "id": "F3", "name": "Roman–Late Antique", "period_start": -1, "period_end": 600,
+      "period_label": "1c BC – 6c AD",
+      "island_name": "Syros",
+      "control": "Roman",
+      "settlement_focus": "Continuity, coastal",
+      "carto": { "title": "None", "repo": "", "license": "", "planimetric": null,
+                 "note": "Coastal continuity under Roman peace." }
+    },
+    {
+      "id": "F4", "name": "Byzantine / Medieval", "period_start": 600, "period_end": 1207,
+      "period_label": "7c – 1207",
+      "island_name": "Souda",
+      "control": "Byzantine",
+      "settlement_focus": "Contraction",
+      "carto": { "title": "Buondelmonti, Liber insularum archipelagi (c. 1420s)", "repo": "BnF Gallica / Wikimedia",
+                 "license": "PD (work)", "planimetric": false,
+                 "note": "First island IMAGE (retrospective). Isolario view — not a projected map. Shown unwarped.",
+                 "browse": "https://www.oldmapsonline.org/en/Syros" }
+    },
+    {
+      "id": "F5", "name": "Venetian / Duchy of Naxos", "period_start": 1207, "period_end": 1537,
+      "period_label": "1207–1537",
+      "island_name": "Syra / Siro",
+      "control": "Venetian / Latin",
+      "settlement_focus": "Ano Syros founded (hilltop, Catholic, piracy refuge)",
+      "carto": { "title": "Bartolomeo dalli Sonetti, Isolario (1485); Camocio, Isole famose (1574)",
+                 "repo": "Travelogues (searchculture.gr); BnF", "license": "scan CC BY-NC · work PD", "planimetric": false,
+                 "note": "Isolarios / Venetian war atlas — pictorial, not planimetric. Shown unwarped.",
+                 "browse": "https://www.oldmapsonline.org/en/Syros" }
+    },
+    {
+      "id": "F6", "name": "Ottoman", "period_start": 1537, "period_end": 1821,
+      "period_label": "1537 – 1820s",
+      "island_name": "Siro / Syra",
+      "control": "Ottoman (autonomous 1579; French/Catholic protection)",
+      "settlement_focus": "Ano Syros persists",
+      "carto": { "title": "Coronelli, Isolario (1688–1707); Dapper, Naukeurige Beschryving (1688)",
+                 "repo": "Travelogues; David Rumsey", "license": "scan CC BY-NC(-SA) · work PD", "planimetric": "semi",
+                 "note": "Taken 1537 by Hayreddin Barbarossa. Semi-planimetric; still shown unwarped by default.",
+                 "browse": "https://www.oldmapsonline.org/en/Syros" }
+    },
+    {
+      "id": "F7", "name": "Modern Greek", "period_start": 1821, "period_end": 2025,
+      "period_label": "1820s –",
+      "island_name": "Syros (Σύρος)",
+      "control": "Modern Greek state",
+      "settlement_focus": "Ermoupolis (coastal, neoclassical, commercial)",
+      "carto": { "title": "French Dépôt de la Marine & British Admiralty charts → Hellenic topo",
+                 "repo": "Gallica (IIIF); Rumsey; OldMapsOnline", "license": "mostly PD", "planimetric": true,
+                 "note": "The ONLY planimetric charts — these are the ones that get georeferenced (GCP step is manual).",
+                 "browse": "https://www.oldmapsonline.org/en/Syros" }
+    }
+  ],
+  "events": [
+    { "year": 1537, "label": "Hayreddin Barbarossa takes Syros", "place": "Ano Syros" },
+    { "year": -200, "label": "Grammata mariners' votive inscriptions", "place": "Grammata votive site" }
+  ],
+  "drivers": {
+    "defensive_citadel": { "color": "#8c3b3b", "label": "Defensive citadel — contested seas" },
+    "piracy_refuge":     { "color": "#c1632e", "label": "Piracy refuge / hilltop — contested seas" },
+    "commercial_port":   { "color": "#2a6f97", "label": "Open coastal settlement — pacified seas" },
+    "sanctuary":         { "color": "#6a7b53", "label": "Maritime sanctuary / votive" }
+  }
+}

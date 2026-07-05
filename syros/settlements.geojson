@@ -1,0 +1,179 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kastri citadel",
+        "name_variants": [
+          "Kastri",
+          "Kastraki"
+        ],
+        "type": "early_cycladic_citadel",
+        "control": "Pre-state (Keros-Syros culture)",
+        "period_start": -2800,
+        "period_end": -2200,
+        "founding_driver": "defensive_citadel",
+        "event": null,
+        "source": "OSM/ToposText"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.93414,
+          37.49063
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Chalandriani cemetery",
+        "name_variants": [
+          "Chalandriani",
+          "Χαλανδριανή"
+        ],
+        "type": "early_cycladic_cemetery",
+        "control": "Pre-state (Keros-Syros culture)",
+        "period_start": -2800,
+        "period_end": -2200,
+        "founding_driver": "defensive_citadel",
+        "event": null,
+        "source": "OSM/ToposText",
+        "approx": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.933,
+          37.488
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ancient Syros (Galissas)",
+        "name_variants": [
+          "Syros",
+          "Syrie"
+        ],
+        "type": "ancient_coastal_polis",
+        "control": "Cycladic → Athenian → Roman",
+        "period_start": -700,
+        "period_end": 600,
+        "founding_driver": "commercial_port",
+        "event": null,
+        "source": "ToposText/Pleiades",
+        "approx": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.8886,
+          37.4356
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Kabeirion sanctuary (Alithini)",
+        "name_variants": [
+          "Cabiri",
+          "Kabeirion"
+        ],
+        "type": "sanctuary",
+        "control": "Cycladic → Athenian",
+        "period_start": -500,
+        "period_end": 100,
+        "founding_driver": "sanctuary",
+        "event": null,
+        "source": "ToposText",
+        "approx": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.92,
+          37.4475
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Grammata votive site",
+        "name_variants": [
+          "Grammata Bay",
+          "Γράμματα"
+        ],
+        "type": "maritime_votive_site",
+        "control": "Hellenistic → Roman → Byzantine",
+        "period_start": -300,
+        "period_end": 700,
+        "founding_driver": "sanctuary",
+        "event": "Mariners' votive inscriptions at Grammata — the sea as contested, prayed-over space",
+        "source": "ToposText",
+        "approx": true
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.8975,
+          37.5127
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ano Syros",
+        "name_variants": [
+          "Apano Syra",
+          "Ano Syra",
+          "Άνω Σύρος"
+        ],
+        "type": "medieval_hilltop_town",
+        "control": "Venetian → Ottoman → Greek",
+        "period_start": 1207,
+        "period_end": null,
+        "founding_driver": "piracy_refuge",
+        "event": "1537 — Hayreddin Barbarossa takes Syros; hilltop Catholic refuge under French protection",
+        "source": "OSM/Wikidata"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.93577,
+          37.4502
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Ermoupolis",
+        "name_variants": [
+          "Ermoupoli",
+          "Hermoupolis",
+          "Ερμούπολη"
+        ],
+        "type": "neoclassical_port_city",
+        "control": "Modern Greek state",
+        "period_start": 1821,
+        "period_end": null,
+        "founding_driver": "commercial_port",
+        "event": "Refugee-founded in the 1820s; becomes the 19c capital and shipping/industrial hub of the Cyclades",
+        "source": "OSM/Wikidata"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.94232,
+          37.44457
+        ]
+      }
+    }
+  ]
+}
