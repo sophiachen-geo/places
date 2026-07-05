@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-label="Schematic Cyclades: three islands coloured by rock type on the Aegean">
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#61a5c2"/><stop offset="100%" stop-color="#14304a"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sea)"/>
+  <g stroke="#bcd6e4" stroke-width="3" opacity="0.35" fill="none">
+    <path d="M120 300 Q 300 250 400 300 T 690 300"/>
+    <path d="M120 360 Q 320 320 440 360 T 700 350"/>
+  </g>
+  <!-- metamorphic (blue) -->
+  <g>
+    <ellipse cx="220" cy="250" rx="86" ry="60" fill="#2a6f97" stroke="#fff" stroke-width="4"/>
+    <path d="M150 250 L290 250 M175 225 L265 225 M175 275 L265 275" stroke="#1c4f6e" stroke-width="4" opacity="0.6"/>
+    <text x="220" y="345" text-anchor="middle" fill="#eaf3f8" font-family="Segoe UI, sans-serif" font-size="22" font-weight="700">Metamorphic</text>
+  </g>
+  <!-- granitic (tan) -->
+  <g>
+    <ellipse cx="430" cy="200" rx="70" ry="52" fill="#b08a4f" stroke="#fff" stroke-width="4"/>
+    <g fill="#8a6a38"><circle cx="405" cy="185" r="6"/><circle cx="445" cy="200" r="6"/><circle cx="425" cy="220" r="6"/><circle cx="455" cy="175" r="6"/></g>
+    <text x="430" y="288" text-anchor="middle" fill="#f4ecdd" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700">Granitic</text>
+  </g>
+  <!-- volcanic (red) -->
+  <g>
+    <ellipse cx="610" cy="270" rx="62" ry="46" fill="#b5413b" stroke="#fff" stroke-width="4"/>
+    <path d="M560 270 L660 270 M575 250 L645 290 M645 250 L575 290" stroke="#7f2a26" stroke-width="4" opacity="0.6"/>
+    <text x="610" y="352" text-anchor="middle" fill="#f7e3e1" font-family="Segoe UI, sans-serif" font-size="20" font-weight="700">Volcanic</text>
+  </g>
+  <text x="60" y="70" fill="#fff" font-family="Segoe UI, sans-serif" font-size="40" font-weight="800">Rock → Water → Risk</text>
+</svg>

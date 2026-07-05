@@ -1,0 +1,98 @@
+/* Cyclades Coupled-Systems Explorer */
+
+.cy-hero { background: linear-gradient(135deg, #14304a 0%, #2a6f97 55%, #61a5c2 100%); }
+
+/* ---- tour banner ---- */
+.tour {
+  background: var(--deep); color: #fff; border-radius: 12px;
+  padding: 16px 20px; display: flex; justify-content: space-between;
+  align-items: center; gap: 20px; flex-wrap: wrap; box-shadow: var(--shadow); margin-bottom: 16px;
+}
+.tour-body { display: flex; gap: 14px; align-items: flex-start; max-width: 720px; }
+.tour-step { font-weight: 800; font-size: 0.85rem; background: rgba(255,255,255,.15); padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.tour-body h3 { margin: 0 0 3px; font-size: 1.15rem; }
+.tour-body p { margin: 0; font-size: 0.95rem; opacity: 0.94; line-height: 1.45; }
+.tour-nav { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.cy-btn { border: 1.5px solid rgba(255,255,255,.4); background: transparent; color: #fff; padding: 7px 14px; border-radius: 999px; font-weight: 700; font-size: 0.85rem; cursor: pointer; }
+.cy-btn:hover:not(:disabled) { background: rgba(255,255,255,.12); }
+.cy-btn:disabled { opacity: 0.4; cursor: default; }
+.cy-btn-primary { background: var(--terracotta); border-color: var(--terracotta); }
+.cy-btn-link { background: none; border: none; color: #cfe3ee; font-weight: 600; font-size: 0.82rem; cursor: pointer; text-decoration: underline; }
+
+/* ---- controls ---- */
+.cy-controls { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 16px; }
+.seg { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.seg-label { font-weight: 600; color: var(--deep); font-size: 0.9rem; margin-right: 4px; }
+.seg-btn { border: 1.5px solid var(--sand); background: var(--white); color: var(--ink); padding: 6px 14px; border-radius: 999px; font-weight: 600; font-size: 0.85rem; cursor: pointer; }
+.seg-btn:hover { border-color: var(--aegean); color: var(--aegean); }
+.seg-btn.is-active { background: var(--deep); border-color: var(--deep); color: #fff; }
+.cy-check { display: inline-flex; align-items: center; gap: 6px; font-size: 0.85rem; font-weight: 600; color: var(--aegean); cursor: pointer; }
+.cy-check input { accent-color: var(--terracotta); }
+
+/* ---- CMV grid + panels ---- */
+.cmv-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 20px; align-items: start; }
+.panel { background: var(--white); border: 1px solid var(--sand); border-radius: 12px; padding: 12px 14px; box-shadow: var(--shadow); margin: 0 0 20px; }
+.panel figcaption { font-size: 0.82rem; color: #5a6573; margin-bottom: 8px; }
+.panel svg { width: 100%; height: auto; display: block; }
+#map-svg { aspect-ratio: 100/74; }
+#section-svg { aspect-ratio: 100/100; max-height: 68vh; }
+.panel-causal { }
+#causal-svg { aspect-ratio: 100/62; }
+.mech { margin: 8px 0 0; font-size: 0.85rem; color: var(--deep); font-weight: 600; min-height: 1.2em; }
+
+/* ---- SVG element styles ---- */
+.zone-label { font: 700 3px "Segoe UI", sans-serif; fill: var(--deep); text-transform: uppercase; letter-spacing: 0.1px; }
+.island { cursor: pointer; transition: opacity 0.15s ease; }
+.island:focus { outline: none; }
+.island:focus .island-shape { stroke-width: 2; }
+.island-shape { transition: stroke-width 0.12s ease; }
+.island-label { font: 600 3px "Segoe UI", sans-serif; fill: var(--deep); }
+.axis-unit { font: 700 2.6px "Segoe UI", sans-serif; fill: var(--aegean); }
+.axis-tick { font: 2.2px "Segoe UI", sans-serif; fill: #8a949e; }
+.seam { stroke: #c9b18a; stroke-width: 0.6; }
+.stratum { cursor: pointer; }
+.stratum:focus { outline: none; }
+.stratum:focus .stratum-shape { stroke: var(--deep); stroke-width: 1; }
+.stratum-label { font: 600 2.6px "Segoe UI", sans-serif; fill: #2b3742; }
+.slot-tag { font: 2px "Segoe UI", sans-serif; fill: #7c8791; }
+.section-title { font: 700 3px "Segoe UI", sans-serif; fill: var(--deep); }
+.causal-cap { font: 700 2.6px "Segoe UI", sans-serif; fill: var(--aegean); text-transform: uppercase; letter-spacing: 0.15px; }
+.cnode { cursor: pointer; }
+.cnode:focus { outline: none; }
+.cnode:focus rect { stroke: var(--deep); stroke-width: 1.4; }
+.cnode-label { font: 700 2.2px "Segoe UI", sans-serif; fill: #fff; }
+.ribbon { stroke: #b9c0c6; stroke-width: 2.4; }
+.loop-edge { stroke: var(--terracotta); stroke-width: 1.4; }
+
+/* highlight (brushing-and-linking) */
+.is-dim { opacity: 0.25; transition: opacity 0.12s ease; }
+.is-hi { opacity: 1; }
+.is-hi .island-shape, .is-hi .stratum-shape, .is-hi rect { filter: drop-shadow(0 0 2px rgba(20,48,74,.5)); }
+.cnode.is-hi rect { stroke: var(--deep); stroke-width: 1.2; }
+
+/* link layer */
+#link-layer { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 60; }
+.link-cue { stroke: var(--terracotta); stroke-width: 1.6; stroke-dasharray: 4 4; opacity: 0.75; }
+
+/* legend + data */
+.legend-row { display: flex; gap: 22px; flex-wrap: wrap; margin: 4px 0 18px; }
+.legend-box { background: var(--white); border: 1px solid var(--sand); border-radius: 10px; padding: 10px 14px; box-shadow: var(--shadow); }
+.legend-box h4 { margin: 0 0 6px; font-size: 0.8rem; color: var(--deep); text-transform: uppercase; letter-spacing: 0.04em; }
+.lg-item { display: inline-flex; align-items: center; gap: 6px; font-size: 0.82rem; margin-right: 14px; }
+.lg-sw { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.cy-data { margin: 4px 0 18px; }
+.cy-data summary { cursor: pointer; font-weight: 700; color: var(--deep); }
+.cy-data table { width: 100%; border-collapse: collapse; margin: 10px 0 18px; font-size: 0.82rem; }
+.cy-data th, .cy-data td { border: 1px solid var(--sand); padding: 5px 8px; text-align: left; vertical-align: top; }
+.cy-data thead th { background: var(--marble); }
+.cy-data h4 { color: var(--deep); margin: 12px 0 4px; }
+
+/* reduced motion */
+.reduce-motion * { transition: none !important; animation: none !important; }
+.reduce-motion .link-cue { display: none; }
+
+@media (max-width: 860px) {
+  .cmv-grid { grid-template-columns: 1fr; }
+  #section-svg { max-height: none; }
+  #link-layer { display: none; }
+}

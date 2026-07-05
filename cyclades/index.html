@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Cyclades — Coupled-Systems Explorer · Places</title>
+  <meta name="description" content="A coordinated-multiple-views explorer of the Cyclades: rock type drives hydrology drives hazard. Brush an island on the map, watch its cross-section and causal chain light up." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/place.css" />
+  <link rel="stylesheet" href="cyclades.css" />
+</head>
+<body class="place-page">
+  <a class="back-link" href="../">&larr; Back to the map</a>
+
+  <header class="place-hero cy-hero">
+    <div class="place-hero-overlay">
+      <p class="place-eyebrow">Greece · Cyclades · coupled systems</p>
+      <h1 class="place-title">Rock → Water → Risk</h1>
+      <div class="place-tags"><span class="tag tag-studied">studied</span></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="place-body wrap">
+      <p class="place-lead">
+        The same rock that makes a Cycladic island beautiful decides whether it has water —
+        and whether it must burn energy to make it. This is a coupled human–natural system:
+        <strong>lithology → hydrology → hazard &amp; infrastructure</strong>.
+      </p>
+      <p>
+        Two synchronized views share one dataset. <b>Brush</b> an island on the schematic map
+        and its <b>vertical cross-section</b> and <b>causal chain</b> light up together
+        (coordinated multiple views / brushing-and-linking). Start with the short guided tour,
+        then explore freely.
+      </p>
+    </div>
+
+    <section class="explore" id="explore">
+      <div class="wrap-wide">
+
+        <!-- Guided tour banner -->
+        <div class="tour" id="tour" aria-live="polite">
+          <div class="tour-body">
+            <span class="tour-step" id="tour-step">1 / 7</span>
+            <div>
+              <h3 id="tour-title">Two islands, one question</h3>
+              <p id="tour-text">Loading…</p>
+            </div>
+          </div>
+          <div class="tour-nav">
+            <button id="tour-prev" class="cy-btn">‹ Back</button>
+            <button id="tour-next" class="cy-btn cy-btn-primary">Next ›</button>
+            <button id="tour-skip" class="cy-btn-link">Skip to free exploration →</button>
+          </div>
+        </div>
+
+        <!-- Controls (free-explore) -->
+        <div class="cy-controls" id="controls">
+          <div class="seg" role="group" aria-label="Filter by lithology">
+            <span class="seg-label">Lithology:</span>
+            <button class="seg-btn is-active" data-lith="all">All</button>
+            <button class="seg-btn" data-lith="metamorphic">Metamorphic</button>
+            <button class="seg-btn" data-lith="granitic">Granitic</button>
+            <button class="seg-btn" data-lith="volcanic">Volcanic</button>
+          </div>
+          <label class="cy-check"><input type="checkbox" id="motion-toggle"> Reduce motion</label>
+        </div>
+
+        <!-- Coordinated multiple views -->
+        <div class="cmv-grid">
+          <figure class="panel" id="panel-map">
+            <figcaption><b>Archipelago</b> — schematic, arranged by lithology (not geography). Click / Tab to an island.</figcaption>
+            <svg id="map-svg" viewBox="0 0 100 74" role="img" aria-label="Schematic map of Cyclades islands grouped by rock type"></svg>
+          </figure>
+
+          <figure class="panel" id="panel-section">
+            <figcaption><b>Cross-section</b> — one scale-break axis from wind (hPa) to deep time (Ma). Seams are drawn honestly.</figcaption>
+            <svg id="section-svg" viewBox="0 0 100 100" role="img" aria-label="Vertical cross-section of the selected island"></svg>
+          </figure>
+        </div>
+
+        <!-- Causal layer -->
+        <figure class="panel panel-causal">
+          <figcaption><b>Causal chain</b> — the master flow for the selected island, plus the tourism → water → energy → climate feedback loop (bold). Hover any node for the mechanism.</figcaption>
+          <svg id="causal-svg" viewBox="0 0 100 62" role="img" aria-label="Causal chain and feedback loop"></svg>
+          <p class="mech" id="mech" aria-live="polite">Hover or focus a node to see the mechanism.</p>
+        </figure>
+
+        <div class="legend-row" id="legend"></div>
+
+        <details class="cy-data">
+          <summary>Data table (accessible fallback)</summary>
+          <div id="data-tables"></div>
+        </details>
+
+        <p class="place-note">
+          Photographic textures use a slot-based manifest (<code>data/textures.json</code>): every
+          island fill and stratum is drawn with a colorblind-safe pattern placeholder that a real
+          photo drops into by setting one <code>src</code> — no refactoring. Encoding never relies
+          on colour alone; motion honours <code>prefers-reduced-motion</code>; every view is
+          keyboard-reachable with a data-table fallback.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><p>Part of <a href="../" style="color:#fff">Places</a>.</p></div>
+  </footer>
+
+  <svg id="link-layer" aria-hidden="true"></svg>
+  <script src="explorer.js"></script>
+</body>
+</html>

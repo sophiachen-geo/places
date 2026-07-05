@@ -1,0 +1,16 @@
+{
+  "slots": [
+    { "id": "blueschist-outcrop", "src": "", "aspect": "3:2", "focal": [0.5, 0.4], "fit": "slice",
+      "alt": "Blueschist outcrop, Syros — blue-grey high-pressure rock with glaucophane." },
+    { "id": "granite-grus", "src": "", "aspect": "3:2", "focal": [0.5, 0.5], "fit": "slice",
+      "alt": "Weathered granite grus, Mykonos — coarse permeable sand from disaggregated granite." },
+    { "id": "marble-karst", "src": "", "aspect": "3:2", "focal": [0.5, 0.5], "fit": "slice",
+      "alt": "Marble karst, Naxos/Paros — white crystalline marble with dissolution features." },
+    { "id": "schist-regolith", "src": "", "aspect": "3:2", "focal": [0.5, 0.5], "fit": "slice",
+      "alt": "Schist regolith, Andros — foliated metamorphic rock and thin soil." },
+    { "id": "volcanic-tuff", "src": "", "aspect": "3:2", "focal": [0.5, 0.5], "fit": "slice",
+      "alt": "Pyroclastic tuff, Milos/Santorini — pale ash and pumice, hydrothermally altered." },
+    { "id": "meltemi-seas", "src": "", "aspect": "3:2", "focal": [0.5, 0.5], "fit": "slice",
+      "alt": "Meltemi-whipped Aegean sea surface under NW wind." }
+  ]
+}

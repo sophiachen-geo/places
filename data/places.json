@@ -47,6 +47,18 @@
       "summary": "A time-sliced reconstruction of Syros: settlement displacement as a proxy for Aegean pacification — from hilltop citadel and piracy-refuge to open commercial port.",
       "image": "syros/cover.svg",
       "page": "syros/"
+    },
+    {
+      "id": "cyclades",
+      "name": "Cyclades — Coupled Systems",
+      "country": "Greece · Cyclades",
+      "year": "",
+      "lat": 37.2,
+      "lng": 25.2,
+      "tags": ["studied"],
+      "summary": "A coordinated-multiple-views explorer: how a Cycladic island's rock type drives its hydrology, hazards and energy — brush an island and watch its cross-section and causal chain light up.",
+      "image": "cyclades/cover.svg",
+      "page": "cyclades/"
     }
   ]
 }

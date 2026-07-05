@@ -1,0 +1,54 @@
+{
+  "nodes": {
+    "granite":    { "label": "Granitic lithology", "type": "lithology", "linksTo": { "lithology": "granitic", "stratum": "granite" } },
+    "grus":       { "label": "Permeable grus", "type": "hydrology", "linksTo": { "stratum": "grus" } },
+    "capture":    { "label": "Poor rainfall capture", "type": "hydrology" },
+    "desal":      { "label": "Desalination dependence", "type": "infrastructure" },
+    "energy":     { "label": "Energy fragility", "type": "infrastructure", "hazardKey": "energy-fragility" },
+    "blueschist": { "label": "Blueschist / metamorphic", "type": "lithology", "linksTo": { "lithology": "metamorphic", "stratum": "blueschist" } },
+    "retention":  { "label": "Surface water retained", "type": "hydrology", "linksTo": { "stratum": "schist-soil" } },
+    "springs":    { "label": "Springs & cisterns", "type": "hydrology" },
+    "seismicity": { "label": "Seismic hazard", "type": "hazard", "hazardKey": "seismicity", "linksTo": { "stratum": "interface" } },
+    "slope":      { "label": "Slope instability", "type": "hazard", "hazardKey": "slope-instability" },
+    "volcanism":  { "label": "Active volcanism", "type": "lithology", "linksTo": { "lithology": "volcanic", "stratum": "arc" } },
+    "geothermal": { "label": "Geothermal potential", "type": "infrastructure" },
+    "volhazard":  { "label": "Volcanic hazard", "type": "hazard", "hazardKey": "volcanic-hazard" },
+    "tourism":    { "label": "Tourism load", "type": "human", "hazardKey": "tourism-overload" },
+    "demand":     { "label": "Summer water demand", "type": "human" },
+    "emissions":  { "label": "CO₂ emissions", "type": "climate" },
+    "warming":    { "label": "Warming & drying", "type": "climate" }
+  },
+  "edges": [
+    { "source": "granite", "target": "grus", "relation": "weathers into", "mechanism": "grain-by-grain disaggregation", "effect": "high permeability" },
+    { "source": "grus", "target": "capture", "relation": "causes", "mechanism": "rapid infiltration", "effect": "low surface retention" },
+    { "source": "capture", "target": "desal", "relation": "forces", "mechanism": "chronic supply shortfall", "effect": "reliance on desalination" },
+    { "source": "desal", "target": "energy", "relation": "increases", "mechanism": "high energy intensity per m³", "effect": "grid & fuel dependence" },
+    { "source": "blueschist", "target": "retention", "relation": "causes", "mechanism": "low bedrock permeability", "effect": "surface water retained" },
+    { "source": "retention", "target": "springs", "relation": "feeds", "mechanism": "fracture & karst flow", "effect": "modest springs / cisterns" },
+    { "source": "blueschist", "target": "seismicity", "relation": "accompanies", "mechanism": "exhumed, faulted belt", "effect": "earthquake hazard" },
+    { "source": "blueschist", "target": "slope", "relation": "causes", "mechanism": "schistosity failure planes", "effect": "landslide risk" },
+    { "source": "volcanism", "target": "volhazard", "relation": "creates", "mechanism": "active South Aegean arc", "effect": "eruption & seismic risk" },
+    { "source": "volcanism", "target": "geothermal", "relation": "enables", "mechanism": "shallow crustal heat", "effect": "geothermal energy potential" },
+    { "source": "volcanism", "target": "desal", "relation": "forces", "mechanism": "low-storage tuff aquifers", "effect": "reliance on desalination" },
+    { "source": "tourism", "target": "demand", "relation": "drives", "mechanism": "seasonal population spike", "effect": "summer water peak" },
+    { "source": "demand", "target": "desal", "relation": "expands", "mechanism": "peak-demand capacity", "effect": "more desalination" },
+    { "source": "desal", "target": "emissions", "relation": "raises", "mechanism": "fossil-powered plants", "effect": "CO₂ emissions" },
+    { "source": "emissions", "target": "warming", "relation": "contributes to", "mechanism": "greenhouse forcing", "effect": "regional warming & drying" },
+    { "source": "warming", "target": "tourism", "relation": "reshapes", "mechanism": "heat & aridity", "effect": "shifting tourism pressure" },
+    { "source": "warming", "target": "capture", "relation": "worsens", "mechanism": "less, more erratic rain", "effect": "even poorer capture" }
+  ],
+  "chains": {
+    "granitic": ["granite", "grus", "capture", "desal", "energy"],
+    "metamorphic": ["blueschist", "retention", "springs"],
+    "volcanic": ["volcanism", "desal", "energy"]
+  },
+  "loop": ["tourism", "demand", "desal", "emissions", "warming"],
+  "typeColors": {
+    "lithology": "#8c5a3b",
+    "hydrology": "#2a6f97",
+    "infrastructure": "#6a5b8c",
+    "hazard": "#b5413b",
+    "human": "#c1632e",
+    "climate": "#6a7b53"
+  }
+}
