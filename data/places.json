@@ -59,6 +59,18 @@
       "summary": "A coordinated-multiple-views explorer: how a Cycladic island's rock type drives its hydrology, hazards and energy — brush an island and watch its cross-section and causal chain light up.",
       "image": "cyclades/cover.svg",
       "page": "cyclades/"
+    },
+    {
+      "id": "syros-mykonos",
+      "name": "Syros–Mykonos",
+      "country": "Greece · Cyclades · from orbit",
+      "year": "",
+      "lat": 37.4457,
+      "lng": 25.14,
+      "tags": ["studied"],
+      "summary": "The Syros-to-Mykonos corridor read through every kind of Google Earth Engine satellite imagery — optical, radar, elevation, contours, land cover — with a preview of each and what it derives. Bilingual 繁體中文 / English.",
+      "image": "syros-mykonos/cover.svg",
+      "page": "syros-mykonos/"
     }
   ]
 }

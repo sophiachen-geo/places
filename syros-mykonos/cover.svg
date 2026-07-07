@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-label="Satellite-style top-down view of the Syros to Mykonos corridor with contour rings and a data grid">
+  <defs>
+    <linearGradient id="deep" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#14304a"/>
+      <stop offset="100%" stop-color="#0c2036"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0%" stop-color="#2a6f97" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#2a6f97" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="isl" cx="0.5" cy="0.4" r="0.7">
+      <stop offset="0%" stop-color="#c1632e"/>
+      <stop offset="55%" stop-color="#a98a52"/>
+      <stop offset="100%" stop-color="#6a7b53"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#deep)"/>
+  <ellipse cx="400" cy="250" rx="420" ry="260" fill="url(#glow)"/>
+
+  <!-- data grid / graticule -->
+  <g stroke="#61a5c2" stroke-width="1" opacity="0.14">
+    <path d="M100 0V500M200 0V500M300 0V500M400 0V500M500 0V500M600 0V500M700 0V500"/>
+    <path d="M0 100H800M0 200H800M0 300H800M0 400H800"/>
+  </g>
+
+  <!-- Syros (west) -->
+  <g transform="translate(180,250)">
+    <g fill="none" stroke="#61a5c2" stroke-width="1.4" opacity="0.5">
+      <ellipse cx="0" cy="0" rx="118" ry="150"/>
+      <ellipse cx="0" cy="0" rx="150" ry="185" opacity="0.28"/>
+    </g>
+    <path d="M-40 -150 Q40 -140 62 -70 Q96 -20 70 60 Q52 130 -18 150 Q-70 128 -84 60 Q-104 -10 -70 -80 Q-70 -130 -40 -150 Z" fill="url(#isl)" stroke="#ece3d3" stroke-width="2"/>
+    <g fill="none" stroke="#3b2410" stroke-width="1.4" opacity="0.55">
+      <path d="M-30 -90 Q10 -80 20 -20 Q24 40 -12 78 Q-46 60 -50 0 Q-52 -60 -30 -90 Z"/>
+      <path d="M-24 -50 Q2 -42 6 -6 Q6 30 -18 44 Q-34 26 -32 -12 Q-32 -40 -24 -50 Z"/>
+    </g>
+  </g>
+
+  <!-- Delos / Rineia specks -->
+  <g fill="url(#isl)" stroke="#ece3d3" stroke-width="1.5" opacity="0.95">
+    <path d="M430 250 q14 -10 24 4 q8 16 -8 24 q-18 4 -20 -12 q-2 -12 4 -16 Z"/>
+    <ellipse cx="470" cy="288" rx="9" ry="16"/>
+    <ellipse cx="452" cy="316" rx="6" ry="11"/>
+  </g>
+
+  <!-- Mykonos (east) -->
+  <g transform="translate(628,232)">
+    <g fill="none" stroke="#61a5c2" stroke-width="1.4" opacity="0.5">
+      <ellipse cx="0" cy="0" rx="112" ry="120"/>
+      <ellipse cx="0" cy="0" rx="146" ry="152" opacity="0.28"/>
+    </g>
+    <path d="M-70 -70 Q0 -110 78 -74 Q120 -30 96 40 Q64 104 -6 104 Q-64 96 -86 30 Q-104 -30 -70 -70 Z" fill="url(#isl)" stroke="#ece3d3" stroke-width="2"/>
+    <g fill="none" stroke="#3b2410" stroke-width="1.4" opacity="0.55">
+      <path d="M-40 -40 Q10 -60 50 -30 Q66 6 44 44 Q6 62 -30 40 Q-52 6 -40 -40 Z"/>
+      <path d="M-18 -14 Q10 -24 28 -6 Q30 14 10 22 Q-10 22 -20 4 Z"/>
+    </g>
+  </g>
+
+  <!-- corner scan brackets + crosshair -->
+  <g stroke="#f5efe6" stroke-width="2.4" fill="none" opacity="0.7">
+    <path d="M40 40 h40 M40 40 v40"/>
+    <path d="M760 40 h-40 M760 40 v40"/>
+    <path d="M40 460 h40 M40 460 v-40"/>
+    <path d="M760 460 h-40 M760 460 v-40"/>
+  </g>
+  <g stroke="#c1632e" stroke-width="1.6" opacity="0.8">
+    <circle cx="404" cy="250" r="6" fill="none"/>
+    <path d="M404 236v-10M404 264v10M390 250h-10M418 250h10"/>
+  </g>
+</svg>
