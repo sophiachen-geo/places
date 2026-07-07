@@ -56,6 +56,14 @@
     table.avail tr:hover td { background:#faf6ef; }
     .avail-wrap { overflow-x:auto; }
 
+    .dl-list { list-style:none; padding:0; margin:16px 0 0; }
+    .dl-list li { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+      padding:12px 14px; border:1px solid var(--sand); border-radius:10px; margin-bottom:10px; background:var(--white); }
+    .dl-list a { font-weight:700; color:var(--aegean); text-decoration:none; }
+    .dl-list a:hover { text-decoration:underline; }
+    .dl-list a::before { content:"⬇ "; }
+    .dl-meta { font-size:0.82rem; color:#6a7682; }
+
     @media (max-width: 820px){
       .gee-grid { grid-template-columns:1fr; }
       .duo { grid-template-columns:1fr; }
@@ -315,6 +323,45 @@
       </div>
     </section>
 
+    <!-- ============ PER-ISLAND CLOSE-UPS ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Per-island close-ups <span class="zh">各島特寫</span></h2>
+      <p style="color:#4a5a6a;">Full-detail 10 m Sentinel-2, cropped island by island. <span class="zh">逐島裁切的 10 公尺 Sentinel-2 全細節影像。</span></p>
+
+      <figure class="big">
+        <img src="img/crop_syros.jpg" alt="Close-up of Syros with Ermoupoli harbour" loading="lazy" />
+        <figcaption><strong>Syros</strong> — the harbour town of Ermoupoli (white, east coast), the mountainous north, terraced south.
+          <span class="zh">錫羅斯——港城埃爾穆波利（白色，東岸）、多山的北部、梯田化的南部。</span></figcaption>
+      </figure>
+      <figure class="big">
+        <img src="img/crop_delos.jpg" alt="Close-up of Delos and Rineia" loading="lazy" />
+        <figcaption><strong>Delos &amp; Rineia</strong> — the sacred island and its larger neighbour, mid-channel between Syros and Mykonos.
+          <span class="zh">提洛與里尼亞——聖島及其較大的鄰島，位於錫羅斯與米科諾斯之間的海峽中央。</span></figcaption>
+      </figure>
+      <figure class="big">
+        <img src="img/crop_mykonos.jpg" alt="Close-up of Mykonos" loading="lazy" />
+        <figcaption><strong>Mykonos</strong> — Chora and the airport on the west, the granite interior, the resort-lined south coast.
+          <span class="zh">米科諾斯——西側的荷拉與機場、花崗岩內陸、度假村林立的南岸。</span></figcaption>
+      </figure>
+    </section>
+
+    <!-- ============ CHANGE OVER TIME ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Change over time · 1985 → 2024 <span class="zh">歷時變遷</span></h2>
+      <p style="color:#4a5a6a;">
+        Forty years of cloud-free Landsat, one frame per five years. Watch the settlements around
+        Ermoupoli and Mykonos Chora spread as tourism grows.
+      </p>
+      <p class="zh" style="color:#5a6573;font-size:0.94rem;">
+        四十年的無雲 Landsat 影像，每五年一格。可見隨旅遊業成長，埃爾穆波利與米科諾斯荷拉周邊的聚落不斷擴張。
+      </p>
+      <figure class="big">
+        <img src="img/change_1985_2024.gif" alt="Animated 1985 to 2024 Landsat change over the Syros–Mykonos corridor" loading="lazy" />
+        <figcaption>Landsat 5 &amp; 8 · 30 m · true colour · frames 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2024.
+          <span class="zh">Landsat 5 與 8 · 30 公尺 · 真彩色 · 影格為 1985、1990…2024 年。</span></figcaption>
+      </figure>
+    </section>
+
     <!-- ============ DATA AVAILABILITY ============ -->
     <section class="place-section">
       <h2 class="bihead">What the archive holds here <span class="zh">此地資料庫存量</span></h2>
@@ -344,6 +391,27 @@
         亦無原生高解析<strong>水深</strong>或光達地形；本頁兩者皆為<em>衍生</em>（水深來自 Sentinel-2，地形來自 30 公尺 DEM）。
         海色與海溫圖層雖存在，但解析度過粗（1–25 公里），無法解析島嶼間的海峽。</span>
       </div>
+    </section>
+
+    <!-- ============ DOWNLOADS ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Download the data <span class="zh">下載原始資料</span></h2>
+      <p style="color:#4a5a6a;">
+        Full-resolution, georeferenced <strong>GeoTIFF</strong>s (EPSG:4326) — open them in QGIS, ArcGIS, Rhino/Grasshopper,
+        Blender GIS or any GIS. The Sentinel-2 files carry four analysis-ready bands
+        (B2 blue, B3 green, B4 red, B8 near-infrared) so you can recompute NDVI, coastline or your own composites.
+      </p>
+      <p class="zh" style="color:#5a6573;font-size:0.94rem;">
+        全解析度、含地理座標的 <strong>GeoTIFF</strong>（EPSG:4326）——可於 QGIS、ArcGIS、Rhino/Grasshopper、Blender GIS
+        或任何 GIS 開啟。Sentinel-2 檔案含四個可供分析的波段（B2 藍、B3 綠、B4 紅、B8 近紅外），
+        可自行重算 NDVI、海岸線或其他合成影像。
+      </p>
+      <ul class="dl-list">
+        <li><a href="data/syros_s2_B02B03B04B08_10m.tif" download>Syros — Sentinel-2, 4 bands, 10 m</a> <span class="dl-meta">GeoTIFF · ~10 MB</span></li>
+        <li><a href="data/mykonos_s2_B02B03B04B08_10m.tif" download>Mykonos — Sentinel-2, 4 bands, 10 m</a> <span class="dl-meta">GeoTIFF · ~8 MB</span></li>
+        <li><a href="data/delos_s2_B02B03B04B08_10m.tif" download>Delos &amp; Rineia — Sentinel-2, 4 bands, 10 m</a> <span class="dl-meta">GeoTIFF · ~4 MB</span></li>
+        <li><a href="data/corridor_dem_srtm_30m.tif" download>Whole corridor — SRTM elevation, 30 m</a> <span class="dl-meta">GeoTIFF · single band, metres</span></li>
+      </ul>
     </section>
 
     <section class="place-section">
