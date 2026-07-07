@@ -76,6 +76,7 @@
     .ovseg button{background:transparent;color:#fff;border:0;padding:7px 16px;font-weight:700;cursor:pointer;font-size:.85rem;}
     .ovseg button.on{background:#fff;color:var(--deep);}
     .ovbar label{font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:9px;white-space:nowrap;}
+    .ovchk{cursor:pointer;} .ovchk input{accent-color:#c1632e;cursor:pointer;width:15px;height:15px;}
     .ovbar input[type=range]{accent-color:#61a5c2;width:160px;max-width:38vw;}
     .ovbtn{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.55);color:#fff;height:32px;min-width:32px;
       border-radius:8px;font-size:1.05rem;cursor:pointer;font-weight:700;padding:0 8px;}
@@ -141,16 +142,18 @@
       <h2 class="bihead">Interactive: satellite over contours <span class="zh">互動：衛星影像疊加等高線</span></h2>
       <p style="color:#4a5a6a;">
         Drag to pan, scroll (or +/−) to zoom, and slide to fade the true-colour imagery over the contour map —
-        watch the ridges and valleys line up with the terrain. Switch between the two islands.
+        watch the ridges and valleys line up with the terrain. Toggle the <strong>building footprints</strong>
+        (terracotta) to see where settlement sits on the land. Switch between the two islands.
       </p>
       <p class="zh" style="color:#5a6573;font-size:0.94rem;">
         拖曳平移，滾動（或 +/−）縮放，並以滑桿調整真彩衛星影像疊在等高線地形圖上的透明度——
-        觀察山脊與谷地如何與地形吻合。可於兩島之間切換。
+        觀察山脊與谷地如何與地形吻合。可切換<strong>建築物輪廓</strong>（赭色）以檢視聚落分布，並於兩島之間切換。
       </p>
       <div class="ovwrap" id="ovwrap">
         <div class="ovstage" id="ovstage">
           <img class="ovlayer ovcontour" id="ovcontour" alt="Contour map" />
           <img class="ovlayer ovphoto" id="ovphoto" alt="True-colour satellite" />
+          <img class="ovlayer ovbuildings" id="ovbuildings" alt="Building footprints" />
         </div>
         <div class="ovhint">drag · scroll to zoom</div>
         <div class="ovbar">
@@ -159,6 +162,7 @@
             <button data-isl="mykonos">Mykonos</button>
           </div>
           <label>Imagery&nbsp;<input type="range" id="ovop" min="0" max="100" value="65" /></label>
+          <label class="ovchk"><input type="checkbox" id="ovbld" checked /> Buildings</label>
           <button class="ovbtn" id="ovminus" aria-label="Zoom out">&minus;</button>
           <button class="ovbtn" id="ovplus" aria-label="Zoom in">+</button>
           <button class="ovbtn" id="ovreset">Reset</button>
@@ -506,11 +510,12 @@
   (function(){
     var wrap=document.getElementById('ovwrap'), stage=document.getElementById('ovstage'),
         photo=document.getElementById('ovphoto'), cont=document.getElementById('ovcontour'),
+        bld=document.getElementById('ovbuildings'), bchk=document.getElementById('ovbld'),
         op=document.getElementById('ovop');
     if(!wrap) return;
     var IMG={
-      syros:{c:'img/ov_syros_contours.png',p:'img/ov_syros_truecolor.jpg'},
-      mykonos:{c:'img/ov_mykonos_contours.png',p:'img/ov_mykonos_truecolor.jpg'}
+      syros:{c:'img/ov_syros_contours.png',p:'img/ov_syros_truecolor.jpg',b:'img/ov_syros_buildings.png'},
+      mykonos:{c:'img/ov_mykonos_contours.png',p:'img/ov_mykonos_truecolor.jpg',b:'img/ov_mykonos_buildings.png'}
     };
     var scale=1, tx=0, ty=0, natW=0, natH=0, fit=1;
     function apply(){ stage.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')'; }
@@ -526,11 +531,11 @@
       probe.onload=function(){
         natW=probe.naturalWidth; natH=probe.naturalHeight;
         stage.style.width=natW+'px'; stage.style.height=natH+'px';
-        cont.style.width=photo.style.width=natW+'px';
-        cont.style.height=photo.style.height=natH+'px';
+        cont.style.width=photo.style.width=bld.style.width=natW+'px';
+        cont.style.height=photo.style.height=bld.style.height=natH+'px';
         fitView();
       };
-      cont.src=IMG[name].c; photo.src=IMG[name].p; probe.src=IMG[name].p;
+      cont.src=IMG[name].c; photo.src=IMG[name].p; bld.src=IMG[name].b; probe.src=IMG[name].p;
       var b=document.querySelectorAll('#ovseg button');
       for(var i=0;i<b.length;i++) b[i].classList.toggle('on', b[i].getAttribute('data-isl')===name);
     }
@@ -552,10 +557,12 @@
     document.getElementById('ovminus').onclick=function(){ zoomAt(wrap.clientWidth/2,wrap.clientHeight/2,1/1.3); };
     document.getElementById('ovreset').onclick=fitView;
     op.addEventListener('input',setOpacity);
+    function setBld(){ bld.style.display=bchk.checked?'block':'none'; }
+    bchk.addEventListener('change',setBld);
     var seg=document.querySelectorAll('#ovseg button');
     for(var i=0;i<seg.length;i++) seg[i].addEventListener('click',function(){ load(this.getAttribute('data-isl')); });
     window.addEventListener('resize',fitView);
-    setOpacity(); load('syros');
+    setOpacity(); setBld(); load('syros');
   })();
   </script>
 </body>
