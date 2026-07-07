@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Syros–Mykonos from space · Places</title>
+  <meta name="description" content="Every Google Earth Engine imagery type over the Syros–Mykonos corridor — optical, radar, elevation, contours, land cover and more — with a preview of each and what it can derive. Bilingual 繁體中文 / English." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/place.css" />
+  <style>
+    /* ---- page-local styles for the GEE imagery page ---- */
+    .gee-lead-zh { font-size: 1.05rem; color:#5a6573; line-height:1.7; margin:6px 0 0; }
+    .gee-body { max-width: 1120px; }
+    .bihead { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+    .bihead .zh { color:#6a7682; font-weight:700; font-size:1.05rem; }
+    .zh { font-family: "PingFang TC","Microsoft JhengHei","Noto Sans TC", sans-serif; }
+
+    .gee-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:22px; }
+    .gee-card { background:var(--white); border:1px solid var(--sand); border-radius:14px;
+      overflow:hidden; box-shadow:var(--shadow); display:flex; flex-direction:column; }
+    .gee-card img { width:100%; aspect-ratio:2/1; object-fit:cover; display:block; background:#dfeaf1; }
+    .gee-cap { padding:16px 18px 18px; }
+    .gee-cap h3 { margin:0; color:var(--deep); font-size:1.18rem; display:flex; gap:10px; align-items:baseline; flex-wrap:wrap; }
+    .gee-cap h3 .zh { color:#6a7682; font-size:1rem; font-weight:700; }
+    .gee-src { margin:6px 0 12px; font-size:0.74rem; letter-spacing:0.04em; text-transform:uppercase;
+      color:var(--terracotta); font-weight:700; }
+    .gee-cap p { margin:0 0 9px; font-size:0.94rem; line-height:1.55; color:var(--ink); }
+    .gee-cap p .lab { font-weight:700; color:var(--deep); }
+    .gee-cap p.zh { color:#5a6573; font-size:0.9rem; }
+    .num-badge { display:inline-block; min-width:1.5em; text-align:center; background:var(--deep); color:#fff;
+      border-radius:6px; font-size:0.8rem; padding:1px 6px; margin-right:2px; }
+
+    figure.big { margin:22px 0 0; }
+    figure.big img { width:100%; border-radius:14px; box-shadow:var(--shadow); display:block; background:#eef4f8; }
+    figure.big figcaption { margin-top:8px; font-size:0.9rem; color:#5a6573; }
+    .duo { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+
+    .xsec-wrap { background:var(--white); border:1px solid var(--sand); border-radius:14px; padding:14px 16px 6px;
+      box-shadow:var(--shadow); margin-top:16px; }
+    .xsec-wrap h4 { margin:0 0 2px; color:var(--deep); font-size:1.02rem; }
+    .xsec-wrap .zh { color:#6a7682; font-weight:600; font-size:0.9rem; }
+    svg.xsec { width:100%; height:auto; display:block; margin-top:6px; }
+    .xsec .land { fill:#bd8a4c; stroke:#7a4f24; stroke-width:1; }
+    .xsec .sea  { fill:#cfe4f0; }
+    .xsec .sl   { stroke:#2a6f97; stroke-width:1; stroke-dasharray:4 3; }
+    .xsec .gl   { stroke:#d3dee6; stroke-width:0.7; }
+    .xsec .ax   { stroke:#8a97a2; stroke-width:1; }
+    .xsec .tk   { fill:#5a6573; font-size:11px; font-family:"Segoe UI",system-ui,sans-serif; }
+    .xsec .isl  { fill:#14304a; font-weight:800; font-size:15px; text-anchor:middle; font-family:"Segoe UI",system-ui,sans-serif; }
+    .xsec .chan { fill:#2a6f97; font-size:12px; text-anchor:middle; font-style:italic; font-family:"Segoe UI",system-ui,sans-serif; }
+    .xsec .axt  { fill:#8a97a2; font-size:11px; font-family:"Segoe UI",system-ui,sans-serif; }
+
+    table.avail { border-collapse:collapse; width:100%; margin-top:16px; font-size:0.9rem; }
+    table.avail th, table.avail td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--sand); }
+    table.avail th { color:var(--deep); background:var(--sand); font-size:0.78rem; text-transform:uppercase; letter-spacing:0.04em; }
+    table.avail tr:hover td { background:#faf6ef; }
+    .avail-wrap { overflow-x:auto; }
+
+    .dl-list { list-style:none; padding:0; margin:16px 0 0; }
+    .dl-list li { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap;
+      padding:12px 14px; border:1px solid var(--sand); border-radius:10px; margin-bottom:10px; background:var(--white); }
+    .dl-list a { font-weight:700; color:var(--aegean); text-decoration:none; }
+    .dl-list a:hover { text-decoration:underline; }
+    .dl-list a::before { content:"⬇ "; }
+    .dl-meta { font-size:0.82rem; color:#6a7682; }
+
+    @media (max-width: 820px){
+      .gee-grid { grid-template-columns:1fr; }
+      .duo { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body class="place-page">
+  <a class="back-link" href="../">&larr; Back to the map</a>
+
+  <header class="place-hero" style="background-image:linear-gradient(to top, rgba(20,48,74,0.35), rgba(20,48,74,0.15)), url('img/01_truecolor.jpg')">
+    <div class="place-hero-overlay">
+      <p class="place-eyebrow">Greece · Cyclades · seen from orbit</p>
+      <h1 class="place-title">Syros&nbsp;→&nbsp;Mykonos</h1>
+      <div class="place-tags">
+        <span class="tag tag-studied">studied</span>
+        <span class="tag tag-studied">earth observation</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="place-body gee-body wrap">
+    <p class="place-lead">
+      The whole Syros-to-Mykonos corridor of the Aegean, read through every kind of satellite
+      imagery Google Earth Engine can offer — optical, infrared, radar, elevation, land cover and more.
+      Each type below comes with a live preview of this exact stretch of sea and islands,
+      and a plain-language note on what an architect or planner can build from it.
+    </p>
+    <p class="gee-lead-zh zh">
+      整段從錫羅斯（Syros）到米科諾斯（Mykonos）的愛琴海走廊，透過 Google Earth Engine
+      所能提供的各類衛星影像來解讀——光學、紅外、雷達、高程、土地覆蓋等。
+      以下每一種影像都附有這片海域與島嶼的實際預覽，以及一段淺白說明：
+      建築師或規劃者能從中衍生出什麼。
+    </p>
+
+    <section class="place-section">
+      <h2 class="bihead">What this is <span class="zh">這是什麼</span></h2>
+      <p>
+        <strong>Google Earth Engine (GEE)</strong> is a planetary-scale archive of satellite imagery
+        with a computing engine attached. Instead of hunting for and downloading scenes, you query a
+        <em>catalogue</em> — decades of imagery, ready to analyse. For the box drawn around
+        Syros, Rineia, Delos, southern Tinos and Mykonos (≈ 1,570 km², about 87% sea) the archive holds
+        <strong>thousands</strong> of scenes, going back to 1984. Everything on this page was generated
+        live from that catalogue.
+      </p>
+      <p class="zh" style="color:#5a6573;font-size:0.94rem;">
+        <strong>Google Earth Engine（GEE）</strong>是一座行星尺度的衛星影像資料庫，並內建運算引擎。
+        你不必逐一搜尋、下載影像，而是直接查詢一個<em>目錄</em>——涵蓋數十年、隨時可分析的影像。
+        針對圍繞錫羅斯、里尼亞（Rineia）、提洛（Delos）、提諾斯南部與米科諾斯所畫出的範圍
+        （約 1,570 平方公里，其中約 87% 為海洋），資料庫收藏了<strong>數千</strong>幅影像，最早可追溯至 1984 年。
+        本頁所有內容皆由該目錄即時產生。
+      </p>
+    </section>
+
+    <!-- ============ IMAGERY GALLERY ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Every imagery type, previewed <span class="zh">各類影像預覽</span></h2>
+      <p style="color:#4a5a6a;">Fourteen data types, each shown over the same corridor. <span class="zh">十四種資料類型，皆呈現於同一走廊之上。</span></p>
+
+      <div class="gee-grid">
+
+        <figure class="gee-card">
+          <img src="img/01_truecolor.jpg" alt="True-colour Sentinel-2 composite of Syros, Delos and Mykonos" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">1</span> True colour <span class="zh">真彩色</span></h3>
+            <p class="gee-src">Sentinel-2 · 10 m · 2015–now · 2,177 scenes</p>
+            <p><span class="lab">Shows —</span> the islands as the eye sees them: sea, bare hillsides, green valleys, white towns.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 以人眼所見呈現島嶼：海洋、裸露山坡、綠色谷地、白色聚落。</p>
+            <p><span class="lab">Derive —</span> base maps, coastline tracing, visual site context, a true-colour backdrop for any plan.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 底圖、海岸線描繪、基地視覺脈絡、任何規劃圖的真彩底圖。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/02_falsecolor_nir.jpg" alt="Colour-infrared composite, vegetation glowing red" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">2</span> Colour-infrared <span class="zh">假色紅外</span></h3>
+            <p class="gee-src">Sentinel-2 · 10 m · near-infrared</p>
+            <p><span class="lab">Shows —</span> near-infrared as red. Healthy vegetation glows bright red; rock and buildings stay grey-brown.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 將近紅外光顯示為紅色。健康植被呈鮮紅，岩石與建物則為灰褐。</p>
+            <p><span class="lab">Derive —</span> vegetation vigour, green vs dry land, crop vs scrub, tree cover.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 植被活力、綠地與旱地之分、作物與灌叢、樹木覆蓋。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/03_swir_geology.jpg" alt="Short-wave infrared geology composite" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">3</span> Short-wave infrared <span class="zh">短波紅外（地質）</span></h3>
+            <p class="gee-src">Sentinel-2 · 20 m · SWIR bands</p>
+            <p><span class="lab">Shows —</span> bands sensitive to rock, soil and moisture — lithology and dryness the eye can't see.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 對岩石、土壤、水分敏感的波段——揭示肉眼看不到的岩性與乾濕。</p>
+            <p><span class="lab">Derive —</span> geology and rock-type hints, soil moisture, burn scars, bare-ground mapping.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 地質岩性線索、土壤水分、火燒痕跡、裸地製圖。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/04_ndvi.png" alt="NDVI vegetation index map" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">4</span> NDVI — vegetation <span class="zh">植生指數</span></h3>
+            <p class="gee-src">derived from Sentinel-2 · 10 m</p>
+            <p><span class="lab">Shows —</span> one number for greenness per pixel — brown is bare, green is vigorous.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 每個像元的綠度單一指數——褐色為裸地，綠色為茂盛。</p>
+            <p><span class="lab">Derive —</span> biomass, green-space and farming maps, drought stress, seasonal phenology.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 生物量、綠地與農業製圖、乾旱脅迫、季節物候。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/05_ndwi.png" alt="NDWI water index map" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">5</span> NDWI — water <span class="zh">水體指數</span></h3>
+            <p class="gee-src">derived from Sentinel-2 · 10 m</p>
+            <p><span class="lab">Shows —</span> highlights water and moisture — a precise land/sea edge and any wet ground.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 突顯水體與水分——精確的陸海邊界及潮濕地面。</p>
+            <p><span class="lab">Derive —</span> coastline extraction, wetlands, cisterns and reservoirs, flood extent, shoreline change.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 海岸線萃取、濕地、蓄水池與水庫、洪水範圍、岸線變遷。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/06_bathymetry.jpg" alt="Satellite-derived shallow-water bathymetry" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">6</span> Bathymetry <span class="zh">衛星水深（實驗性）</span></h3>
+            <p class="gee-src">derived from Sentinel-2 · shallow water only</p>
+            <p><span class="lab">Shows —</span> relative depth of the shallow shelf from blue/green light — the glowing rims around coasts.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 由藍綠光推估的淺海陸棚相對水深——海岸周圍發亮的邊緣。</p>
+            <p><span class="lab">Derive —</span> shallow seabed depth, reefs and seagrass, beach and harbour context. <em>Deep water saturates — shallow, clear water only.</em></p>
+            <p class="zh"><span class="lab">可衍生 —</span> 淺海海床深度、礁石與海草、海灘與港灣脈絡。<em>深水會飽和失效，僅適用清澈淺水。</em></p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/07_topo_hypsometric.png" alt="Hypsometric relief elevation model" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">7</span> Elevation relief <span class="zh">高程地勢暈渲</span></h3>
+            <p class="gee-src">SRTM · 30 m · to 468 m a.s.l.</p>
+            <p><span class="lab">Shows —</span> terrain height as colour (blue low → red high) over hill-shading — a physical relief model.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 以顏色表示地形高度（藍低→紅高）並加陰影暈渲——如同實體地勢模型。</p>
+            <p><span class="lab">Derive —</span> 3-D terrain, viewsheds, drainage basins, cut-and-fill, sun-and-shadow studies.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 三維地形、視域分析、集水區、填挖方、日照陰影研究。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/08_contours_50m.png" alt="50-metre contour topographic map" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">8</span> Contour map <span class="zh">等高線地形圖</span></h3>
+            <p class="gee-src">derived from SRTM · 50 m interval</p>
+            <p><span class="lab">Shows —</span> classic topographic iso-lines every 50 m (bold every 200 m) over hill-shade.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 經典地形等高線，每 50 公尺一條（每 200 公尺加粗），疊於陰影暈渲上。</p>
+            <p><span class="lab">Derive —</span> topographic base maps, reading slope and landform, site sections and grading plans.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 地形底圖、判讀坡度與地貌、基地剖面與整地計畫。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/09_slope.png" alt="Slope steepness map" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">9</span> Slope <span class="zh">坡度</span></h3>
+            <p class="gee-src">derived from SRTM · 30 m · degrees</p>
+            <p><span class="lab">Shows —</span> how steep each pixel is — flat ground pale, cliffs dark.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 每個像元的陡峭程度——平地淺色，陡崖深色。</p>
+            <p><span class="lab">Derive —</span> buildable-land analysis, landslide/erosion risk, road and terrace siting, solar-panel tilt.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 可建用地分析、山崩沖蝕風險、道路與梯田選址、太陽能板傾角。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/10_sar_radar.png" alt="Sentinel-1 synthetic aperture radar image" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">10</span> Radar (SAR) <span class="zh">合成孔徑雷達</span></h3>
+            <p class="gee-src">Sentinel-1 · 10 m · 2014–now · all-weather</p>
+            <p><span class="lab">Shows —</span> microwave backscatter — sees through cloud and at night; rough land bright, calm sea black.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 微波後向散射——可穿透雲層並夜間成像；粗糙陸地明亮，平靜海面漆黑。</p>
+            <p><span class="lab">Derive —</span> all-weather coastline, ship and wake detection, surface roughness, and (with InSAR) millimetre ground motion.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 全天候海岸線、船隻與尾流偵測、地表粗糙度，並可（以 InSAR）量測毫米級地表位移。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/11_landcover.png" alt="ESA WorldCover land-cover classification" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">11</span> Land cover <span class="zh">土地覆蓋分類</span></h3>
+            <p class="gee-src">ESA WorldCover · 10 m · 2020–21</p>
+            <p><span class="lab">Shows —</span> every pixel classified: built-up (red), grass/scrub (yellow), cropland (pink), trees (green), water (blue).</p>
+            <p class="zh"><span class="lab">顯示 —</span> 每個像元皆分類：建成區（紅）、草地灌叢（黃）、農地（粉）、樹木（綠）、水體（藍）。</p>
+            <p><span class="lab">Derive —</span> land-use statistics, built vs natural area, settlement footprints, planning baselines, change over time.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 土地利用統計、建成與自然面積、聚落範圍、規劃基線、時序變遷。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/12_nightlights.png" alt="VIIRS night-time lights" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">12</span> Night lights <span class="zh">夜間燈光</span></h3>
+            <p class="gee-src">VIIRS · ~750 m · 2012–now</p>
+            <p><span class="lab">Shows —</span> how brightly each place glows at night — a proxy for settlement and activity.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 各地夜間發光強度——聚落與活動的替代指標。</p>
+            <p><span class="lab">Derive —</span> settlement mapping, tourist-season pulse, electrification, growth trends, light-pollution studies.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 聚落製圖、旅遊季脈動、電氣化、成長趨勢、光害研究。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/13_lst_thermal.png" alt="MODIS land-surface temperature" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">13</span> Surface temperature <span class="zh">地表溫度</span></h3>
+            <p class="gee-src">MODIS · 1 km · thermal (coarse)</p>
+            <p><span class="lab">Shows —</span> skin temperature of the ground (land only, blocky 1 km pixels) — summer islands run hot.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 地表表層溫度（僅陸地、1 公里方格）——夏季島嶼相當炎熱。</p>
+            <p><span class="lab">Derive —</span> urban heat islands, heat-exposure and microclimate screening, thermal-comfort context.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 都市熱島、熱暴露與微氣候初篩、熱舒適脈絡。</p>
+          </figcaption>
+        </figure>
+
+        <figure class="gee-card">
+          <img src="img/14_historical_1990.jpg" alt="Landsat-5 historical image from 1990" loading="lazy" />
+          <figcaption class="gee-cap">
+            <h3><span class="num-badge">14</span> Historical (1990) <span class="zh">歷史影像</span></h3>
+            <p class="gee-src">Landsat-5 · 30 m · archive from 1984</p>
+            <p><span class="lab">Shows —</span> the same corridor around 1990, from the four-decade Landsat archive.</p>
+            <p class="zh"><span class="lab">顯示 —</span> 約 1990 年的同一走廊，取自長達四十年的 Landsat 檔案。</p>
+            <p><span class="lab">Derive —</span> change detection — coastline shift, settlement and tourism growth, vegetation change over 40 years.</p>
+            <p class="zh"><span class="lab">可衍生 —</span> 變遷偵測——海岸線位移、聚落與旅遊成長、四十年植被變化。</p>
+          </figcaption>
+        </figure>
+
+      </div>
+    </section>
+
+    <!-- ============ ELEVATION & SECTIONS ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Elevation &amp; cross-sections <span class="zh">高程與地形剖面</span></h2>
+      <p style="color:#4a5a6a;">
+        The two islands are the summits of a drowned mountain landscape. Below: the contour map,
+        then true elevation profiles cut straight through the terrain.
+      </p>
+      <p class="zh" style="color:#5a6573;font-size:0.94rem;">
+        這兩座島是一片沉沒山地的山峰。以下為等高線地形圖，以及直接穿過地形所切出的真實高程剖面。
+      </p>
+
+      <div class="xsec-wrap">
+        <h4>West–East section: Syros → open Aegean → Mykonos
+          <span class="zh">　東西向剖面：錫羅斯 → 愛琴海峽 → 米科諾斯</span></h4>
+        <svg viewBox="0 0 900 250" class="xsec" role="img" aria-label="Elevation section west Syros to east Mykonos"><rect x="46" y="216" width="840" height="16" class="sea"/><line x1="46" y1="216.0" x2="886" y2="216.0" class="gl"/><text x="41" y="219.0" class="tk" text-anchor="end">0</text><line x1="46" y1="141.0" x2="886" y2="141.0" class="gl"/><text x="41" y="144.0" class="tk" text-anchor="end">100</text><line x1="46" y1="66.0" x2="886" y2="66.0" class="gl"/><text x="41" y="69.0" class="tk" text-anchor="end">200</text><path d="M 46.0 216.0 L 46.0 216.0 L 49.0 216.0 L 52.0 216.0 L 55.0 216.0 L 58.0 216.0 L 61.0 216.0 L 64.1 216.0 L 67.1 213.8 L 70.1 180.8 L 73.1 185.2 L 76.1 207.8 L 79.1 216.0 L 82.1 213.8 L 85.1 208.5 L 88.1 198.0 L 91.2 197.2 L 94.2 197.2 L 97.2 191.2 L 100.2 176.2 L 103.2 163.5 L 106.2 148.5 L 109.2 125.2 L 112.2 118.5 L 115.2 77.2 L 118.3 60.0 L 121.3 64.5 L 124.3 62.2 L 127.3 78.0 L 130.3 102.0 L 133.3 136.5 L 136.3 162.0 L 139.3 186.8 L 142.3 192.0 L 145.4 186.0 L 148.4 201.8 L 151.4 207.0 L 154.4 204.0 L 157.4 216.0 L 160.4 216.0 L 750.5 216.0 L 753.5 202.5 L 756.5 180.0 L 759.6 158.2 L 762.6 142.5 L 765.6 142.5 L 768.6 137.2 L 771.6 135.0 L 774.6 138.0 L 777.6 141.8 L 780.6 142.5 L 783.6 151.5 L 786.6 133.5 L 789.7 118.5 L 792.7 120.8 L 795.7 132.8 L 798.7 135.0 L 801.7 125.2 L 804.7 126.0 L 807.7 127.5 L 810.7 114.8 L 813.7 96.8 L 816.8 80.2 L 819.8 64.5 L 822.8 96.0 L 825.8 109.5 L 828.8 78.8 L 831.8 55.5 L 834.8 60.8 L 837.8 86.2 L 840.8 109.5 L 843.9 142.5 L 846.9 147.8 L 849.9 150.8 L 852.9 153.8 L 855.9 157.5 L 858.9 147.8 L 861.9 154.5 L 864.9 159.0 L 867.9 157.5 L 871.0 147.8 L 874.0 140.2 L 877.0 162.8 L 880.0 171.8 L 883.0 178.5 L 886.0 183.0 L 886.0 216.0 Z" class="land"/><line x1="46" y1="216" x2="886" y2="216" class="sl"/><line x1="46.0" y1="216" x2="46.0" y2="220" class="ax"/><text x="46.0" y="232" class="tk">0</text><line x1="222.2" y1="216" x2="222.2" y2="220" class="ax"/><text x="222.2" y="232" class="tk">10</text><line x1="398.4" y1="216" x2="398.4" y2="220" class="ax"/><text x="398.4" y="232" class="tk">20</text><line x1="574.6" y1="216" x2="574.6" y2="220" class="ax"/><text x="574.6" y="232" class="tk">30</text><line x1="750.8" y1="216" x2="750.8" y2="220" class="ax"/><text x="750.8" y="232" class="tk">40</text><text x="116.5" y="28" class="isl">Syros</text><text x="821.3" y="28" class="isl">Mykonos</text><text x="433.6" y="208" class="chan">← open Aegean channel ~34 km →</text><text x="46" y="14" class="axt">m</text><text x="886" y="232" class="axt" text-anchor="end">km →</text></svg>
+        <p style="font-size:0.85rem;color:#6a7682;margin:4px 2px 10px;">Vertical scale exaggerated ~30× (47.7&nbsp;km wide, ~215&nbsp;m tall) so the relief is legible.
+          <span class="zh">垂直比例放大約 30 倍（寬 47.7 公里、高約 215 公尺）以利判讀。</span></p>
+      </div>
+
+      <div class="xsec-wrap">
+        <h4>North–South section across Syros
+          <span class="zh">　錫羅斯南北向剖面</span></h4>
+        <svg viewBox="0 0 900 250" class="xsec" role="img" aria-label="Elevation section across Syros north to south"><rect x="46" y="216" width="840" height="16" class="sea"/><line x1="46" y1="216.0" x2="886" y2="216.0" class="gl"/><text x="41" y="219.0" class="tk" text-anchor="end">0</text><line x1="46" y1="130.3" x2="886" y2="130.3" class="gl"/><text x="41" y="133.3" class="tk" text-anchor="end">100</text><line x1="46" y1="44.6" x2="886" y2="44.6" class="gl"/><text x="41" y="47.6" class="tk" text-anchor="end">200</text><path d="M 46.0 216.0 L 214.6 216.0 L 217.6 216.0 L 220.6 210.0 L 223.6 183.4 L 226.6 183.4 L 229.7 173.1 L 232.7 180.0 L 235.7 180.0 L 238.7 188.6 L 241.7 186.0 L 244.7 174.9 L 247.7 174.9 L 250.7 152.6 L 253.7 155.1 L 256.8 155.1 L 259.8 162.9 L 262.8 156.9 L 265.8 167.1 L 268.8 167.1 L 271.8 162.9 L 274.8 116.6 L 277.8 116.6 L 280.8 102.9 L 283.9 96.0 L 286.8 116.6 L 289.9 116.6 L 292.9 140.6 L 295.9 195.4 L 298.9 195.4 L 301.9 189.4 L 304.9 135.4 L 307.9 109.7 L 311.0 109.7 L 313.9 57.4 L 317.0 53.1 L 320.0 53.1 L 323.0 68.6 L 326.0 69.4 L 329.0 69.4 L 332.0 96.0 L 335.0 125.1 L 338.0 144.9 L 341.0 144.9 L 344.1 131.1 L 347.1 124.3 L 350.1 124.3 L 353.1 142.3 L 356.1 124.3 L 359.1 107.1 L 362.2 107.1 L 365.1 114.0 L 368.1 94.3 L 371.2 94.3 L 374.2 76.3 L 377.2 110.6 L 380.2 133.7 L 383.2 133.7 L 386.2 150.0 L 389.3 174.9 L 392.2 174.9 L 395.2 159.4 L 398.3 125.1 L 401.3 116.6 L 404.3 116.6 L 407.3 125.1 L 410.3 133.7 L 413.3 133.7 L 416.3 149.1 L 419.3 157.7 L 422.3 157.7 L 425.4 175.7 L 428.3 183.4 L 431.4 193.7 L 434.4 193.7 L 437.4 202.3 L 440.4 204.0 L 443.4 204.0 L 446.4 206.6 L 449.5 208.3 L 452.5 211.7 L 455.4 211.7 L 458.5 212.6 L 461.5 212.6 L 464.5 212.6 L 467.5 215.1 L 470.5 216.0 L 512.7 216.0 L 515.7 210.9 L 518.7 204.9 L 521.7 204.0 L 524.7 205.7 L 527.7 205.7 L 530.8 191.1 L 533.7 177.4 L 536.8 177.4 L 539.8 156.9 L 542.8 152.6 L 545.8 166.3 L 548.8 166.3 L 551.8 174.0 L 554.8 172.3 L 557.9 172.3 L 560.8 168.0 L 563.9 177.4 L 566.9 183.4 L 569.9 183.4 L 572.9 190.3 L 575.9 194.6 L 578.9 194.6 L 581.9 192.9 L 584.9 185.1 L 587.9 185.1 L 591.0 176.6 L 594.0 148.3 L 597.0 128.6 L 600.0 128.6 L 603.0 99.4 L 606.0 110.6 L 609.0 110.6 L 612.0 127.7 L 615.0 125.1 L 618.1 119.1 L 621.1 119.1 L 624.1 111.4 L 627.1 111.4 L 630.1 111.4 L 633.1 127.7 L 636.1 138.9 L 639.1 153.4 L 642.1 153.4 L 645.2 149.1 L 648.2 146.6 L 651.2 146.6 L 654.2 153.4 L 657.2 171.4 L 660.2 175.7 L 663.2 175.7 L 666.2 180.9 L 669.2 183.4 L 672.3 183.4 L 675.2 185.1 L 678.3 180.0 L 681.3 180.0 L 684.3 181.7 L 687.3 188.6 L 690.3 192.9 L 693.3 192.9 L 696.3 204.0 L 699.4 205.7 L 702.3 205.7 L 705.4 207.4 L 708.4 208.3 L 711.4 208.3 L 714.4 208.3 L 717.4 210.0 L 720.4 210.9 L 723.4 210.9 L 726.5 214.3 L 729.4 213.4 L 732.5 201.4 L 735.5 201.4 L 738.5 206.6 L 741.5 216.0 L 886.0 216.0 L 886.0 216.0 Z" class="land"/><line x1="46" y1="216" x2="886" y2="216" class="sl"/><line x1="46.0" y1="216" x2="46.0" y2="220" class="ax"/><text x="46.0" y="232" class="tk">0</text><line x1="518.1" y1="216" x2="518.1" y2="220" class="ax"/><text x="518.1" y="232" class="tk">10</text><text x="423.7" y="28" class="isl">Ano Syros ridge</text><text x="74.3" y="208" class="chan">N</text><text x="858.1" y="208" class="chan">S</text><text x="46" y="14" class="axt">m</text><text x="886" y="232" class="axt" text-anchor="end">km →</text></svg>
+        <p style="font-size:0.85rem;color:#6a7682;margin:4px 2px 10px;">The Ano Syros massif rises to ~215&nbsp;m along this line (island peaks reach 442&nbsp;m elsewhere).
+          <span class="zh">沿此線上錫羅斯山地升至約 215 公尺（島上他處山峰達 442 公尺）。</span></p>
+      </div>
+    </section>
+
+    <!-- ============ PER-ISLAND CLOSE-UPS ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Per-island close-ups <span class="zh">各島特寫</span></h2>
+      <p style="color:#4a5a6a;">Full-detail 10 m Sentinel-2, cropped island by island. <span class="zh">逐島裁切的 10 公尺 Sentinel-2 全細節影像。</span></p>
+
+      <figure class="big">
+        <img src="img/crop_syros.jpg" alt="Close-up of Syros with Ermoupoli harbour" loading="lazy" />
+        <figcaption><strong>Syros</strong> — the harbour town of Ermoupoli (white, east coast), the mountainous north, terraced south.
+          <span class="zh">錫羅斯——港城埃爾穆波利（白色，東岸）、多山的北部、梯田化的南部。</span></figcaption>
+      </figure>
+      <figure class="big">
+        <img src="img/crop_delos.jpg" alt="Close-up of Delos and Rineia" loading="lazy" />
+        <figcaption><strong>Delos &amp; Rineia</strong> — the sacred island and its larger neighbour, mid-channel between Syros and Mykonos.
+          <span class="zh">提洛與里尼亞——聖島及其較大的鄰島，位於錫羅斯與米科諾斯之間的海峽中央。</span></figcaption>
+      </figure>
+      <figure class="big">
+        <img src="img/crop_mykonos.jpg" alt="Close-up of Mykonos" loading="lazy" />
+        <figcaption><strong>Mykonos</strong> — Chora and the airport on the west, the granite interior, the resort-lined south coast.
+          <span class="zh">米科諾斯——西側的荷拉與機場、花崗岩內陸、度假村林立的南岸。</span></figcaption>
+      </figure>
+    </section>
+
+    <!-- ============ CHANGE OVER TIME ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Change over time · 1985 → 2024 <span class="zh">歷時變遷</span></h2>
+      <p style="color:#4a5a6a;">
+        Forty years of cloud-free Landsat, one frame per five years. Watch the settlements around
+        Ermoupoli and Mykonos Chora spread as tourism grows.
+      </p>
+      <p class="zh" style="color:#5a6573;font-size:0.94rem;">
+        四十年的無雲 Landsat 影像，每五年一格。可見隨旅遊業成長，埃爾穆波利與米科諾斯荷拉周邊的聚落不斷擴張。
+      </p>
+      <figure class="big">
+        <img src="img/change_1985_2024.gif" alt="Animated 1985 to 2024 Landsat change over the Syros–Mykonos corridor" loading="lazy" />
+        <figcaption>Landsat 5 &amp; 8 · 30 m · true colour · frames 1985, 1990, 1995, 2000, 2005, 2010, 2015, 2020, 2024.
+          <span class="zh">Landsat 5 與 8 · 30 公尺 · 真彩色 · 影格為 1985、1990…2024 年。</span></figcaption>
+      </figure>
+    </section>
+
+    <!-- ============ DATA AVAILABILITY ============ -->
+    <section class="place-section">
+      <h2 class="bihead">What the archive holds here <span class="zh">此地資料庫存量</span></h2>
+      <div class="avail-wrap">
+      <table class="avail">
+        <thead><tr><th>Dataset</th><th>Resolution</th><th>Scenes here</th><th>Span</th></tr></thead>
+        <tbody>
+          <tr><td>Sentinel-2 (optical)</td><td>10 m</td><td>2,177</td><td>2015 → now</td></tr>
+          <tr><td>Sentinel-1 (radar)</td><td>10 m</td><td>1,839</td><td>2014 → now</td></tr>
+          <tr><td>Landsat 5→9</td><td>30 m</td><td>2,500+</td><td>1984 → now</td></tr>
+          <tr><td>ESA WorldCover</td><td>10 m</td><td>2 epochs</td><td>2020, 2021</td></tr>
+          <tr><td>Dynamic World LULC</td><td>10 m</td><td>1,738</td><td>2015 → now</td></tr>
+          <tr><td>SRTM / Copernicus / ALOS DEM</td><td>30 m</td><td>—</td><td>static</td></tr>
+          <tr><td>VIIRS night lights</td><td>~750 m</td><td>148 mo.</td><td>2014 → now</td></tr>
+          <tr><td>ERA5-Land climate</td><td>~9 km</td><td>27,900+</td><td>1950 → now</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="place-note">
+        <strong>Honest limits.</strong> The free catalogue tops out at <strong>10 m</strong> (Sentinel-2) — sub-metre
+        commercial imagery (Planet, Maxar) is not included. There is no native high-resolution
+        <strong>bathymetry</strong> or LiDAR terrain; both are <em>derived</em> here (bathymetry from Sentinel-2, terrain
+        from a 30 m DEM). Ocean-colour and sea-temperature layers exist but are too coarse (1–25 km) to resolve
+        the straits between islands.
+        <br><span class="zh" style="display:block;margin-top:6px;">
+        <strong>誠實的限制：</strong>免費目錄的最高解析度為 <strong>10 公尺</strong>（Sentinel-2）——不含次公尺級商業影像（Planet、Maxar）。
+        亦無原生高解析<strong>水深</strong>或光達地形；本頁兩者皆為<em>衍生</em>（水深來自 Sentinel-2，地形來自 30 公尺 DEM）。
+        海色與海溫圖層雖存在，但解析度過粗（1–25 公里），無法解析島嶼間的海峽。</span>
+      </div>
+    </section>
+
+    <!-- ============ DOWNLOADS ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Download the data <span class="zh">下載原始資料</span></h2>
+      <p style="color:#4a5a6a;">
+        Full-resolution, georeferenced <strong>GeoTIFF</strong>s (EPSG:4326) — open them in QGIS, ArcGIS, Rhino/Grasshopper,
+        Blender GIS or any GIS. The Sentinel-2 files carry four analysis-ready bands
+        (B2 blue, B3 green, B4 red, B8 near-infrared) so you can recompute NDVI, coastline or your own composites.
+      </p>
+      <p class="zh" style="color:#5a6573;font-size:0.94rem;">
+        全解析度、含地理座標的 <strong>GeoTIFF</strong>（EPSG:4326）——可於 QGIS、ArcGIS、Rhino/Grasshopper、Blender GIS
+        或任何 GIS 開啟。Sentinel-2 檔案含四個可供分析的波段（B2 藍、B3 綠、B4 紅、B8 近紅外），
+        可自行重算 NDVI、海岸線或其他合成影像。
+      </p>
+      <ul class="dl-list">
+        <li><a href="data/syros_s2_B02B03B04B08_10m.tif" download>Syros — Sentinel-2, 4 bands, 10 m</a> <span class="dl-meta">GeoTIFF · ~10 MB</span></li>
+        <li><a href="data/mykonos_s2_B02B03B04B08_10m.tif" download>Mykonos — Sentinel-2, 4 bands, 10 m</a> <span class="dl-meta">GeoTIFF · ~8 MB</span></li>
+        <li><a href="data/delos_s2_B02B03B04B08_10m.tif" download>Delos &amp; Rineia — Sentinel-2, 4 bands, 10 m</a> <span class="dl-meta">GeoTIFF · ~4 MB</span></li>
+        <li><a href="data/corridor_dem_srtm_30m.tif" download>Whole corridor — SRTM elevation, 30 m</a> <span class="dl-meta">GeoTIFF · single band, metres</span></li>
+      </ul>
+    </section>
+
+    <section class="place-section">
+      <h2 class="bihead">How this page was made <span class="zh">本頁如何製作</span></h2>
+      <p>
+        Every image was rendered live from Google Earth Engine over the box
+        <code>24.85–25.42°E, 37.28–37.56°N</code>, using cloud-free composites of the clearest
+        Sentinel-2 scenes (and, where noted, Sentinel-1, Landsat, SRTM, ESA WorldCover, VIIRS and MODIS).
+        The contour lines, slope, indices, bathymetry and elevation sections are all computed from that raw imagery.
+      </p>
+      <p class="zh" style="color:#5a6573;font-size:0.94rem;">
+        每一幅影像皆由 Google Earth Engine 針對範圍 <code>24.85–25.42°E, 37.28–37.56°N</code> 即時產生，
+        使用最清晰的 Sentinel-2 無雲合成影像（並在標註處使用 Sentinel-1、Landsat、SRTM、ESA WorldCover、VIIRS 與 MODIS）。
+        等高線、坡度、各項指數、水深與高程剖面，皆由該原始影像運算而得。
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><p>Part of <a href="../" style="color:#fff">Places</a>. Imagery: Copernicus / ESA, NASA/USGS, Google Earth Engine.</p></div>
+  </footer>
+</body>
+</html>
