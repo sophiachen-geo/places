@@ -406,7 +406,26 @@
         或任何 GIS 開啟。Sentinel-2 檔案含四個可供分析的波段（B2 藍、B3 綠、B4 紅、B8 近紅外），
         可自行重算 NDVI、海岸線或其他合成影像。
       </p>
+
+      <figure class="big" style="margin-top:22px;">
+        <img src="img/contours_cad_preview.png" alt="Vector contour map of the whole corridor for AutoCAD" loading="lazy" />
+        <figcaption>
+          <strong>Contours for CAD.</strong> The <a href="data/syros_mykonos_contours_utm35n_10m.dxf" download>DXF</a> holds vector
+          contour polylines at 10&nbsp;m intervals (50&nbsp;m bold index) in <strong>UTM 35N metres</strong>, each set to its true
+          elevation. Layers: <code>COAST</code> (0&nbsp;m), <code>CONTOUR</code>, <code>CONTOUR_INDEX</code>, <code>CONTOUR_LABELS</code>.
+          In Civil&nbsp;3D, build a surface from the contours, then <em>Profile / Section</em> along any cut line you draw;
+          in plain AutoCAD the 3D contours give you the shape to section by hand.
+          Source DEM: Copernicus GLO-30 (≈30&nbsp;m — the best free terrain for Greece).
+          <br><span class="zh" style="display:block;margin-top:6px;">
+          <strong>供 CAD 使用的等高線。</strong>此 <a href="data/syros_mykonos_contours_utm35n_10m.dxf" download>DXF</a>
+          含 10 公尺間距（50 公尺加粗）的向量等高線，座標為 <strong>UTM 35N（公尺）</strong>，每條線皆帶真實高程。
+          圖層：<code>COAST</code>（0 公尺）、<code>CONTOUR</code>、<code>CONTOUR_INDEX</code>、<code>CONTOUR_LABELS</code>。
+          於 Civil 3D 可由等高線建立曲面，再沿任意切線產生剖面；一般 AutoCAD 則可依 3D 等高線手動切剖面。
+          來源 DEM：Copernicus GLO-30（約 30 公尺，希臘可用的最佳免費地形資料）。</span>
+        </figcaption>
+      </figure>
       <ul class="dl-list">
+        <li><a href="data/syros_mykonos_contours_utm35n_10m.dxf" download>Whole corridor — contour lines (10 m interval)</a> <span class="dl-meta">AutoCAD DXF · UTM 35N · ~4 MB</span></li>
         <li><a href="data/syros_s2_B02B03B04B08_10m.tif" download>Syros — Sentinel-2, 4 bands, 10 m</a> <span class="dl-meta">GeoTIFF · ~10 MB</span></li>
         <li><a href="data/mykonos_s2_B02B03B04B08_10m.tif" download>Mykonos — Sentinel-2, 4 bands, 10 m</a> <span class="dl-meta">GeoTIFF · ~8 MB</span></li>
         <li><a href="data/delos_s2_B02B03B04B08_10m.tif" download>Delos &amp; Rineia — Sentinel-2, 4 bands, 10 m</a> <span class="dl-meta">GeoTIFF · ~4 MB</span></li>
