@@ -71,6 +71,18 @@
       "summary": "The Syros-to-Mykonos corridor read through every kind of Google Earth Engine satellite imagery — optical, radar, elevation, contours, land cover — with a preview of each and what it derives. Bilingual 繁體中文 / English.",
       "image": "syros-mykonos/cover.svg",
       "page": "syros-mykonos/"
+    },
+    {
+      "id": "ano-syros",
+      "name": "Ano Syros",
+      "country": "Greece · Cyclades",
+      "year": "",
+      "lat": 37.4502,
+      "lng": 24.9358,
+      "tags": ["studied"],
+      "summary": "A section through everything: Ano Syros read entirely by altitude — geology, water, agriculture, climate, settlement, morphology, architecture and faith, each pinned to its height from the sea-level port to the San Giorgio summit. Bilingual 繁體中文 / English.",
+      "image": "ano-syros/cover.svg",
+      "page": "ano-syros/"
     }
   ]
 }

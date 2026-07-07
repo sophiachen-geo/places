@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500" role="img" aria-label="Stylized vertical section of Ano Syros: a cathedral crowning a hill above a sea-level port, with elevation bands">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#bfe0f0"/><stop offset="100%" stop-color="#eaf4fa"/>
+    </linearGradient>
+    <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c1632e"/><stop offset="45%" stop-color="#b58a52"/><stop offset="100%" stop-color="#6a7b53"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#sky)"/>
+
+  <!-- elevation guide lines + labels -->
+  <g stroke="#9db4c2" stroke-width="1" opacity="0.5" stroke-dasharray="3 4">
+    <line x1="60" y1="120" x2="740" y2="120"/><line x1="60" y1="220" x2="740" y2="220"/>
+    <line x1="60" y1="320" x2="740" y2="320"/><line x1="60" y1="410" x2="740" y2="410"/>
+  </g>
+  <g fill="#5a6573" font-family="Segoe UI, sans-serif" font-size="15" font-weight="700" opacity="0.85">
+    <text x="66" y="115">171 m · San Giorgio</text>
+    <text x="66" y="215">121 m · Vrontado</text>
+    <text x="66" y="315">13 m · Miaouli Sq.</text>
+    <text x="66" y="405">0 m · port</text>
+  </g>
+
+  <!-- sea -->
+  <rect y="410" width="800" height="90" fill="#14304a"/>
+  <g fill="#2a6f97" opacity="0.5"><path d="M0 430 q40 -10 80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 t80 0 V500 H0 Z"/></g>
+
+  <!-- the hill (cone) -->
+  <path d="M250 410 Q430 380 470 250 Q505 150 560 96 Q615 150 650 250 Q690 380 800 410 Z" fill="url(#hill)"/>
+  <!-- contour striations on the hill -->
+  <g fill="none" stroke="#5b3617" stroke-width="1.5" opacity="0.4">
+    <path d="M330 360 Q470 330 560 200 Q650 330 720 360"/>
+    <path d="M370 320 Q480 300 560 220 Q640 300 680 320"/>
+    <path d="M420 280 Q500 265 560 235 Q620 265 640 280"/>
+  </g>
+
+  <!-- small stepped town blocks climbing the cone -->
+  <g fill="#fbf6ec" stroke="#e3d6c0" stroke-width="1.5">
+    <rect x="470" y="150" width="24" height="20"/><rect x="500" y="140" width="22" height="24"/>
+    <rect x="530" y="150" width="22" height="20"/><rect x="560" y="150" width="24" height="22"/>
+    <rect x="590" y="160" width="22" height="20"/><rect x="440" y="200" width="26" height="22"/>
+    <rect x="600" y="205" width="26" height="22"/><rect x="410" y="250" width="26" height="24"/>
+    <rect x="640" y="255" width="26" height="24"/><rect x="380" y="300" width="28" height="26"/>
+    <rect x="670" y="305" width="28" height="26"/>
+  </g>
+
+  <!-- San Giorgio cathedral at the summit -->
+  <g transform="translate(560,70)">
+    <rect x="-20" y="8" width="40" height="34" fill="#fbf6ec" stroke="#c8654a" stroke-width="2"/>
+    <path d="M-20 8 L0 -14 L20 8 Z" fill="#c8654a"/>
+    <line x1="0" y1="-14" x2="0" y2="-30" stroke="#8a7a5f" stroke-width="3"/>
+    <line x1="-7" y1="-24" x2="7" y2="-24" stroke="#8a7a5f" stroke-width="3"/>
+  </g>
+
+  <!-- neoclassical port block at sea level -->
+  <g fill="#f2ead8" stroke="#d9c9a3" stroke-width="1.5">
+    <rect x="150" y="360" width="120" height="50"/><rect x="165" y="345" width="90" height="18" fill="#e6d8bd"/>
+  </g>
+  <g stroke="#b89b6a" stroke-width="2"><line x1="170" y1="365" x2="170" y2="410"/><line x1="200" y1="365" x2="200" y2="410"/><line x1="230" y1="365" x2="230" y2="410"/></g>
+</svg>

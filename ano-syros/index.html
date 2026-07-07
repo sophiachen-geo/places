@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ano Syros — a section through everything · Places</title>
+  <meta name="description" content="Ano Syros read entirely by altitude: geology, water, agriculture, climate, settlement, morphology, architecture and people — each pinned to its height above the sea, from the Ermoupoli port to the San Giorgio summit. Bilingual 繁體中文 / English." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/place.css" />
+  <style>
+    .zh{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;}
+    .bihead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;}
+    .bihead .zh{color:#6a7682;font-weight:700;font-size:1.05rem;}
+    .as-body{max-width:1000px;}
+    .lead-zh{font-size:1.05rem;color:#5a6573;line-height:1.7;margin:6px 0 0;}
+
+    /* section drawing */
+    figure.section-fig{margin:22px 0 0;background:var(--white);border:1px solid var(--sand);border-radius:14px;padding:14px 16px 8px;box-shadow:var(--shadow);overflow-x:auto;}
+    svg.xsec2{width:100%;min-width:760px;height:auto;display:block;}
+    .xsec2 .land{fill:#bd8a4c;stroke:#7a4f24;stroke-width:1;}
+    .xsec2 .sea{fill:#cfe4f0;}
+    .xsec2 .sl{stroke:#2a6f97;stroke-width:1;stroke-dasharray:4 3;}
+    .xsec2 .gl{stroke:#dce6ee;stroke-width:.6;}
+    .xsec2 .tk{fill:#5a6573;font-size:11px;font-family:"Segoe UI",system-ui,sans-serif;}
+    .xsec2 .pt{fill:#c1632e;stroke:#fff;stroke-width:1;}
+    .xsec2 .ldr{stroke:#b9a37e;stroke-width:.6;stroke-dasharray:2 2;}
+    .xsec2 .alab{fill:#14304a;font-weight:800;font-size:12px;font-family:"Segoe UI",system-ui,sans-serif;}
+    .xsec2 .adesc{fill:#5a6573;font-size:10.5px;font-weight:400;}
+    .xsec2 .bedrock{fill:#6b4a2a;font-size:10px;text-anchor:middle;font-style:italic;opacity:.85;}
+    .xsec2 .wind{fill:#2a6f97;font-size:11px;font-weight:600;}
+    .xsec2 .gw{stroke:#2a6f97;stroke-width:1;stroke-dasharray:3 2;}
+    .xsec2 .gwt{fill:#2a6f97;font-size:9.5px;}
+    .xsec2 .axt{fill:#8a97a2;font-size:11px;}
+    .xsec2 .cap{fill:#14304a;font-weight:700;font-size:13px;}
+
+    /* elevation-band spine */
+    .bands{margin-top:20px;border-bottom:1px solid var(--sand);}
+    .eband{display:flex;gap:20px;padding:18px 4px;border-top:1px solid var(--sand);align-items:flex-start;}
+    .eband-alt{flex:0 0 96px;text-align:right;padding-top:2px;}
+    .eband-alt b{font-size:1.6rem;color:var(--deep);display:block;line-height:1;}
+    .eband-alt span{font-size:.68rem;color:#8a97a2;text-transform:uppercase;letter-spacing:.06em;}
+    .eband-alt .chip{display:inline-block;margin-top:6px;width:11px;height:11px;border-radius:3px;}
+    .eband-body{flex:1;min-width:0;}
+    .eband-body h3{margin:0 0 3px;color:var(--deep);font-size:1.14rem;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;}
+    .eband-body h3 .zh{color:#6a7682;font-size:.95rem;font-weight:700;}
+    .eband-body p{margin:4px 0 0;font-size:.95rem;line-height:1.55;color:var(--ink);}
+    .eband-body p.zh{color:#5a6573;font-size:.9rem;}
+
+    .aspect{margin-top:16px;}
+    .aspect h3{margin:0 0 4px;color:var(--deep);font-size:1.2rem;display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;}
+    .aspect h3 .zh{color:#6a7682;font-size:.98rem;font-weight:700;}
+    .aspect p{margin:6px 0;line-height:1.6;}
+    .aspect p.zh{color:#5a6573;font-size:.92rem;}
+    .cit{font-size:.72rem;vertical-align:super;color:var(--aegean);text-decoration:none;font-weight:700;}
+    .cit:hover{text-decoration:underline;}
+
+    .chart-wrap{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:16px;}
+    .chart-card{background:var(--white);border:1px solid var(--sand);border-radius:12px;padding:8px 10px;box-shadow:var(--shadow);}
+    svg.chart{width:100%;height:auto;display:block;}
+    .chart .ctitle{fill:var(--deep);font-weight:700;font-size:14px;font-family:"Segoe UI",system-ui,sans-serif;}
+    .chart .tk{fill:#5a6573;font-size:12px;font-family:"Segoe UI",system-ui,sans-serif;}
+    .chart .barb{fill:#2a6f97;}
+    .chart .bval{fill:#5a6573;font-size:11px;font-family:"Segoe UI",system-ui,sans-serif;}
+    .chart .lg{fill:#4a5a6a;font-size:11px;font-family:"Segoe UI",system-ui,sans-serif;}
+
+    .srclist{font-size:.85rem;color:#5a6573;line-height:1.7;padding-left:1.3em;}
+    .srclist a{color:var(--aegean);}
+    .verdict{display:inline-block;font-size:.68rem;font-weight:700;padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:middle;}
+    .v-hi{background:#dff0e4;color:#2d6a4f;} .v-med{background:#fbeede;color:#9a6a2e;}
+    .place-note.warn{background:#fbeede;}
+    @media (max-width:820px){ .chart-wrap{grid-template-columns:1fr;} .eband-alt{flex-basis:70px;} .eband-alt b{font-size:1.3rem;} }
+  </style>
+</head>
+<body class="place-page">
+  <a class="back-link" href="../">&larr; Back to the map</a>
+
+  <header class="place-hero" style="background-image:linear-gradient(to top, rgba(20,48,74,0.45), rgba(20,48,74,0.12)), url('img/anosyros_hero.jpg')">
+    <div class="place-hero-overlay">
+      <p class="place-eyebrow">Syros · Cyclades · a section through everything</p>
+      <h1 class="place-title">Ano&nbsp;Syros</h1>
+      <div class="place-tags"><span class="tag tag-studied">studied</span><span class="tag tag-studied">read by altitude</span></div>
+    </div>
+  </header>
+
+  <main class="place-body as-body wrap">
+    <p class="place-lead">
+      One hill holds the whole story of Syros — and it is a <strong>vertical</strong> story. A Catholic cathedral
+      crowns the summit; a medieval defensive town spirals below it; an Orthodox hill stands beside it; and a
+      19th-century neoclassical port spills to the sea. Here, <em>everything is read by its height above the water</em> —
+      geology, water, crops, climate, settlement, architecture and faith, each pinned to an altitude.
+    </p>
+    <p class="lead-zh zh">
+      一座山丘承載了整個錫羅斯的故事——而這是一個<strong>垂直</strong>的故事。天主教主教座堂加冕於山頂；
+      中世紀防禦性聚落於其下盤旋；東正教的山丘並立於側；十九世紀的新古典港埠則傾瀉入海。
+      在此，<em>一切皆以其海拔高度來閱讀</em>——地質、水、作物、氣候、聚落、建築與信仰，各自繫於一個高程。
+    </p>
+
+    <section class="place-section">
+      <h2 class="bihead">The section <span class="zh">剖面</span></h2>
+      <p style="color:#4a5a6a;">
+        A real elevation profile, cut from the Ermoupoli waterfront up to the San Giorgio summit (1,385 m long),
+        with every layer of the place pinned at the height where it actually sits. Elevations are measured from the
+        Copernicus 30 m DEM; the human and natural facts come from the cited research below.
+      </p>
+      <p class="zh" style="color:#5a6573;font-size:.92rem;">
+        一條真實的高程剖面，自埃爾穆波利海濱切至聖喬治山頂（長 1,385 公尺），將此地的每一層都標注在其實際所在的高度。
+        高程取自 Copernicus 30 公尺數值高程模型；人文與自然事實則來自下方所引研究。
+      </p>
+      <figure class="section-fig">
+<svg viewBox="0 0 1200 520" class="xsec2" role="img" aria-label="Elevation section from Ermoupoli port to San Giorgio summit"><rect x="54" y="468" width="826" height="36" class="sea"/><line x1="54" y1="468.0" x2="880" y2="468.0" class="gl"/><text x="48" y="471.0" class="tk" text-anchor="end">0</text><line x1="54" y1="366.0" x2="880" y2="366.0" class="gl"/><text x="48" y="369.0" class="tk" text-anchor="end">50</text><line x1="54" y1="264.0" x2="880" y2="264.0" class="gl"/><text x="48" y="267.0" class="tk" text-anchor="end">100</text><line x1="54" y1="162.0" x2="880" y2="162.0" class="gl"/><text x="48" y="165.0" class="tk" text-anchor="end">150</text><line x1="54" y1="60.0" x2="880" y2="60.0" class="gl"/><text x="48" y="63.0" class="tk" text-anchor="end">200</text><text x="54.0" y="484" class="tk" text-anchor="middle">0</text><text x="232.9" y="484" class="tk" text-anchor="middle">300</text><text x="411.8" y="484" class="tk" text-anchor="middle">600</text><text x="590.8" y="484" class="tk" text-anchor="middle">900</text><text x="769.7" y="484" class="tk" text-anchor="middle">1200</text><path d="M 54.0 468.0 L 54.0 460.2 L 58.2 462.5 L 62.3 462.5 L 66.5 462.5 L 70.7 465.6 L 74.9 465.6 L 79.0 465.6 L 83.2 466.8 L 87.4 466.8 L 91.6 468.0 L 95.7 468.0 L 99.9 468.0 L 104.1 468.0 L 107.7 468.0 L 111.8 468.0 L 116.0 468.0 L 120.2 468.0 L 124.4 468.0 L 128.5 468.0 L 132.7 468.0 L 136.9 468.0 L 141.1 468.0 L 145.2 468.0 L 149.4 468.0 L 153.6 468.0 L 157.8 468.0 L 161.9 468.0 L 166.1 468.0 L 170.3 468.0 L 174.5 468.0 L 178.6 468.0 L 182.8 468.0 L 187.0 468.0 L 191.2 468.0 L 195.3 468.0 L 199.5 468.0 L 203.7 468.0 L 207.9 468.0 L 212.0 468.0 L 215.6 468.0 L 219.8 461.3 L 224.0 462.5 L 228.1 462.5 L 232.3 462.5 L 236.5 462.5 L 240.7 462.5 L 244.8 454.1 L 249.0 448.8 L 253.2 448.8 L 257.4 448.8 L 261.5 448.8 L 265.7 455.8 L 269.9 451.9 L 274.1 451.9 L 278.2 451.9 L 282.4 451.9 L 286.6 451.9 L 290.8 450.9 L 294.9 449.0 L 299.1 449.0 L 303.3 449.0 L 307.5 449.0 L 311.6 458.8 L 315.8 460.7 L 320.0 460.7 L 323.6 460.7 L 327.7 460.7 L 331.9 460.7 L 336.1 446.4 L 340.3 446.4 L 344.4 446.4 L 348.6 446.4 L 352.8 446.4 L 357.0 446.4 L 361.1 436.0 L 365.3 436.0 L 369.5 436.0 L 373.7 436.0 L 377.8 436.0 L 382.0 419.2 L 386.2 419.2 L 390.4 419.2 L 394.5 419.2 L 398.7 419.2 L 402.9 418.2 L 407.1 404.6 L 411.2 404.6 L 415.4 404.6 L 419.6 404.6 L 423.8 404.6 L 427.3 386.0 L 431.5 386.0 L 435.7 386.0 L 439.9 386.0 L 444.0 386.0 L 448.2 379.5 L 452.4 363.8 L 456.6 363.8 L 460.7 363.8 L 464.9 363.8 L 469.1 364.4 L 473.3 364.4 L 477.4 353.8 L 481.6 353.8 L 485.8 353.8 L 490.0 353.8 L 494.1 354.6 L 498.3 344.6 L 502.5 344.6 L 506.7 344.6 L 510.8 344.6 L 515.0 351.1 L 519.2 351.1 L 523.4 344.2 L 527.5 344.2 L 531.7 344.2 L 535.3 344.2 L 539.5 351.5 L 543.6 344.8 L 547.8 344.8 L 552.0 344.8 L 556.2 344.8 L 560.3 351.7 L 564.5 351.7 L 568.7 342.1 L 572.9 342.1 L 577.0 342.1 L 581.2 345.8 L 585.4 345.8 L 589.6 330.1 L 593.7 330.1 L 597.9 330.1 L 602.1 330.1 L 606.3 344.2 L 610.4 344.2 L 614.6 335.8 L 618.8 335.8 L 623.0 335.8 L 627.1 342.3 L 631.3 342.3 L 635.5 342.3 L 639.1 338.1 L 643.2 338.1 L 647.4 349.1 L 651.6 349.1 L 655.8 349.1 L 659.9 350.1 L 664.1 350.1 L 668.3 350.1 L 672.5 345.4 L 676.6 345.4 L 680.8 345.4 L 685.0 332.7 L 689.2 332.7 L 693.3 320.3 L 697.5 320.3 L 701.7 320.3 L 705.9 309.5 L 710.0 309.5 L 714.2 298.1 L 718.4 298.1 L 722.6 298.1 L 726.7 298.1 L 730.9 283.4 L 735.1 283.4 L 739.3 270.5 L 743.4 270.5 L 747.0 270.5 L 751.2 270.5 L 755.4 262.4 L 759.5 239.5 L 763.7 239.5 L 767.9 239.5 L 772.1 239.5 L 776.2 224.2 L 780.4 224.2 L 784.6 198.3 L 788.8 198.3 L 792.9 198.3 L 797.1 198.3 L 801.3 191.6 L 805.5 172.6 L 809.6 172.6 L 813.8 172.6 L 818.0 172.6 L 822.2 160.0 L 826.3 136.1 L 830.5 136.1 L 834.7 136.1 L 838.8 136.1 L 843.0 136.1 L 847.2 139.6 L 850.8 119.4 L 855.0 119.4 L 859.1 119.4 L 863.3 119.4 L 867.5 120.4 L 871.7 118.1 L 875.8 118.1 L 880.0 118.1 L 880.0 468.0 Z" class="land"/><line x1="54" y1="468" x2="880" y2="468" class="sl"/><line x1="54" y1="486.4" x2="232.9" y2="486.4" class="gw"/><text x="58" y="498.4" class="gwt">groundwater / wells ~8–10 m</text><text x="467" y="463" class="bedrock">Cycladic Blueschist Unit — marble · metapelite · metabasite (HP-LT, ~50–35 Ma)</text><text x="302" y="86" class="wind">→→ Meltemi (cool north wind, Jul–Aug)</text><circle cx="54.0" cy="468.0" r="3.4" class="pt"/><line x1="54.0" y1="468.0" x2="886.0" y2="468.0" class="ldr"/><text x="890.0" y="465.0" class="alab">0 m<tspan class="adesc">  Ermoupoli port · sea level</tspan></text><circle cx="361.1" cy="441.5" r="3.4" class="pt"/><line x1="361.1" y1="441.5" x2="886.0" y2="441.5" class="ldr"/><text x="890.0" y="438.5" class="alab">13 m<tspan class="adesc">  Miaouli Sq. — neoclassical port centre (1820s)</tspan></text><circle cx="498.3" cy="345.6" r="3.4" class="pt"/><line x1="498.3" y1="345.6" x2="886.0" y2="345.6" class="ldr"/><text x="890.0" y="342.6" class="alab">60 m<tspan class="adesc">  upper edge of the 1820s refugee city</tspan></text><circle cx="784.6" cy="221.2" r="3.4" class="pt"/><line x1="784.6" y1="221.2" x2="886.0" y2="221.2" class="ldr"/><text x="890.0" y="218.2" class="alab">121 m<tspan class="adesc">  Anastasis (Orthodox) · Vrontado hill *</tspan></text><circle cx="822.2" cy="162.0" r="3.4" class="pt"/><line x1="822.2" y1="162.0" x2="886.0" y2="162.0" class="ldr"/><text x="890.0" y="159.0" class="alab">150 m<tspan class="adesc">  Catholic Ano Syros quarter</tspan></text><circle cx="871.7" cy="119.2" r="3.4" class="pt"/><line x1="871.7" y1="119.2" x2="886.0" y2="119.2" class="ldr"/><text x="890.0" y="116.2" class="alab">171 m<tspan class="adesc">  San Giorgio Cathedral (Catholic) · summit</tspan></text><text x="54" y="28" class="axt">m a.s.l.</text><text x="54" y="46" class="cap">A section through Ano Syros — Ermoupoli (sea) ➔ San Giorgio (summit), 1,385 m</text><text x="880" y="502" class="tk" text-anchor="end">metres along transect →</text></svg>
+        <figcaption style="font-size:.85rem;color:#6a7682;margin:6px 2px 2px;">* Vrontado (Anastasis, Orthodox) stands on the adjacent hill, not on this transect line; it is placed at its own ~121 m elevation. Vertical scale exaggerated ~4×.
+          <span class="zh">＊弗龍塔多（復活教堂，東正教）位於相鄰山丘，不在此剖面線上，按其自身約 121 公尺高程標注。垂直比例放大約 4 倍。</span></figcaption>
+      </figure>
+    </section>
+
+    <!-- ============ ELEVATION-BAND SPINE ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Read by altitude, summit to sea <span class="zh">由頂至海，逐高程解讀</span></h2>
+      <div class="bands">
+
+        <div class="eband">
+          <div class="eband-alt"><b>442</b><span>m · Pyrgos</span><br><span class="chip" style="background:#9aa653"></span></div>
+          <div class="eband-body">
+            <h3>The island's roof <span class="zh">島之屋脊</span></h3>
+            <p>Syros culminates at <strong>Pyrgos (442 m)</strong> in the north — far above Ano Syros.<a class="cit" href="#s8">8</a><a class="cit" href="#s6">6</a> This high country is open <em>phrygana</em> and grassland (our DEM+land-cover analysis: <strong>85% grass, 13% shrub, &lt;1% built</strong> in the 250–442 m band), grazed and meltemi-swept.<a class="cit" href="#sd">D</a></p>
+            <p class="zh">錫羅斯最高點為北部的<strong>皮爾戈斯（442 公尺）</strong>，遠高於上錫羅斯。此高地為開放的低灌叢（phrygana）與草地（本文 DEM＋土地覆蓋分析：250–442 公尺帶中<strong>草地 85%、灌叢 13%、建成 &lt;1%</strong>），供放牧且飽受季風吹拂。</p>
+          </div>
+        </div>
+
+        <div class="eband">
+          <div class="eband-alt"><b>171</b><span>m a.s.l.</span><br><span class="chip" style="background:#c1632e"></span></div>
+          <div class="eband-body">
+            <h3>San Giorgio — the Catholic summit <span class="zh">聖喬治 — 天主教之巔</span></h3>
+            <p>The Roman Catholic <strong>Cathedral of Saint George</strong> crowns the very top of the cone (our DEM: <strong>~171 m</strong>).<a class="cit" href="#sd">D</a> First built in <strong>1208</strong>, destroyed and rebuilt three times (last major rebuild 1834), it has been the seat of the Catholic Diocese of Syros &amp; Milos since 1652.<a class="cit" href="#s7">7</a><a class="cit" href="#s9">9</a> It is the apex of the settlement's spiral plan and the most meltemi-exposed point of the town.</p>
+            <p class="zh">羅馬天主教<strong>聖喬治主教座堂</strong>加冕於錐形山丘的最頂（本文 DEM：<strong>約 171 公尺</strong>）。初建於 <strong>1208 年</strong>，三度毀而重建（最後大規模重建於 1834 年），自 1652 年起為錫羅斯與米洛斯天主教教區的主教座。此為聚落螺旋佈局的頂點，也是全鎮最受季風吹襲之處。</p>
+          </div>
+        </div>
+
+        <div class="eband">
+          <div class="eband-alt"><b>140–170</b><span>m a.s.l.</span><br><span class="chip" style="background:#c1632e"></span></div>
+          <div class="eband-body">
+            <h3>The medieval Catholic town <span class="zh">中世紀天主教城</span></h3>
+            <p>Below the cathedral spirals <strong>Ano Syros</strong> proper — a dense, defensive Cycladic fabric of narrow winding stepped lanes, vaulted arches (<em>stegádi</em>) and a radial, concentric plan built against pirate raids from the 13th century.<a class="cit" href="#s7">7</a> Built by the Venetians after Marco Sanudo took Syros in 1207.<a class="cit" href="#s8">8</a> Our building analysis finds <strong>~400 structures above 140 m</strong> — small, tight, and high. Birthplace of <strong>Markos Vamvakaris</strong>, "patriarch of rebetiko" (1905).<a class="cit" href="#s12">12</a></p>
+            <p class="zh">主教座堂之下盤旋著<strong>上錫羅斯</strong>本體——密集而具防禦性的基克拉澤斯肌理：狹窄蜿蜒的階梯巷弄、拱券（stegádi），以及自 13 世紀為抵禦海盜而建的放射同心佈局。1207 年馬可·薩努多取錫羅斯後由威尼斯人所建。本文分析發現<strong>140 公尺以上約有 400 棟建物</strong>——小巧、緊湊而高聳。此地為<strong>馬爾科斯·瓦姆瓦卡里斯</strong>（雷貝提卡之父，1905 年生）的出生地。</p>
+          </div>
+        </div>
+
+        <div class="eband">
+          <div class="eband-alt"><b>121</b><span>m · Vrontado</span><br><span class="chip" style="background:#6a7b53"></span></div>
+          <div class="eband-body">
+            <h3>Vrontado — the Orthodox hill <span class="zh">弗龍塔多 — 東正教之丘</span></h3>
+            <p>On the adjacent hill, the Greek Orthodox <strong>Church of the Resurrection (Anástasis)</strong> sits at <strong>~121 m</strong> (our DEM).<a class="cit" href="#sd">D</a> The island's defining social fact is written in this vertical, side-by-side geometry: <strong>Catholics on the older, higher San Giorgio cone; Orthodox on Vrontado and, later, the port.</strong><a class="cit" href="#s12">12</a></p>
+            <p class="zh">相鄰山丘上，希臘東正教<strong>復活教堂（Anástasis）</strong>坐落於<strong>約 121 公尺</strong>處（本文 DEM）。此島最具定義性的社會事實，正書寫於這垂直並置的幾何之中：<strong>天主教徒居於較古老、較高的聖喬治錐丘；東正教徒則居於弗龍塔多，及後來的港埠。</strong></p>
+          </div>
+        </div>
+
+        <div class="eband">
+          <div class="eband-alt"><b>60–120</b><span>m a.s.l.</span><br><span class="chip" style="background:#9aa653"></span></div>
+          <div class="eband-body">
+            <h3>Terraced slopes &amp; phrygana <span class="zh">梯田坡地與低灌叢</span></h3>
+            <p>Between town and summit the settlement thins and the land turns to dry-stone terraces and scrub. In our land-cover analysis, built-up cover falls from ~8% (50–100 m) to ~1% (150–250 m) while <strong>shrub/phrygana rises from 13% to 20%</strong> with height.<a class="cit" href="#sd">D</a> Water is the constraint everywhere: Syros has the <strong>lowest rainfall in the Cyclades (~400 mm/yr, 86% in Oct–Mar)</strong>, so cisterns and rainwater harvesting were essential.<a class="cit" href="#s10">10</a></p>
+            <p class="zh">介於城與頂之間，聚落漸疏，地表轉為乾砌石梯田與灌叢。本文土地覆蓋分析中，建成覆蓋由約 8%（50–100 公尺）降至約 1%（150–250 公尺），而<strong>灌叢／phrygana 隨高度由 13% 升至 20%</strong>。水始終是限制：錫羅斯<strong>雨量為基克拉澤斯最低（年約 400 公釐，86% 落於 10 月至翌年 3 月）</strong>，故蓄水池與雨水收集不可或缺。</p>
+          </div>
+        </div>
+
+        <div class="eband">
+          <div class="eband-alt"><b>13</b><span>m · Miaouli</span><br><span class="chip" style="background:#2a6f97"></span></div>
+          <div class="eband-body">
+            <h3>Miaouli Square — the neoclassical city <span class="zh">米亞烏利廣場 — 新古典之城</span></h3>
+            <p>At the foot, <strong>~13 m</strong> above the sea (our DEM), lies the marble heart of <strong>Ermoupoli</strong> — grand 19th-century neoclassical architecture (town hall, theatre, mansions) that could not contrast more sharply with the whitewashed medieval hill above.<a class="cit" href="#sd">D</a><a class="cit" href="#s8">8</a></p>
+            <p class="zh">於山腳、海拔<strong>約 13 公尺</strong>處（本文 DEM），是<strong>埃爾穆波利</strong>的大理石心臟——宏偉的十九世紀新古典建築（市政廳、劇院、宅邸），與其上刷白的中世紀山丘形成最強烈的對比。</p>
+          </div>
+        </div>
+
+        <div class="eband">
+          <div class="eband-alt"><b>0</b><span>m · sea</span><br><span class="chip" style="background:#2a6f97"></span></div>
+          <div class="eband-body">
+            <h3>The refugee port — the vertical migration <span class="zh">難民港 — 垂直的遷徙</span></h3>
+            <p>Ermoupoli was built <em>new, at sea level</em>, in the <strong>1820s</strong> by Greek War of Independence refugees from Chios, Psara, Kasos and beyond — reaching ~13,800 people by 1828.<a class="cit" href="#s8">8</a> This is the hinge of the whole place: as piracy gave way to trade, the centre of gravity <strong>migrated down the hill</strong> — from the defensive medieval summit to the commercial sea-level port. Our data records it: <strong>~3,485 of 5,628 buildings sit in the lowest 0–60 m.</strong><a class="cit" href="#sd">D</a></p>
+            <p class="zh">埃爾穆波利於 <strong>1820 年代</strong>由希臘獨立戰爭中來自希俄斯、普薩拉、卡索斯等地的難民<em>於海平面全新建立</em>，至 1828 年已達約 13,800 人。此乃全地之樞紐：當海盜讓位於貿易，重心<strong>沿山而下遷移</strong>——由防禦性的中世紀山頂，移向商業的海平面港埠。本文數據為證：<strong>5,628 棟建物中約 3,485 棟位於最低的 0–60 公尺。</strong></p>
+          </div>
+        </div>
+
+        <div class="eband">
+          <div class="eband-alt"><b>−8 to −10</b><span>m · water</span><br><span class="chip" style="background:#2a6f97"></span></div>
+          <div class="eband-body">
+            <h3>Groundwater <span class="zh">地下水</span></h3>
+            <p>Below the surface, historic wells reached groundwater at an estimated <strong>~8–10 m depth</strong>; Syros is said to have had the densest network of cisterns and wells of any Cyclades island. Today those are largely disused and <strong>~95% of water comes from desalination.</strong><a class="cit" href="#s5">5</a></p>
+            <p class="zh">地表之下，歷史水井於<strong>約 8–10 公尺深</strong>觸及地下水；據稱錫羅斯曾擁有基克拉澤斯諸島中最密的蓄水池與水井網。如今多已廢棄，<strong>約 95% 用水來自海水淡化。</strong></p>
+          </div>
+        </div>
+
+        <div class="eband">
+          <div class="eband-alt"><b>bedrock</b><span>all depths</span><br><span class="chip" style="background:#6b4a2a"></span></div>
+          <div class="eband-body">
+            <h3>Cycladic Blueschist — the stone under everything <span class="zh">基克拉澤斯藍片岩 — 萬物之下的石</span></h3>
+            <p>The entire hill stands on the <strong>Cycladic Blueschist Unit</strong> — marbles, metapelites and metabasites carried to high-pressure/low-temperature metamorphism ~50–35 Ma in a subduction zone, then exhumed. Syros is one of the world's best-preserved fossil subduction systems and the <strong>type locality of the mineral glaucophane</strong> (Hausmann, 1845).<a class="cit" href="#s1">1</a><a class="cit" href="#s4">4</a> This marble is the building stone of the churches and the terraces alike.</p>
+            <p class="zh">整座山丘立於<strong>基克拉澤斯藍片岩單元</strong>之上——大理岩、變泥質岩與變基性岩，於約 5000–3500 萬年前在隱沒帶中經歷高壓低溫變質，其後抬升。錫羅斯是世上保存最佳的化石隱沒系統之一，也是<strong>藍閃石的模式產地</strong>（Hausmann, 1845）。此大理岩既是教堂、也是梯田的建材。</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============ DATA: settlement & land use by altitude ============ -->
+    <section class="place-section">
+      <h2 class="bihead">The vertical fingerprint, in data <span class="zh">垂直指紋（數據）</span></h2>
+      <p style="color:#4a5a6a;">Two readings of the hill by height, computed from the Copernicus DEM with OpenStreetMap buildings and ESA WorldCover. Left: where the town actually sits. Right: how the living surface changes with altitude.</p>
+      <div class="chart-wrap">
+        <div class="chart-card">
+<svg viewBox="0 0 520 430" class="chart" role="img" aria-label="Building count by elevation band"><text x="64" y="16" class="ctitle">Buildings by elevation (m a.s.l.)</text><rect x="64" y="352.6" width="315.9" height="34.4" class="barb"/><text x="58" y="372.8" class="tk" text-anchor="end">0-20</text><text x="384.9" y="372.8" class="bval">1023</text><rect x="64" y="312.1" width="436.0" height="34.4" class="barb"/><text x="58" y="332.3" class="tk" text-anchor="end">20-40</text><text x="505.0" y="332.3" class="bval">1412</text><rect x="64" y="271.7" width="324.2" height="34.4" class="barb"/><text x="58" y="291.9" class="tk" text-anchor="end">40-60</text><text x="393.2" y="291.9" class="bval">1050</text><rect x="64" y="231.2" width="188.4" height="34.4" class="barb"/><text x="58" y="251.4" class="tk" text-anchor="end">60-80</text><text x="257.4" y="251.4" class="bval">610</text><rect x="64" y="190.8" width="115.8" height="34.4" class="barb"/><text x="58" y="211.0" class="tk" text-anchor="end">80-100</text><text x="184.8" y="211.0" class="bval">375</text><rect x="64" y="150.3" width="87.4" height="34.4" class="barb"/><text x="58" y="170.6" class="tk" text-anchor="end">100-120</text><text x="156.4" y="170.6" class="bval">283</text><rect x="64" y="109.9" width="106.2" height="34.4" class="barb"/><text x="58" y="130.1" class="tk" text-anchor="end">120-140</text><text x="175.2" y="130.1" class="bval">344</text><rect x="64" y="69.4" width="48.8" height="34.4" class="barb"/><text x="58" y="89.7" class="tk" text-anchor="end">140-160</text><text x="117.8" y="89.7" class="bval">158</text><rect x="64" y="29.0" width="76.6" height="34.4" class="barb"/><text x="58" y="49.2" class="tk" text-anchor="end">160-180</text><text x="145.6" y="49.2" class="bval">248</text></svg>
+          <p style="font-size:.82rem;color:#6a7682;margin:2px 8px 6px;">A dense mass at 0–60 m (Ermoupoli, 19th c) with a persistent tail to 180 m (medieval Ano Syros). <span class="zh">0–60 公尺的密集主體（埃爾穆波利，19 世紀）加上延伸至 180 公尺的持續尾部（中世紀上錫羅斯）。</span></p>
+        </div>
+        <div class="chart-card">
+<svg viewBox="0 0 520 430" class="chart" role="img" aria-label="Land cover by elevation band"><text x="64" y="16" class="ctitle">Land cover by elevation (%)</text><rect x="64.0" y="320.2" width="63.5" height="66.8" fill="#c1632e"/><rect x="127.5" y="320.2" width="7.4" height="66.8" fill="#e39ac0"/><rect x="134.9" y="320.2" width="25.5" height="66.8" fill="#3a6d2e"/><rect x="160.4" y="320.2" width="15.1" height="66.8" fill="#9aa653"/><rect x="175.6" y="320.2" width="199.6" height="66.8" fill="#e4d06a"/><rect x="375.1" y="320.2" width="11.1" height="66.8" fill="#b9a894"/><text x="58" y="356.6" class="tk" text-anchor="end">0-50m</text><rect x="64.0" y="247.4" width="26.9" height="66.8" fill="#c1632e"/><rect x="90.9" y="247.4" width="2.7" height="66.8" fill="#e39ac0"/><rect x="93.6" y="247.4" width="25.2" height="66.8" fill="#3a6d2e"/><rect x="118.8" y="247.4" width="44.7" height="66.8" fill="#9aa653"/><rect x="163.5" y="247.4" width="235.2" height="66.8" fill="#e4d06a"/><rect x="398.7" y="247.4" width="1.3" height="66.8" fill="#b9a894"/><text x="58" y="283.8" class="tk" text-anchor="end">50-100m</text><rect x="64.0" y="174.6" width="14.4" height="66.8" fill="#c1632e"/><rect x="78.4" y="174.6" width="3.4" height="66.8" fill="#e39ac0"/><rect x="81.8" y="174.6" width="20.8" height="66.8" fill="#3a6d2e"/><rect x="102.6" y="174.6" width="62.5" height="66.8" fill="#9aa653"/><rect x="165.1" y="174.6" width="233.9" height="66.8" fill="#e4d06a"/><rect x="399.0" y="174.6" width="1.0" height="66.8" fill="#b9a894"/><text x="58" y="211.0" class="tk" text-anchor="end">100-150m</text><rect x="64.0" y="101.8" width="4.7" height="66.8" fill="#c1632e"/><rect x="68.7" y="101.8" width="0.3" height="66.8" fill="#e39ac0"/><rect x="69.0" y="101.8" width="14.8" height="66.8" fill="#3a6d2e"/><rect x="83.8" y="101.8" width="68.2" height="66.8" fill="#9aa653"/><rect x="152.0" y="101.8" width="244.9" height="66.8" fill="#e4d06a"/><rect x="397.0" y="101.8" width="2.7" height="66.8" fill="#b9a894"/><text x="58" y="138.2" class="tk" text-anchor="end">150-250m</text><rect x="64.0" y="29.0" width="2.4" height="66.8" fill="#c1632e"/><rect x="66.4" y="29.0" width="1.3" height="66.8" fill="#3a6d2e"/><rect x="67.7" y="29.0" width="45.0" height="66.8" fill="#9aa653"/><rect x="112.7" y="29.0" width="286.6" height="66.8" fill="#e4d06a"/><rect x="399.3" y="29.0" width="0.3" height="66.8" fill="#b9a894"/><text x="58" y="65.4" class="tk" text-anchor="end">250-442m</text><rect x="408" y="24" width="11" height="11" fill="#c1632e"/><text x="424" y="33" class="lg">Built</text><rect x="408" y="42" width="11" height="11" fill="#e39ac0"/><text x="424" y="51" class="lg">Cropland</text><rect x="408" y="60" width="11" height="11" fill="#3a6d2e"/><text x="424" y="69" class="lg">Tree</text><rect x="408" y="78" width="11" height="11" fill="#9aa653"/><text x="424" y="87" class="lg">Shrub</text><rect x="408" y="96" width="11" height="11" fill="#e4d06a"/><text x="424" y="105" class="lg">Grass</text><rect x="408" y="114" width="11" height="11" fill="#b9a894"/><text x="424" y="123" class="lg">Bare</text></svg>
+          <p style="font-size:.82rem;color:#6a7682;margin:2px 8px 6px;">Built-up cover peaks low and fades with height; open phrygana/grass takes over the heights. <span class="zh">建成覆蓋在低處達峰、隨高度消退；開放的灌叢／草地佔據高處。</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ASPECT DEEP-DIVES ============ -->
+    <section class="place-section">
+      <h2 class="bihead">The layers in full <span class="zh">各層詳述</span></h2>
+
+      <div class="aspect">
+        <h3>1 · Geology <span class="zh">地質</span></h3>
+        <p>The whole of Syros is built on the <strong>Cycladic Blueschist Unit</strong> — mainly marbles, metapelites and metabasites that reached high-pressure/low-temperature metamorphism ~50–35 Ma through the subduction of the Apulian microcontinent, then were exhumed by post-orogenic extension.<a class="cit" href="#s1">1</a><a class="cit" href="#s4">4</a> Its preservation is world-class: peer-reviewed work calls Syros "one of the world's best-case studies of a fossilized subduction system," and it is the <strong>type locality of glaucophane</strong>, the blue mineral that gives blueschist its name (Hausmann, 1845).<a class="cit" href="#s1">1</a> The marble outcrops are literally the material of the settlement — cut for churches, walls and terraces.</p>
+      </div>
+
+      <div class="aspect">
+        <h3>2 · Water &amp; climate <span class="zh">水與氣候</span></h3>
+        <p>Syros is dry — the <strong>lowest precipitation of the studied Cyclades (~400 mm/yr, ~86% Oct–Mar)</strong>, with small catchments and little surface run-off, so drought vulnerability is acute and worst in the summer peak.<a class="cit" href="#s10">10</a> Historically the island answered this with the densest cistern-and-well network of the Cyclades, groundwater at ~8–10 m; today ~95% of supply is desalinated.<a class="cit" href="#s5">5</a> Summers are governed by the <strong>Meltemi</strong>, a cool dry north wind of July–August that holds maxima at or below ~30 °C<a class="cit" href="#s11">11</a> — the exposed hilltop is meltemi-swept, part of why a summit town was liveable.</p>
+      </div>
+
+      <div class="aspect">
+        <h3>3 · Agriculture &amp; vegetation, by altitude <span class="zh">農業與植被（按高程）</span></h3>
+        <p>The requested altitude-banding of land use is not well documented in the literature, so we measured it directly (Copernicus DEM + ESA WorldCover): built-up land concentrates low (<strong>~19% of the 0–50 m band</strong>) and all but vanishes above 150 m, while grassland and <em>phrygana</em> shrub dominate and <strong>increase with height</strong> — grass reaching ~85% in the 250–442 m band.<a class="cit" href="#sd">D</a> The pattern matches the classic Cycladic vertical land economy: gardens and denser tree cover in the sheltered low valleys, dry-stone terraces on the mid-slopes, and open grazing on the wind-blown heights.</p>
+      </div>
+
+      <div class="aspect">
+        <h3>4 · Urban history — the vertical migration <span class="zh">城市史 — 垂直遷徙</span></h3>
+        <p>Ano Syros was founded in the early 13th century as a <strong>fortified hilltop</strong> — Venetian, Catholic, defensive — after Marco Sanudo captured Syros in 1207 and folded it into the Duchy of the Archipelago.<a class="cit" href="#s7">7</a><a class="cit" href="#s8">8</a> For six centuries, height meant safety from pirates. Then, in the <strong>1820s</strong>, everything inverted: Greek War of Independence refugees built a brand-new city, <strong>Ermoupoli, at sea level</strong>, which boomed into Greece's leading 19th-century port.<a class="cit" href="#s8">8</a> The settlement's centre of gravity slid <em>down</em> the hill — the clearest possible reading of history as altitude.</p>
+      </div>
+
+      <div class="aspect">
+        <h3>5 · Morphology &amp; architecture <span class="zh">形態與建築</span></h3>
+        <p>Ano Syros is a textbook Cycladic <em>kastro</em>: densely built, with narrow winding stepped lanes, vaulted passages (<em>stegádi</em>) and a <strong>radial, concentric plan that spirals up the cone</strong> to the cathedral — a defensive amphitheatre.<a class="cit" href="#s7">7</a> Materially and formally it is the opposite of the city below: whitewashed vernacular stone climbing a hill versus the <strong>marble neoclassicism of Ermoupoli</strong> on the flat. The two architectures are separated by ~170 vertical metres and six hundred years.</p>
+      </div>
+
+      <div class="aspect">
+        <h3>6 · People &amp; faith <span class="zh">人與信仰</span></h3>
+        <p>The hill encodes a religious geography: <strong>Ano Syros is Catholic</strong> (the "Frangosyrianoi," of Venetian/Genoese descent), the seat of the Roman Catholic Diocese, while Ermoupoli and Vrontado are Orthodox.<a class="cit" href="#s7">7</a><a class="cit" href="#s12">12</a> The two communities live literally at different heights on adjacent hills. From this Catholic quarter came <strong>Markos Vamvakaris</strong> (b. 1905), the "patriarch of rebetiko" — the island's most famous son, born to a poor Catholic family on the summit town.<a class="cit" href="#s12">12</a></p>
+      </div>
+    </section>
+
+    <!-- ============ SOURCES & HONESTY ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Sources &amp; honesty <span class="zh">來源與誠實聲明</span></h2>
+      <div class="place-note warn">
+        <strong>What is measured vs. what is cited.</strong> The <em>elevations</em> on this page (San Giorgio ~171 m, the Anastasis/Vrontado ~121 m, Miaouli ~13 m, the building and land-cover bands) are <strong>my own measurements</strong> from the Copernicus GLO-30 DEM, ESA WorldCover and OpenStreetMap via Google Earth Engine — because published sources gave almost no hard metre figures for the hill (only Pyrgos 442 m and sea-level Ermoupoli survived verification). DEM heights carry ~several-metre uncertainty. The <em>human and natural facts</em> are from the cited sources, adversarially fact-checked; geology rests on peer-reviewed primary literature, while settlement/architecture/cultural claims rest largely on Wikipedia + corroborating references (adequate for these stable facts, but secondary-source quality). One claim — that the Catholic community dates only to the 16th century — was <strong>refuted</strong>; the settlement's Latin/Catholic character is 13th-century.
+        <br><span class="zh" style="display:block;margin-top:6px;"><strong>何者為實測、何者為引用。</strong>本頁的<em>高程</em>（聖喬治約 171 公尺、復活教堂／弗龍塔多約 121 公尺、米亞烏利約 13 公尺，以及建物與土地覆蓋各帶）為<strong>本文自 Copernicus GLO-30 DEM、ESA WorldCover 與 OpenStreetMap（經 Google Earth Engine）之實測</strong>——因已出版來源幾乎未提供此山丘的確切公尺數（僅皮爾戈斯 442 公尺與海平面的埃爾穆波利通過查證）。DEM 高程有數公尺不確定性。<em>人文與自然事實</em>取自所引來源並經對抗式查核；地質基於同儕審查的一手文獻，聚落／建築／文化則多依維基百科及佐證來源。其中「天主教社群僅始於 16 世紀」之說已被<strong>駁斥</strong>；該聚落的拉丁／天主教性質可追溯至 13 世紀。</span>
+      </div>
+      <ol class="srclist">
+        <li id="s1"><a href="https://www.mdpi.com/2076-3263/11/3/138" target="_blank" rel="noopener">Geological Heritage of Syros Island — Geosciences (MDPI), 2021</a> <span class="verdict v-hi">primary · high</span></li>
+        <li id="s4"><a href="https://blogs.egu.eu/divisions/gmpv/2023/11/06/geological-trips-the-amazing-fragments-of-oceanic-crust-treasured-on-the-greek-island-of-syros/" target="_blank" rel="noopener">EGU — Fragments of oceanic crust on Syros, 2023</a></li>
+        <li id="s5"><a href="https://herpetozoa.pensoft.net/article/129656/" target="_blank" rel="noopener">Herpetozoa / Pensoft — Syros island profile (area, water, groundwater)</a> <span class="verdict v-med">medium</span></li>
+        <li id="s6"><a href="https://www.greeka.com/cyclades/syros/geography/" target="_blank" rel="noopener">Greeka — Syros geography</a></li>
+        <li id="s7"><a href="https://en.wikipedia.org/wiki/Ano_Syros" target="_blank" rel="noopener">Wikipedia — Ano Syros</a></li>
+        <li id="s8"><a href="https://en.wikipedia.org/wiki/Syros" target="_blank" rel="noopener">Wikipedia — Syros (Pyrgos 442 m; Ermoupoli 1820s)</a></li>
+        <li id="s9"><a href="https://en.wikipedia.org/wiki/St._George%27s_Cathedral,_Ano_Syros" target="_blank" rel="noopener">Wikipedia — St George's Cathedral, Ano Syros</a></li>
+        <li id="s10"><a href="https://www.ewra.net/ew/pdf/EW_2014_47_03.pdf" target="_blank" rel="noopener">European Water 47 (2014) — Syros drought &amp; water scarcity</a> <span class="verdict v-hi">primary · high</span></li>
+        <li id="s11"><a href="https://www.climatestotravel.com/climate/greece/syros" target="_blank" rel="noopener">Climates to Travel — Syros climate / Meltemi</a></li>
+        <li id="s12"><a href="https://en.wikipedia.org/wiki/Markos_Vamvakaris" target="_blank" rel="noopener">Wikipedia — Markos Vamvakaris</a></li>
+        <li id="sd"><strong>Author's spatial analysis</strong> — Copernicus GLO-30 DEM, ESA WorldCover 2021, OpenStreetMap buildings, via Google Earth Engine (elevations, transect, building &amp; land-cover altitude bands). <span class="verdict v-hi">measured</span></li>
+      </ol>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><p>Part of <a href="../" style="color:#fff">Places</a>. Elevation data: Copernicus GLO-30 / ESA / OSM via Google Earth Engine. Research adversarially fact-checked.</p></div>
+  </footer>
+</body>
+</html>
