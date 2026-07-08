@@ -317,19 +317,69 @@
         <strong>假說被修正，而非單純證實。</strong>無單一高點可控制全島——三者<strong>彼此不可見</strong>（各據深切中央山脊的不同側翼），合計僅見約 30% 陸地。然各自主宰一個策略性區塊：<strong>聖喬治／上錫羅斯</strong>是三者中唯一能俯瞰<strong>埃爾穆波利港</strong>者——中世紀城堡監看自身的海上門戶；<strong>卡斯特里</strong>幾乎不見陸地（2%）卻見三分之一海域——純粹的<strong>北方海路哨站</strong>，正合青銅時代要塞之需；<strong>皮爾戈斯</strong>（天然峰頂）視野最廣，卻從非聚落所在——高度用於瞭望，而非居住。故錫羅斯的「視覺控制」是<em>分區的</em>：防禦選址各取其所需監看之處，而非單一霸權衛城。
       </p>
 
-      <h3 style="color:var(--deep);margin-top:26px;">3 · How precise is the 30 m DEM? — validated with laser <span class="zh" style="color:#6a7682;font-weight:700;font-size:.95rem;">30 公尺 DEM 有多準？以雷射驗證</span></h3>
+    </section>
+
+    <!-- ============ SETTLEMENT SITING ACROSS SYROS ============ -->
+    <section class="place-section">
+      <h2 class="bihead">Settlement siting across Syros — slope, aspect &amp; wind <span class="zh">錫羅斯全島聚落選址 — 坡度、坡向與風</span></h2>
       <p style="color:#4a5a6a;">
-        Is anything better than 30 m available for Syros? I checked: <strong>no free, gridded DEM finer than 30 m is openly downloadable</strong>. The Hellenic Cadastre holds 2 m &amp; 5 m national DEMs but they are restricted/paywalled (no public LiDAR, by policy); Copernicus 10 m (EEA-10) is Public-Authorities-only; TanDEM-X 12 m is free only via a research proposal. But one genuinely precise <em>free</em> source exists — <strong>NASA's ICESat-2 laser altimeter</strong> (decimetre accuracy) — and its ground tracks cross this hill. So rather than replace the DEM, I used it to <strong>measure how good the 30 m DEM actually is.</strong>
-      </p>
-      <figure class="vfig">
-        <img src="img/dem_validation.png" alt="GLO-30 vs ICESat-2 elevation scatter over Ano Syros" loading="lazy" style="max-width:640px;" />
-        <figcaption>819 ICESat-2 land-terrain points over the Ano Syros hill vs GLO-30, geoid-corrected (EGM2008 N = 38.95 m). Points hug the 1:1 line.</figcaption>
-      </figure>
-      <p>
-        <strong>The 30 m DEM is trustworthy where it counts.</strong> On gentle ground (&lt;5°, the majority) it matches the decimetre laser to <strong>RMSE 1.3 m with near-zero bias</strong> — so every elevation figure on this page (San Giorgio ~171 m, Vrontado ~121 m, the citadel band, Miaouli ~13 m) is good to a metre or two. Error grows to <strong>~4–5 m RMSE on slopes &gt;15°</strong>, where a 30 m grid cannot resolve the sharp cone, and there is a small <strong>~0.5–1 m positive bias</strong> over the built quarter (GLO-30 is a surface model, catching rooftops against the laser's bare earth). The upshot: the <em>numbers</em> hold; the <em>steep-slope morphology and finest viewshed detail</em> are where 30 m limits us — exactly what Cadastre LiDAR or a commissioned survey would sharpen.<a class="cit" href="#si">I</a>
+        Is Ano Syros's meltemi-sheltered hill a general rule? I tested it: <strong>64 settlements</strong> mapped from OpenStreetMap, each measured for elevation, slope, aspect and northern-ridge shelter (from the Copernicus DEM), plus surrounding vegetation (ESA WorldCover) and bedrock — then compared against <strong>4,000 random island points</strong> to see what settlers actually preferred.
       </p>
       <p class="zh" style="color:#5a6573;font-size:.92rem;">
-        <strong>是否有比 30 公尺更精細的資料？</strong>經查：<strong>無可自由下載、成網格且優於 30 公尺的 DEM</strong>。希臘地籍局藏有 2 公尺與 5 公尺全國 DEM，但受限／付費（依政策不公開光達）；Copernicus 10 公尺（EEA-10）僅限公部門；TanDEM-X 12 公尺僅經研究申請免費。惟有一真正精確的<em>免費</em>來源——<strong>NASA ICESat-2 雷射測高</strong>（分米級精度），其地面軌跡正好越過此山丘。故我以其<strong>量測 30 公尺 DEM 的實際精度</strong>：於緩坡（&lt;5°）與雷射相符達 <strong>RMSE 1.3 公尺、近乎零偏差</strong>——本頁各高程值準確至一兩公尺；於 &gt;15° 陡坡誤差增至約 <strong>4–5 公尺</strong>；於建成街區另有約 <strong>0.5–1 公尺</strong>正偏差。結論：<em>數值</em>可靠；<em>陡坡形態與最精細的視域細節</em>正是 30 公尺的極限。
+        上錫羅斯避風的山丘是普遍法則嗎？經檢驗：自 OpenStreetMap 標繪 <strong>64 個聚落</strong>，逐一量測其高程、坡度、坡向與北向山脊遮蔽（取自 Copernicus DEM），並加入周邊植被（ESA WorldCover）與基岩，再與 <strong>4,000 個島上隨機點</strong>比較，以檢視居民實際偏好。
+      </p>
+
+      <figure class="vfig">
+        <img src="img/settlement_map.png" alt="Syros settlements by elevation type over hillshade" loading="lazy" style="max-width:560px;" />
+        <figcaption>All 64 settlements over hill-shaded terrain, keyed by elevation type. Coastal harbours ring the bays; upland villages cluster in the dissected north-central hills. Copernicus GLO-30 (30 m), the best openly-available DEM — displayed at ~10 m for clarity.</figcaption>
+      </figure>
+
+      <p><strong>1 · Slope is the real control.</strong> Settlers chose <em>gentle, buildable ground</em>: <strong>41% of settlements sit on slopes under 10°, versus only 21% of the island</strong> — roughly twice as likely as chance. Steep ground is avoided; the mid-to-low grades that can be terraced and built win.</p>
+      <p><strong>2 · Wind/aspect is <em>not</em> a general driver.</strong> Across all 64, leeward (E–S) facing is <strong>46% — identical to a random island point (46%)</strong>. Settlements face every direction. The strong SE–S meltemi-shelter of Ano Syros (64%) is a <em>selective</em> logic of the defensive medieval hilltops, not an island-wide rule; there is only a <strong>mild</strong> northern-ridge shelter tendency (64% vs 56%).</p>
+
+      <div class="vt-wrap">
+      <table class="vtable">
+        <thead><tr><th>What settlers preferred</th><th>Settlements (n=64)</th><th>Island (random)</th></tr></thead>
+        <tbody>
+          <tr><td>Median elevation</td><td>78 m</td><td>84 m</td></tr>
+          <tr><td>Mean slope</td><td>13°</td><td>15°</td></tr>
+          <tr><td><strong>On gentle ground (&lt;10°)</strong></td><td><strong>41%</strong></td><td>21%</td></tr>
+          <tr><td>Leeward (E–S) facing</td><td>46%</td><td>46%</td></tr>
+          <tr><td>Northern-ridge shelter (&gt;20 m)</td><td>64%</td><td>56%</td></tr>
+        </tbody>
+      </table>
+      </div>
+
+      <figure class="vfig">
+        <img src="img/chart_slope_dist.png" alt="Slope under settlements vs the whole island" loading="lazy" style="max-width:600px;" />
+        <figcaption>Slope beneath settlements (red) vs the island as a whole (grey). The settlement distribution shifts off the steepest ground.</figcaption>
+      </figure>
+
+      <p><strong>3 · Two settlement families.</strong> The map resolves into a clear typology:</p>
+      <div class="vt-wrap">
+      <table class="vtable">
+        <thead><tr><th>Settlement</th><th>Elev.</th><th>Slope</th><th>Faces</th><th>Type</th><th>Bedrock</th></tr></thead>
+        <tbody>
+          <tr><td>Ermoupoli</td><td>4 m</td><td>9°</td><td>SE</td><td>coastal port (Orthodox)</td><td>Blueschist</td></tr>
+          <tr><td>Ano Syros</td><td>147 m</td><td>19°</td><td>S</td><td>upland citadel (Catholic)</td><td>Blueschist</td></tr>
+          <tr><td>Talanta</td><td>84 m</td><td>12°</td><td>E</td><td>upland agrarian village</td><td>Blueschist</td></tr>
+          <tr><td>Episkopio</td><td>148 m</td><td>17°</td><td>S</td><td>upland inland village</td><td>Blueschist</td></tr>
+          <tr><td>Ano Manna</td><td>59 m</td><td>10°</td><td>S</td><td>mid-slope village</td><td>Blueschist</td></tr>
+          <tr><td>Kini</td><td>5 m</td><td>8°</td><td>NW</td><td>west-coast bay</td><td>Blueschist</td></tr>
+          <tr><td>Finikas</td><td>2 m</td><td>3°</td><td>SE</td><td>SW-coast bay</td><td>Blueschist</td></tr>
+          <tr><td>Posidonia</td><td>21 m</td><td>6°</td><td>W</td><td>SW-coast resort</td><td>Blueschist</td></tr>
+          <tr><td>Vari</td><td>53 m</td><td>10°</td><td>S</td><td>SE-coast bay</td><td><strong>Vari Unit</strong></td></tr>
+          <tr><td>Megas Gialos</td><td>23 m</td><td>9°</td><td>S</td><td>south-coast bay</td><td>Blueschist</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p>
+        <strong>Upland/defensive</strong> settlements (Ano Syros, Talanta, Episkopio and the scattered Ano Meria villages) sit higher and on steeper ground, dispersed through the hills — height and terracing over comfort. <strong>Coastal</strong> settlements (Kini, Finikas, Posidonia, Vari, Megas Gialos, and the port of Ermoupoli) sit at sea level on gentle bays, their aspect set by the shoreline, not the wind — chosen for anchorage and access. The <em>vertical migration</em> from the Catholic hilltop to the sea-level port is the same logic writ across the whole island: as security ceased to reward height, settlement rolled down onto the gentle coast.
+      </p>
+
+      <p><strong>4 · Vegetation &amp; geology barely steer it.</strong> Almost every settlement (<strong>62 of 64</strong>) sits in open grassland / <em>phrygana</em> — Syros has essentially no forest to seek or avoid, so villages are embedded directly in the grazed-and-terraced matrix. And the bedrock is <strong>Cycladic Blueschist almost everywhere</strong>; only the south-east cluster (Vari, Azolimnos) sits on the structurally distinct <strong>Vari Unit</strong>. With thin metamorphic soils island-wide, geology sets the <em>material</em> (marble walls, dry-stone terraces) but not the <em>location</em>.<a class="cit" href="#sd">D</a><a class="cit" href="#s1">1</a></p>
+      <p class="zh" style="color:#5a6573;font-size:.92rem;">
+        <strong>結論：坡度是真正的控制因子</strong>——聚落偏好平緩可建之地（41% 位於 &lt;10° 坡，島嶼整體僅 21%）。<strong>風／坡向並非全島普遍驅力</strong>（背風 E–S 佔 46%，與隨機點相同）；上錫羅斯強烈的東南避風（64%）是防禦性中世紀山頂的<em>選擇性</em>邏輯，而非通則。聚落分為兩大類：<strong>高地防禦型</strong>（上錫羅斯、塔蘭塔、埃皮斯科皮奧等分散於山丘的村落，較高、較陡）；<strong>沿海型</strong>（基尼、菲尼卡斯、波塞冬尼亞、瓦里、梅加斯亞洛斯及港城埃爾穆波利，位於海平面的海灣，坡向由岸線而非風決定）。植被與地質幾乎不左右選址：<strong>64 個聚落中 62 個</strong>坐落於開放草地／低灌叢（島上幾無森林）；基岩幾乎全為基克拉澤斯藍片岩，僅東南一帶（瓦里、阿佐利姆諾斯）位於獨特的瓦里單元。地質決定<em>建材</em>（大理石牆、乾砌石梯田），而非<em>位置</em>。
       </p>
     </section>
 
@@ -352,7 +402,6 @@
         <li id="s11"><a href="https://www.climatestotravel.com/climate/greece/syros" target="_blank" rel="noopener">Climates to Travel — Syros climate / Meltemi</a></li>
         <li id="s12"><a href="https://en.wikipedia.org/wiki/Markos_Vamvakaris" target="_blank" rel="noopener">Wikipedia — Markos Vamvakaris</a></li>
         <li id="sd"><strong>Author's spatial analysis</strong> — Copernicus GLO-30 DEM, ESA WorldCover 2021, OpenStreetMap buildings, via Google Earth Engine (elevations, transect, building &amp; land-cover altitude bands, hypsometry, aspect, viewsheds). <span class="verdict v-hi">measured</span></li>
-        <li id="si"><strong>DEM validation</strong> — NASA <a href="https://nsidc.org/data/atl08" target="_blank" rel="noopener">ICESat-2 ATL08</a> land-terrain heights (819 points) vs GLO-30, geoid-corrected with EGM2008; finer-DEM availability per <a href="https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM" target="_blank" rel="noopener">Copernicus</a>, Hellenic Cadastre &amp; <a href="https://gdk.gdi-de.org/geonetwork/srv/api/records/5eecdf4c-de57-4624-99e9-60086b032aea" target="_blank" rel="noopener">TanDEM-X (DLR)</a>. <span class="verdict v-hi">measured</span></li>
       </ol>
     </section>
   </main>
