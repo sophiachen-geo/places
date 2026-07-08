@@ -316,6 +316,21 @@
       <p class="zh" style="color:#5a6573;font-size:.92rem;">
         <strong>假說被修正，而非單純證實。</strong>無單一高點可控制全島——三者<strong>彼此不可見</strong>（各據深切中央山脊的不同側翼），合計僅見約 30% 陸地。然各自主宰一個策略性區塊：<strong>聖喬治／上錫羅斯</strong>是三者中唯一能俯瞰<strong>埃爾穆波利港</strong>者——中世紀城堡監看自身的海上門戶；<strong>卡斯特里</strong>幾乎不見陸地（2%）卻見三分之一海域——純粹的<strong>北方海路哨站</strong>，正合青銅時代要塞之需；<strong>皮爾戈斯</strong>（天然峰頂）視野最廣，卻從非聚落所在——高度用於瞭望，而非居住。故錫羅斯的「視覺控制」是<em>分區的</em>：防禦選址各取其所需監看之處，而非單一霸權衛城。
       </p>
+
+      <h3 style="color:var(--deep);margin-top:26px;">3 · How precise is the 30 m DEM? — validated with laser <span class="zh" style="color:#6a7682;font-weight:700;font-size:.95rem;">30 公尺 DEM 有多準？以雷射驗證</span></h3>
+      <p style="color:#4a5a6a;">
+        Is anything better than 30 m available for Syros? I checked: <strong>no free, gridded DEM finer than 30 m is openly downloadable</strong>. The Hellenic Cadastre holds 2 m &amp; 5 m national DEMs but they are restricted/paywalled (no public LiDAR, by policy); Copernicus 10 m (EEA-10) is Public-Authorities-only; TanDEM-X 12 m is free only via a research proposal. But one genuinely precise <em>free</em> source exists — <strong>NASA's ICESat-2 laser altimeter</strong> (decimetre accuracy) — and its ground tracks cross this hill. So rather than replace the DEM, I used it to <strong>measure how good the 30 m DEM actually is.</strong>
+      </p>
+      <figure class="vfig">
+        <img src="img/dem_validation.png" alt="GLO-30 vs ICESat-2 elevation scatter over Ano Syros" loading="lazy" style="max-width:640px;" />
+        <figcaption>819 ICESat-2 land-terrain points over the Ano Syros hill vs GLO-30, geoid-corrected (EGM2008 N = 38.95 m). Points hug the 1:1 line.</figcaption>
+      </figure>
+      <p>
+        <strong>The 30 m DEM is trustworthy where it counts.</strong> On gentle ground (&lt;5°, the majority) it matches the decimetre laser to <strong>RMSE 1.3 m with near-zero bias</strong> — so every elevation figure on this page (San Giorgio ~171 m, Vrontado ~121 m, the citadel band, Miaouli ~13 m) is good to a metre or two. Error grows to <strong>~4–5 m RMSE on slopes &gt;15°</strong>, where a 30 m grid cannot resolve the sharp cone, and there is a small <strong>~0.5–1 m positive bias</strong> over the built quarter (GLO-30 is a surface model, catching rooftops against the laser's bare earth). The upshot: the <em>numbers</em> hold; the <em>steep-slope morphology and finest viewshed detail</em> are where 30 m limits us — exactly what Cadastre LiDAR or a commissioned survey would sharpen.<a class="cit" href="#si">I</a>
+      </p>
+      <p class="zh" style="color:#5a6573;font-size:.92rem;">
+        <strong>是否有比 30 公尺更精細的資料？</strong>經查：<strong>無可自由下載、成網格且優於 30 公尺的 DEM</strong>。希臘地籍局藏有 2 公尺與 5 公尺全國 DEM，但受限／付費（依政策不公開光達）；Copernicus 10 公尺（EEA-10）僅限公部門；TanDEM-X 12 公尺僅經研究申請免費。惟有一真正精確的<em>免費</em>來源——<strong>NASA ICESat-2 雷射測高</strong>（分米級精度），其地面軌跡正好越過此山丘。故我以其<strong>量測 30 公尺 DEM 的實際精度</strong>：於緩坡（&lt;5°）與雷射相符達 <strong>RMSE 1.3 公尺、近乎零偏差</strong>——本頁各高程值準確至一兩公尺；於 &gt;15° 陡坡誤差增至約 <strong>4–5 公尺</strong>；於建成街區另有約 <strong>0.5–1 公尺</strong>正偏差。結論：<em>數值</em>可靠；<em>陡坡形態與最精細的視域細節</em>正是 30 公尺的極限。
+      </p>
     </section>
 
     <!-- ============ SOURCES & HONESTY ============ -->
@@ -336,7 +351,8 @@
         <li id="s10"><a href="https://www.ewra.net/ew/pdf/EW_2014_47_03.pdf" target="_blank" rel="noopener">European Water 47 (2014) — Syros drought &amp; water scarcity</a> <span class="verdict v-hi">primary · high</span></li>
         <li id="s11"><a href="https://www.climatestotravel.com/climate/greece/syros" target="_blank" rel="noopener">Climates to Travel — Syros climate / Meltemi</a></li>
         <li id="s12"><a href="https://en.wikipedia.org/wiki/Markos_Vamvakaris" target="_blank" rel="noopener">Wikipedia — Markos Vamvakaris</a></li>
-        <li id="sd"><strong>Author's spatial analysis</strong> — Copernicus GLO-30 DEM, ESA WorldCover 2021, OpenStreetMap buildings, via Google Earth Engine (elevations, transect, building &amp; land-cover altitude bands). <span class="verdict v-hi">measured</span></li>
+        <li id="sd"><strong>Author's spatial analysis</strong> — Copernicus GLO-30 DEM, ESA WorldCover 2021, OpenStreetMap buildings, via Google Earth Engine (elevations, transect, building &amp; land-cover altitude bands, hypsometry, aspect, viewsheds). <span class="verdict v-hi">measured</span></li>
+        <li id="si"><strong>DEM validation</strong> — NASA <a href="https://nsidc.org/data/atl08" target="_blank" rel="noopener">ICESat-2 ATL08</a> land-terrain heights (819 points) vs GLO-30, geoid-corrected with EGM2008; finer-DEM availability per <a href="https://dataspace.copernicus.eu/explore-data/data-collections/copernicus-contributing-missions/collections-description/COP-DEM" target="_blank" rel="noopener">Copernicus</a>, Hellenic Cadastre &amp; <a href="https://gdk.gdi-de.org/geonetwork/srv/api/records/5eecdf4c-de57-4624-99e9-60086b032aea" target="_blank" rel="noopener">TanDEM-X (DLR)</a>. <span class="verdict v-hi">measured</span></li>
       </ol>
     </section>
   </main>
