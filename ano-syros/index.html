@@ -72,6 +72,25 @@
     table.vtable td .sw{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;}
     .vt-wrap{overflow-x:auto;}
 
+    /* whole-island altitude inventory */
+    .inv-legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin:14px 0 4px;font-size:.78rem;color:#6a7682;}
+    .inv-legend .lg{display:inline-flex;align-items:center;gap:6px;}
+    .inv-legend .d{width:9px;height:9px;border-radius:50%;flex:none;}
+    .inv-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:10px;}
+    .inv-col h4{margin:0 0 8px;font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:#6a7682;border-bottom:2px solid var(--sand);padding-bottom:5px;display:flex;align-items:center;gap:7px;}
+    .inv-col.nat h4::before{content:"";width:8px;height:8px;border-radius:50%;background:#6f7d5f;}
+    .inv-col.hum h4::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--aegean);}
+    .inv-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+    .inv-col li{position:relative;padding-left:16px;font-size:.875rem;line-height:1.5;color:var(--ink);}
+    .inv-col li::before{content:"";position:absolute;left:0;top:.5em;width:6px;height:6px;border-radius:50%;background:var(--aegean);}
+    .inv-col li.c::before{background:#b58a3e;}
+    .inv-col li.u::before{background:#a2564a;}
+    .inv-col li.v::before{border-radius:1px;background:#7b6b8f;}
+    .inv-chips{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0 0;}
+    .inv-chips span{font-size:.7rem;padding:2px 8px;border-radius:20px;border:1px solid var(--sand);color:#6a7682;background:var(--white);white-space:nowrap;}
+    .inv-chips span b{color:var(--deep);}
+    @media (max-width:820px){ .inv-cols{grid-template-columns:1fr;} }
+
     .srclist{font-size:.85rem;color:#5a6573;line-height:1.7;padding-left:1.3em;}
     .srclist a{color:var(--aegean);}
     .verdict{display:inline-block;font-size:.68rem;font-weight:700;padding:1px 7px;border-radius:999px;margin-left:6px;vertical-align:middle;}
@@ -383,6 +402,156 @@
       </p>
     </section>
 
+    <!-- ============ WHOLE-ISLAND ALTITUDE INVENTORY ============ -->
+    <section class="place-section">
+      <h2 class="bihead">A section through all of Syros — by altitude <span class="zh">錫羅斯全島剖面 — 依海拔分層</span></h2>
+      <p style="color:#4a5a6a;">
+        The same section line, widened to the whole island: everything it crosses from the <strong>442&nbsp;m</strong> central summit down to the sea, grouped into six altitude bands. Each band carries its <strong>natural</strong> and <strong>human</strong> environment side by side. Blue-dot items are my own measurements (Copernicus GLO-30 DEM, ESA WorldCover, OpenStreetMap via Earth Engine); gold-dot items are adversarially fact-checked research; the violet square marks the one place the section leaves the blueschist — the distinct <em>Vari Unit</em> in the south-east.
+      </p>
+      <div class="inv-legend">
+        <span class="lg"><span class="d" style="background:var(--aegean)"></span>measured — my DEM / WorldCover / OSM</span>
+        <span class="lg"><span class="d" style="background:#b58a3e"></span>cited — verified research</span>
+        <span class="lg"><span class="d" style="background:#a2564a"></span>uncertain / estimated</span>
+        <span class="lg"><span class="d" style="background:#7b6b8f;border-radius:2px"></span>Vari Unit (SE)</span>
+      </div>
+
+      <div class="bands">
+        <!-- 300–442 SUMMIT -->
+        <div class="eband inv-band">
+          <div class="eband-alt"><b>442</b><span>m · summit ridge</span><span class="chip" style="background:#a6763a"></span></div>
+          <div class="eband-body">
+            <h3>Summit ridge — the wind-scoured cap <span style="color:#8a97a2;font-weight:600;font-size:.85rem;">300–442 m</span></h3>
+            <div class="inv-chips"><span><b>85%</b> grassland</span><span><b>13%</b> phrygana</span><span><b>0.4%</b> trees</span><span><b>0.7%</b> built</span><span>only <b>~0.9 km²</b> above 400 m</span></div>
+            <div class="inv-cols">
+              <div class="inv-col nat"><h4>Natural</h4><ul>
+                <li class="c"><b>Structural top of the nappe</b> — freshest high-pressure blueschist, where the greenschist overprint is only sporadic.<a class="cit" href="#s1">1</a></li>
+                <li><b>A tiny, eroded cap</b> — max 439 m on the DEM (cited 442 m); hypsometric integral 0.246 means a mature, deeply-eroded relief.</li>
+                <li><b>Barest land cover on the island</b> — 85% grass, 13% phrygana; thin skeletal soils over marble and schist.</li>
+                <li class="c"><b>Full Meltemi exposure</b> — the N–NE summer wind hits the ridge unobstructed, driving the treeless scrub.<a class="cit" href="#s11">11</a></li>
+              </ul></div>
+              <div class="inv-col hum"><h4>Human</h4><ul>
+                <li><b>Above the building ceiling</b> — essentially unsettled (built 0.7%); rough grazing only.</li>
+                <li class="c"><b>Ano Meria</b> — the sparsely-peopled rural NW half: farmsteads, threshing floors and field-chapels, not villages.</li>
+                <li class="c"><b>Ridgeline windmills</b> historically harvested the same Meltemi that makes the summit uninhabitable.</li>
+              </ul></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 180–300 UPPER HILLS -->
+        <div class="eband inv-band">
+          <div class="eband-alt"><b>300</b><span>m · upper hills</span><span class="chip" style="background:#9a7a44"></span></div>
+          <div class="eband-body">
+            <h3>Upper hills — Ano Meria terraces <span style="color:#8a97a2;font-weight:600;font-size:.85rem;">180–300 m</span></h3>
+            <div class="inv-chips"><span><b>73%</b> grassland</span><span><b>20%</b> phrygana</span><span><b>&lt;4%</b> trees</span><span>slopes <b>17°+</b></span></div>
+            <div class="inv-cols">
+              <div class="inv-col nat"><h4>Natural</h4><ul>
+                <li class="c"><b>CBU schists &amp; marbles</b> — pale marble bands among glaucophane schists; steep, erosion-prone slopes.<a class="cit" href="#s1">1</a></li>
+                <li><b>Windward crest</b> — Chartiana (~248 m) is fully exposed, W-facing, with a leeward-shelter score of zero.</li>
+                <li><b>Phrygana climbing</b> — spiny scrub rises to 20%; the ancient oak woodland was cleared millennia ago and never returned.<a class="cit" href="#s13">13</a></li>
+              </ul></div>
+              <div class="inv-col hum"><h4>Human</h4><ul>
+                <li><b>Dispersed Ano Meria hamlets</b> — Chartiana and scattered farmsteads, the thinly-peopled agropastoral upland.</li>
+                <li class="c"><b>Terrace agriculture</b> — dry-stone <em>pezoules</em> carry barley, vines and figs; goat and sheep herding above.</li>
+                <li class="c"><b>Water by capture only</b> — no springs at height; cisterns and roof-catchment collect the scarce runoff.</li>
+              </ul></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 120–180 CITADEL -->
+        <div class="eband inv-band">
+          <div class="eband-alt"><b>180</b><span>m · citadel band</span><span class="chip" style="background:#8a7a4c"></span></div>
+          <div class="eband-body">
+            <h3>The Ano Syros citadel band <span style="color:#8a97a2;font-weight:600;font-size:.85rem;">120–180 m</span></h3>
+            <div class="inv-chips"><span><b>71%</b> grass</span><span><b>19%</b> phrygana</span><span>built to <b>~4%</b></span><span>S-facing · sheltered</span></div>
+            <div class="inv-cols">
+              <div class="inv-col nat"><h4>Natural</h4><ul>
+                <li class="c"><b>Marble-cored defensible hill</b> — blueschist and marble form the steep cone that made the site defensible.<a class="cit" href="#s1">1</a></li>
+                <li><b>Sheltered, sun-facing aspect</b> — the settlement faces S, catching winter sun and turning its back on the Meltemi.</li>
+                <li class="u"><b>Summit elevation</b> — San Giorgio reads ~171 m on the DEM vs ~188 m cited: a genuine ~15 m discrepancy.</li>
+              </ul></div>
+              <div class="inv-col hum"><h4>Human</h4><ul>
+                <li class="c"><b>Ano Syros kastro</b> — Venetian-founded in the early 13th c.; a dense radial plan of stepped, spiralling lanes.<a class="cit" href="#s7">7</a></li>
+                <li class="c"><b>Catholic stronghold</b> — crowned by the San Giorgio cathedral, seat of the Catholic Diocese of Syros &amp; Milos; the island's Catholic-hilltop vs Orthodox-port geography stacked by altitude.<a class="cit" href="#s9">9</a></li>
+                <li><b>Building climbs to ~180 m</b> — even the 140–160 m band still holds ~158 buildings.</li>
+                <li class="c"><b>Rebetiko's birthplace</b> — Markos Vamvakaris was born here in 1905.<a class="cit" href="#s12">12</a></li>
+              </ul></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 60–120 MID-SLOPES -->
+        <div class="eband inv-band">
+          <div class="eband-alt"><b>120</b><span>m · mid-slopes</span><span class="chip" style="background:#6f7d5f"></span></div>
+          <div class="eband-body">
+            <h3>Mid-slopes — the inland agrarian villages <span style="color:#8a97a2;font-weight:600;font-size:.85rem;">60–120 m</span></h3>
+            <div class="inv-chips"><span><b>70%</b> grass</span><span><b>13%</b> phrygana</span><span><b>7.5%</b> trees — greenest band</span></div>
+            <div class="inv-cols">
+              <div class="inv-col nat"><h4>Natural</h4><ul>
+                <li class="c"><b>CBU schists, gentler benches</b> — the schist–marble sequence flattens into workable terraces.</li>
+                <li><b>Most wooded / cultivable band</b> — tree cover peaks at 7.5% with a little cropland.</li>
+                <li class="c"><b>Named for the rock</b> — the CBU's <em>Chroussa subunit</em> takes its name from this mid-slope district.<a class="cit" href="#s1">1</a></li>
+              </ul></div>
+              <div class="inv-col hum"><h4>Human</h4><ul>
+                <li><b>Talanta (~84 m, E-facing)</b> — inland, oddly open to the north yet turned to the morning sun.</li>
+                <li><b>Ano Manna (~59 m) &amp; Danakos (~63 m)</b> — S-facing farming villages on sheltered benches.</li>
+                <li class="c"><b>Terraced horticulture</b> — vines, olives and figs; the agricultural heart feeding the port below.</li>
+              </ul></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 20–60 LOWER TOWN -->
+        <div class="eband inv-band">
+          <div class="eband-alt"><b>60</b><span>m · lower town</span><span class="chip" style="background:#5f7f84"></span></div>
+          <div class="eband-body">
+            <h3>Lower town &amp; shelf — and the SE's other bedrock <span style="color:#8a97a2;font-weight:600;font-size:.85rem;">20–60 m</span></h3>
+            <div class="inv-chips"><span><b>59–70%</b> grass</span><span>built <b>8–19%</b></span><span>Vari Unit begins</span></div>
+            <div class="inv-cols">
+              <div class="inv-col nat"><h4>Natural</h4><ul>
+                <li class="v"><b>The Vari Unit appears</b> — Vari (~53 m) and Azolimnos (~24 m) sit on a tectonically distinct, lower-grade Late-Cretaceous orthogneiss that has ridden structurally higher than the blueschist since the Miocene.<a class="cit" href="#s1">1</a></li>
+                <li class="v"><b>Vari Gneiss</b> — a strongly-deformed granitic gneiss that may never have undergone the high-pressure metamorphism the rest of the island records.</li>
+              </ul></div>
+              <div class="inv-col hum"><h4>Human</h4><ul>
+                <li><b>Upper Ermoupoli</b> — neoclassical mansions and marble staircases climb the two settled hills.</li>
+                <li class="c"><b>Vrontado</b> — the Orthodox hill (Anastasis) rising opposite Catholic Ano Syros: two faiths on two summits over one port.</li>
+                <li class="v"><b>Vari &amp; Azolimnos</b> — sheltered SE-coast bays on the Vari Unit, now resort and second-home ground.</li>
+              </ul></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 0–20 COAST & PORT -->
+        <div class="eband inv-band">
+          <div class="eband-alt"><b>20</b><span>m · coast &amp; port</span><span class="chip" style="background:#2f6f97"></span></div>
+          <div class="eband-body">
+            <h3>Coast &amp; port — the densest, most storied band <span style="color:#8a97a2;font-weight:600;font-size:.85rem;">0–20 m</span></h3>
+            <div class="inv-chips"><span><b>18.9%</b> built — densest</span><span><b>59%</b> grass</span><span><b>2.2%</b> cropland</span><span>~50 m³/person/yr water</span></div>
+            <div class="inv-cols">
+              <div class="inv-col nat"><h4>Natural</h4><ul>
+                <li class="c"><b>Kini Bay — the world type locality of glaucophane</b> (Hausmann, 1845) — the blue amphibole that names the whole blueschist family, with eclogites and metagabbros, met best at sea level on the west shore.<a class="cit" href="#s1">1</a></li>
+                <li class="c"><b>Kampos melange</b> (N coast) — eclogite and blueschist blocks in a serpentinite matrix; a fossil subduction channel exhumed at the shore.</li>
+                <li><b>Bays around the compass</b> — Kini (NW), Galissas, Finikas (2 m), Posidonia, Megas Gialos, Vari, Azolimnos — most gentle, S/E-facing.</li>
+                <li class="c"><b>Marine &amp; fauna</b> — <em>Posidonia</em> seagrass offshore; the scarce coastal freshwater supports the Balkan terrapin and grass snake among 13 amphibian/reptile species.<a class="cit" href="#s13">13</a></li>
+                <li class="c"><b>Acute water scarcity</b> — only ~50 m³/person/yr harvested, half the Basic Human Water Requirement, forcing desalination; drought and climate change are the headline hazards.<a class="cit" href="#s10">10</a><a class="cit" href="#s14">14</a></li>
+              </ul></div>
+              <div class="inv-col hum"><h4>Human</h4><ul>
+                <li class="c"><b>Ermoupoli (~20 m, unit 11.2 km²)</b> — the neoclassical Orthodox port capital, purpose-built in the 1820s by refugees from Chios, Psara, Kasos, Crete and Smyrna as a planned lower town below Ano Syros.<a class="cit" href="#s8">8</a></li>
+                <li class="c"><b>19th-c. Greece's leading port</b> — commercial and industrial capital; the Greek Steamship Company was founded here in 1856 before Piraeus eclipsed it.</li>
+                <li class="c"><b>Neorion shipyard</b> — the first modern Greek shipyard (1861), still operating on the waterfront.</li>
+                <li class="c"><b>Monuments</b> — Miaouli Square and the Ziller Town Hall; the Apollon Theatre, a miniature La Scala, nearby (not on Miaouli Square, as some sources wrongly claim).</li>
+              </ul></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p style="color:#6a7682;font-size:.82rem;margin-top:14px;">
+        Land-cover percentages are my ESA WorldCover 2021 tallies per 30&nbsp;m DEM band; village elevations and aspects are DEM point-samples (±several m). The 442&nbsp;m summit and ~188&nbsp;m San Giorgio are cited figures the DEM reads a little lower. Two research claims were fact-checked and corrected: Syros does <em>not</em> exceed Sifnos in eclogite peak conditions, and the Town Hall and Apollon Theatre do not share Miaouli Square.
+      </p>
+    </section>
+
     <!-- ============ SOURCES & HONESTY ============ -->
     <section class="place-section">
       <h2 class="bihead">Sources &amp; honesty <span class="zh">來源與誠實聲明</span></h2>
@@ -401,6 +570,8 @@
         <li id="s10"><a href="https://www.ewra.net/ew/pdf/EW_2014_47_03.pdf" target="_blank" rel="noopener">European Water 47 (2014) — Syros drought &amp; water scarcity</a> <span class="verdict v-hi">primary · high</span></li>
         <li id="s11"><a href="https://www.climatestotravel.com/climate/greece/syros" target="_blank" rel="noopener">Climates to Travel — Syros climate / Meltemi</a></li>
         <li id="s12"><a href="https://en.wikipedia.org/wiki/Markos_Vamvakaris" target="_blank" rel="noopener">Wikipedia — Markos Vamvakaris</a></li>
+        <li id="s13"><a href="https://herpetozoa.pensoft.net/article/129656/" target="_blank" rel="noopener">Updated herpetofauna of Syros — Herpetozoa 37 (2024)</a> <span class="verdict v-hi">primary · high</span></li>
+        <li id="s14"><a href="https://www.mdpi.com/2073-4441/15/17/3038" target="_blank" rel="noopener">Water scarcity in the Cyclades — Water (MDPI) 15(17):3038, 2023</a> <span class="verdict v-hi">primary · high</span></li>
         <li id="sd"><strong>Author's spatial analysis</strong> — Copernicus GLO-30 DEM, ESA WorldCover 2021, OpenStreetMap buildings, via Google Earth Engine (elevations, transect, building &amp; land-cover altitude bands, hypsometry, aspect, viewsheds). <span class="verdict v-hi">measured</span></li>
       </ol>
     </section>
