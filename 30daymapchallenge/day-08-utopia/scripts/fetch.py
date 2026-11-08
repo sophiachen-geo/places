@@ -51,3 +51,5 @@ if L=='places':   # story page: outlines of the places named in the essay
     fetch('https://services5.arcgis.com/7nsPwEMP38bSkCjy/arcgis/rest/services/Area_Planning_Commissions/FeatureServer/0', 'raw2/apc.geojson', where="1=1", fields='*', offset_tol=0.00005)
     fetch('https://services5.arcgis.com/7nsPwEMP38bSkCjy/arcgis/rest/services/Community_Plan_Areas/FeatureServer/0', 'raw2/cpa.geojson', where="1=1", fields='*', offset_tol=0.00005)
     fetch('https://services5.arcgis.com/7nsPwEMP38bSkCjy/ArcGIS/rest/services/Historic_Preservation_Overlay_Zones/FeatureServer/5', 'raw2/hpoz.geojson', where="1=1", fields='NAME', offset_tol=0.00002)
+if L=='bldg120':   # just under the high-rise test, for the 'neither' near-misses
+    fetch('https://services.arcgis.com/RmCCgQtiZLDCtblq/ArcGIS/rest/services/Countywide_Building_Outlines_(2020)/FeatureServer/0', R+'mid2020.geojson', where='HEIGHT>=120 AND HEIGHT<150', fields='HEIGHT,BLD_ID')

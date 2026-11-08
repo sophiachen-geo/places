@@ -32,7 +32,84 @@
   "all_towers_in_half": 477,
   "downtown4_towers": 217,
   "new_towers_in_half": 11,
-  "new_towers": 21
+  "new_towers": 21,
+  "neither_types": {
+   "jobs": {
+    "n": 5,
+    "names": [
+     "Burbank",
+     "Sherman Oaks",
+     "Glendale",
+     "Sunset Strip",
+     "Del Amo"
+    ]
+   },
+   "transit": {
+    "n": 8,
+    "names": [
+     "Chatsworth",
+     "Panorama City",
+     "Van Nuys",
+     "Highland Park",
+     "Lincoln Heights",
+     "General Hospital",
+     "East Los Angeles",
+     "Vernon\u2013Central"
+    ]
+   },
+   "urban": {
+    "n": 8,
+    "names": [
+     "Alhambra",
+     "Echo Park",
+     "Huntington Park",
+     "Vermont\u2013Manchester",
+     "Avalon\u2013Manchester",
+     "Redondo Beach",
+     "San Pedro",
+     "Venice"
+    ]
+   },
+   "suburban": {
+    "n": 7,
+    "names": [
+     "San Fernando",
+     "Granada Hills",
+     "Northridge",
+     "Downey",
+     "South Bay",
+     "Lakewood",
+     "Reseda"
+    ]
+   }
+  },
+  "median_by_outcome": {
+   "realised": {
+    "jobs": 18409.0,
+    "homes": 12534.0,
+    "sfr_pct": 2.0,
+    "mid": 7.5
+   },
+   "towers": {
+    "jobs": 29619,
+    "homes": 5704,
+    "sfr_pct": 6.0,
+    "mid": 3
+   },
+   "rail": {
+    "jobs": 5675,
+    "homes": 4633,
+    "sfr_pct": 7.0,
+    "mid": 1
+   },
+   "neither": {
+    "jobs": 4792.0,
+    "homes": 4509.5,
+    "sfr_pct": 19.8,
+    "mid": 0.0
+   }
+  },
+  "jobs_src": "LEHD LODES8 WAC 2023 (all jobs)"
  },
  "garden": {
   "zoning_edited": "2026-11-05",

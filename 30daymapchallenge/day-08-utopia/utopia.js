@@ -6,7 +6,7 @@ const OUT = {
   realised: { c: "#2a78d6", label: "Realised — ≥5 high-rises + rail" },
   towers:   { c: "#eb6834", label: "Towers, no rail" },
   rail:     { c: "#1baf7a", label: "Rail, no towers" },
-  neither:  { c: "#9a9a96", label: "Neither — still suburban" },
+  neither:  { c: "#9a9a96", label: "Neither — no towers, no Metro rail" },
 };
 const BUILT = [
   ["#3f8a2e", "Single-family house (1 unit)"],
@@ -24,6 +24,7 @@ const FATE = {
   privatised: "Built — cooperative dissolved",
   replaced: "Never built — site cleared & replaced",
 };
+const NB = { jobs: "job centre built low", transit: "transit close or coming", urban: "dense low-rise neighbourhood", suburban: "still suburban" };
 const BASIN = [[33.70, -118.70], [34.34, -118.06]];
 const fmt = (n) => (n == null ? "–" : n.toLocaleString("en-US"));
 const mi = (m) => (m / 1609.34).toFixed(2);
@@ -145,7 +146,8 @@ async function init() {
   const ocOf = (p) => (strict ? p.strict : p.oc);
   const centerPopup = (p) => `<div class="ut-pop"><p class="meta">1974 Concept center · ${p.in_city ? "City of LA" : "outside the City"}</p>
     <h4>${p.name}</h4><p>Core: ${p.core}</p>
-    <p><b>½ mi:</b> ${OUT[p.oc].label}<br><b>¼ mi (the plan's own core):</b> ${OUT[p.strict].label}</p>
+    <p><b>½ mi:</b> ${OUT[p.oc].label}${p.nb ? ` → <b>${NB[p.nb]}</b>` : ""}<br><b>¼ mi (the plan's own core):</b> ${OUT[p.strict].label}</p>
+    <p>${fmt(p.jobs)} jobs (LODES 2023) · ${fmt(p.homes)} homes (${p.sfr_pct}% single-family) within ½ mi${p.mid ? ` · ${p.mid} more buildings of 120–149 ft` : ""}<br>Nearest Metrolink: ${p.ml}, ${fmt(p.ml_m)} m</p>
     <p>${p.tw} buildings ≥150 ft / ≥12 storeys within ½ mi (${p.twq} within ¼ mi${p.twnew ? `; ${p.twnew} completed since 2020` : ""})${p.hmax ? ` · tallest ${fmt(p.hmax)} ft` : ""}<br>
     Nearest open rail: ${p.near} — ${fmt(p.near_m)} m (${mi(p.near_m)} mi)${p.uc ? `<br>Under construction: ${p.uc}` : ""}${p.bus ? `<br>Busway: ${p.bus}` : ""}</p>
     <p class="meta">Drawn ${fmt(p.off)} m from this core on the 1974 diagram</p></div>`;
@@ -312,16 +314,18 @@ async function init() {
     rows.sort((a, b) => {
       let x = a[sortK], y = b[sortK];
       if (sortK === "oc" || sortK === "strict") { x = ORDER[x]; y = ORDER[y]; }
+      if (sortK === "nb") { const NO = { jobs: 0, transit: 1, urban: 2, suburban: 3 }; x = NO[x] ?? 9; y = NO[y] ?? 9; }
       if (typeof x === "string") return asc ? x.localeCompare(y) : y.localeCompare(x);
       return asc ? x - y : y - x;
     });
     const dot = (k) => `<span class="dot" style="background:${k === "neither" ? "transparent" : OUT[k].c}"></span>${OUT[k].label.split(" —")[0]}`;
     tbody.innerHTML = rows.map((p) => `<tr><td>${p.name}</td><td>${p.core}</td><td>${dot(p.oc)}</td><td>${dot(p.strict)}</td>
       <td class="num">${p.tw}</td><td class="num">${p.twq}</td><td class="num">${p.hmax ? fmt(p.hmax) : "–"}</td>
-      <td class="num">${fmt(p.near_m)}</td><td>${p.rail === "open" ? "open" : p.rail === "building" ? "building" : "–"}</td></tr>`).join("");
+      <td class="num">${fmt(p.near_m)}</td><td>${p.rail === "open" ? "open" : p.rail === "building" ? "building" : "–"}</td>
+      <td class="num">${fmt(p.jobs)}</td><td class="num">${fmt(p.homes)}</td><td>${p.nb ? NB[p.nb] : ""}</td></tr>`).join("");
   }
   document.querySelectorAll("#ct th").forEach((th) => th.addEventListener("click", () => {
-    const k = th.dataset.k; asc = sortK === k ? !asc : ["name", "core", "oc", "strict", "near_m"].includes(k); sortK = k; drawTable(); }));
+    const k = th.dataset.k; asc = sortK === k ? !asc : ["name", "core", "oc", "strict", "near_m", "nb"].includes(k); sortK = k; drawTable(); }));
   drawTable();
   render("all", false);
 }

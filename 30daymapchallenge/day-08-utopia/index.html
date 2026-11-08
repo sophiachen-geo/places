@@ -131,7 +131,9 @@
       <section class="place-section" style="margin-top:0">
         <h2>What the overlay shows</h2>
         <ol class="findings">
-          <li><b>The 1970 plan was two utopias, and only one won.</b> Concept Los Angeles promised to <em>intensify</em> centers and <em>preserve</em> suburbs. Preservation is a zoning default and it held: 75.3% of residential land is still single-family. Intensification needed capital and transit: only <b>12 of 56</b> centers have both high-rises and a station within ½ mile — <b>8</b> under the plan's own ¼-mile core test — and <b>28</b> have neither.</li>
+          <li><b>The 1970 plan was two utopias, and only one won.</b> Concept Los Angeles promised to <em>intensify</em> centers and <em>preserve</em> suburbs. Preservation is a zoning default and it held: 75.3% of residential land is still single-family. Intensification needed capital and transit: only <b>12 of 56</b> centers have both high-rises and a station within ½ mile — <b>8</b> under the plan's own ¼-mile core test — and <b>28</b> have neither.
+            But “neither” is not “suburban”: <b>5</b> are job centres built low (Glendale has 29,147 jobs within ½ mile, more than the median center that passed both tests, 18,409, yet only 2 buildings of 150 ft),
+            <b>8</b> have Metro rail within a mile, a line under construction, or a busway / Metrolink stop, <b>8</b> are dense low-rise neighbourhoods (≥4,000 homes within ½ mile), and only <b>7</b> are still suburban.</li>
           <li><b>The garden owns the land, not the people.</b> On the 2026 Assessor roll, single-family houses are 66% of residential parcels but hold <b>31%</b> of the City's 1.6 million homes; buildings of 5+ units hold 40% on 5% of residential parcels. The suburb is densifying from inside: <b>16,551</b> single-family lots now carry two or more units.</li>
           <li><b>Towers went where the plan said — and piled up downtown.</b> 66% of the City's 627 high-rises stand within ½ mile of a 1974 center core, on 5.8% of its land (33% within ¼ mile, on 1.5%). But 45% of all in-center towers sit in the four downtown circles. Of the 21 towers of 12+ storeys completed since 2020, 11 landed in plan centers.</li>
           <li><b>Towers and trains arrived in different places.</b> Towers without rail: Warner Center, Beverly Hills, Century City, Westwood, Santa Monica — the affluent west; the subway reaches three of them only in 2027, and Santa Monica's station is 850 m from its core. Rail without towers: Crenshaw, Watts, Compton, Expo Park, Boyle Heights, Inglewood, Culver City, North Hollywood — mostly lines laid on old railroad rights-of-way.</li>
@@ -148,7 +150,7 @@
           <summary>All 56 centers — table view</summary>
           <div class="ct-wrap"><table class="ct" id="ct"><thead><tr>
             <th data-k="name">Center (1974)</th><th data-k="core">Core (exact intersection)</th><th data-k="oc">Outcome ½ mi</th><th data-k="strict">Outcome ¼ mi</th>
-            <th data-k="tw">High-rises ½ mi</th><th data-k="twq">¼ mi</th><th data-k="hmax">Tallest (ft)</th><th data-k="near_m">Nearest open rail (m)</th><th data-k="rail">Rail</th>
+            <th data-k="tw">High-rises ½ mi</th><th data-k="twq">¼ mi</th><th data-k="hmax">Tallest (ft)</th><th data-k="near_m">Nearest open rail (m)</th><th data-k="rail">Rail</th><th data-k="jobs">Jobs ½ mi</th><th data-k="homes">Homes ½ mi</th><th data-k="nb">Inside “neither”</th>
           </tr></thead><tbody></tbody></table></div>
         </details>
       </section>
@@ -173,6 +175,7 @@
           <tr><td>Congestion</td><td>Caltrans D7 Mobility Performance Report</td><td>calendar 2024 + 2025 Q2</td><td>postmile + queue length</td><td>replaces the single-quarter GIS layer (2024 Q4, earlier mislabeled 2022)</td></tr>
           <tr><td>Freeways / postmiles</td><td>Caltrans LRS functional class; Caltrans tenth-mile postmiles</td><td>2023 export; live</td><td>centerline / 0.1 mi</td><td>—</td></tr>
           <tr><td>Utopia sites</td><td>City Historic-Cultural Monuments; Assessor parcels; NPS; CHL No. 933</td><td>Nov 2026; 2025</td><td>footprint</td><td>replaces point coordinates</td></tr>
+          <tr><td>Centers: jobs, homes, commuter rail</td><td>LEHD LODES8 Workplace Area Characteristics (Census); 2026 Assessor roll; Metrolink GTFS; LARIAC buildings 120–149 ft</td><td>2023 jobs · 2026 roll · May 2026 GTFS · 2020 flight</td><td>census block · parcel · station · building</td><td>splits the 28 “neither” centers into four sub-types (<code>scripts/centres_more.py</code>)</td></tr>
         </tbody></table></div>
       </section>
 

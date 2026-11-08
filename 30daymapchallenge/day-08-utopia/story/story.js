@@ -139,7 +139,7 @@
     const hmax = Math.max(...Object.entries(H).filter(([y]) => +y >= Y0).map(([, v]) => v));
     function buildHist() {
       const w = tEl.clientWidth, h = tEl.clientHeight; if (!w) return; tw = w;
-      const top = 13, bot = h - 13, n = Y1 - Y0 + 1, bw = w / n;
+      const n = Y1 - Y0 + 1, bw = w / n, mr = bw < 2.5 ? 2.5 : 3.2, top = 4 * mr + 5, bot = h - 13;
       const svg = document.createElementNS(SVGNS, "svg"); svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
       bars = [];
       for (let y = Y0; y <= Y1; y++) {
@@ -155,18 +155,20 @@
         const t = document.createElementNS(SVGNS, "text"); t.setAttribute("x", (y - Y0 + 0.5) * bw); t.setAttribute("y", h - 1);
         t.setAttribute("text-anchor", "middle"); t.textContent = y; svg.appendChild(t);
       }
-      const seen = {};
+      // two rows of milestone dots; a dot drops to the second row when the first is taken
+      const rowEnd = [-1e9, -1e9];
       MILESTONES.forEach(([y, ch, label]) => {
-        const k = seen[y] = (seen[y] || 0) + 1;
+        let cx = (y - Y0 + 0.5) * bw, row = rowEnd.findIndex((e) => cx - e >= 2 * mr + 1);
+        if (row < 0) { row = rowEnd[0] <= rowEnd[1] ? 0 : 1; cx = rowEnd[row] + 2 * mr + 1; }
+        rowEnd[row] = cx;
         const c = document.createElementNS(SVGNS, "circle");
-        c.setAttribute("cx", (y - Y0 + 0.5) * bw); c.setAttribute("cy", 5 + (k - 1) * 0); c.setAttribute("r", 3.6);
-        c.setAttribute("fill", COL[ch]); c.setAttribute("stroke", "#fff"); c.setAttribute("stroke-width", 1.2);
-        if (k > 1) c.setAttribute("cx", (y - Y0 + 0.5) * bw + 5);
+        c.setAttribute("cx", cx); c.setAttribute("cy", mr + 1 + row * (2 * mr + 1)); c.setAttribute("r", mr);
+        c.setAttribute("fill", COL[ch]); c.setAttribute("stroke", "#fff"); c.setAttribute("stroke-width", 1);
         c.classList.add("ms"); c.dataset.year = y;
         const ti = document.createElementNS(SVGNS, "title"); ti.textContent = `${y} · ${label}`; c.appendChild(ti);
         svg.appendChild(c);
       });
-      cursor = document.createElementNS(SVGNS, "line"); cursor.setAttribute("y1", 9); cursor.setAttribute("y2", bot + 3);
+      cursor = document.createElementNS(SVGNS, "line"); cursor.setAttribute("y1", top - 2); cursor.setAttribute("y2", bot + 3);
       cursor.setAttribute("stroke", INK); cursor.setAttribute("stroke-width", 1.5); svg.appendChild(cursor);
       tEl.replaceChildren(svg);
       paintHist();
@@ -360,7 +362,7 @@
       const f = placeById[id], [lng, lat] = f.geometry.coordinates;
       const l = L.circleMarker([lat, lng], { pane: "g-autopia", radius: 8, color: INK, weight: 2, fillColor: COL.autopia, fillOpacity: 1 })
         .bindPopup(pop(f.properties.name, "Interchange · Caltrans LRS", `<p>${f.properties.src}</p>`)).addTo(map);
-      reg(id, { ch: "autopia", name: id === "smsd" ? "Santa Monica × San Diego freeways" : f.properties.name, bounds: L.latLngBounds([[lat, lng], [lat, lng]]), layer: l, maxZoom: 14, ll: [lat, lng] });
+      reg(id, { ch: "autopia", name: id === "smsd" ? "Santa Monica × San Diego freeways" : f.properties.name, short: id === "smsd" ? "I-10 × I-405" : null, bounds: L.latLngBounds([[lat, lng], [lat, lng]]), layer: l, maxZoom: 14, ll: [lat, lng] });
     });
     const bh500 = L.geoJSON(placeById.bh500, { pane: "g-autopia", interactive: false, style: { stroke: false, fillColor: COL.autopia, fillOpacity: 0.45 } });
     const maxV = S.aadt.max.v, MINV = 100000;
@@ -381,7 +383,13 @@
       realised: { fill: COL.centers, op: 0.6, stroke: LINE.centers, w: 1.2, label: "Realised: ≥5 high-rises + open rail" },
       towers: { fill: "#86b6ef", op: 0.55, stroke: LINE.centers, w: 1.2, label: "High-rises, no rail" },
       rail: { fill: "#ffffff", op: 0.65, stroke: LINE.centers, w: 2.6, label: "Rail, no high-rises" },
-      neither: { fill: "#ffffff", op: 0.05, stroke: "#8b877e", w: 1.2, dash: "3 3", label: "Neither: still suburban" },
+      neither: { fill: "#ffffff", op: 0.05, stroke: "#8b877e", w: 1.2, dash: "3 3", label: "Neither: no towers, no Metro rail" },
+    };
+    const NB = {
+      jobs: ["Job centres built low", "≥10,000 jobs within ½ mile, but under 5 buildings of 150 ft"],
+      transit: ["Transit close or coming", "a Metro line being built, a Metro station within 1 mile, or a busway / Metrolink stop within ½ mile"],
+      urban: ["Dense low-rise neighbourhoods", "≥4,000 homes within ½ mile (≈8 per acre; the City averages ≈5), few jobs, no rail nearby"],
+      suburban: ["Still suburban", "the plan’s preserved suburb: fewer homes, few jobs, no rail"],
     };
     const ALIAS = { "Canoga Park–Woodland Hills": "Warner Center" };
     const centerLayer = L.geoJSON(centers, { pane: "g-centers",
@@ -389,12 +397,17 @@
         return L.circle(ll, { pane: "g-centers", radius: 804.7, color: o.stroke, weight: o.w, dashArray: o.dash, fillColor: o.fill, fillOpacity: o.op }); },
       onEachFeature: (f, l) => { const p = f.properties, nm = ALIAS[p.name] ? `${ALIAS[p.name]} <small>(plan: ${p.name})</small>` : p.name;
         l.bindPopup(pop(nm, `1974 Concept centre · ${p.in_city ? "City of LA" : "outside the City"}`,
-          `<p>Core: ${p.core}<br><b>${OUT[p.oc].label}</b> (within ½ mile)</p><p>${p.tw} high-rises within ½ mile${p.hmax ? ` · tallest ${fmt(p.hmax)} ft` : ""}<br>
-           Nearest open rail: ${p.near}, ${fmt(p.near_m)} m${p.uc ? `<br>Under construction: ${p.uc}` : ""}</p>`)); } }).addTo(map);
+          `<p>Core: ${p.core}<br><b>${OUT[p.oc].label}</b> (within ½ mile)${p.nb ? `<br>Inside “neither”: <b>${NB[p.nb][0].replace(/s$/, "").replace(/hoods$/, "hood")}</b>` : ""}</p>
+           <p>${p.tw} high-rises ≥150 ft${p.mid ? ` + ${p.mid} of 120–149 ft` : ""}${p.hmax ? ` · tallest ${fmt(p.hmax)} ft` : ""}<br>
+           ${fmt(p.jobs)} jobs (2023) · ${fmt(p.homes)} homes, ${p.sfr_pct}% in single-family houses</p>
+           <p>Nearest open Metro rail: ${p.near}, ${fmt(p.near_m)} m${p.uc ? `<br>Under construction: ${p.uc}` : ""}${p.bus ? `<br>Busway: ${p.bus}` : ""}<br>Nearest Metrolink: ${p.ml}, ${fmt(p.ml_m)} m</p>
+           <p class="meta">All figures within ½ mile of the core.</p>`)); } }).addTo(map);
+    const circleByName = {};
+    centerLayer.eachLayer((l) => { circleByName[l.feature.properties.name] = l; });
     const cIdx = Object.fromEntries(centers.features.map((f) => [f.properties.name, f]));
     [["centurycity", "Century City"], ["westwood", "Westwood"], ["warner", "Canoga Park–Woodland Hills"]].forEach(([id, nm]) => {
       const [lng, lat] = cIdx[nm].geometry.coordinates, ll = L.latLng(lat, lng);
-      reg(id, { ch: "centers", name: ALIAS[nm] || nm, bounds: ll.toBounds(1700), maxZoom: 14, ll: [lat, lng] });
+      reg(id, { ch: "centers", name: ALIAS[nm] || nm, bounds: ll.toBounds(1700), maxZoom: 14, ll: [lat, lng], layer: circleByName[nm] });
     });
     const towerLayer = L.layerGroup(towers.features.map((f) => { const p = f.properties, [lng, lat] = f.geometry.coordinates;
       return L.circleMarker([lat, lng], { pane: "g-centers", renderer: cv.centers, radius: 1.6 + (p.h || p.st * 12.5) / 450, stroke: false, fillColor: INK, fillOpacity: 0.85 })
@@ -418,7 +431,8 @@
         .bindPopup(pop(p.name, `${p.years}`, `${p.ideal ? `<p><b>Ideal.</b> ${p.ideal}</p>` : ""}${p.reality ? `<p><b>Reality.</b> ${p.reality}</p>` : ""}<p class="meta">${p.geomnote}</p>`), { maxWidth: 320 });
       m.addTo(coopLayer);
       const b = shapes[p.id] ? L.geoJSON(shapes[p.id]).getBounds() : L.latLng(lat, lng).toBounds(400);
-      reg(p.id, { ch: "coop", name: p.name, bounds: b, layer: m, maxZoom: 15, topo: topoMeta[p.id] ? "topo:" + p.id : null, ll: [lat, lng], n: i + 1 });
+      const SHORT = { llano: "Llano del Rio", landers: "Little Landers · Bolton Hall", village: "Village Green", crestwood: "Crestwood Hills", elysian: "Chávez Ravine" };
+      reg(p.id, { ch: "coop", name: p.name, short: SHORT[p.id], bounds: b, layer: m, maxZoom: 15, topo: topoMeta[p.id] ? "topo:" + p.id : null, ll: [lat, lng], n: i + 1 });
     });
     coopLayer.addTo(map);
 
@@ -445,22 +459,67 @@
       document.querySelectorAll("#st-focus li").forEach((li) => li.classList.toggle("on", ch === "all" || li.dataset.ch === ch));
       updateKey();
     }
-    const labels = L.layerGroup().addTo(map);
-    function showLabels(ids) {
-      labels.clearLayers();
-      ids.filter((id) => PL[id]).forEach((id) => {
-        const P = PL[id], pt = !!P.ll && !P.labelAt, ll = P.labelAt || P.ll || P.bounds.getCenter();
-        const t = L.tooltip({ permanent: true, direction: pt ? "right" : "center", offset: pt ? [12, 0] : [0, 0], className: "pl-label", interactive: false })
-          .setLatLng(ll).setContent(P.name);
-        labels.addLayer(t);
+    // Labels live in one absolutely positioned layer and are placed greedily: each tries a few anchor positions and
+    // takes the first that clears the map edge, the panels, the swipe handle and every label already placed;
+    // a label that fits nowhere is hidden rather than drawn over something else.
+    const lblLayer = L.DomUtil.create("div", "lbl-layer", map.getContainer());
+    let lbls = [];
+    function showLabels(ids, extra = []) {
+      lblLayer.replaceChildren();
+      lbls = ids.filter((id) => PL[id]).map((id) => {
+        const P = PL[id], el = L.DomUtil.create("div", "pl-label", lblLayer); el.textContent = P.short || P.name;
+        return { ll: L.latLng(P.labelAt || P.ll || P.bounds.getCenter()), pt: !!P.ll && !P.labelAt, el, b: P.ll ? null : P.bounds };
+      }).concat(extra.map(([ll, text]) => { const el = L.DomUtil.create("div", "pl-label", lblLayer); el.textContent = text; return { ll: L.latLng(ll), pt: true, el }; }));
+      placeLabels();
+    }
+    const box = map.getContainer().closest(".st-mapbox");
+    function obstacles() {
+      const r0 = map.getContainer().getBoundingClientRect();
+      return [...box.querySelectorAll(".st-orig, .st-focus, .st-key, .st-time, .leaflet-control-zoom, .swipe-handle, .swipe-tag, .st-back, .leaflet-control-attribution")]
+        .filter((e) => e.offsetParent && getComputedStyle(e).display !== "none" && e.textContent !== "")
+        .map((e) => { const r = e.getBoundingClientRect(); return { x: r.left - r0.left - 4, y: r.top - r0.top - 4, w: r.width + 8, h: r.height + 8 }; })
+        .filter((o) => o.w > 8 && o.h > 8);
+    }
+    const hit = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
+    function placeLabels() {
+      if (!lbls.length) return;
+      const size = map.getSize(), obs = obstacles(), placed = [];
+      // points first (their anchor is exact), then areas (they can slide inside their outline)
+      [...lbls].sort((a, b) => b.pt - a.pt).forEach((L_) => {
+        const w = L_.el.offsetWidth, h = L_.el.offsetHeight, p = map.latLngToContainerPoint(L_.ll);
+        const cand = L_.pt
+          ? [[14, -h / 2], [-w - 14, -h / 2], [-w / 2, -h - 14], [-w / 2, 14], [12, -h - 8], [12, 8], [-w - 12, -h - 8], [-w - 12, 8], [-w / 2, -h - 30], [-w / 2, 30]]
+          : [[-w / 2, -h / 2], [-w / 2, -h - 10], [-w / 2, 10], [12, -h / 2], [-w - 12, -h / 2], [-w / 2, -h - 32], [-w / 2, 32], [16, -h - 16], [-w - 16, 16], [16, 16], [-w - 16, -h - 16]];
+        if (L_.b) {   // an area label may also sit anywhere well inside its own outline's box
+          const a = map.latLngToContainerPoint(L_.b.getNorthWest()), z = map.latLngToContainerPoint(L_.b.getSouthEast());
+          for (const fx of [0.3, 0.7, 0.5]) for (const fy of [0.3, 0.7, 0.5]) cand.push([a.x + (z.x - a.x) * fx - p.x - w / 2, a.y + (z.y - a.y) * fy - p.y - h / 2]);
+        }
+        let ok = null;
+        for (const [dx, dy] of cand) {
+          const r = { x: p.x + dx, y: p.y + dy, w, h };
+          if (r.x < 4 || r.y < 4 || r.x + w > size.x - 4 || r.y + h > size.y - 4) continue;
+          if (obs.some((o) => hit(o, r)) || placed.some((o) => hit(o, r))) continue;
+          ok = r; break;
+        }
+        if (ok) { L_.el.style.transform = `translate(${Math.round(ok.x)}px, ${Math.round(ok.y)}px)`; L_.el.style.visibility = ""; placed.push({ x: ok.x - 3, y: ok.y - 3, w: w + 6, h: h + 6 }); }
+        else L_.el.style.visibility = "hidden";
       });
     }
+    map.on("move zoomend resize", placeLabels);
+    map.on("zoomanim", () => lblLayer.classList.add("hide"));
+    map.on("zoomend", () => lblLayer.classList.remove("hide"));
+    // an open popup owns the screen: labels and the swipe chips step aside so nothing is written over it
+    map.on("popupopen", () => { lblLayer.classList.add("hide"); map.getContainer().classList.add("popup-open"); });
+    map.on("popupclose", () => { lblLayer.classList.remove("hide"); map.getContainer().classList.remove("popup-open"); });
     // the Valley's polygon centre lands in the hills; label it where the subdivisions are
     PL.valley.labelAt = [34.205, -118.47];
     const keyEl = document.getElementById("st-key");
     const sw = (style) => `<i style="${style}"></i>`;
     function updateKey() {
-      let h = `<h5>Built fabric · year built</h5><div class="ramp"></div><div class="ramp-l"><span>1890</span><span>1950</span><span>2015</span></div>
+      const RN = { pastoral: ["I", "Pastoral"], autopia: ["II", "Autopia"], centers: ["III", "Polycentric"], coop: ["IV", "Cooperative"] };
+      let h = `<div class="k-u">${GROUPS.map((g) => `<a href="#${g}" class="${focus === g ? "on" : focus === "all" ? "all" : ""}" style="--c:${COL[g]}" title="${RN[g][1]}"><i></i>${RN[g][0]}${focus === g ? ` ${RN[g][1]}` : ""}</a>`).join("")}
+        <span>${focus === "all" ? "all four lit" : focus === "none" ? "chronology" : "lit · others dimmed"}</span></div>
+        <h5>Built fabric · year built</h5><div class="ramp"></div><div class="ramp-l"><span>1890</span><span>1950</span><span>2015</span></div>
         <div class="k">${sw(`width:12px;height:8px;background:${INK}`)}Built in the last ${FRONT_YRS} years</div>`;
       const g = focus;
       if (g === "pastoral") {
@@ -485,7 +544,14 @@
     }
 
     /* ======================= camera ======================= */
-    const pad = () => (mobile.matches ? { paddingTopLeft: [20, 56], paddingBottomRight: [20, 72] } : { paddingTopLeft: [50, 120], paddingBottomRight: [60, 150] });
+    // camera padding = the panels actually on screen, so a target never lands under the legend or the timeline
+    const tEl2 = document.getElementById("st-time");
+    const pad = () => {
+      const o = oPanel.getBoundingClientRect(), t = tEl2.getBoundingClientRect();
+      const k = keyEl.offsetParent && getComputedStyle(keyEl).display !== "none" ? keyEl.getBoundingClientRect() : null;
+      if (mobile.matches) return { paddingTopLeft: [16, o.height + 18], paddingBottomRight: [16, t.height + 26] };
+      return { paddingTopLeft: [28, o.height + 26], paddingBottomRight: [k ? k.width + 34 : 28, t.height + 44] };
+    };
     function boundsFor(v) {
       if (v === "region" && mobile.matches) v = "basin";   // the Antelope Valley view is too small to read on a phone
       if (VIEWS[v]) return { b: L.latLngBounds(VIEWS[v]), z: 13 };
@@ -504,6 +570,26 @@
       const t = boundsFor(v); if (!t) return;
       map.flyToBounds(t.b, { ...pad(), maxZoom: t.z, duration: 1.1 });
     }
+    // after a place click or a manual pan/zoom, offer the way back to the paragraph's own view
+    const back = L.DomUtil.create("button", "st-back", box);
+    back.type = "button"; back.innerHTML = "↺ Back to this paragraph’s map"; back.hidden = true;
+    const showBack = () => { back.hidden = false; placeLabels(); };
+    function goBack() {
+      back.hidden = true; map.closePopup(); halo.clearLayers(); resetCentres();
+      if (!active) return;
+      const s = active._s; setFocus(s.ch); setOriginal(s.o, true); userOrig = false; setExtras(s.x);
+      flyView(s.v, true); showLabels(s.v.split(",").map((v) => v.replace(/^topo:/, "")));
+    }
+    back.addEventListener("click", goBack);
+    const home = L.DomUtil.create("a", "leaflet-control-zoom-home", map.zoomControl.getContainer());
+    home.href = "#"; home.title = "Back to this paragraph’s map"; home.setAttribute("role", "button"); home.setAttribute("aria-label", home.title); home.innerHTML = "⌂";
+    L.DomEvent.on(home, "click", (e) => { L.DomEvent.preventDefault(e); L.DomEvent.stopPropagation(e); goBack(); });
+    map.on("dragstart", showBack);
+    const mc = map.getContainer();
+    mc.addEventListener("wheel", showBack, { passive: true });
+    mc.addEventListener("dblclick", showBack);
+    mc.addEventListener("touchstart", (e) => { if (e.touches.length > 1) showBack(); }, { passive: true });
+    map.zoomControl.getContainer().querySelectorAll(".leaflet-control-zoom-in, .leaflet-control-zoom-out").forEach((a) => a.addEventListener("click", showBack));
 
     /* ======================= halo for clicked places ======================= */
     const halo = L.layerGroup().addTo(map);
@@ -525,12 +611,35 @@
       if (P.topo) { setOriginal(P.topo, true); t.b = L.latLngBounds(topoMeta[id].bounds); }
       lastView = "";
       map.flyToBounds(t.b, { ...pad(), maxZoom: t.z, duration: 1.0 });
-      showLabels([id]); flash(P);
-      map.once("moveend", () => { if (P.layer && P.layer.openPopup && P.ll) P.layer.openPopup(); });
+      showLabels([id]); flash(P); showBack();
+      map.once("moveend", () => {
+        if (!P.layer || !P.layer.openPopup) return;
+        if (P.ll) P.layer.openPopup(); else P.layer.openPopup(L.latLng(P.labelAt || P.bounds.getCenter()));
+      });
     }
     document.querySelectorAll(".pl[data-place]").forEach((b) => b.addEventListener("click", () => {
       focusPlace(b.dataset.place); b.classList.add("pulse"); setTimeout(() => b.classList.remove("pulse"), 1200);
     }));
+
+    function resetCentres() {
+      centerLayer.eachLayer((l) => { const o = OUT[l.feature.properties.oc];
+        l.setStyle({ color: o.stroke, weight: o.w, dashArray: o.dash || null, fillColor: o.fill, fillOpacity: o.op, opacity: 1 }); });
+      document.querySelectorAll(".nb-row.on").forEach((r) => r.classList.remove("on"));
+    }
+    function showNeither(t) {
+      resetCentres(); setFocus("centers"); map.closePopup();
+      const members = [];
+      centerLayer.eachLayer((l) => {
+        const p = l.feature.properties;
+        if (p.nb === t) { members.push(l); l.setStyle({ color: INK, weight: 2.4, dashArray: null, fillColor: "#8b877e", fillOpacity: 0.45, opacity: 1 }); l.bringToFront(); }
+        else l.setStyle({ opacity: 0.25, fillOpacity: Math.min(0.12, OUT[p.oc].op) });
+      });
+      document.querySelectorAll(`.nb-row[data-nb="${t}"]`).forEach((r) => r.classList.add("on"));
+      lastView = ""; if (curOrig !== "none") setSwipe(0.06);
+      map.flyToBounds(L.featureGroup(members).getBounds(), { ...pad(), maxZoom: 12, duration: 1.0 });
+      showLabels([], members.map((l) => [l.getLatLng(), ALIAS[l.feature.properties.name] || l.feature.properties.name]));
+      showBack();
+    }
 
     /* ======================= evidence cards ======================= */
     const C = S.centers, G = S.garden, B = SS.boyle, PW = SS.parkways1946;
@@ -632,7 +741,14 @@
           ${tile(`${C.rail_open_half}`, `centres have an open rail station within ½ mile; ${C.rail_building_half} more are being built`)}
           ${tile(`${cIdx["Century City"].properties.tw} · ${cIdx.Westwood.properties.tw} · ${cIdx["Canoga Park–Woodland Hills"].properties.tw}`, "high-rises within ½ mile of Century City · Westwood · Warner Center; none yet on open rail")}
         </div>
-        <div class="mini"><h4>What the 56 centres became (within ½ mile of each core)</h4>${outcomeBar()}</div>`,
+        <div class="mini"><h4>What the 56 centres became (within ½ mile of each core)</h4>${outcomeBar()}</div>
+        <div class="mini"><h4>Inside the ${C.outcomes_half_mile.neither} “neither” — not one outcome but four</h4>
+          <div class="nb">${["jobs", "transit", "urban", "suburban"].map((t) => `<button type="button" class="nb-row" data-nb="${t}">
+            <b>${C.neither_types[t].n}</b><span><span class="nb-t">${NB[t][0]}</span><span class="nb-d">${NB[t][1]}</span>
+            <span class="nb-n">${C.neither_types[t].names.map((n) => ALIAS[n] || n).join(" · ")}</span></span></button>`).join("")}</div>
+          <p class="note">Glendale has ${fmt(cIdx.Glendale.properties.jobs)} jobs within ½ mile — more than the median centre that passed both tests (${fmt(C.median_by_outcome.realised.jobs)}) —
+            but only ${cIdx.Glendale.properties.tw} buildings reach 150 ft; ${cIdx.Glendale.properties.mid} more stop at 128–145 ft. Rules apply in this order; jobs: LEHD LODES 2023;
+            homes: 2026 Assessor roll; Metrolink: GTFS May 2026. Click a group to see it on the map.</p></div>`,
       coop: () => `<h3>Read with the map</h3>
         ${origLine("topo", "USGS topographic sheets from each experiment’s own years — they change as you read, site by site.")}
         <div class="mini"><h4>The experiments, 1910–2026</h4>${gantt()}
@@ -660,6 +776,7 @@
       el.innerHTML = CARDS[el.dataset.card]();
       el.querySelectorAll("[data-orig]").forEach((b) => b.addEventListener("click", () => setOriginal(b.dataset.orig, true)));
       el.querySelectorAll(".row[data-place]").forEach((r) => r.addEventListener("click", () => focusPlace(r.dataset.place)));
+      el.querySelectorAll(".nb-row").forEach((r) => r.addEventListener("click", () => showNeither(r.dataset.nb)));
     });
 
     /* chronology interlude */
@@ -703,7 +820,7 @@
       if (s.y === "play") { if (!autoplayed) { autoplayed = true; play(Y0); } else if (!playing) tweenYear(Y1); }
       else if (s.y) tweenYear(+s.y);
       if (s.w) setSwipe(+s.w); else if (s.o !== "none" && (swipe.x > 0.85 || swipe.x < 0.15)) setSwipe(0.5);
-      halo.clearLayers();
+      halo.clearLayers(); resetCentres(); back.hidden = true; map.closePopup();
       flyView(s.v);
       showLabels(s.v.split(",").map((v) => v.replace(/^topo:/, "")));
       updateKey();
