@@ -93,3 +93,32 @@ table.ct .dot { display: inline-block; width: 10px; height: 10px; border-radius:
 @media (max-width: 720px) {
   .verdicts { grid-template-columns: 1fr; }
 }
+
+/* ---------- 1974 plan: swipe + controls ---------- */
+#ut-map { position: relative; }
+.swipe-divider { position: absolute; top: 0; bottom: 0; width: 0; z-index: 900; pointer-events: none; }
+.swipe-divider::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1.5px; width: 3px; background: #14304a; box-shadow: 0 0 0 1px rgba(255,255,255,.7); }
+.swipe-handle { pointer-events: auto; position: absolute; top: 50%; left: -19px; width: 38px; height: 38px; margin-top: -19px; border-radius: 50%;
+  border: 2px solid #fff; background: #14304a; color: #fff; font: 700 16px/1 "Segoe UI", system-ui, sans-serif; cursor: ew-resize; touch-action: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,.35); }
+.swipe-handle:focus-visible { outline: 3px solid #eb6834; outline-offset: 2px; }
+.swipe-tag { position: absolute; top: 10px; white-space: nowrap; font: 700 .7rem/1 "Segoe UI", system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase;
+  color: #fff; background: rgba(20,48,74,.85); padding: 5px 8px; border-radius: 999px; }
+.swipe-tag.l { right: 10px; } .swipe-tag.r { left: 10px; }
+.plan-controls { display: flex; flex-wrap: wrap; gap: 8px 18px; align-items: center; margin: 0 0 12px; padding: 10px 14px; background: var(--white);
+  border-radius: 10px; box-shadow: var(--shadow); font-size: .84rem; color: var(--deep); font-weight: 600; }
+.plan-controls label { display: inline-flex; gap: 7px; align-items: center; cursor: pointer; }
+.plan-controls input[type=checkbox] { accent-color: var(--aegean); }
+.plan-controls input[type=range] { width: 120px; accent-color: var(--deep); }
+.seg { display: inline-flex; border: 1.5px solid #d6cab4; border-radius: 999px; overflow: hidden; margin: 6px 0 2px; }
+.seg button { border: 0; background: var(--white); color: var(--ink); padding: 6px 12px; font: 600 .78rem/1.2 inherit; font-family: inherit; cursor: pointer; }
+.seg button.on { background: var(--deep); color: #fff; }
+.bn-label { background: #e34948; color: #fff; border: 0; font-weight: 800; padding: 1px 5px; box-shadow: none; }
+.bn-label::before { display: none; }
+table.ct td:nth-child(2) { white-space: normal; min-width: 170px; color: #5a6573; }
+table.src-audit { border-collapse: collapse; width: 100%; font-size: .82rem; margin-top: 10px; }
+table.src-audit th, table.src-audit td { padding: 7px 8px; border-bottom: 1px solid var(--sand); text-align: left; vertical-align: top; }
+table.src-audit th { background: var(--sand); color: var(--deep); font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; }
+table.src-audit td:nth-child(3) { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.sa-wrap { overflow-x: auto; }
+@media (max-width: 720px) { .plan-controls input[type=range] { width: 90px; } }

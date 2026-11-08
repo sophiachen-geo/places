@@ -1,0 +1,29 @@
+{
+ "bounds": [
+  [
+   33.6461,
+   -118.77734
+  ],
+  [
+   34.385634,
+   -118.021636
+  ]
+ ],
+ "size_px": [
+  3823,
+  4514
+ ],
+ "res_webmerc_m": 22.0,
+ "gcps": {
+  "inland_centers": 51,
+  "shoreline": 71,
+  "tps_smoothing": 40
+ },
+ "affine_rmse_m": 474,
+ "loo_center_error_m": {
+  "median": 403,
+  "p90": 1320,
+  "max": 2107
+ },
+ "source": "Los Angeles City Planning Dept., Concept Los Angeles diagram, adopted 3 Apr 1974 (LA Metro Research Library scan, 300 ppi)"
+}
