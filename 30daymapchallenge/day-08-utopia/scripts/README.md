@@ -3,7 +3,7 @@
 Run everything from one empty working directory `W`, with these scripts copied into it and `DAY` pointing at
 this day folder (e.g. `export DAY=/path/to/places/30daymapchallenge/day-08-utopia/`).
 Python 3 with numpy, scipy, pillow, shapely ≥ 2, pyproj, pyarrow, rasterio; poppler-utils for `pdfimages`.
-Steps 14–19 feed the illustrated essay in `../story/`.
+Steps 14–20 feed the illustrated essay (`../index.html`); `../analysis.html` is the detailed analysis page.
 
 | # | Step | Source (vintage) | Output |
 |---|---|---|---|
