@@ -19,6 +19,7 @@ js/main.js            ← loads data/places.json, draws the map + cards
 data/places.json      ← the single source of truth (every place lives here)
 <id>/                 ← one folder per place at the repo root (e.g. athens/)
 _template/            ← copy this to start a new place
+30daymapchallenge/    ← sub-collection: one folder per challenge day (day-NN-theme/)
 ```
 
 Place folders live at the repo root, so a place is served at
@@ -51,3 +52,12 @@ The site will be live at `https://<user>.github.io/places/`.
 
 - **Athens, Greece** — visited & studied. The cradle of democracy.
 - **Mykonos, Greece** — studied. An ecological reading of a rocky Cycladic island and the architecture of Chora and its hamlets.
+
+## Sub-collection: #30DayMapChallenge
+
+[`30daymapchallenge/`](30daymapchallenge/) holds one map per challenge day, each in its own
+`day-NN-theme/` folder with its data, processing scripts and a card on the hub page. Each day is also
+registered in `data/places.json`, so it gets a pin on the main map.
+
+- **Day 8 · Utopia — Los Angeles** — four utopian models for LA (garden suburb, Autopia, the 1970
+  Centers Concept, cooperative colonies), fact-checked and mapped against where each ended up.

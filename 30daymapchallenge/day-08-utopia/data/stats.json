@@ -1,0 +1,196 @@
+{
+ "built": "2026-11-08",
+ "towers": {
+  "lariac2020_ge150ft": 776,
+  "cofo_2020_2026_ge12st": 28,
+  "cofo_new_not_in_lariac": 21,
+  "total": 797,
+  "in_city": 627
+ },
+ "centers": {
+  "n": 56,
+  "n_in_city": 37,
+  "outcomes_half_mile": {
+   "neither": 28,
+   "towers": 5,
+   "rail": 11,
+   "realised": 12
+  },
+  "outcomes_quarter_mile": {
+   "neither": 33,
+   "realised": 8,
+   "rail": 11,
+   "towers": 4
+  },
+  "rail_open_half": 23,
+  "rail_building_half": 5,
+  "city_towers_in_half": 413,
+  "city_towers": 627,
+  "half_share_of_city_land": 5.8,
+  "city_towers_in_quarter": 210,
+  "quarter_share_of_city_land": 1.5,
+  "all_towers_in_half": 477,
+  "downtown4_towers": 217,
+  "new_towers_in_half": 11,
+  "new_towers": 21,
+  "neither_types": {
+   "jobs": {
+    "n": 5,
+    "names": [
+     "Burbank",
+     "Sherman Oaks",
+     "Glendale",
+     "Sunset Strip",
+     "Del Amo"
+    ]
+   },
+   "transit": {
+    "n": 8,
+    "names": [
+     "Chatsworth",
+     "Panorama City",
+     "Van Nuys",
+     "Highland Park",
+     "Lincoln Heights",
+     "General Hospital",
+     "East Los Angeles",
+     "Vernon\u2013Central"
+    ]
+   },
+   "urban": {
+    "n": 8,
+    "names": [
+     "Alhambra",
+     "Echo Park",
+     "Huntington Park",
+     "Vermont\u2013Manchester",
+     "Avalon\u2013Manchester",
+     "Redondo Beach",
+     "San Pedro",
+     "Venice"
+    ]
+   },
+   "suburban": {
+    "n": 7,
+    "names": [
+     "San Fernando",
+     "Granada Hills",
+     "Northridge",
+     "Downey",
+     "South Bay",
+     "Lakewood",
+     "Reseda"
+    ]
+   }
+  },
+  "median_by_outcome": {
+   "realised": {
+    "jobs": 18409.0,
+    "homes": 12534.0,
+    "sfr_pct": 2.0,
+    "mid": 7.5
+   },
+   "towers": {
+    "jobs": 29619,
+    "homes": 5704,
+    "sfr_pct": 6.0,
+    "mid": 3
+   },
+   "rail": {
+    "jobs": 5675,
+    "homes": 4633,
+    "sfr_pct": 7.0,
+    "mid": 1
+   },
+   "neither": {
+    "jobs": 4792.0,
+    "homes": 4509.5,
+    "sfr_pct": 19.8,
+    "mid": 0.0
+   }
+  },
+  "jobs_src": "LEHD LODES8 WAC 2023 (all jobs)"
+ },
+ "garden": {
+  "zoning_edited": "2026-11-05",
+  "sf_share_of_residential_zoned_land": 75.3,
+  "sf_zoned_km2": 410.9,
+  "mf_zoned_km2": 135.1,
+  "roll2026_parcels": 805901,
+  "parcels_by_class": {
+   "sfr": 454515,
+   "adu": 16551,
+   "oth": 12539,
+   "vac": 30697,
+   "c/i": 50406,
+   "ri24": 75924,
+   "ri5": 36649,
+   "cnd": 128620
+  },
+  "units_by_class": {
+   "sfr": 450346,
+   "adu": 42207,
+   "oth": 19571,
+   "vac": 3813,
+   "c/i": 120071,
+   "ri24": 201579,
+   "ri5": 635661,
+   "cnd": 126767
+  },
+  "sfr_share_of_residential_parcels": 66.1,
+  "sfr_share_of_all_units": 30.8,
+  "units_total": 1600015,
+  "sfr_parcels_with_2plus_units": 16551
+ },
+ "holc": {
+  "A": {
+   "zoned_sf_pct": 85.8,
+   "built_sfr_parcel_pct": 77.4,
+   "sfr_units_pct": 54.4,
+   "km2_in_city": 32.1
+  },
+  "B": {
+   "zoned_sf_pct": 66.2,
+   "built_sfr_parcel_pct": 70.5,
+   "sfr_units_pct": 40.4,
+   "km2_in_city": 55.2
+  },
+  "C": {
+   "zoned_sf_pct": 32.4,
+   "built_sfr_parcel_pct": 53.0,
+   "sfr_units_pct": 19.8,
+   "km2_in_city": 111.7
+  },
+  "D": {
+   "zoned_sf_pct": 14.0,
+   "built_sfr_parcel_pct": 45.5,
+   "sfr_units_pct": 18.1,
+   "km2_in_city": 63.6
+  }
+ },
+ "aadt": {
+  "year": 2024,
+  "points": 1245,
+  "max": {
+   "v": 345000,
+   "b": 344000,
+   "a": 345000,
+   "rte": "10",
+   "pm": "R13.803",
+   "at": "Los Angeles, Vermont Avenue"
+  },
+  "ge_300k": 82
+ },
+ "bottlenecks": {
+  "source": "Caltrans D7 MPR, calendar 2024 top-20 + 2025 Q2 top-10",
+  "n": 20,
+  "delay_2024_top20_veh_hrs": 9939277,
+  "top": [
+   "I110-N",
+   "Solano Ave"
+  ],
+  "q2_2025_top": "I110-N Solano Ave",
+  "loop_detectors_offline_q4_2024_pct": 77.7
+ },
+ "dodger_site_acres": 202.7
+}

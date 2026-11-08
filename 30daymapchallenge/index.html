@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>#30DayMapChallenge · Places</title>
+  <meta name="description" content="One map a day through November for the #30DayMapChallenge — a sub-collection of Places." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/place.css" />
+  <style>
+    .dmc-body { max-width: 1040px; }
+    .days { display: grid; grid-template-columns: repeat(10, minmax(0, 1fr)); gap: 8px; margin: 18px 0 8px; }
+    .day { aspect-ratio: 5 / 6; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+           background: var(--white); border: 1px solid var(--sand); color: #b0b7bd; font-weight: 800; font-size: 1.05rem; text-decoration: none; }
+    .day small { font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-top: 2px; }
+    a.day { background: var(--deep); border-color: var(--deep); color: #fff; box-shadow: var(--shadow); }
+    a.day:hover { background: var(--aegean); }
+    .entries { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; margin-top: 18px; }
+    @media (max-width: 640px) { .days { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+  </style>
+</head>
+<body class="place-page">
+  <a class="back-link" href="../">&larr; Back to the map</a>
+
+  <header class="place-hero" style="background-image:url('cover.svg')">
+    <div class="place-hero-overlay">
+      <p class="place-eyebrow">Places · sub-collection · November</p>
+      <h1 class="place-title">#30DayMapChallenge</h1>
+      <div class="place-tags"><span class="tag tag-studied">one map a day</span></div>
+    </div>
+  </header>
+
+  <main class="place-body dmc-body wrap">
+    <p class="place-lead">
+      One map per daily theme, each built from open data and checked against its sources. Every day lives in its own
+      folder here (<code>30daymapchallenge/day-NN-theme/</code>) and links back into the main map of Places.
+    </p>
+
+    <section class="place-section">
+      <h2>The month</h2>
+      <div class="days" id="days"></div>
+    </section>
+
+    <section class="place-section">
+      <h2>Entries</h2>
+      <div class="entries">
+        <a class="card" href="day-08-utopia/">
+          <div class="card-cover" style="background-image:url('day-08-utopia/cover.svg')"></div>
+          <div class="card-body">
+            <h3 class="card-title">Day 8 · Utopia</h3>
+            <p class="card-place">Los Angeles</p>
+            <p class="card-summary">Four utopian models for LA — the garden suburb, Autopia, the 1970 Centers Concept and the cooperative colonies — fact-checked and mapped against where each actually landed.</p>
+            <div class="card-tags"><span class="tag tag-studied">studied</span></div>
+          </div>
+        </a>
+        <a class="card" href="day-08-utopia/story/">
+          <div class="card-cover" style="background-image:url('day-08-utopia/cover.svg')"></div>
+          <div class="card-body">
+            <h3 class="card-title">Day 8 · Los Angeles and the Afterlife of Utopia</h3>
+            <p class="card-place">Los Angeles · illustrated essay</p>
+            <p class="card-summary">The essay with a map that follows it: each utopia lights up over its own original plan, and a timeline rebuilds the basin from 2.2 million parcels' year built.</p>
+            <div class="card-tags"><span class="tag tag-studied">story</span></div>
+          </div>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap"><p>Part of <a href="../" style="color:#fff">Places</a>.</p></div>
+  </footer>
+
+  <script>
+    /* Day tiles: add an entry here when a new day ships. */
+    const DONE = { 8: { theme: "Utopia", href: "day-08-utopia/" } };
+    const grid = document.getElementById("days");
+    for (let d = 1; d <= 30; d++) {
+      const e = DONE[d];
+      const el = document.createElement(e ? "a" : "div");
+      el.className = "day";
+      if (e) { el.href = e.href; el.title = `Day ${d} · ${e.theme}`; }
+      el.innerHTML = `${d}${e ? `<small>${e.theme}</small>` : ""}`;
+      grid.appendChild(el);
+    }
+  </script>
+</body>
+</html>

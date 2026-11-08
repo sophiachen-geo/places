@@ -1,0 +1,8 @@
+{
+ "name": "parkways1946",
+ "control_points": 494,
+ "median_m": 4,
+ "p90_m": 15,
+ "m_per_px": 93,
+ "zmax": 12
+}
