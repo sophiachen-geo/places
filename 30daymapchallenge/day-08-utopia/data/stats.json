@@ -1,0 +1,94 @@
+{
+ "city_area_km2": 1238.7,
+ "zoning": {
+  "sf_share_of_residential": 75.3,
+  "sf_share_of_all_zoned": 39.6,
+  "sf_km2": 410.9,
+  "mf_km2": 135.1,
+  "zoned_km2": 1038.9,
+  "n_polygons": 58859
+ },
+ "holc_sf_share_today": {
+  "A": 85.8,
+  "B": 66.2,
+  "C": 32.4,
+  "D": 14.0
+ },
+ "holc_area_km2_in_city": {
+  "A": 32.1,
+  "B": 55.2,
+  "C": 111.7,
+  "D": 63.6
+ },
+ "towers_county_2020": 776,
+ "towers_in_city": 606,
+ "rail_stations_open": 111,
+ "centers": {
+  "n": 56,
+  "n_in_city": 37,
+  "outcomes": {
+   "neither": 27,
+   "towers": 4,
+   "rail": 12,
+   "realised": 13
+  },
+  "rail_open": 25,
+  "rail_building": 5,
+  "catchment_km2": 109.9,
+  "towers_in_catchments": 461,
+  "towers_share_in_catchments": 59.4,
+  "catchment_share_of_city": 5.8,
+  "towers_in_city_in_catchments": 398,
+  "top": [
+   [
+    "Downtown",
+    172
+   ],
+   [
+    "Bunker Hill (unlabelled circle)",
+    107
+   ],
+   [
+    "Civic Center",
+    43
+   ],
+   [
+    "Long Beach",
+    28
+   ],
+   [
+    "Century City",
+    27
+   ],
+   [
+    "Westwood",
+    27
+   ],
+   [
+    "Wilshire Center (east circle)",
+    24
+   ],
+   [
+    "Canoga Park–Woodland Hills",
+    18
+   ],
+   [
+    "Wilshire Center (west circle)",
+    17
+   ],
+   [
+    "Westchester–Airport",
+    14
+   ]
+  ]
+ },
+ "freeway_km_la": 2850,
+ "aadt_max": [
+  345000,
+  "10",
+  "Los Angeles, Vermont Avenue"
+ ],
+ "aadt_ge_300k": 41,
+ "aadt_ge_250k": 147,
+ "bottleneck_delay_total_veh_hrs": 1512911
+}

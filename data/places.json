@@ -83,6 +83,18 @@
       "summary": "A section through everything: Ano Syros read entirely by altitude — geology, water, agriculture, climate, settlement, morphology, architecture and faith, each pinned to its height from the sea-level port to the San Giorgio summit. Bilingual 繁體中文 / English.",
       "image": "ano-syros/cover.svg",
       "page": "ano-syros/"
+    },
+    {
+      "id": "30daymapchallenge-day-08-utopia",
+      "name": "Los Angeles — Utopia",
+      "country": "USA · California · #30DayMapChallenge Day 8",
+      "year": "2026",
+      "lat": 34.0537,
+      "lng": -118.2428,
+      "tags": ["studied"],
+      "summary": "Four utopian models for LA — the garden suburb, Autopia, the 1970 Centers Concept and the cooperative colonies — fact-checked, then mapped against where each actually landed: zoning, freeway traffic, 56 digitised plan centers vs today's towers and rail.",
+      "image": "30daymapchallenge/day-08-utopia/cover.svg",
+      "page": "30daymapchallenge/day-08-utopia/"
     }
   ]
 }
