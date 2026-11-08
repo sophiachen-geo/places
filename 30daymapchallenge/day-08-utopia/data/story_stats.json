@@ -1,0 +1,33 @@
+{
+ "boyle": {
+  "routes": [
+   5,
+   10,
+   60,
+   101
+  ],
+  "land_within_500ft_pct": 28.0,
+  "bh": {
+   "homes": 23920,
+   "within_500ft_pct": 22.2
+  },
+  "city": {
+   "homes": 1586010,
+   "within_500ft_pct": 6.0
+  },
+  "county": {
+   "homes": 3798768,
+   "within_500ft_pct": 4.9
+  }
+ },
+ "parkways1946": {
+  "miles": {
+   "interregional": 118.3,
+   "regional": 205.1,
+   "metropolitan": 289.9,
+   "total": 613.3
+  },
+  "cost_usd_1946": 939599000,
+  "src": "LA County Regional Planning Commission 1946, table of length and estimated cost"
+ }
+}

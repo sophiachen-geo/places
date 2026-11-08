@@ -46,3 +46,8 @@ if L=='postmiles':
     fetch('https://caltrans-gis.dot.ca.gov/arcgis/rest/services/CHhighway/SHN_Postmiles_Tenth/FeatureServer/0', 'raw2/postmiles_la.geojson', where="County='LA' AND Route IN (2,5,10,60,101,105,110,405,605,710)", fields='Route,PMPrefix,PM,PMSuffix,Odometer,Direction,AlignCode')
 if L=='hcm':
     fetch('https://services1.arcgis.com/tzwalEyxl2rpamKs/arcgis/rest/services/Historic_Preservation_CPA/FeatureServer/0', 'raw2/hcm.geojson', where="1=1", fields='HIST_TYPE,MNT_TYPE,MNT_NUM,NAME,LOCATION,DATE_ACTIVE,STATUS')
+if L=='places':   # story page: outlines of the places named in the essay
+    fetch('https://services.arcgis.com/RmCCgQtiZLDCtblq/arcgis/rest/services/admin_dist_SDE_DIST_DRP_CITY_COMM_BDY/FeatureServer/0', 'raw2/city_comm.geojson', where="1=1", fields='*', offset_tol=0.00005)
+    fetch('https://services5.arcgis.com/7nsPwEMP38bSkCjy/arcgis/rest/services/Area_Planning_Commissions/FeatureServer/0', 'raw2/apc.geojson', where="1=1", fields='*', offset_tol=0.00005)
+    fetch('https://services5.arcgis.com/7nsPwEMP38bSkCjy/arcgis/rest/services/Community_Plan_Areas/FeatureServer/0', 'raw2/cpa.geojson', where="1=1", fields='*', offset_tol=0.00005)
+    fetch('https://services5.arcgis.com/7nsPwEMP38bSkCjy/ArcGIS/rest/services/Historic_Preservation_Overlay_Zones/FeatureServer/5', 'raw2/hpoz.geojson', where="1=1", fields='NAME', offset_tol=0.00002)

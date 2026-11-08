@@ -122,3 +122,13 @@ table.src-audit th { background: var(--sand); color: var(--deep); font-size: .7r
 table.src-audit td:nth-child(3) { white-space: nowrap; font-variant-numeric: tabular-nums; }
 .sa-wrap { overflow-x: auto; }
 @media (max-width: 720px) { .plan-controls input[type=range] { width: 90px; } }
+
+/* link to the illustrated essay */
+.story-cta { display: block; margin: 22px 0 6px; padding: 16px 20px; border-radius: 12px; text-decoration: none; color: #fff;
+  background: linear-gradient(120deg, #14304a 0%, #1f4f74 100%); box-shadow: 0 8px 24px rgba(20, 48, 74, 0.18); position: relative; overflow: hidden; }
+.story-cta::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+  background: linear-gradient(90deg, #1baf7a 0 25%, #eda100 25% 50%, #2a78d6 50% 75%, #e34948 75%); }
+.story-cta .sc-kicker { display: block; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: #9fb3c6; font-weight: 700; }
+.story-cta .sc-title { display: block; font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; margin: 4px 0 6px; }
+.story-cta .sc-sub { display: block; font-size: 0.9rem; color: #dbe5ee; line-height: 1.45; }
+.story-cta:hover { box-shadow: 0 10px 28px rgba(20, 48, 74, 0.28); }

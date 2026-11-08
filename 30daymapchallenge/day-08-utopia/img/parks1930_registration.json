@@ -1,0 +1,8 @@
+{
+ "name": "parks1930",
+ "control_points": 334,
+ "median_m": 3,
+ "p90_m": 9,
+ "m_per_px": 59,
+ "zmax": 12
+}
