@@ -2,6 +2,10 @@
    Visual language: a printed atlas plate. White paper, black ink, hard rules, square corners, and four
    risograph inks that mean one thing each — the four utopias (validated all-pairs; every use is also labelled).
    Type: Fraunces for words, Work Sans for interface and figures. */
+/* Fraunces draws its 8 top-heavy, so it reads as upside down; every digit set in serif comes from Newsreader instead
+   (Google Fonts, OFL; digits only, self-hosted). Letters stay in Fraunces. */
+@font-face { font-family: "D8 Digits"; src: url("fonts/newsreader-digits-roman.woff2") format("woff2"); font-weight: 200 800; font-style: normal; unicode-range: U+0030-0039; font-display: swap; }
+@font-face { font-family: "D8 Digits"; src: url("fonts/newsreader-digits-italic.woff2") format("woff2"); font-weight: 200 800; font-style: italic; unicode-range: U+0030-0039; font-display: swap; }
 :root {
   --paper: #ffffff;
   --wash: #f3f2ee;
@@ -15,7 +19,7 @@
   --u-coop: #ff48b0;       /* IV  riso fluo pink  */
   --u-all: #111111;
   --nav-h: 50px;
-  --serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --serif: "D8 Digits", "Fraunces", Georgia, "Times New Roman", serif;
   --sans: "Work Sans", "Helvetica Neue", Arial, sans-serif;
   --plate: 3px 3px 0 var(--ink);
   color-scheme: light;

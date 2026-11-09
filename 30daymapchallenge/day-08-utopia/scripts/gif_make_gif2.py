@@ -34,11 +34,30 @@ GX0 = round(mx(M['bounds'][0][1]) / CS) * CS; GY1 = round(my(M['bounds'][1][0]) 
 grid = np.asarray(Image.open(DAY + 'img/morph_grid.png').convert('RGBA'))
 YR = np.where(grid[..., 3] > 0, grid[..., 0].astype(int) + 1850, 0)
 W_, E_, S_, N_ = -118.70, -117.90, 33.70, 34.33
-i0, i1 = int((mx(W_) - GX0) // CS), int((mx(E_) - GX0) // CS)
-j0, j1 = int((GY1 - my(N_)) // CS), int((GY1 - my(S_)) // CS)
-yr = YR[j0:j1, i0:i1]; H, W = yr.shape
-X0, Y0 = GX0 + i0 * CS, GY1 - j0 * CS
-topx = lambda lo, la: ((mx(lo) - X0) / CS, (Y0 - my(la)) / CS)
+# ---------- projection: NAD83 / California State Plane Zone 5 (EPSG:2229, US feet), the County's own mapping projection ----------
+from pyproj import Transformer
+from scipy import ndimage as ndi
+T = Transformer.from_crs(4326, 2229, always_xy=True); TI = Transformer.from_crs(2229, 4326, always_xy=True)
+_bl = np.linspace(0, 1, 60)
+_lo = np.r_[W_ + (E_ - W_) * _bl, np.full(60, E_), E_ - (E_ - W_) * _bl, np.full(60, W_)]
+_la = np.r_[np.full(60, S_), S_ + (N_ - S_) * _bl, np.full(60, N_), N_ - (N_ - S_) * _bl]
+_x, _y = T.transform(_lo, _la)
+PXMIN, PXMAX, PYMIN, PYMAX = _x.min(), _x.max(), _y.min(), _y.max()
+W = 742; PRES = (PXMAX - PXMIN) / W; H = int(round((PYMAX - PYMIN) / PRES))
+def P(coords):
+    a = np.asarray(coords, float)
+    if a.ndim == 1: a = a[None, :]
+    X, Y = T.transform(a[:, 0], a[:, 1])
+    return list(zip(((X - PXMIN) / PRES).tolist(), ((PYMAX - Y) / PRES).tolist()))
+topx = lambda lo, la: P([(lo, la)])[0]
+# every output pixel back to lon/lat, then into the Web-Mercator sources (year grid, basemap tiles)
+_gx, _gy = np.meshgrid(PXMIN + (np.arange(W) + 0.5) * PRES, PYMAX - (np.arange(H) + 0.5) * PRES)
+LON, LAT = TI.transform(_gx, _gy)
+MX = np.radians(LON) * R; MY = R * np.log(np.tan(np.pi / 4 + np.radians(LAT) / 2))
+gi = np.floor((MX - GX0) / CS).astype(int); gj = np.floor((GY1 - MY) / CS).astype(int)
+ok = (gi >= 0) & (gi < NX) & (gj >= 0) & (gj < NY)
+yr = np.where(ok, YR[np.clip(gj, 0, NY - 1), np.clip(gi, 0, NX - 1)], 0)
+print('map', W, H, 'ft/px', round(PRES, 1))
 
 # ---------- base: Esri light gray, lightened toward white paper; ocean from its own tint ----------
 z = 11; span = 2 * ORIG / 2 ** z
@@ -47,10 +66,11 @@ mos = Image.new('RGB', (256 * len(tx), 256 * len(ty)))
 for a, x in enumerate(tx):
     for b, y in enumerate(ty): mos.paste(Image.open(f'{G}tiles/{z}_{x}_{y}.png').convert('RGB'), (256 * a, 256 * b))
 mX, mY, res = -ORIG + tx[0] * span, ORIG - ty[0] * span, span / 256
-bx = ((X0 - mX) / res, (mY - Y0) / res, (X0 + W * CS - mX) / res, (mY - (Y0 - H * CS)) / res)
-raw = np.asarray(mos.crop(tuple(round(v) for v in bx)).resize((W, H), Image.NEAREST)).astype(int)
+MA = np.asarray(mos).astype(float)
+U = np.clip((MX - mX) / res - 0.5, 0, MA.shape[1] - 1); V = np.clip((mY - MY) / res - 0.5, 0, MA.shape[0] - 1)
+raw = MA[np.round(V).astype(int), np.round(U).astype(int)].astype(int)
 ocean = (raw[..., 2] - raw[..., 0] >= 3) & (raw[..., 0] < 222)
-smooth = np.asarray(mos.crop(tuple(round(v) for v in bx)).resize((W, H), Image.LANCZOS)).astype(float)
+smooth = np.dstack([ndi.map_coordinates(MA[..., c], [V, U], order=1) for c in range(3)])
 base = smooth * 0.5 + 255 * 0.5
 
 def raster(polys, holes=True):
@@ -58,9 +78,9 @@ def raster(polys, holes=True):
     for pg in polys:
         for p in (pg.geoms if pg.geom_type == 'MultiPolygon' else [pg]):
             if p.is_empty or p.geom_type != 'Polygon': continue
-            d.polygon([topx(*c) for c in p.exterior.coords], fill=255)
+            d.polygon(P(list(p.exterior.coords)), fill=255)
             if holes:
-                for r_ in p.interiors: d.polygon([topx(*c) for c in r_.coords], fill=0)
+                for r_ in p.interiors: d.polygon(P(list(r_.coords)), fill=0)
     return np.asarray(im) > 0
 cb = shape(json.load(open(S + 'raw2/county_boundary.geojson'))['features'][0]['geometry'])
 inside = raster([cb], holes=False)
@@ -79,15 +99,15 @@ base = np.where(water[..., None], np.array(WATER), base)
 rivers = []
 for f in nhd['flow']:
     g = shape(f['geometry'])
-    for l in (g.geoms if g.geom_type == 'MultiLineString' else [g]): rivers.append([topx(*c) for c in l.coords])
-county_line = [[topx(*c) for c in p.exterior.coords] for p in (cb.geoms if cb.geom_type == 'MultiPolygon' else [cb])]
+    for l in (g.geoms if g.geom_type == 'MultiLineString' else [g]): rivers.append(P(list(l.coords)))
+county_line = [P(list(p.exterior.coords)) for p in (cb.geoms if cb.geom_type == 'MultiPolygon' else [cb])]
 # incorporated city boundaries (LA County, City & Unincorporated Community Boundaries)
 CITY_LA, CITY_OTHER = [], []
 for f in json.load(open(S + 'raw2/city_comm.geojson'))['features']:
     if f['properties']['JURISDICTION'] != 'INCORPORATED CITY' or not f.get('geometry'): continue
     g = shape(f['geometry'])
     for p in (g.geoms if g.geom_type == 'MultiPolygon' else [g]):
-        ring = [topx(*c) for c in p.exterior.coords]
+        ring = P(list(p.exterior.coords))
         (CITY_LA if f['properties']['CITY_COMM_NAME'] == 'LOS ANGELES' else CITY_OTHER).append(ring)
 
 # ---------- buildings ----------
@@ -100,7 +120,7 @@ def ramp(y):
 LUT = np.array([ramp(y) for y in range(0, 2030)], float); FRONT = 5
 
 # ---------- freeways and Metro ----------
-FWY = [(o['y0'], o['y1'], [[topx(*c) for c in l] for l in o['lines']]) for o in json.load(open(G + 'freeways_dated.json'))]
+FWY = [(o['y0'], o['y1'], [P(l) for l in o['lines']]) for o in json.load(open(G + 'freeways_dated.json'))]
 def dashed(d, pts, on=5, off=4, fill=CASE, width=2):
     acc, draw = 0.0, True
     for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
@@ -116,7 +136,7 @@ from shapely.geometry import LineString as _LS
 OFF = {'A': -1.4, 'E': 1.4, 'B': -1.4, 'D': 1.4, 'C': -1.4, 'K': 1.4, 'G': 0, 'J': 0}
 segs = []
 for sg in json.load(open(G + 'transit_segments.json')):
-    pts = [topx(lo, la) for lo, la in sg['coords']]
+    pts = P(sg['coords'])
     if OFF[sg['line']]:
         o = _LS(pts).offset_curve(OFF[sg['line']])
         lines = [list(g_.coords) for g_ in (o.geoms if o.geom_type.startswith('Multi') else [o]) if not g_.is_empty]
@@ -151,7 +171,7 @@ MIL = [(1904, 'pastoral', 'Residential District Ordinance'), (1913, 'coop', 'Lit
 hist = {int(k): v for k, v in M['hist'].items()}; N = M['parcels']
 cum = np.cumsum([hist.get(y, 0) for y in range(1850, 2027)]) / N
 HY0, HY1 = 1880, 2026; hmax = max(hist.get(y, 0) for y in range(HY0, HY1 + 1))
-TOP, BOT = 64, 228
+TOP, BOT = 64, 242
 
 def halo_text(d, xy, s, font, fill, halo=(255, 255, 255), sw=3):
     d.text(xy, s, font=font, fill=fill, stroke_width=sw, stroke_fill=halo)
@@ -220,6 +240,12 @@ def frame(Y):
             cx_, cy_ = lx + 9 + (k % 2) * colw, ly + 24 + (k // 2) * 16
             d.line([(cx_, cy_ + 7), (cx_ + 18, cy_ + 7)], fill=legend[L_], width=4)
             d.text((cx_ + 25, cy_), lname(L_, Y), font=UI, fill=INK2)
+    # scale bar (true scale in this projection), bottom right of the map
+    ppm = 5280 / PRES; sx1 = W - 34; sx0 = sx1 - 10 * ppm; sy = TOP + H - 22
+    d.rectangle([sx0 - 10, sy - 18, sx1 + 24, sy + 10], fill=PAPER, outline=INK)
+    for k in range(2): d.rectangle([sx0 + k * 5 * ppm, sy, sx0 + (k + 1) * 5 * ppm, sy + 4], fill=INK if k == 0 else PAPER, outline=INK)
+    for v_ in (0, 5, 10):
+        t_ = f'{v_} mi' if v_ == 10 else str(v_); tw_ = d.textlength(t_, font=TINY); d.text((sx0 + v_ * ppm - tw_ / 2, sy - 15), t_, font=TINY, fill=INK)
     # year, share, histogram, milestone
     by = TOP + H + 3
     d.text((16, by + 18), str(Y), font=NUM, fill=INK)
@@ -247,7 +273,8 @@ def frame(Y):
                            'Metro: LA Metro GTFS 2026, each section from the year it opened. Freeways: Caltrans; opening years: LA Almanac.',
                            'Parks & forest: California Protected Areas Database (GreenInfo Network, 2026). Water: USGS National Hydrography Dataset.',
                            'City boundaries: Los Angeles County, City & Unincorporated Community Boundaries (2026).',
-                           'Basemap: Esri, HERE, Garmin, © OpenStreetMap contributors.']):
+                           'Basemap: Esri, HERE, Garmin, © OpenStreetMap contributors.',
+                           'Projection: NAD83 / California State Plane Zone 5 (EPSG:2229), the projection used by Los Angeles County.']):
         d.text((16, fy + k * 14), t, font=SRC, fill=INK2 if k < 4 else INK3)
     return im
 
