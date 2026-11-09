@@ -248,8 +248,9 @@
         win: [[33.70, -118.70], [34.34, -118.06]] },
     };
     Object.entries(topoMeta).forEach(([id, t]) => {
-      ORIGS["topo:" + id] = { url: `tiles/topo_${id}/{z}/{x}/{y}.webp`, minN: t.zmin, maxN: t.zmax, minZoom: 10, bounds: t.bounds, tag: `${t.year} Map`,
-        cap: `U.S. Geological Survey, ${topoName(t.file)}, ${t.year}`, win: t.bounds,
+      const names = (t.sheets || [t.file]).map(topoName);
+      ORIGS["topo:" + id] = { url: `tiles/topo_${t.tiles || id}/{z}/{x}/{y}.webp`, minN: t.zmin, maxN: t.zmax, minZoom: 10, bounds: t.bounds, tag: `${t.year} Map`,
+        cap: `U.S. Geological Survey, ${names.length > 1 ? names.join(" and ") + " sheets" : names[0]}, ${t.year}`, win: t.focus || t.bounds,
         href: "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/" + t.file.replace("_geo.tif", "_geo.pdf").replace(/^CA_(.*?)_(\d{6})_/, (m, n, id) => `CA_${n.replace(/_/g, "%20")}_${id}_`) };
     });
     // each original map's own printed legend (colours sampled from the scans)
@@ -284,11 +285,16 @@
     const lgRow = (t, c, label) => `<div class="lg">${swatch(t, c)}<span>${label}</span></div>`;
     const oLeg = document.getElementById("o-legend");
     const origLayers = {};
+    const HD = L.Browser.retina ? 1 : 0;   // on high-density screens, request the next zoom level's tiles at half size
     const getOrig = (k) => origLayers[k] || (origLayers[k] = L.tileLayer(D0 + ORIGS[k].url, {
-      pane: "orig", minZoom: ORIGS[k].minZoom || 7, maxZoom: 17, minNativeZoom: ORIGS[k].minN || 9, maxNativeZoom: ORIGS[k].maxN,
-      bounds: L.latLngBounds(ORIGS[k].bounds), opacity: origOpacity,
+      pane: "orig", minZoom: ORIGS[k].minZoom || 7, maxZoom: 17, tileSize: 256 >> HD, zoomOffset: HD,
+      minNativeZoom: (ORIGS[k].minN || 9) - HD, maxNativeZoom: ORIGS[k].maxN - HD,
+      bounds: L.latLngBounds(ORIGS[k].bounds), opacity: opFor(k),
     }));
-    let origOpacity = 0.85, curOrig = "none", userOrig = false;
+    let origOpacity = 0.85, userOpacity = false, curOrig = "none", userOrig = false;
+    // printed survey sheets are full maps on their own paper: shown opaque, not multiplied into today's map
+    const isSheet = (k) => k.startsWith("topo:");
+    const opFor = (k) => (isSheet(k) && !userOpacity ? 1 : origOpacity);
     const swipe = { on: true, x: 0.5 };
     const divider = L.DomUtil.create("div", "swipe-divider", map.getContainer());
     divider.innerHTML = '<span class="swipe-tag l"></span><span class="swipe-tag r">Today</span><button class="swipe-handle" type="button" aria-label="Drag to compare the original map with today"></button>';
@@ -336,7 +342,7 @@
     });
     function nearestTopo() {
       const c = map.getCenter(); let best = null, bd = Infinity;
-      Object.entries(topoMeta).forEach(([id, t]) => { const d = c.distanceTo(L.latLngBounds(t.bounds).getCenter()); if (d < bd) { bd = d; best = id; } });
+      Object.entries(topoMeta).forEach(([id, t]) => { const d = c.distanceTo(L.latLngBounds(t.focus || t.bounds).getCenter()); if (d < bd) { bd = d; best = id; } });
       return "topo:" + best;
     }
     function setOriginal(k, user = false) {
@@ -347,7 +353,8 @@
       oSel.dataset.init = 1;
       if (curOrig !== "none") map.removeLayer(getOrig(curOrig));
       curOrig = k;
-      if (k !== "none") { const l = getOrig(k); l.setOpacity(origOpacity); l.addTo(map); }
+      origPane.style.mixBlendMode = isSheet(k) ? "normal" : "multiply";
+      if (k !== "none") { const l = getOrig(k); l.setOpacity(opFor(k)); l.addTo(map); document.getElementById("o-op").value = Math.round(opFor(k) * 100); }
       oSel.value = k.startsWith("topo:") ? "topo" : k;
       oPanel.classList.toggle("is-none", k === "none");
       oCap.innerHTML = k === "none" ? "" : `Source: ${ORIGS[k].cap} · <a href="${ORIGS[k].href}" target="_blank" rel="noopener">Open the original (PDF)</a>`;
@@ -356,7 +363,7 @@
       clipOrig();
     }
     oSel.addEventListener("change", () => setOriginal(oSel.value, true));
-    document.getElementById("o-op").addEventListener("input", (e) => { origOpacity = e.target.value / 100; if (curOrig !== "none") getOrig(curOrig).setOpacity(origOpacity); });
+    document.getElementById("o-op").addEventListener("input", (e) => { origOpacity = e.target.value / 100; userOpacity = true; if (curOrig !== "none") getOrig(curOrig).setOpacity(origOpacity); });
     document.getElementById("o-swipe").addEventListener("change", (e) => { swipe.on = e.target.checked; clipOrig(); });
 
     /* ======================= utopia layers ======================= */
@@ -648,7 +655,7 @@
       if (v === "pastoral") return { b: L.latLngBounds(pastoralIds.map((id) => PL[id].bounds)), z: 13 };
       if (v === "plate") return { b: L.latLngBounds((ORIGS[curOrig] || ORIGS.parks1930).win), z: 13 };
       if (v === "sites") return { b: coopLayer.getBounds().pad(0.08), z: 13 };
-      if (v.startsWith("topo:")) return { b: L.latLngBounds(topoMeta[v.slice(5)].bounds), z: 15 };
+      if (v.startsWith("topo:")) { const t = topoMeta[v.slice(5)]; return { b: L.latLngBounds(t.focus || t.bounds), z: 15 }; }
       const ids = v.split(",").filter((id) => PL[id]);
       if (!ids.length) return null;
       const b = L.latLngBounds(ids.map((id) => PL[id].bounds));
@@ -698,7 +705,7 @@
       const P = PL[id]; if (!P) return;
       setFocus(P.ch);
       const t = { b: P.bounds, z: P.maxZoom || 14 };
-      if (P.topo) { setOriginal(P.topo, true); t.b = L.latLngBounds(topoMeta[id].bounds); }
+      if (P.topo) { setOriginal(P.topo, true); t.b = L.latLngBounds(topoMeta[id].focus || topoMeta[id].bounds); }
       lastView = "";
       map.flyToBounds(t.b, { ...pad(), maxZoom: t.z, duration: 1.0 });
       showLabels([id]); flash(P); showBack();
