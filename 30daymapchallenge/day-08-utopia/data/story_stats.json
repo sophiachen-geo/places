@@ -812,217 +812,288 @@
     "name": "Wilshire",
     "homes": 147973,
     "acres": 87,
-    "per_1000_homes": 0.59
+    "per_1000_homes": 0.59,
+    "median_income": 73200,
+    "households_acs": 126801
    },
    {
     "name": "Palms - Mar Vista - Del Rey",
     "homes": 55884,
     "acres": 55,
-    "per_1000_homes": 0.98
+    "per_1000_homes": 0.98,
+    "median_income": 110600,
+    "households_acs": 56387
    },
    {
     "name": "Westlake",
     "homes": 47222,
     "acres": 46,
-    "per_1000_homes": 0.98
+    "per_1000_homes": 0.98,
+    "median_income": 47800,
+    "households_acs": 43223
    },
    {
     "name": "West Los Angeles",
     "homes": 44199,
     "acres": 48,
-    "per_1000_homes": 1.09
+    "per_1000_homes": 1.09,
+    "median_income": 120000,
+    "households_acs": 37683
    },
    {
     "name": "South Los Angeles",
     "homes": 90838,
     "acres": 101,
-    "per_1000_homes": 1.11
+    "per_1000_homes": 1.11,
+    "median_income": 56600,
+    "households_acs": 82780
    },
    {
     "name": "Reseda - West Van Nuys",
     "homes": 40766,
     "acres": 55,
-    "per_1000_homes": 1.34
+    "per_1000_homes": 1.34,
+    "median_income": 84600,
+    "households_acs": 37629
    },
    {
     "name": "Downtown",
     "homes": 49459,
     "acres": 69,
-    "per_1000_homes": 1.39
+    "per_1000_homes": 1.39,
+    "median_income": 64400,
+    "households_acs": 45272
    },
    {
     "name": "Mission Hills - Panorama City - North Hills",
     "homes": 45296,
     "acres": 63,
-    "per_1000_homes": 1.4
+    "per_1000_homes": 1.4,
+    "median_income": 67400,
+    "households_acs": 40707
    },
    {
     "name": "Van Nuys - North Sherman Oaks",
     "homes": 67284,
     "acres": 98,
-    "per_1000_homes": 1.46
+    "per_1000_homes": 1.46,
+    "median_income": 74600,
+    "households_acs": 61477
    },
    {
     "name": "Westwood",
     "homes": 21894,
     "acres": 35,
-    "per_1000_homes": 1.62
+    "per_1000_homes": 1.62,
+    "median_income": 83100,
+    "households_acs": 18450
    },
    {
     "name": "Southeast Los Angeles",
     "homes": 70611,
     "acres": 127,
-    "per_1000_homes": 1.8
+    "per_1000_homes": 1.8,
+    "median_income": 55300,
+    "households_acs": 69469
    },
    {
     "name": "Northridge",
     "homes": 26436,
     "acres": 50,
-    "per_1000_homes": 1.9
+    "per_1000_homes": 1.9,
+    "median_income": 97700,
+    "households_acs": 23338
    },
    {
     "name": "North Hollywood - Valley Village",
     "homes": 64612,
     "acres": 148,
-    "per_1000_homes": 2.3
+    "per_1000_homes": 2.3,
+    "median_income": 75800,
+    "households_acs": 58427
    },
    {
     "name": "Boyle Heights",
     "homes": 23920,
     "acres": 59,
-    "per_1000_homes": 2.48
+    "per_1000_homes": 2.48,
+    "median_income": 60100,
+    "households_acs": 22762
    },
    {
     "name": "West Adams - Baldwin Hills - Leimert",
     "homes": 74015,
     "acres": 200,
-    "per_1000_homes": 2.7
+    "per_1000_homes": 2.7,
+    "median_income": 66400,
+    "households_acs": 66522
    },
    {
     "name": "Harbor Gateway",
     "homes": 14082,
     "acres": 55,
-    "per_1000_homes": 3.92
+    "per_1000_homes": 3.92,
+    "median_income": 73200,
+    "households_acs": 13106
    },
    {
     "name": "Westchester - Playa del Rey",
     "homes": 36961,
     "acres": 280,
-    "per_1000_homes": 7.57
+    "per_1000_homes": 7.57,
+    "median_income": 140600,
+    "households_acs": 26741
    },
    {
     "name": "Venice",
     "homes": 23189,
     "acres": 190,
-    "per_1000_homes": 8.18
+    "per_1000_homes": 8.18,
+    "median_income": 123800,
+    "households_acs": 18908
    },
    {
     "name": "Wilmington - Harbor City",
     "homes": 24562,
     "acres": 300,
-    "per_1000_homes": 12.22
+    "per_1000_homes": 12.22,
+    "median_income": 68900,
+    "households_acs": 23185
    },
    {
     "name": "Northeast Los Angeles",
     "homes": 80314,
     "acres": 1015,
-    "per_1000_homes": 12.63
+    "per_1000_homes": 12.63,
+    "median_income": 89600,
+    "households_acs": 80302
    },
    {
     "name": "Sylmar",
     "homes": 22867,
     "acres": 292,
-    "per_1000_homes": 12.77
+    "per_1000_homes": 12.77,
+    "median_income": 97000,
+    "households_acs": 21900
    },
    {
     "name": "San Pedro",
     "homes": 33080,
     "acres": 501,
-    "per_1000_homes": 15.14
+    "per_1000_homes": 15.14,
+    "median_income": 86500,
+    "households_acs": 30766
    },
    {
     "name": "Sherman Oaks - Studio City - Toluca Lake - Cahuenga Pass",
     "homes": 44801,
     "acres": 685,
-    "per_1000_homes": 15.29
+    "per_1000_homes": 15.29,
+    "median_income": 119600,
+    "households_acs": 43273
    },
    {
     "name": "Canoga Park - Winnetka - Woodland Hills - West Hills",
     "homes": 74753,
     "acres": 1369,
-    "per_1000_homes": 18.31
+    "per_1000_homes": 18.31,
+    "median_income": 102900,
+    "households_acs": 67192
    },
    {
     "name": "Silver Lake - Echo Park - Elysian Valley",
     "homes": 31885,
     "acres": 665,
-    "per_1000_homes": 20.85
+    "per_1000_homes": 20.85,
+    "median_income": 101300,
+    "households_acs": 29191
    },
    {
     "name": "Encino - Tarzana",
     "homes": 33910,
     "acres": 845,
-    "per_1000_homes": 24.93
+    "per_1000_homes": 24.93,
+    "median_income": 111800,
+    "households_acs": 31877
    },
    {
     "name": "Granada Hills - Knollwood",
     "homes": 22092,
     "acres": 778,
-    "per_1000_homes": 35.24
+    "per_1000_homes": 35.24,
+    "median_income": 112000,
+    "households_acs": 21204
    },
    {
     "name": "Hollywood",
     "homes": 123218,
     "acres": 4920,
-    "per_1000_homes": 39.93
+    "per_1000_homes": 39.93,
+    "median_income": 77600,
+    "households_acs": 99195
    },
    {
     "name": "Chatsworth - Porter Ranch",
     "homes": 40184,
     "acres": 1631,
-    "per_1000_homes": 40.58
+    "per_1000_homes": 40.58,
+    "median_income": 116500,
+    "households_acs": 37017
    },
    {
     "name": "Sun Valley - La Tuna Canyon",
     "homes": 25883,
     "acres": 1075,
-    "per_1000_homes": 41.53
+    "per_1000_homes": 41.53,
+    "median_income": 81700,
+    "households_acs": 24396
    },
    {
     "name": "Arleta - Pacoima",
     "homes": 22358,
     "acres": 971,
-    "per_1000_homes": 43.41
+    "per_1000_homes": 43.41,
+    "median_income": 84000,
+    "households_acs": 23453
    },
    {
     "name": "Bel Air - Beverly Crest",
     "homes": 9181,
     "acres": 625,
-    "per_1000_homes": 68.05
+    "per_1000_homes": 68.05,
+    "median_income": 200000,
+    "households_acs": 7517
    },
    {
     "name": "Sunland - Tujunga - Lake View Terrace - Shadow Hills - East La Tuna Canyon",
     "homes": 23100,
     "acres": 3339,
-    "per_1000_homes": 144.55
+    "per_1000_homes": 144.55,
+    "median_income": 91700,
+    "households_acs": 19881
    },
    {
     "name": "Brentwood - Pacific Palisades",
     "homes": 28185,
     "acres": 13983,
-    "per_1000_homes": 496.13
+    "per_1000_homes": 496.13,
+    "median_income": 176100,
+    "households_acs": 24680
    }
   ],
   "city": {
    "homes": 1586051,
    "acres": 34904,
-   "per_1000_homes": 22.01
+   "per_1000_homes": 22.01,
+   "median_income": 81939
   },
   "county": {
    "homes": 3753821,
    "acres": 157019,
-   "per_1000_homes": 41.83
+   "per_1000_homes": 41.83,
+   "median_income": 90112
   },
-  "src": "CPAD holdings (GreenInfo Network, current release), open-access land excluding federal; 2026 Assessor roll units"
+  "src": "CPAD holdings (GreenInfo Network, current release), open-access land excluding federal; 2026 Assessor roll units",
+  "income_src": "U.S. Census Bureau, American Community Survey 5-year estimates 2020-2024, tables B19001 and B19013"
  }
 }

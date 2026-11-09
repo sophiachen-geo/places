@@ -796,31 +796,40 @@
     const placeName = (p) => (p.kind === "la" ? p.name.split(" - ").slice(0, 2).join(" – ")
       : p.name.toLowerCase().replace(/(^|[\s-])\w/g, (c) => c.toUpperCase()).replace(/ - /g, " – "));
     function parkBars() {
-      const PK = SS.parks, la = PK.la, cap = 50;
+      // two measures per plan area: public park per 1,000 homes (bar) and median household income (bar on its own scale)
+      const PK = SS.parks, la = PK.la, cap = 50, imax = 200000;
       const pick = la.slice(0, 6).concat(la.slice(-4));
       const sub = { Wilshire: "with Hancock Park, Windsor Square" };
-      const W = cardW(), LW = W < 420 ? 168 : 206, RH = 30, X = (v) => LW + Math.min(v, cap) / cap * (W - LW - 64);
+      const W = cardW(), narrow = W < 420, LW = narrow ? 128 : 178, RH = 30, GAP = 14;
+      const pw = (W - LW - GAP) * 0.5, X1 = LW, X2 = LW + pw + GAP, bw = pw - (narrow ? 34 : 40);
+      const PX = (v) => X1 + Math.min(v, cap) / cap * bw, IX = (v) => X2 + Math.min(v, imax) / imax * bw;
       const f1 = (v) => (v < 10 ? v.toFixed(1) : Math.round(v).toLocaleString("en-US"));
-      let s = "";
-      const row = (n, k, v, hi, id, y) => {
+      const money = (v) => (v == null ? "n/a" : v >= imax ? "$200k+" : "$" + Math.round(v / 1000) + "k");
+      let s = `<text x="${X1}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">Park acres per 1,000 homes</text>
+        <text x="${X2}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">Median household income</text>`;
+      const T0 = 18;
+      const row = (n, k, v, inc, hi, id, y) => {
+        y += T0;
         if (id) s += `<g class="row" data-area="${id}" data-name="${n}" data-ch="pastoral" tabindex="0" role="button" aria-label="Show ${n} on the map"><rect class="hit" x="0" y="${y}" width="${W}" height="${RH - 2}" fill="transparent"/>`;
         s += `<text class="lbl" x="0" y="${y + 11}"${hi ? ' style="font-weight:700"' : ""}>${n}</text><text x="0" y="${y + 23}" style="font-size:9.5px;fill:#6b6b6b">${k}</text>
-          <rect x="${LW}" y="${y + 3}" width="${Math.max(1, X(v) - LW)}" height="16" rx="3" fill="${hi ? COL.pastoral : "#c9c3b6"}"/>`;
-        if (v > cap) s += `<path d="M${X(v) - 14} ${y + 1}l-5 20M${X(v) - 9} ${y + 1}l-5 20" stroke="#fff" stroke-width="2.5"/>`;   // broken bar: off the scale
-        s += `<text x="${X(v) + 6}" y="${y + 15}" style="font-weight:600;fill:#111">${f1(v)}</text>`;
+          <rect x="${X1}" y="${y + 3}" width="${Math.max(hi ? 4 : 1, PX(v) - X1)}" height="16" rx="3" fill="${hi ? COL.pastoral : "#c9c3b6"}"/>`;
+        if (v > cap) s += `<path d="M${PX(v) - 12} ${y + 1}l-5 20M${PX(v) - 7} ${y + 1}l-5 20" stroke="#fff" stroke-width="2.5"/>`;   // broken bar: off the scale
+        s += `<text x="${PX(v) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${f1(v)}</text>
+          <rect x="${X2}" y="${y + 3}" width="${Math.max(1, IX(inc || 0) - X2)}" height="16" rx="3" fill="#fff" stroke="#6f6b63" stroke-width="1.4"/>
+          <text x="${IX(inc || 0) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${money(inc)}</text>`;
         if (id) s += `</g>`;
       };
       pick.forEach((p, i) => {
         const n = placeName({ kind: "la", name: p.name });
-        row(n, sub[p.name] || "City of Los Angeles plan area", p.per_1000_homes, p.name === "Wilshire", "la:" + p.name, i * RH + (i >= 6 ? 10 : 0));
+        row(n, sub[p.name] || "City of Los Angeles plan area", p.per_1000_homes, p.median_income, p.name === "Wilshire", "la:" + p.name, i * RH + (i >= 6 ? 10 : 0));
       });
       const y0 = pick.length * RH + 18;
-      s += `<text x="${LW}" y="${6 * RH + 7}" style="font-size:9.5px;fill:#6b6b6b">… ${la.length - 10} plan areas in between …</text>`;
-      s += `<line x1="0" x2="${W}" y1="${y0 - 4}" y2="${y0 - 4}" stroke="#d6d6d6"/>`;
-      row("City of Los Angeles", "the whole city, for comparison", PK.city.per_1000_homes, false, null, y0);
-      row("Los Angeles County", "the whole county, for comparison", PK.county.per_1000_homes, false, null, y0 + RH);
-      return svgEl(W, y0 + 2 * RH, s) +
-        `<p class="mini-note">Click a plan area to see it on the map. The City of Los Angeles’s 35 community plan areas: the six with the least public park land and the four with the most (bars beyond ${cap} acres are cut). Public park: open-access land in the California Protected Areas Database (GreenInfo Network, current release), federal forest excluded. Homes on the 2026 Assessor roll.</p>`;
+      s += `<text x="${X1}" y="${T0 + 6 * RH + 7}" style="font-size:9.5px;fill:#6b6b6b">… ${la.length - 10} plan areas in between …</text>`;
+      s += `<line x1="0" x2="${W}" y1="${T0 + y0 - 4}" y2="${T0 + y0 - 4}" stroke="#d6d6d6"/>`;
+      row("City of Los Angeles", "the whole city, for comparison", PK.city.per_1000_homes, PK.city.median_income, false, null, y0);
+      row("Los Angeles County", "the whole county, for comparison", PK.county.per_1000_homes, PK.county.median_income, false, null, y0 + RH);
+      return svgEl(W, T0 + y0 + 2 * RH, s) +
+        `<p class="mini-note">Click a plan area to see it on the map. The City of Los Angeles’s 35 community plan areas: the six with the least public park land and the four with the most (park bars beyond ${cap} acres are cut). Public park: open-access land in the California Protected Areas Database (GreenInfo Network, current release), federal forest excluded; homes on the 2026 Assessor roll. Median household income: U.S. Census Bureau, American Community Survey 2020–2024 (5-year estimates), the plan area’s census tracts pooled; the top bracket is $200,000 or more.</p>`;
     }
     function proxBars() {
       const top = B.places.slice(0, 10).map((p) => [placeName(p), KIND[p.kind], p.within_500ft_pct, p.name === "Boyle Heights", (p.kind === "la" ? "la:" : "cc:") + p.name]);
@@ -844,7 +853,6 @@
     function outcomeBar() {
       const o = C.outcomes_half_mile, keys = ["realised", "towers", "rail", "neither"], W = cardW(), h = 22;
       const LBL = { realised: "Tall buildings and rail", towers: "Tall buildings only", rail: "Rail only", neither: "Neither" };
-      const SW = { realised: ["dotf", COL.centers], towers: ["dotf", "#86b6ef"], rail: ["ring", LINE.centers], neither: ["ringd", "#8b877e"] };
       let x = 0, s = "";
       const NT = C.neither_types, nbKeys = ["jobs", "transit", "urban", "suburban"];
       keys.forEach((k) => {
@@ -865,9 +873,15 @@
           <text x="${x + w / 2}" y="${h + 14}" text-anchor="middle" class="lbl">${o[k]}</text>`;
         x += w;
       });
-      return svgEl(W, h + 42, s) + `<div class="bar-key">${keys.slice(0, 3).map((k) => lgRow(SW[k][0], SW[k][1], `${LBL[k]} · ${o[k]}`)).join("")}</div>
-        <p class="nb-h">Neither tall buildings nor rail · ${o.neither}. What they became instead:</p>
-        <div class="nb-key">${nbKeys.map((t) => `<div class="lg">${swatch("fill", NB[t].fill)}<span><b>${NB[t].label} · ${NT[t].n}</b> <span class="nb-rule">(${NB[t].rule})</span><br>${NT[t].names.join(", ")}</span></div>`).join("")}</div>
+      // one legend format for all seven groups: the bar's own swatch, label · count, the rule, the centres' names
+      const sw = (fill, stroke, w, dash) => `<svg viewBox="0 0 22 12" aria-hidden="true"><rect x="1" y="1" width="20" height="10" fill="${fill}" stroke="${stroke}" stroke-width="${w}"${dash ? ` stroke-dasharray="${dash}"` : ""}/></svg>`;
+      const namesOf = (oc) => centers.features.filter((f) => f.properties.oc === oc).map((f) => ALIAS[f.properties.name] || f.properties.name).sort();
+      const RULE = { realised: "a building of 150 ft or more and a rail station within half a mile", towers: "buildings of 150 ft or more, no rail station", rail: "a rail station, no building of 150 ft or more" };
+      const SWB = { realised: sw(COL.centers, LINE.centers, 1), towers: sw("#86b6ef", LINE.centers, 1), rail: sw("#fff", LINE.centers, 2.4) };
+      const item = (swh, label, n, rule, names) => `<div class="lg">${swh}<span><b>${label} · ${n}</b> <span class="nb-rule">(${rule})</span><br>${names.join(", ")}</span></div>`;
+      return svgEl(W, h + 42, s) + `<div class="nb-key">${keys.slice(0, 3).map((k) => item(SWB[k], LBL[k], o[k], RULE[k], namesOf(k))).join("")}</div>
+        <p class="nb-h">Neither · ${o.neither}: what they became instead</p>
+        <div class="nb-key">${nbKeys.map((t) => item(sw(NB[t].fill, "#8b877e", 1, "3 2"), NB[t].label, NT[t].n, NB[t].rule, NT[t].names)).join("")}</div>
         <p class="mini-note">The plan gave each centre “a ‘core’ of about one-quarter mile radius containing a rapid transit station, high-rise office structures, department stores, hotels, theaters, restaurants and government offices”, with apartments nearby. The bar tests the two most visible of those, buildings of 150 ft and up and a rail station, within half a mile of each core; jobs and homes are counted within the same half mile.</p>`;
     }
     const SPANS = [
@@ -900,7 +914,7 @@
           ${tile(`${Math.round(G.sf_share_of_residential_zoned_land)}%`, "of the City’s residential land is zoned for detached houses")}
           ${tile(`${Math.round(G.sfr_share_of_all_units)}%`, "of its homes are detached houses")}
         </div>
-        <div class="mini"><h4>Acres of Public Park per 1,000 Homes</h4>${parkBars()}</div>`,
+        <div class="mini"><h4>Public Park and Household Income, by Plan Area</h4>${parkBars()}</div>`,
       autopia: () => `<p class="orig-link">Original map: <a href="${ORIGS.parkways1946.href}" target="_blank" rel="noopener">1946 · County Regional Planning Commission, <i>Interregional, Regional and Metropolitan Parkways</i></a></p>
         <div class="tiles">
           ${tile(fmt(S.aadt.max.v), "vehicles a day on the Santa Monica Freeway")}
