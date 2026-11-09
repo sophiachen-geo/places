@@ -171,7 +171,7 @@ MIL = [(1904, 'pastoral', 'Residential District Ordinance'), (1913, 'coop', 'Lit
 hist = {int(k): v for k, v in M['hist'].items()}; N = M['parcels']
 cum = np.cumsum([hist.get(y, 0) for y in range(1850, 2027)]) / N
 HY0, HY1 = 1880, 2026; hmax = max(hist.get(y, 0) for y in range(HY0, HY1 + 1))
-TOP, BOT = 64, 242
+TOP, BOT = 64, 372
 
 def halo_text(d, xy, s, font, fill, halo=(255, 255, 255), sw=3):
     d.text(xy, s, font=font, fill=fill, stroke_width=sw, stroke_fill=halo)
@@ -210,42 +210,6 @@ def frame(Y):
         x, y = topx(lo, la); w = d.textlength(name, font=UIB); halo_text(d, (x - w / 2, TOP + y - 8), name, UIB, INK2)
     for name, lo, la, c in NATURE:
         x, y = topx(lo, la); w = d.textlength(name, font=ITAL); halo_text(d, (x - w / 2, TOP + y - 9), name, ITAL, c, sw=2)
-    # map key + Metro lines, in Santa Monica Bay
-    kx, ky = 12, TOP + 376
-    rows = [('water', 'Water'), ('open', 'Parks, forest, open space'), ('fwy', 'Freeway'), ('fwyb', 'Freeway, opening in stages'),
-            ('old', 'Buildings: darker = older'), ('new', f'Built in the last {FRONT} years'),
-            ('cla', 'City of Los Angeles'), ('cot', 'Other cities')]
-    kw = 18 + 26 + max(d.textlength(t, font=UI) for _, t in rows)
-    d.rectangle([kx, ky, kx + kw, ky + 24 + len(rows) * 16], fill=PAPER, outline=INK, width=1)
-    d.text((kx + 9, ky + 6), 'MAP KEY', font=LBL, fill=INK)
-    for k, (kind, t) in enumerate(rows):
-        sx, sy = kx + 9, ky + 24 + k * 16
-        if kind == 'water': d.rectangle([sx, sy + 2, sx + 18, sy + 11], fill=WATER)
-        elif kind == 'open': d.rectangle([sx, sy + 2, sx + 18, sy + 11], fill=OPEN)
-        elif kind == 'fwy': d.line([(sx, sy + 7), (sx + 18, sy + 7)], fill=CASE, width=5); d.line([(sx, sy + 7), (sx + 18, sy + 7)], fill=(255, 255, 255), width=3)
-        elif kind == 'fwyb': dashed(d, [(sx, sy + 7), (sx + 18, sy + 7)])
-        elif kind == 'new': d.rectangle([sx, sy + 2, sx + 18, sy + 11], fill=INK)
-        elif kind == 'cla': d.line([(sx, sy + 7), (sx + 18, sy + 7)], fill=INK, width=2)
-        elif kind == 'cot': d.line([(sx, sy + 7), (sx + 18, sy + 7)], fill=(150, 150, 150), width=1)
-        else:
-            for q in range(18): d.line([(sx + q, sy + 2), (sx + q, sy + 11)], fill=tuple(int(v) for v in ramp(1890 + q * 7)))
-        d.text((sx + 26, sy), t, font=UI, fill=INK2)
-    opened = [k_ for k_ in 'ABCDELKGJ' if k_ in legend]
-    if opened:
-        lx, ly, nr = kx, ky + 24 + len(rows) * 16 + 6, (len(opened) + 1) // 2
-        colw = 25 + max(d.textlength(lname(k_, Y), font=UI) for k_ in opened) + 12
-        d.rectangle([lx, ly, lx + 9 + 2 * colw, ly + 25 + nr * 16], fill=PAPER, outline=INK, width=1)
-        d.text((lx + 9, ly + 6), 'METRO LINES', font=LBL, fill=INK)
-        for k, L_ in enumerate(opened):
-            cx_, cy_ = lx + 9 + (k % 2) * colw, ly + 24 + (k // 2) * 16
-            d.line([(cx_, cy_ + 7), (cx_ + 18, cy_ + 7)], fill=legend[L_], width=4)
-            d.text((cx_ + 25, cy_), lname(L_, Y), font=UI, fill=INK2)
-    # scale bar (true scale in this projection), bottom right of the map
-    ppm = 5280 / PRES; sx1 = W - 34; sx0 = sx1 - 10 * ppm; sy = TOP + H - 22
-    d.rectangle([sx0 - 10, sy - 18, sx1 + 24, sy + 10], fill=PAPER, outline=INK)
-    for k in range(2): d.rectangle([sx0 + k * 5 * ppm, sy, sx0 + (k + 1) * 5 * ppm, sy + 4], fill=INK if k == 0 else PAPER, outline=INK)
-    for v_ in (0, 5, 10):
-        t_ = f'{v_} mi' if v_ == 10 else str(v_); tw_ = d.textlength(t_, font=TINY); d.text((sx0 + v_ * ppm - tw_ / 2, sy - 15), t_, font=TINY, fill=INK)
     # year, share, histogram, milestone
     by = TOP + H + 3
     d.text((16, by + 18), str(Y), font=NUM, fill=INK)
@@ -267,7 +231,42 @@ def frame(Y):
         y_, ch, t = ms[-1]
         d.rectangle([hx0, by + 18, hx0 + 9, by + 27], fill=INK if ch in COL else hex2(ch))   # colour only where it matches a line on the map
         d.text((hx0 + 15, by + 15), f'{y_} · {t}', font=UIB, fill=INK)
-    fy = by + 136
+    # ---- legend band below the map (nothing drawn over land) ----
+    def sw_(kind, sx, sy, col=None):
+        if kind == 'water': d.rectangle([sx, sy + 2, sx + 18, sy + 11], fill=WATER)
+        elif kind == 'open': d.rectangle([sx, sy + 2, sx + 18, sy + 11], fill=OPEN)
+        elif kind == 'fwy': d.line([(sx, sy + 7), (sx + 18, sy + 7)], fill=CASE, width=5); d.line([(sx, sy + 7), (sx + 18, sy + 7)], fill=(255, 255, 255), width=3)
+        elif kind == 'fwyb': dashed(d, [(sx, sy + 7), (sx + 18, sy + 7)])
+        elif kind == 'new': d.rectangle([sx, sy + 2, sx + 18, sy + 11], fill=INK)
+        elif kind == 'cla': d.line([(sx, sy + 7), (sx + 18, sy + 7)], fill=INK, width=2)
+        elif kind == 'cot': d.line([(sx, sy + 7), (sx + 18, sy + 7)], fill=(150, 150, 150), width=1)
+        elif kind == 'old':
+            for q in range(18): d.line([(sx + q, sy + 2), (sx + q, sy + 11)], fill=tuple(int(v) for v in ramp(1890 + q * 7)))
+        elif kind == 'metro': d.line([(sx, sy + 7), (sx + 18, sy + 7)], fill=col, width=4)
+    ly = by + 124
+    d.line([(16, ly), (W - 16, ly)], fill=HAIR)
+    d.text((16, ly + 9), 'MAP KEY', font=LBL, fill=INK)
+    rows = [('water', 'Water'), ('open', 'Parks, forest, open space'), ('fwy', 'Freeway'),
+            ('fwyb', 'Freeway, opening in stages'), ('old', 'Buildings: darker = older'), ('new', f'Built in the last {FRONT} years'),
+            ('cla', 'City of Los Angeles'), ('cot', 'Other cities'), ('scale', '')]
+    cw = (W - 32) / 3
+    for k, (kind, t) in enumerate(rows):
+        sx, sy = 16 + (k % 3) * cw, ly + 27 + (k // 3) * 17
+        if kind == 'scale':   # true scale in this projection
+            ppm = 5280 / PRES; x0_ = sx
+            for q in range(2): d.rectangle([x0_ + q * 5 * ppm, sy + 5, x0_ + (q + 1) * 5 * ppm, sy + 9], fill=INK if q == 0 else PAPER, outline=INK)
+            d.text((x0_ + 10 * ppm + 6, sy), '10 miles', font=UI, fill=INK2)
+            continue
+        sw_(kind, sx, sy); d.text((sx + 26, sy), t, font=UI, fill=INK2)
+    my_ = ly + 27 + 3 * 17 + 8
+    d.text((16, my_), 'METRO LINES', font=LBL, fill=INK)
+    opened = [k_ for k_ in 'ABCDELKGJ' if k_ in legend]
+    if not opened: d.text((16, my_ + 18), 'No Metro rail yet: the first line opens in 1990.', font=UI, fill=INK3)
+    cw2 = (W - 32) / 5
+    for k, L_ in enumerate(opened):
+        sx, sy = 16 + (k % 5) * cw2, my_ + 18 + (k // 5) * 17
+        sw_('metro', sx, sy, legend[L_]); d.text((sx + 26, sy), lname(L_, Y), font=UI, fill=INK2)
+    fy = my_ + 18 + 2 * 17 + 14
     d.line([(16, fy - 8), (W - 16, fy - 8)], fill=HAIR)
     for k, t in enumerate(['Buildings: Los Angeles County Assessor, 2026 property roll — year built of 2.2 million parcels (LA County only).',
                            'Metro: LA Metro GTFS 2026, each section from the year it opened. Freeways: Caltrans; opening years: LA Almanac.',
@@ -284,6 +283,11 @@ if os.environ.get('PREVIEW'):
 years = list(range(1880, 2027, 2))
 if years[-1] != 2026: years.append(2026)
 frames = [frame(y) for y in years]
+if os.environ.get('FRAMES'):            # full frames for video / full-frame GIF exports
+    fd = os.environ['FRAMES']; os.makedirs(fd, exist_ok=True)
+    for k, f in enumerate(frames): f.save(f'{fd}/f{k:03d}.png')
+    json.dump(years, open(f'{fd}/years.json', 'w'))
+    raise SystemExit(0)
 sample = Image.new('RGB', (W, (TOP + H + BOT) * 3))
 for k, y in enumerate((1925, 1960, 2026)): sample.paste(frame(y), (0, (TOP + H + BOT) * k))
 PIN = list(dict.fromkeys([sg[2] for sg in segs] + [AQUA, GOLD, RED, GREEN, WATER, RIVER, OPEN, CASE, INK, (255, 255, 255)] +
