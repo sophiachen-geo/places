@@ -805,5 +805,224 @@
   },
   "cost_usd_1946": 939599000,
   "src": "LA County Regional Planning Commission 1946, table of length and estimated cost"
+ },
+ "parks": {
+  "la": [
+   {
+    "name": "Wilshire",
+    "homes": 147973,
+    "acres": 87,
+    "per_1000_homes": 0.59
+   },
+   {
+    "name": "Palms - Mar Vista - Del Rey",
+    "homes": 55884,
+    "acres": 55,
+    "per_1000_homes": 0.98
+   },
+   {
+    "name": "Westlake",
+    "homes": 47222,
+    "acres": 46,
+    "per_1000_homes": 0.98
+   },
+   {
+    "name": "West Los Angeles",
+    "homes": 44199,
+    "acres": 48,
+    "per_1000_homes": 1.09
+   },
+   {
+    "name": "South Los Angeles",
+    "homes": 90838,
+    "acres": 101,
+    "per_1000_homes": 1.11
+   },
+   {
+    "name": "Reseda - West Van Nuys",
+    "homes": 40766,
+    "acres": 55,
+    "per_1000_homes": 1.34
+   },
+   {
+    "name": "Downtown",
+    "homes": 49459,
+    "acres": 69,
+    "per_1000_homes": 1.39
+   },
+   {
+    "name": "Mission Hills - Panorama City - North Hills",
+    "homes": 45296,
+    "acres": 63,
+    "per_1000_homes": 1.4
+   },
+   {
+    "name": "Van Nuys - North Sherman Oaks",
+    "homes": 67284,
+    "acres": 98,
+    "per_1000_homes": 1.46
+   },
+   {
+    "name": "Westwood",
+    "homes": 21894,
+    "acres": 35,
+    "per_1000_homes": 1.62
+   },
+   {
+    "name": "Southeast Los Angeles",
+    "homes": 70611,
+    "acres": 127,
+    "per_1000_homes": 1.8
+   },
+   {
+    "name": "Northridge",
+    "homes": 26436,
+    "acres": 50,
+    "per_1000_homes": 1.9
+   },
+   {
+    "name": "North Hollywood - Valley Village",
+    "homes": 64612,
+    "acres": 148,
+    "per_1000_homes": 2.3
+   },
+   {
+    "name": "Boyle Heights",
+    "homes": 23920,
+    "acres": 59,
+    "per_1000_homes": 2.48
+   },
+   {
+    "name": "West Adams - Baldwin Hills - Leimert",
+    "homes": 74015,
+    "acres": 200,
+    "per_1000_homes": 2.7
+   },
+   {
+    "name": "Harbor Gateway",
+    "homes": 14082,
+    "acres": 55,
+    "per_1000_homes": 3.92
+   },
+   {
+    "name": "Westchester - Playa del Rey",
+    "homes": 36961,
+    "acres": 280,
+    "per_1000_homes": 7.57
+   },
+   {
+    "name": "Venice",
+    "homes": 23189,
+    "acres": 190,
+    "per_1000_homes": 8.18
+   },
+   {
+    "name": "Wilmington - Harbor City",
+    "homes": 24562,
+    "acres": 300,
+    "per_1000_homes": 12.22
+   },
+   {
+    "name": "Northeast Los Angeles",
+    "homes": 80314,
+    "acres": 1015,
+    "per_1000_homes": 12.63
+   },
+   {
+    "name": "Sylmar",
+    "homes": 22867,
+    "acres": 292,
+    "per_1000_homes": 12.77
+   },
+   {
+    "name": "San Pedro",
+    "homes": 33080,
+    "acres": 501,
+    "per_1000_homes": 15.14
+   },
+   {
+    "name": "Sherman Oaks - Studio City - Toluca Lake - Cahuenga Pass",
+    "homes": 44801,
+    "acres": 685,
+    "per_1000_homes": 15.29
+   },
+   {
+    "name": "Canoga Park - Winnetka - Woodland Hills - West Hills",
+    "homes": 74753,
+    "acres": 1369,
+    "per_1000_homes": 18.31
+   },
+   {
+    "name": "Silver Lake - Echo Park - Elysian Valley",
+    "homes": 31885,
+    "acres": 665,
+    "per_1000_homes": 20.85
+   },
+   {
+    "name": "Encino - Tarzana",
+    "homes": 33910,
+    "acres": 845,
+    "per_1000_homes": 24.93
+   },
+   {
+    "name": "Granada Hills - Knollwood",
+    "homes": 22092,
+    "acres": 778,
+    "per_1000_homes": 35.24
+   },
+   {
+    "name": "Hollywood",
+    "homes": 123218,
+    "acres": 4920,
+    "per_1000_homes": 39.93
+   },
+   {
+    "name": "Chatsworth - Porter Ranch",
+    "homes": 40184,
+    "acres": 1631,
+    "per_1000_homes": 40.58
+   },
+   {
+    "name": "Sun Valley - La Tuna Canyon",
+    "homes": 25883,
+    "acres": 1075,
+    "per_1000_homes": 41.53
+   },
+   {
+    "name": "Arleta - Pacoima",
+    "homes": 22358,
+    "acres": 971,
+    "per_1000_homes": 43.41
+   },
+   {
+    "name": "Bel Air - Beverly Crest",
+    "homes": 9181,
+    "acres": 625,
+    "per_1000_homes": 68.05
+   },
+   {
+    "name": "Sunland - Tujunga - Lake View Terrace - Shadow Hills - East La Tuna Canyon",
+    "homes": 23100,
+    "acres": 3339,
+    "per_1000_homes": 144.55
+   },
+   {
+    "name": "Brentwood - Pacific Palisades",
+    "homes": 28185,
+    "acres": 13983,
+    "per_1000_homes": 496.13
+   }
+  ],
+  "city": {
+   "homes": 1586051,
+   "acres": 34904,
+   "per_1000_homes": 22.01
+  },
+  "county": {
+   "homes": 3753821,
+   "acres": 157019,
+   "per_1000_homes": 41.83
+  },
+  "src": "CPAD holdings (GreenInfo Network, current release), open-access land excluding federal; 2026 Assessor roll units"
  }
 }

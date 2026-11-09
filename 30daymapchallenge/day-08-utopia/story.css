@@ -116,6 +116,8 @@ button, select, input { font-family: var(--sans); }
 .mini svg .ax { stroke: var(--hair); }
 .mini svg .row { cursor: pointer; }
 .mini svg .row:hover .hit { fill: var(--wash); }
+.mini svg .row:focus { outline: none; }
+.mini svg .row:focus-visible .hit { fill: var(--wash); stroke: var(--ink); stroke-width: 1.5; }
 .st-text .mini-note, .mini-note { font: 400 0.68rem/1.45 var(--sans); color: var(--ink-2); margin: 6px 0 0; }
 .st-text .glegend { font: 400 0.72rem/1.4 var(--sans); color: var(--ink-2); margin: 8px 0 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .glegend span { display: inline-block; width: 16px; height: 8px; margin-left: 6px; }
@@ -222,8 +224,7 @@ button, select, input { font-family: var(--sans); }
 .swipe-tag { position: absolute; top: var(--hy, 30%); margin-top: 30px; font: 600 0.62rem/1 var(--sans); letter-spacing: 0.12em; text-transform: uppercase;
   background: var(--ink); color: var(--paper); padding: 5px 7px; white-space: nowrap; }
 .swipe-tag.l { right: 8px; } .swipe-tag.r { left: 8px; }
-.popup-open .swipe-tag, .popup-open .swipe-handle { opacity: 0; pointer-events: none; }
-.popup-open .swipe-divider::before { opacity: 0.35; }
+.popup-open .swipe-tag { opacity: 0; }   /* the handle itself never hides */
 .swipe-tag, .swipe-handle, .swipe-divider::before { transition: opacity 0.2s; }
 
 /* zoom, back, attribution */
@@ -356,6 +357,7 @@ button, select, input { font-family: var(--sans); }
   .st-key { width: 214px; }
 }
 .swipe-divider.no-tags .swipe-tag { display: none; }
+.swipe-divider.lift { z-index: 820; }   /* above the panels, only when no clear spot exists */
 
 /* timeline items link to further reading; the row itself still sets the year */
 .milestones .ms-link { color: inherit; text-decoration: underline; text-decoration-color: #6b6b6b; text-underline-offset: 3px; }

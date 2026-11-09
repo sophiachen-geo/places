@@ -1,8 +1,66 @@
 {
  "name": "parkways1946",
- "control_points": 494,
- "median_m": 4,
- "p90_m": 15,
+ "method": "interior control points by local pattern matching against LA County road and rail centrelines (plate_gcps.py), model chosen by leave-one-out error and distortion",
+ "control_points": 93,
  "m_per_px": 93,
+ "model": "tps_s1000",
+ "models": {
+  "affine": {
+   "rmse_m": 189,
+   "loo_rmse_m": 198,
+   "loo_median_m": 162,
+   "loo_p90_m": 289,
+   "scale_variation_pct": 0.0,
+   "stretch_p95": 1.027
+  },
+  "poly2": {
+   "rmse_m": 145,
+   "loo_rmse_m": 156,
+   "loo_median_m": 119,
+   "loo_p90_m": 249,
+   "scale_variation_pct": 1.0,
+   "stretch_p95": 1.051
+  },
+  "poly3": {
+   "rmse_m": 134,
+   "loo_rmse_m": 154,
+   "loo_median_m": 114,
+   "loo_p90_m": 251,
+   "scale_variation_pct": 2.0,
+   "stretch_p95": 1.048
+  },
+  "tps_s1000": {
+   "rmse_m": 124,
+   "loo_rmse_m": 148,
+   "loo_median_m": 112,
+   "loo_p90_m": 239,
+   "scale_variation_pct": 0.9,
+   "stretch_p95": 1.038
+  },
+  "tps_s200": {
+   "rmse_m": 102,
+   "loo_rmse_m": 145,
+   "loo_median_m": 110,
+   "loo_p90_m": 227,
+   "scale_variation_pct": 1.4,
+   "stretch_p95": 1.044
+  },
+  "tps_s50": {
+   "rmse_m": 75,
+   "loo_rmse_m": 145,
+   "loo_median_m": 107,
+   "loo_p90_m": 229,
+   "scale_variation_pct": 1.8,
+   "stretch_p95": 1.056
+  },
+  "tps_s10": {
+   "rmse_m": 38,
+   "loo_rmse_m": 146,
+   "loo_median_m": 102,
+   "loo_p90_m": 239,
+   "scale_variation_pct": 2.4,
+   "stretch_p95": 1.073
+  }
+ },
  "zmax": 12
 }
