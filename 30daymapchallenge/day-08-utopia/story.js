@@ -24,23 +24,23 @@
     region: [[33.66, -118.80], [34.56, -117.70]],
     centers: [[33.74, -118.62], [34.28, -118.08]],
   };
-  const MILESTONES = [
-    [1904, "pastoral", "Residential District Ordinance"],
-    [1913, "coop", "Little Landers colony, Tujunga"],
-    [1914, "coop", "Llano del Rio founded"],
-    [1930, "pastoral", "Olmsted–Bartholomew regional parks plan"],
-    [1940, "autopia", "Arroyo Seco Parkway, the first freeway, opens"],
-    [1942, "coop", "Baldwin Hills Village completed"],
-    [1946, "autopia", "County parkways plan: 613 miles"],
-    [1946, "coop", "Crestwood Hills cooperative established"],
-    [1949, "autopia", "Four Level Interchange completed"],
-    [1953, "coop", "Elysian Park Heights cancelled"],
-    [1962, "coop", "Dodger Stadium opens in Chávez Ravine"],
-    [1966, "autopia", "Santa Monica Freeway completed"],
-    [1971, "autopia", "Banham publishes <i>Los Angeles: The Architecture of Four Ecologies</i>"],
-    [1974, "centers", "Centers Concept adopted, 3 April"],
-    [1990, "centers", "Blue Line: first modern rail line opens"],
-    [1996, "centers", "General Plan Framework adopted"],
+  const MILESTONES = [   // year, utopia, label, where to read more
+    [1904, "pastoral", "Residential District Ordinance", "https://en.wikipedia.org/wiki/Zoning_in_the_United_States#Los_Angeles,_1904-1909"],
+    [1913, "coop", "Little Landers colony, Tujunga", "https://en.wikipedia.org/wiki/Little_Landers"],
+    [1914, "coop", "Llano del Rio founded", "https://en.wikipedia.org/wiki/Llano_del_Rio"],
+    [1930, "pastoral", "Olmsted–Bartholomew regional parks plan", "https://libraryarchives.metro.net/DPGTL/trafficplans/1930_parks_playgrounds_beaches_los_angeles_region.pdf"],
+    [1940, "autopia", "Arroyo Seco Parkway, the first freeway, opens", "https://en.wikipedia.org/wiki/Arroyo_Seco_Parkway"],
+    [1942, "coop", "Baldwin Hills Village completed", "https://en.wikipedia.org/wiki/Village_Green,_Los_Angeles"],
+    [1946, "autopia", "County parkways plan: 613 miles", "https://libraryarchives.metro.net/DPGTL/trafficplans/1946_interregional_regional_metropolitan_parkways.pdf"],
+    [1946, "coop", "Crestwood Hills cooperative established", "https://en.wikipedia.org/wiki/Crestwood_Hills,_Los_Angeles"],
+    [1949, "autopia", "Four Level Interchange completed", "https://en.wikipedia.org/wiki/Four_Level_Interchange"],
+    [1953, "coop", "Elysian Park Heights cancelled", "https://en.wikipedia.org/wiki/Battle_of_Chavez_Ravine"],
+    [1962, "coop", "Dodger Stadium opens in Chávez Ravine", "https://en.wikipedia.org/wiki/Dodger_Stadium"],
+    [1966, "autopia", "Santa Monica Freeway completed", "https://en.wikipedia.org/wiki/Santa_Monica_Freeway"],
+    [1971, "autopia", "Banham publishes <i>Los Angeles: The Architecture of Four Ecologies</i>", "https://en.wikipedia.org/wiki/Reyner_Banham"],
+    [1974, "centers", "Centers Concept adopted, 3 April", "https://libraryarchives.metro.net/dpgtl/lacity/1974-concept-los-angeles-side-1.pdf"],
+    [1990, "centers", "Blue Line: first modern rail line opens", "https://en.wikipedia.org/wiki/A_Line_(Los_Angeles_Metro)"],
+    [1996, "centers", "General Plan Framework adopted", "https://planning.lacity.gov/plans-policies/framework-element"],
   ];
 
   async function init() {
@@ -453,12 +453,15 @@
     const coopLayer = L.featureGroup();
     L.geoJSON({ type: "FeatureCollection", features: Object.values(shapes) }, { pane: "g-coop", interactive: false,
       style: { color: LINE.coop, weight: 2, fillColor: COL.coop, fillOpacity: 0.3 } }).addTo(coopLayer);
+    const READ = { llano: "https://en.wikipedia.org/wiki/Llano_del_Rio", landers: "https://en.wikipedia.org/wiki/Little_Landers", village: "https://en.wikipedia.org/wiki/Village_Green,_Los_Angeles",
+      crestwood: "https://en.wikipedia.org/wiki/Crestwood_Hills,_Los_Angeles", elysian: "https://en.wikipedia.org/wiki/Battle_of_Chavez_Ravine" };
     pins.forEach((f, i) => {
       const p = f.properties, [lng, lat] = f.geometry.coordinates;
       const m = L.marker([lat, lng], { pane: "g-coop", icon: L.divIcon({ className: "", html: `<span class="u-pin">${i + 1}</span>`, iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] }) })
         .bindPopup(pop(p.name, p.years, `<p>${{ abandoned: "Abandoned; the plans were never built", absorbed: "Absorbed into the suburb", built: "Built; still standing", privatised: "Built; the cooperative later dissolved", replaced: "Never built; the site became Dodger Stadium" }[p.fate]}</p>
           ${ORIGS["topo:" + p.id] ? `<p><a href="${ORIGS["topo:" + p.id].href}" target="_blank" rel="noopener">Open the ${topoMeta[p.id].year} survey map (PDF)</a></p>` : ""}
-          ${p.id === "llano" ? `<p><a href="https://ohp.parks.ca.gov/ListedResources/Detail/933" target="_blank" rel="noopener">California Historical Landmark No. 933</a></p>` : ""}`), { maxWidth: 300 });
+          ${p.id === "llano" ? `<p><a href="https://ohp.parks.ca.gov/ListedResources/Detail/933" target="_blank" rel="noopener">California Historical Landmark No. 933</a></p>` : ""}
+          ${READ[p.id] ? `<p><a href="${READ[p.id]}" target="_blank" rel="noopener">Read more (Wikipedia)</a></p>` : ""}`), { maxWidth: 300 });
       m.addTo(coopLayer);
       const b = shapes[p.id] ? L.geoJSON(shapes[p.id]).getBounds() : L.latLng(lat, lng).toBounds(400);
       const SHORT = { llano: "Llano del Rio", landers: "Little Landers · Bolton Hall", village: "Village Green", crestwood: "Crestwood Hills", elysian: "Chávez Ravine" };
@@ -816,8 +819,9 @@
 
     /* chronology interlude */
     const msList = document.getElementById("milestones");
-    msList.innerHTML = MILESTONES.map(([y, ch, t]) => `<li data-year="${y}"><b>${y}</b><span>${t}</span><i title="${{ pastoral: "Pastoral suburb", autopia: "Autopia", centers: "Polycentric", coop: "Cooperative" }[ch]}">${NUM[ch]}</i></li>`).join("");
+    msList.innerHTML = MILESTONES.map(([y, ch, t, u]) => `<li data-year="${y}"><b>${y}</b><span><a class="ms-link" href="${u}" target="_blank" rel="noopener" title="Read more">${t}</a></span><i title="${{ pastoral: "Pastoral suburb", autopia: "Autopia", centers: "Polycentric", coop: "Cooperative" }[ch]}">${NUM[ch]}</i></li>`).join("");
     msList.querySelectorAll("li").forEach((li) => li.addEventListener("click", () => tweenYear(+li.dataset.year, 900)));
+    msList.querySelectorAll(".ms-link").forEach((a_) => a_.addEventListener("click", (e) => e.stopPropagation()));
 
     /* ======================= your photographs (photos/photos.json) ======================= */
     const esc = (t) => String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
