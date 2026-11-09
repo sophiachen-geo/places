@@ -8,10 +8,12 @@
  * The chapter (section[data-ch]) decides which utopia is lit; the other three are dimmed. */
 (() => {
   "use strict";
-  const COL = { pastoral: "#1baf7a", autopia: "#eda100", centers: "#2a78d6", coop: "#e34948", all: "#14304a" };
-  const LINE = { pastoral: "#12865c", autopia: "#a87400", centers: "#1c5cab", coop: "#bf2f2e" }; // darker steps of the same hues, for strokes
+  // four riso inks, one per utopia, and nothing else uses them; everything else is black ink on white paper
+  const COL = { pastoral: "#00a95c", autopia: "#f0a202", centers: "#3255a4", coop: "#ff48b0", all: "#111111" };
+  const LINE = { pastoral: "#007a42", autopia: "#b07600", centers: "#22397a", coop: "#d12c8a" }; // darker steps of the same inks, for strokes
   const GROUPS = ["pastoral", "autopia", "centers", "coop"];
-  const INK = "#14304a";
+  const NUM = { pastoral: "I", autopia: "II", centers: "III", coop: "IV" };
+  const INK = "#111111";
   const D0 = "";
   const Y0 = 1880, Y1 = 2026;
   const fmt = (n) => Number(n).toLocaleString("en-US");
@@ -35,18 +37,18 @@
     [1953, "coop", "Elysian Park Heights cancelled"],
     [1962, "coop", "Dodger Stadium opens in Chávez Ravine"],
     [1966, "autopia", "Santa Monica Freeway completed"],
-    [1971, "autopia", "Banham, The Architecture of Four Ecologies"],
+    [1971, "autopia", "Banham publishes <i>Los Angeles: The Architecture of Four Ecologies</i>"],
     [1974, "centers", "Centers Concept adopted, 3 April"],
     [1990, "centers", "Blue Line: first modern rail line opens"],
     [1996, "centers", "General Plan Framework adopted"],
   ];
 
   async function init() {
-    const [S, M, SS, places, centers, towers, rail, stations, fwy, aadt, bott, holc, utop, topoMeta] = await Promise.all([
+    const [S, M, SS, places, centers, towers, rail, stations, fwy, aadt, bott, holc, utop, topoMeta, cities] = await Promise.all([
       J("data/stats.json"), J("data/morph.json"), J("data/story_stats.json"), J("data/story_places.geojson"),
       J("data/centers.geojson"), J("data/towers.geojson"), J("data/rail.geojson"), J("data/stations.geojson"),
       J("data/freeways.geojson"), J("data/aadt.geojson"), J("data/bottlenecks.geojson"), J("data/holc.geojson"),
-      J("data/utopias.geojson"), J("img/topo_meta.json"),
+      J("data/utopias.geojson"), J("img/topo_meta.json"), J("data/cities.geojson"),
     ]);
     const mobile = window.matchMedia("(max-width: 900px)");
 
@@ -65,8 +67,10 @@
     const GP = {};
     GROUPS.forEach((g, i) => { GP[g] = pane("g-" + g, 400 + i * 10, "g-pane"); });
     pane("top", 455);
-    const lab = pane("labels", 470); lab.style.pointerEvents = "none"; lab.style.opacity = "0.7";
-    L.tileLayer(ESRI + "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}", { maxZoom: 17, maxNativeZoom: 16, pane: "labels" }).addTo(map);
+    // no raster place-name tiles: every word on the map is set in the page's own type (see the label layer below)
+    pane("cities", 390).style.pointerEvents = "none";
+    L.geoJSON(cities, { pane: "cities", interactive: false,
+      style: (f) => (f.properties.la ? { color: INK, weight: 1.8, opacity: 0.9, fill: false } : { color: "#8c8c8c", weight: 0.8, opacity: 0.9, fill: false }) }).addTo(map);
     const cv = Object.fromEntries(GROUPS.map((g) => [g, L.canvas({ pane: "g-" + g, padding: 0.3 })]));
 
     /* ======================= morphogenesis ======================= */
@@ -86,22 +90,15 @@
     const dctx = disp.getContext("2d");
     const dimg = dctx.createImageData(NX, NY), d32 = new Uint32Array(dimg.data.buffer);
     const rgba = (h, a) => { const n = parseInt(h.slice(1), 16); return ((a << 24) | ((n & 255) << 16) | (((n >> 8) & 255) << 8) | (n >> 16)) >>> 0; };
-    const STOPS = [[1890, [93, 87, 77]], [1950, [155, 149, 138]], [2015, [217, 211, 199]]];
-    const LUT = new Uint32Array(178);
-    for (let k = 0; k < 178; k++) {
-      const y = 1850 + k; let c;
-      if (y <= STOPS[0][0]) c = STOPS[0][1]; else if (y >= STOPS[2][0]) c = STOPS[2][1];
-      else { const [a, b] = y < STOPS[1][0] ? [STOPS[0], STOPS[1]] : [STOPS[1], STOPS[2]]; const t = (y - a[0]) / (b[0] - a[0]); c = a[1].map((v, j) => Math.round(v + (b[1][j] - v) * t)); }
-      LUT[k] = ((205 << 24) | (c[2] << 16) | (c[1] << 8) | c[0]) >>> 0;
-    }
-    const FRONT = rgba(INK, 240), FRONT_YRS = 5;
+    const FOG = rgba("#ffffff", 244), FRONT = rgba(INK, 185), FRONT_YRS = 5;
     const mips = [disp];
     for (let f = 2; f <= 8; f *= 2) { const m = document.createElement("canvas"); m.width = Math.ceil(NX / f); m.height = Math.ceil(NY / f); mips.push(m); }
     function recolor(Y) {
       d32.fill(0);
-      const kmax = Math.min(177, Y - 1850);
-      for (let k = 0; k <= kmax; k++) {
-        const c = (Y - (1850 + k) < FRONT_YRS) ? FRONT : LUT[k];
+      for (let k = 0; k < 178; k++) {
+        const y = 1850 + k;
+        const c = y > Y ? FOG : (Y < Y1 && Y - y < FRONT_YRS ? FRONT : 0);
+        if (!c) continue;
         for (let j = start[k]; j < start[k + 1]; j++) d32[order[j]] = c;
       }
       dctx.putImageData(dimg, 0, 0);
@@ -118,11 +115,11 @@
       const x0 = Math.max(0, sx), y0 = Math.max(0, sy), x1 = Math.min(NX, sx + s), y1 = Math.min(NY, sy + s);
       if (x1 <= x0 || y1 <= y0) return;
       const lvl = Math.max(0, Math.min(mips.length - 1, Math.floor(Math.log2(s / 256)))), f = 2 ** lvl;
-      ctx.imageSmoothingEnabled = s > 256; ctx.imageSmoothingQuality = "high";
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high";   // soft edges, never hard squares
       ctx.drawImage(mips[lvl], x0 / f, y0 / f, (x1 - x0) / f, (y1 - y0) / f, (x0 - sx) * k, (y0 - sy) * k, (x1 - x0) * k, (y1 - y0) * k);
     }
     const Morph = L.GridLayer.extend({ createTile(co) { const c = L.DomUtil.create("canvas", "morph-tile"); c.width = c.height = 256; drawTile(c, co); return c; } });
-    const morph = new Morph({ pane: "morph", opacity: 0.92, maxZoom: 17, updateWhenZooming: false,
+    const morph = new Morph({ pane: "morph", opacity: 1, maxZoom: 17, updateWhenZooming: false,
       bounds: L.latLngBounds(M.bounds) }).addTo(map);
     const redrawMorph = () => { for (const key in morph._tiles) { const t = morph._tiles[key]; drawTile(t.el, t.coords); } };
 
@@ -149,7 +146,7 @@
         svg.appendChild(r); bars.push(r);
       }
       const base = document.createElementNS(SVGNS, "line");
-      Object.entries({ x1: 0, x2: w, y1: bot + 0.5, y2: bot + 0.5, stroke: "#cfc7b6" }).forEach(([k, v]) => base.setAttribute(k, v)); svg.appendChild(base);
+      Object.entries({ x1: 0, x2: w, y1: bot + 0.5, y2: bot + 0.5, stroke: INK }).forEach(([k, v]) => base.setAttribute(k, v)); svg.appendChild(base);
       for (let y = 1900; y <= 2020; y += 20) {
         const t = document.createElementNS(SVGNS, "text"); t.setAttribute("x", (y - Y0 + 0.5) * bw); t.setAttribute("y", h - 1);
         t.setAttribute("text-anchor", "middle"); t.textContent = y; svg.appendChild(t);
@@ -160,11 +157,11 @@
         let cx = (y - Y0 + 0.5) * bw, row = rowEnd.findIndex((e) => cx - e >= 2 * mr + 1);
         if (row < 0) { row = rowEnd[0] <= rowEnd[1] ? 0 : 1; cx = rowEnd[row] + 2 * mr + 1; }
         rowEnd[row] = cx;
-        const c = document.createElementNS(SVGNS, "circle");
-        c.setAttribute("cx", cx); c.setAttribute("cy", mr + 1 + row * (2 * mr + 1)); c.setAttribute("r", mr);
-        c.setAttribute("fill", COL[ch]); c.setAttribute("stroke", "#fff"); c.setAttribute("stroke-width", 1);
+        const c = document.createElementNS(SVGNS, "rect");   // neutral markers: the utopia colours stay on the utopias
+        c.setAttribute("x", cx - mr); c.setAttribute("y", 1 + row * (2 * mr + 1)); c.setAttribute("width", 2 * mr); c.setAttribute("height", 2 * mr);
+        c.setAttribute("fill", INK);
         c.classList.add("ms"); c.dataset.year = y;
-        const ti = document.createElementNS(SVGNS, "title"); ti.textContent = `${y} · ${label}`; c.appendChild(ti);
+        const ti = document.createElementNS(SVGNS, "title"); ti.textContent = `${y} · ${NUM[ch]} · ${label.replace(/<[^>]+>/g, "")}`; c.appendChild(ti);
         svg.appendChild(c);
       });
       cursor = document.createElementNS(SVGNS, "line"); cursor.setAttribute("y1", top - 2); cursor.setAttribute("y2", bot + 3);
@@ -176,7 +173,7 @@
       if (!bars.length) return;
       for (let y = Y0; y <= Y1; y++) {
         const r = bars[y - Y0];
-        r.setAttribute("fill", y > year ? "#e4ded2" : (year - y < FRONT_YRS ? INK : `rgb(${[0, 1, 2].map((j) => (LUT[y - 1850] >> (8 * j)) & 255).join(",")})`));
+        r.setAttribute("fill", y > year ? "#e6e6e6" : (year < Y1 && year - y < FRONT_YRS ? INK : "#9b9b9b"));
       }
       const x = (year - Y0 + 0.5) * tw / (Y1 - Y0 + 1);
       cursor.setAttribute("x1", x); cursor.setAttribute("x2", x);
@@ -193,10 +190,11 @@
         const p = cum[year] * 100;
         tShare.textContent = `${p < 1 ? p.toFixed(1) : Math.round(p)}% of today’s buildings stood`;
         tEl.setAttribute("aria-valuenow", year); tEl.setAttribute("aria-valuetext", `${year}: ${tShare.textContent}`);
+        if (window.__d8year) window.__d8year(year);
       });
     }
     let anim = null, playing = false;
-    function stopAnim() { if (anim) cancelAnimationFrame(anim); anim = null; playing = false; playBtn.textContent = "▶"; playBtn.setAttribute("aria-label", "Play the city's growth"); }
+    function stopAnim() { if (anim) cancelAnimationFrame(anim); anim = null; playing = false; playBtn.textContent = "Play"; playBtn.setAttribute("aria-label", "Play the city's growth"); }
     function tweenYear(target, ms = 1100) {
       stopAnim();
       const from = year, t0 = performance.now();
@@ -208,7 +206,7 @@
     function play(from) {
       stopAnim();
       if (from != null) setYear(from); else if (year >= Y1) setYear(Y0);
-      playing = true; playBtn.textContent = "❚❚"; playBtn.setAttribute("aria-label", "Pause");
+      playing = true; playBtn.textContent = "Pause"; playBtn.setAttribute("aria-label", "Pause");
       let last = performance.now(), acc = year;
       const stepF = (now) => {
         acc += (now - last) / 1000 * 11; last = now; setYear(acc);
@@ -239,20 +237,52 @@
     /* ======================= original maps + swipe ======================= */
     const topoName = (f) => f.split("_").slice(1).filter((s) => !/^\d+$/.test(s) && !s.includes(".")).join(" ");
     const ORIGS = {
-      parks1930: { url: "tiles/parks1930/{z}/{x}/{y}.webp", maxN: 12, bounds: [[33.62, -118.98], [34.62, -117.42]], tag: "1930 plan",
-        cap: "Olmsted Brothers &amp; Bartholomew, 1930",
+      parks1930: { url: "tiles/parks1930/{z}/{x}/{y}.webp", maxN: 12, bounds: [[33.62, -118.98], [34.62, -117.42]], tag: "1930 Plan",
+        cap: "Olmsted Brothers &amp; Bartholomew, 1930", href: "https://libraryarchives.metro.net/DPGTL/trafficplans/1930_parks_playgrounds_beaches_los_angeles_region.pdf",
         win: [[33.80, -118.81], [34.45, -117.60]] },
-      parkways1946: { url: "tiles/parkways1946/{z}/{x}/{y}.webp", maxN: 12, bounds: [[33.52, -119.12], [34.60, -117.48]], tag: "1946 plan",
-        cap: "Los Angeles County Regional Planning Commission, 1946",
+      parkways1946: { url: "tiles/parkways1946/{z}/{x}/{y}.webp", maxN: 12, bounds: [[33.52, -119.12], [34.60, -117.48]], tag: "1946 Plan",
+        cap: "Los Angeles County Regional Planning Commission, 1946", href: "https://libraryarchives.metro.net/DPGTL/trafficplans/1946_interregional_regional_metropolitan_parkways.pdf",
         win: [[33.70, -118.95], [34.42, -117.65]] },
-      plan1974: { url: "tiles/plan1974/{z}/{x}/{y}.webp", maxN: 13, bounds: [[33.64, -118.78], [34.39, -118.02]], tag: "1974 plan",
-        cap: "City of Los Angeles, Concept Los Angeles, 1974",
+      plan1974: { url: "tiles/plan1974/{z}/{x}/{y}.webp", maxN: 13, bounds: [[33.64, -118.78], [34.39, -118.02]], tag: "1974 Plan",
+        cap: "City of Los Angeles, Concept Los Angeles, 1974", href: "https://libraryarchives.metro.net/dpgtl/lacity/1974-concept-los-angeles-side-1.pdf",
         win: [[33.70, -118.70], [34.34, -118.06]] },
     };
     Object.entries(topoMeta).forEach(([id, t]) => {
-      ORIGS["topo:" + id] = { url: `tiles/topo_${id}/{z}/{x}/{y}.webp`, minN: t.zmin, maxN: t.zmax, minZoom: 10, bounds: t.bounds, tag: `${t.year} map`,
-        cap: `U.S. Geological Survey, ${topoName(t.file)}, ${t.year}`, win: t.bounds };
+      ORIGS["topo:" + id] = { url: `tiles/topo_${id}/{z}/{x}/{y}.webp`, minN: t.zmin, maxN: t.zmax, minZoom: 10, bounds: t.bounds, tag: `${t.year} Map`,
+        cap: `U.S. Geological Survey, ${topoName(t.file)}, ${t.year}`, win: t.bounds,
+        href: "https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/" + t.file.replace("_geo.tif", "_geo.pdf").replace(/^CA_(.*?)_(\d{6})_/, (m, n, id) => `CA_${n.replace(/_/g, "%20")}_${id}_`) };
     });
+    // each original map's own printed legend (colours sampled from the scans)
+    const OLEG = {
+      parks1930: [["fill", "#659257", "Existing parks"], ["fill", "#ea7669", "Proposed parks, parkways and beaches"], ["line", "#4a4a4a", "Roads, railways and terrain (base map)"]],
+      parkways1946: [["line", "#c25843", "U.S. interregional system"], ["dash", "#c25843", "State regional system"], ["dot", "#c25843", "Metropolitan parkway system"], ["thin", "#8c8c8c", "Existing roads (base map)"]],
+      plan1974: [["disc", "#f40509", "Centers"], ["node", "#4e462a", "Node or satellite"], ["fillb", "#ffffff", "Suburban residential area"], ["fill", "#dbd6a7", "Industrial district"],
+        ["fill", "#84af0c", "Open space"], ["rail", "#4e462a", "Rapid transit line and station"], ["thin", "#4e462a", "Secondary transit line and station"], ["double", "#84af0c", "Freeway"]],
+      topo: [["line", "#b0703a", "Contour lines (elevation)"], ["fill", "#f3c0bb", "Built-up area"], ["fill", "#cfe5b4", "Woodland"], ["fill", "#9cc9ec", "Water"], ["line", "#111111", "Roads, railways and buildings"]],
+    };
+    const swatch = (t, c) => {
+      const L_ = (extra) => `<line x1="1" y1="6" x2="21" y2="6" stroke="${c}" ${extra}/>`;
+      const body = {
+        fill: `<rect x="1" y="1" width="20" height="10" fill="${c}"/>`,
+        fillb: `<rect x="1.5" y="1.5" width="19" height="9" fill="${c}" stroke="#9a9a9a"/>`,
+        line: L_('stroke-width="2.4"'), thin: L_('stroke-width="1.2"'), dash: L_('stroke-width="2.4" stroke-dasharray="5 3"'),
+        dot: L_('stroke-width="2.4" stroke-dasharray="0.1 4" stroke-linecap="round"'),
+        double: `<line x1="1" y1="4" x2="21" y2="4" stroke="${c}" stroke-width="1.6"/><line x1="1" y1="8" x2="21" y2="8" stroke="${c}" stroke-width="1.6"/>`,
+        disc: `<circle cx="11" cy="6" r="5" fill="${c}"/>`,
+        node: `<line x1="4" y1="6" x2="18" y2="6" stroke="${c}" stroke-width="1"/><circle cx="18" cy="6" r="1.8" fill="${c}"/>`,
+        rail: `<line x1="1" y1="6" x2="21" y2="6" stroke="${c}" stroke-width="3" stroke-dasharray="1.5 1.5"/><circle cx="11" cy="6" r="3" fill="#fff" stroke="${c}" stroke-width="1.5"/>`,
+        veil: `<rect x="1" y="1" width="20" height="10" fill="#fff" stroke="#8c8c8c"/><path d="M4 11 L10 1 M10 11 L16 1 M16 11 L21 3" stroke="#c4c4c4" stroke-width="1"/>`,
+        ink: `<rect x="1" y="1" width="20" height="10" fill="${c}" fill-opacity="0.6"/>`,
+        ring: `<circle cx="11" cy="6" r="4.6" fill="#fff" stroke="${c}" stroke-width="2"/>`,
+        ringd: `<circle cx="11" cy="6" r="4.6" fill="none" stroke="${c}" stroke-width="1.2" stroke-dasharray="2 1.6"/>`,
+        dotf: `<circle cx="11" cy="6" r="4.6" fill="${c}" stroke="#fff" stroke-width="1"/>`,
+        pin: `<rect x="5" y="0.5" width="11" height="11" fill="${c}" stroke="#111" stroke-width="1.2"/>`,
+        sq: `<rect x="7" y="2" width="8" height="8" fill="${c}"/>`,
+      }[t];
+      return `<svg viewBox="0 0 22 12" aria-hidden="true">${body}</svg>`;
+    };
+    const lgRow = (t, c, label) => `<div class="lg">${swatch(t, c)}<span>${label}</span></div>`;
+    const oLeg = document.getElementById("o-legend");
     const origLayers = {};
     const getOrig = (k) => origLayers[k] || (origLayers[k] = L.tileLayer(D0 + ORIGS[k].url, {
       pane: "orig", minZoom: ORIGS[k].minZoom || 7, maxZoom: 17, minNativeZoom: ORIGS[k].minN || 9, maxNativeZoom: ORIGS[k].maxN,
@@ -261,7 +291,7 @@
     let origOpacity = 0.85, curOrig = "none", userOrig = false;
     const swipe = { on: true, x: 0.5 };
     const divider = L.DomUtil.create("div", "swipe-divider", map.getContainer());
-    divider.innerHTML = '<span class="swipe-tag l"></span><span class="swipe-tag r">today</span><button class="swipe-handle" type="button" aria-label="Drag to compare the original map with today">⟷</button>';
+    divider.innerHTML = '<span class="swipe-tag l"></span><span class="swipe-tag r">Today</span><button class="swipe-handle" type="button" aria-label="Drag to compare the original map with today"></button>';
     L.DomEvent.disableClickPropagation(divider); L.DomEvent.disableScrollPropagation(divider);
     const oPanel = document.getElementById("st-orig"), oSel = document.getElementById("o-select"), oCap = document.getElementById("o-cap");
     L.DomEvent.disableClickPropagation(oPanel); L.DomEvent.disableScrollPropagation(oPanel);
@@ -272,6 +302,16 @@
       origPane.style.clip = swipe.on ? `rect(${nw.y}px, ${nw.x + x}px, ${se.y}px, ${nw.x}px)` : "";
       divider.style.left = `${x}px`;
       divider.style.display = swipe.on && curOrig !== "none" ? "" : "none";
+      // handle and tags: just below the original-map panel; if the tags would meet the legend, above or below it; else tags hide
+      const r0 = map.getContainer().getBoundingClientRect(), ob = oPanel.getBoundingClientRect();
+      const ke = document.getElementById("st-key"), te = document.getElementById("st-time");
+      const kb = ke && ke.offsetParent ? ke.getBoundingClientRect() : null, tb = te.getBoundingClientRect();
+      const top0 = ob.bottom - r0.top + 46, tmax = tb.top - r0.top - 60;
+      const clash = (y) => kb && x + 90 > kb.left - r0.left && y + 50 > kb.top - r0.top && y - 30 < kb.bottom - r0.top;
+      let hy = null;
+      for (const y of [top0, kb ? kb.top - r0.top - 64 : -1, kb ? kb.bottom - r0.top + 34 : -1]) if (y >= top0 && y <= tmax && !clash(y)) { hy = y; break; }
+      divider.classList.toggle("no-tags", hy === null);
+      divider.style.setProperty("--hy", `${Math.round(hy ?? Math.min(top0, tmax))}px`);
     }
     map.on("move zoom resize viewreset", clipOrig);
     let swAnim = null;
@@ -310,7 +350,8 @@
       if (k !== "none") { const l = getOrig(k); l.setOpacity(origOpacity); l.addTo(map); }
       oSel.value = k.startsWith("topo:") ? "topo" : k;
       oPanel.classList.toggle("is-none", k === "none");
-      oCap.innerHTML = k === "none" ? "" : ORIGS[k].cap;
+      oCap.innerHTML = k === "none" ? "" : `Source: ${ORIGS[k].cap} · <a href="${ORIGS[k].href}" target="_blank" rel="noopener">Open the original (PDF)</a>`;
+      oLeg.innerHTML = k === "none" ? "" : OLEG[k.startsWith("topo:") ? "topo" : k].map(([t, c, l]) => lgRow(t, c, l)).join("");
       divider.querySelector(".swipe-tag.l").textContent = k === "none" ? "" : ORIGS[k].tag;
       clipOrig();
     }
@@ -329,7 +370,7 @@
     const pastoralLayer = L.featureGroup(pastoralIds.map((id) => {
       const f = placeById[id], p = f.properties;
       const l = L.geoJSON(f, { pane: "g-pastoral", style: { color: LINE.pastoral, weight: id === "valley" ? 1.6 : 2, fillColor: COL.pastoral, fillOpacity: id === "valley" ? 0.1 : 0.2 } })
-        .bindPopup(pop(p.name, "The pastoral suburb", `<p>Typical year built: <b>${p.median_year}</b><br>${Math.round(p.pre1930_pct)}% of its buildings date from before 1930</p>`));
+        .bindPopup(pop(p.name, "The Pastoral Suburb", `<p>Typical year built: <b>${p.median_year}</b><br>${Math.round(p.pre1930_pct)}% of its buildings date from before 1930</p>`));
       reg(id, { ch: "pastoral", name: p.name, bounds: l.getBounds(), layer: l, maxZoom: 13.5 });
       return l;
     })).addTo(map);
@@ -337,7 +378,7 @@
     const holcLayer = L.geoJSON(holc, { pane: "g-pastoral",
       style: (f) => ({ color: INK, weight: 0.8, opacity: 0.7, fillColor: INK, fillOpacity: HOLC_OP[f.properties.grade] }),
       onEachFeature: (f, l) => { const g = f.properties.grade, h = S.holc[g];
-        l.bindPopup(pop(`Grade ${g} — “${{ A: "Best", B: "Still desirable", C: "Declining", D: "Hazardous" }[g]}”`, "1939 federal mortgage-risk map",
+        l.bindPopup(pop(`Grade ${g} — “${{ A: "Best", B: "Still desirable", C: "Declining", D: "Hazardous" }[g]}”`, "1939 Federal Mortgage-Risk Map",
           `<p>Today ${Math.round(h.zoned_sf_pct)}% of the City’s grade-${g} land is zoned for detached houses.</p>`)); } });
     const zonedLayer = L.tileLayer(D0 + "tiles/zonedsf/{z}/{x}/{y}.webp", { pane: "g-pastoral", minNativeZoom: 10, maxNativeZoom: 14, maxZoom: 17, opacity: 0.9,
       bounds: L.latLngBounds([33.70, -118.68], [34.34, -118.15]) });
@@ -369,12 +410,12 @@
     const aadtLayer = L.layerGroup(aadt.features.filter((f) => f.properties.v >= MINV).sort((a, b) => a.properties.v - b.properties.v).map((f) => {
       const p = f.properties, [lng, lat] = f.geometry.coordinates;
       return L.circleMarker([lat, lng], { pane: "g-autopia", renderer: cv.autopia, radius: aR(p.v), color: "#fff", weight: 0.7, fillColor: COL.autopia, fillOpacity: 0.8 })
-        .bindPopup(pop(`${fmt(p.v)} vehicles a day`, "Freeway traffic, 2024", `<p>${p.at}</p>`));
+        .bindPopup(pop(`${fmt(p.v)} vehicles a day`, "Freeway Traffic, 2024", `<p>${p.at}</p>`));
     }));
     const bottLayer = L.geoJSON(bott, { pane: "g-autopia",
       style: (f) => ({ color: "#6b4a00", weight: f.properties.rank <= 5 ? 6 : 4, opacity: 0.9, lineCap: "round" }),
       onEachFeature: (f, l) => { const p = f.properties;
-        l.bindPopup(pop(`${p.fwy.replace(/^I(\d)/, "I-$1").replace(/-([NSEW])$/, " ($1)")} at ${p.at}`, `Worst traffic jams of 2024 · #${p.rank}`, "")); } });
+        l.bindPopup(pop(`${p.fwy.replace(/^I(\d)/, "I-$1").replace(/-([NSEW])$/, " ($1)")} at ${p.at}`, `Worst Traffic Jams of 2024 · #${p.rank}`, "")); } });
 
     // III · Centers — the 56 discs (½ mile), coloured by what each became
     const OUT = {
@@ -388,7 +429,7 @@
       pointToLayer: (f, ll) => { const o = OUT[f.properties.oc];
         return L.circle(ll, { pane: "g-centers", radius: 804.7, color: o.stroke, weight: o.w, dashArray: o.dash, fillColor: o.fill, fillOpacity: o.op }); },
       onEachFeature: (f, l) => { const p = f.properties, nm = ALIAS[p.name] || p.name;
-        l.bindPopup(pop(nm, "A centre of the 1974 plan", `<p><b>${{ realised: "Got tall buildings and a rail station", towers: "Got tall buildings, no rail station", rail: "Got a rail station, no tall buildings", neither: "Got neither tall buildings nor a rail station" }[p.oc]}</b></p>`)); } }).addTo(map);
+        l.bindPopup(pop(nm, "A Centre of the 1974 Plan", `<p><b>${{ realised: "Got tall buildings and a rail station", towers: "Got tall buildings, no rail station", rail: "Got a rail station, no tall buildings", neither: "Got neither tall buildings nor a rail station" }[p.oc]}</b></p>`)); } }).addTo(map);
     const circleByName = {};
     centerLayer.eachLayer((l) => { circleByName[l.feature.properties.name] = l; });
     const cIdx = Object.fromEntries(centers.features.map((f) => [f.properties.name, f]));
@@ -415,7 +456,9 @@
     pins.forEach((f, i) => {
       const p = f.properties, [lng, lat] = f.geometry.coordinates;
       const m = L.marker([lat, lng], { pane: "g-coop", icon: L.divIcon({ className: "", html: `<span class="u-pin">${i + 1}</span>`, iconSize: [24, 24], iconAnchor: [12, 12], popupAnchor: [0, -12] }) })
-        .bindPopup(pop(p.name, p.years, `<p>${{ abandoned: "Abandoned; the plans were never built", absorbed: "Absorbed into the suburb", built: "Built; still standing", privatised: "Built; the cooperative later dissolved", replaced: "Never built; the site became Dodger Stadium" }[p.fate]}</p>`), { maxWidth: 300 });
+        .bindPopup(pop(p.name, p.years, `<p>${{ abandoned: "Abandoned; the plans were never built", absorbed: "Absorbed into the suburb", built: "Built; still standing", privatised: "Built; the cooperative later dissolved", replaced: "Never built; the site became Dodger Stadium" }[p.fate]}</p>
+          ${ORIGS["topo:" + p.id] ? `<p><a href="${ORIGS["topo:" + p.id].href}" target="_blank" rel="noopener">Open the ${topoMeta[p.id].year} survey map (PDF)</a></p>` : ""}
+          ${p.id === "llano" ? `<p><a href="https://ohp.parks.ca.gov/ListedResources/Detail/933" target="_blank" rel="noopener">California Historical Landmark No. 933</a></p>` : ""}`), { maxWidth: 300 });
       m.addTo(coopLayer);
       const b = shapes[p.id] ? L.geoJSON(shapes[p.id]).getBounds() : L.latLng(lat, lng).toBounds(400);
       const SHORT = { llano: "Llano del Rio", landers: "Little Landers · Bolton Hall", village: "Village Green", crestwood: "Crestwood Hills", elysian: "Chávez Ravine" };
@@ -425,10 +468,13 @@
 
     const EXTRAS = { holc: holcLayer, zoned: zonedLayer, aadt: aadtLayer, bott: bottLayer, bh500, towers: towerLayer, rail: railLayer };
     let extras = [];
+    // the year layer is a 120 m grid: it reads at city scale and turns into blocks at street scale, so it fades out from zoom 12 to 13
     function morphOpacity() {
-      let o = extras.some((k) => k === "holc" || k === "zoned" || k === "bh500") ? 0.5 : 0.92;
-      if (map.getZoom() >= 13.5) o *= 0.55;   // at site scale the 120 m cells would drown the sheet and the streets
+      const z = map.getZoom();
+      let o = z >= 13 ? 0 : z > 12 ? 13 - z : 1;
+      if (extras.some((k) => k === "holc" || k === "zoned" || k === "bh500")) o *= 0.6;
       morph.setOpacity(o);
+      if (window.__d8year) window.__d8year(year);
     }
     map.on("zoomend", morphOpacity);
     function setExtras(list) {
@@ -449,6 +495,22 @@
     // Labels live in one absolutely positioned layer and are placed greedily: each tries a few anchor positions and
     // takes the first that clears the map edge, the panels, the swipe handle and every label already placed;
     // a label that fits nowhere is hidden rather than drawn over something else.
+    // orientation names, set in the page's type (replacing the basemap's raster labels); shown from a zoom level up
+    const baseLayer = L.DomUtil.create("div", "lbl-layer", map.getContainer());
+    const BASE = [
+      ["San Fernando Valley", 34.215, -118.47, 9, "big"], ["San Gabriel Valley", 34.075, -118.04, 9, "big"], ["Downtown", 34.049, -118.25, 9, "big"],
+      ["Hollywood", 34.098, -118.327, 9.5, ""], ["Santa Monica", 34.019, -118.491, 9, "big"], ["Pasadena", 34.148, -118.144, 9, "big"], ["Long Beach", 33.772, -118.19, 9, "big"],
+      ["Pacific Ocean", 33.84, -118.62, 8, "water"], ["Santa Monica Bay", 33.93, -118.53, 10.5, "water"],
+      ["Burbank", 34.181, -118.309, 10.5, ""], ["Glendale", 34.142, -118.255, 10.5, ""], ["Inglewood", 33.962, -118.353, 10.5, ""], ["Torrance", 33.836, -118.341, 10.5, ""],
+      ["Compton", 33.896, -118.22, 10.5, ""], ["East Los Angeles", 34.024, -118.172, 10.5, ""], ["Beverly Hills", 34.073, -118.4, 10.5, ""], ["Culver City", 34.021, -118.396, 10.5, ""],
+      ["Venice", 33.985, -118.469, 11, ""], ["San Pedro", 33.736, -118.292, 10.5, ""], ["Van Nuys", 34.186, -118.449, 11, ""], ["Northridge", 34.228, -118.536, 11, ""],
+      ["Whittier", 33.979, -118.033, 10.5, ""], ["Downey", 33.94, -118.13, 10.5, ""], ["El Monte", 34.069, -118.028, 10.5, ""], ["Malibu", 34.035, -118.69, 10.5, ""],
+      ["LAX", 33.942, -118.408, 10.5, ""], ["Westwood", 34.061, -118.445, 12, ""], ["Koreatown", 34.058, -118.3, 12, ""], ["South Los Angeles", 33.99, -118.28, 11.5, ""],
+      ["Silver Lake", 34.087, -118.27, 12, ""], ["Echo Park", 34.078, -118.26, 12.5, ""], ["Highland Park", 34.112, -118.192, 12, ""], ["Watts", 33.94, -118.243, 12, ""],
+      ["Sylmar", 34.307, -118.449, 11, ""], ["Chatsworth", 34.257, -118.601, 11.5, ""], ["Sherman Oaks", 34.151, -118.449, 12, ""], ["Studio City", 34.14, -118.39, 12, ""],
+      ["Griffith Park", 34.136, -118.294, 11.5, "water"],
+    ].map(([t, lat, lng, z, cls]) => { const el = L.DomUtil.create("div", "base-label " + cls, baseLayer); el.textContent = t; return { t, ll: L.latLng(lat, lng), z, el }; });
+    BASE[BASE.length - 1].el.className = "base-label";   // Griffith Park is land
     const lblLayer = L.DomUtil.create("div", "lbl-layer", map.getContainer());
     let lbls = [];
     function showLabels(ids, extra = []) {
@@ -469,7 +531,6 @@
     }
     const hit = (a, b) => a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h;
     function placeLabels() {
-      if (!lbls.length) return;
       const size = map.getSize(), obs = obstacles(), placed = [];
       // points first (their anchor is exact), then areas (they can slide inside their outline)
       [...lbls].sort((a, b) => b.pt - a.pt).forEach((L_) => {
@@ -491,44 +552,80 @@
         if (ok) { L_.el.style.transform = `translate(${Math.round(ok.x)}px, ${Math.round(ok.y)}px)`; L_.el.style.visibility = ""; placed.push({ x: ok.x - 3, y: ok.y - 3, w: w + 6, h: h + 6 }); }
         else L_.el.style.visibility = "hidden";
       });
+      // orientation names last: they never push an essay label away, and skip a name the essay is already showing
+      const z = map.getZoom(), shown = new Set(lbls.map((l) => l.el.textContent.toLowerCase()));
+      Object.values(PL).forEach((P) => { if (P.ll && P.layer && P.ch !== "centers") { const q = map.latLngToContainerPoint(P.ll); placed.push({ x: q.x - 14, y: q.y - 14, w: 28, h: 28 }); } });
+      BASE.forEach((b) => {
+        if (z < b.z || shown.has(b.t.toLowerCase())) { b.el.style.visibility = "hidden"; return; }
+        const w = b.el.offsetWidth, h = b.el.offsetHeight, p = map.latLngToContainerPoint(b.ll), r = { x: p.x - w / 2, y: p.y - h / 2, w, h };
+        if (r.x < 4 || r.y < 4 || r.x + w > size.x - 4 || r.y + h > size.y - 4 || obs.some((o) => hit(o, r)) || placed.some((o) => hit(o, r))) { b.el.style.visibility = "hidden"; return; }
+        b.el.style.transform = `translate(${Math.round(r.x)}px, ${Math.round(r.y)}px)`; b.el.style.visibility = ""; placed.push({ x: r.x - 4, y: r.y - 3, w: w + 8, h: h + 6 });
+      });
     }
     map.on("move zoomend resize", placeLabels);
-    map.on("zoomanim", () => lblLayer.classList.add("hide"));
-    map.on("zoomend", () => lblLayer.classList.remove("hide"));
+    map.on("zoomanim", () => { lblLayer.classList.add("hide"); baseLayer.classList.add("hide"); });
+    map.on("zoomend", () => { lblLayer.classList.remove("hide"); baseLayer.classList.remove("hide"); });
     // an open popup owns the screen: labels and the swipe chips step aside so nothing is written over it
-    map.on("popupopen", () => { lblLayer.classList.add("hide"); map.getContainer().classList.add("popup-open"); });
-    map.on("popupclose", () => { lblLayer.classList.remove("hide"); map.getContainer().classList.remove("popup-open"); });
+    map.on("popupopen", () => { lblLayer.classList.add("hide"); baseLayer.classList.add("hide"); map.getContainer().classList.add("popup-open"); });
+    map.on("popupclose", () => { lblLayer.classList.remove("hide"); baseLayer.classList.remove("hide"); map.getContainer().classList.remove("popup-open"); });
     // the Valley's polygon centre lands in the hills; label it where the subdivisions are
     PL.valley.labelAt = [34.205, -118.47];
     const keyEl = document.getElementById("st-key");
     const sw = (style) => `<i style="${style}"></i>`;
+    let hasPhotos = false;
+    // retractable panels: the header stays, the body folds away; the choice is remembered on this device
+    const remember = (k, v) => { try { localStorage.setItem(k, v ? "1" : "0"); } catch (e) {} };
+    const recall = (k) => { try { return localStorage.getItem(k) === "1"; } catch (e) { return false; } };
+    let keyClosed = recall("d8-key-closed");
+    keyEl.addEventListener("click", (e) => {
+      if (!e.target.closest(".panel-t")) return;
+      keyClosed = !keyClosed; remember("d8-key-closed", keyClosed);
+      keyEl.classList.toggle("closed", keyClosed); keyEl.querySelector(".panel-t").setAttribute("aria-expanded", String(!keyClosed)); placeLabels(); clipOrig();
+    });
+    {
+      const t = oPanel.querySelector(".panel-t"); let closed = recall("d8-orig-closed");
+      const apply = () => { oPanel.classList.toggle("closed", closed); t.setAttribute("aria-expanded", String(!closed)); placeLabels(); clipOrig(); };
+      t.addEventListener("click", () => { closed = !closed; remember("d8-orig-closed", closed); apply(); });
+      apply();
+    }
+    L.DomEvent.disableClickPropagation(keyEl); L.DomEvent.disableScrollPropagation(keyEl);
     function updateKey() {
       const RN = { pastoral: ["I", "Pastoral"], autopia: ["II", "Autopia"], centers: ["III", "Polycentric"], coop: ["IV", "Cooperative"] };
-      let h = `<div class="k-u">${GROUPS.map((g) => `<a href="#${g}" class="${focus === g ? "on" : focus === "all" ? "all" : ""}" style="--c:${COL[g]}" title="${RN[g][1]}"><i></i>${RN[g][0]}${focus === g ? ` ${RN[g][1]}` : ""}</a>`).join("")}
-        </div>
-        <h5>Buildings by year built</h5><div class="ramp"></div><div class="ramp-l"><span>1890</span><span>1950</span><span>2015</span></div>
-        <div class="k">${sw(`width:12px;height:8px;background:${INK}`)}Newest</div>`;
+      let h = `<button type="button" class="panel-t" aria-expanded="${!keyClosed}"><span class="panel-h">Now <b>Today’s Map</b></span><span class="chev" aria-hidden="true"></span></button>
+        <div class="panel-b"><div class="k-u">${GROUPS.map((g) => `<a href="#${g}" class="${focus === g ? "on" : focus === "all" ? "all" : ""}" style="--c:${COL[g]}" title="${RN[g][1]}"><i></i>${RN[g][0]}${focus === g ? ` ${RN[g][1]}` : ""}</a>`).join("")}</div>
+        <h5>Year on the Map</h5><p class="k-year" id="k-year"></p><div id="k-yrrows"></div>`;
       const g = focus;
       if (g === "pastoral") {
-        h += `<h5>Pastoral suburb</h5><div class="k">${sw(`width:14px;height:10px;border:2px solid ${LINE.pastoral};background:${COL.pastoral}33`)}Neighbourhoods in the text</div>`;
-        if (extras.includes("zoned")) h += `<div class="k">${sw("width:14px;height:10px;background:#3f8a2e;opacity:.6")}Zoned for detached houses</div>`;
+        h += `<h5>I · Pastoral Suburb</h5>` + lgRow("fill", COL.pastoral + "55", "Neighbourhoods named in the text");
+        if (extras.includes("zoned")) h += lgRow("fill", "#3f8a2e", "Zoned for detached houses (2026)");
       } else if (g === "autopia") {
-        h += `<h5>Autopia</h5><div class="k">${sw(`width:16px;height:0;border-top:2px solid ${LINE.autopia}`)}Freeways</div>
-          <div class="k">${sw(`width:12px;height:12px;border-radius:50%;background:${COL.autopia};border:2px solid ${INK}`)}Interchanges in the text</div>`;
-        if (extras.includes("aadt")) h += `<div class="k">${sw(`width:14px;height:14px;border-radius:50%;background:${COL.autopia}`)}Traffic, vehicles a day</div>`;
-        if (extras.includes("bott")) h += `<div class="k">${sw("width:16px;height:0;border-top:5px solid #6b4a00")}Worst traffic jams, 2024</div>`;
-        if (extras.includes("bh500")) h += `<div class="k">${sw(`width:14px;height:10px;background:${COL.autopia};opacity:.6`)}Within 500 ft of a freeway</div>`;
+        h += `<h5>II · Autopia</h5>` + lgRow("line", LINE.autopia, "Freeways") + lgRow("dotf", COL.autopia, "Interchanges named in the text") + lgRow("dash", LINE.autopia, "Boyle Heights");
+        if (extras.includes("aadt")) h += lgRow("disc", COL.autopia, "Traffic: vehicles a day (bigger = busier)");
+        if (extras.includes("bott")) h += lgRow("line", "#6b4a00", "Worst traffic jams, 2024");
+        if (extras.includes("bh500")) h += lgRow("fill", COL.autopia + "88", "Within 500 ft of a freeway");
       } else if (g === "centers") {
-        h += `<h5>The 56 centres of 1974</h5>` + Object.entries(OUT).map(([k, o]) =>
-          `<div class="k">${sw(`width:12px;height:12px;border-radius:50%;background:${o.fill};opacity:${Math.max(o.op, 0.9)};border:${Math.max(1.5, o.w)}px ${o.dash ? "dashed" : "solid"} ${o.stroke}`)}${o.label} · ${S.centers.outcomes_half_mile[k]}</div>`).join("");
-        if (extras.includes("towers")) h += `<div class="k">${sw(`width:6px;height:6px;border-radius:50%;background:${INK}`)}Tall buildings</div>`;
-        if (extras.includes("rail")) h += `<div class="k">${sw(`width:16px;height:0;border-top:2.5px solid ${INK}`)}Metro rail</div>`;
+        h += `<h5>III · The 56 Centres of 1974</h5>` + lgRow("dotf", COL.centers, `Got tall buildings and rail · ${S.centers.outcomes_half_mile.realised}`) +
+          lgRow("dotf", "#86b6ef", `Tall buildings, no rail · ${S.centers.outcomes_half_mile.towers}`) + lgRow("ring", LINE.centers, `Rail, no tall buildings · ${S.centers.outcomes_half_mile.rail}`) +
+          lgRow("ringd", "#8b877e", `Neither · ${S.centers.outcomes_half_mile.neither}`);
+        if (extras.includes("towers")) h += lgRow("sq", INK, "Tall buildings (150 ft and up)");
+        if (extras.includes("rail")) h += lgRow("line", INK, "Metro rail");
       } else if (g === "coop") {
-        h += `<h5>Cooperative experiments</h5><div class="k">${sw(`width:14px;height:14px;border-radius:50%;background:${COL.coop};border:2px solid #fff;box-shadow:0 0 0 1px #ccc`)}Experiment sites</div>`;
+        h += `<h5>IV · Cooperative Experiments</h5>` + lgRow("pin", COL.coop, "Experiment sites (numbered)") + lgRow("fill", COL.coop + "55", "Site outlines");
       }
-      if (extras.includes("holc")) h += `<h5>1939 mortgage-risk grades</h5>` + ["A", "B", "C", "D"].map((k) => `<div class="k">${sw(`width:14px;height:10px;border:1px solid ${INK};background:rgba(20,48,74,${HOLC_OP[k]})`)}${{ A: "A · “Best”", B: "B · “Still desirable”", C: "C · “Declining”", D: "D · “Hazardous”" }[k]}</div>`).join("");
-      keyEl.innerHTML = h;
+      if (extras.includes("holc")) h += `<h5>1939 Mortgage-Risk Grades</h5>` + ["A", "B", "C", "D"].map((k) => lgRow("fill", `rgba(17,17,17,${HOLC_OP[k] + 0.04})`,
+        `${k} · “${{ A: "Best", B: "Still desirable", C: "Declining", D: "Hazardous" }[k]}”`)).join("");
+      h += `<h5>Boundaries</h5>` + lgRow("line", INK, "City of Los Angeles") + lgRow("thin", "#8c8c8c", "Other cities");
+      if (hasPhotos) h += `<h5>Photographs</h5>` + lgRow("pin", "#ffffff", "Photo taken here (click to open)");
+      keyEl.innerHTML = h + "</div>";
+      keyEl.classList.toggle("closed", keyClosed);
+      window.__d8year(year);
     }
+    window.__d8year = (Y) => {
+      const ky = document.getElementById("k-year"), rows = document.getElementById("k-yrrows"); if (!ky) return;
+      if (map.getZoom() >= 13) { ky.textContent = Y >= Y1 ? "Today (2026)" : String(Y); rows.innerHTML = `<div class="lg"><span>Zoom out to see what stood in ${Y >= Y1 ? "each year" : Y}</span></div>`; }
+      else if (Y >= Y1) { ky.textContent = "Today (2026)"; rows.innerHTML = lgRow("fillb", "#ffffff", "No veil: the city as it stands today"); }
+      else { ky.textContent = String(Y); rows.innerHTML = lgRow("veil", "", `Not yet built in ${Y} (faded)`) + lgRow("ink", INK, `Built ${Y - FRONT_YRS + 1} to ${Y}`); }
+    };
 
     /* ======================= camera ======================= */
     // camera padding = the panels actually on screen, so a target never lands under the legend or the timeline
@@ -536,7 +633,10 @@
     const pad = () => {
       const o = oPanel.getBoundingClientRect(), t = tEl2.getBoundingClientRect();
       const k = keyEl.offsetParent && getComputedStyle(keyEl).display !== "none" ? keyEl.getBoundingClientRect() : null;
-      if (mobile.matches) return { paddingTopLeft: [16, o.height + 18], paddingBottomRight: [16, t.height + 26] };
+      if (mobile.matches) {
+        const mb = map.getContainer().getBoundingClientRect().bottom;
+        return { paddingTopLeft: [16, o.height + 14], paddingBottomRight: [16, Math.max(t.height + 26, k ? mb - k.top + 10 : 0)] };
+      }
       return { paddingTopLeft: [28, o.height + 26], paddingBottomRight: [k ? k.width + 34 : 28, t.height + 44] };
     };
     function boundsFor(v) {
@@ -559,7 +659,7 @@
     }
     // after a place click or a manual pan/zoom, offer the way back to the paragraph's own view
     const back = L.DomUtil.create("button", "st-back", box);
-    back.type = "button"; back.innerHTML = "↺ Back"; back.hidden = true;
+    back.type = "button"; back.textContent = "Back to this paragraph’s map"; back.hidden = true;
     const showBack = () => { back.hidden = false; placeLabels(); };
     function goBack() {
       back.hidden = true; map.closePopup(); halo.clearLayers(); resetCentres();
@@ -569,7 +669,7 @@
     }
     back.addEventListener("click", goBack);
     const home = L.DomUtil.create("a", "leaflet-control-zoom-home", map.zoomControl.getContainer());
-    home.href = "#"; home.title = "Back"; home.setAttribute("role", "button"); home.setAttribute("aria-label", home.title); home.innerHTML = "⌂";
+    home.href = "#"; home.title = "Back"; home.setAttribute("role", "button"); home.setAttribute("aria-label", home.title); home.textContent = "Back";
     L.DomEvent.on(home, "click", (e) => { L.DomEvent.preventDefault(e); L.DomEvent.stopPropagation(e); goBack(); });
     map.on("dragstart", showBack);
     const mc = map.getContainer();
@@ -650,15 +750,16 @@
     }
     function outcomeBar() {
       const o = C.outcomes_half_mile, keys = ["realised", "towers", "rail", "neither"], W = cardW(), h = 22;
+      const LBL = { realised: "Tall buildings and rail", towers: "Tall buildings only", rail: "Rail only", neither: "Neither" };
+      const SW = { realised: ["dotf", COL.centers], towers: ["dotf", "#86b6ef"], rail: ["ring", LINE.centers], neither: ["ringd", "#8b877e"] };
       let x = 0, s = "";
       keys.forEach((k) => {
         const w = o[k] / C.n * W, st = OUT[k];
-        s += `<rect x="${x + 1}" y="0" width="${Math.max(0, w - 2)}" height="${h}" rx="3" fill="${st.fill}" fill-opacity="${Math.max(st.op, 0.85)}" stroke="${st.stroke}" stroke-width="${k === "rail" ? 2.4 : 1}" ${st.dash ? `stroke-dasharray="${st.dash}"` : ""}/>
-          <text x="${x + w / 2}" y="${h + 14}" text-anchor="middle" class="lbl">${o[k]}</text>
-          <text x="${x + w / 2}" y="${h + 27}" text-anchor="middle">${(W < 420 ? { realised: "both", towers: "towers", rail: "rail", neither: "neither" } : { realised: "towers + rail", towers: "towers only", rail: "rail only", neither: "neither" })[k]}</text>`;
+        s += `<rect x="${x + 1}" y="0" width="${Math.max(0, w - 2)}" height="${h}" fill="${st.fill}" fill-opacity="${Math.max(st.op, 0.85)}" stroke="${st.stroke}" stroke-width="${k === "rail" ? 2.4 : 1}" ${st.dash ? `stroke-dasharray="${st.dash}"` : ""}/>
+          <text x="${x + w / 2}" y="${h + 14}" text-anchor="middle" class="lbl">${o[k]}</text>`;
         x += w;
       });
-      return svgEl(W, h + 32, s);
+      return svgEl(W, h + 18, s) + `<div class="bar-key">${keys.map((k) => lgRow(SW[k][0], SW[k][1], `${LBL[k]} · ${o[k]}`)).join("")}</div>`;
     }
     const SPANS = [
       ["landers", 1913, 1917, "gone"], ["llano", 1914, 1918, "gone"], ["village", 1941, 1942, "survives"],
@@ -685,23 +786,27 @@
       return svgEl(W, SPANS.length * RH + 22, s);
     }
     const CARDS = {
-      pastoral: () => `<div class="tiles">
+      pastoral: () => `<p class="orig-link">Original map: <a href="${ORIGS.parks1930.href}" target="_blank" rel="noopener">1930 · Olmsted Brothers and Bartholomew, <i>Parks, Playgrounds and Beaches for the Los Angeles Region</i></a></p>
+        <div class="tiles">
           ${tile(`${Math.round(G.sf_share_of_residential_zoned_land)}%`, "of the City’s residential land is zoned for detached houses")}
           ${tile(`${Math.round(G.sfr_share_of_all_units)}%`, "of its homes are detached houses")}
         </div>
-        <div class="mini"><h4>When each neighbourhood was built</h4>${dotStrip()}</div>`,
-      autopia: () => `<div class="tiles">
+        <div class="mini"><h4>When Each Neighbourhood Was Built</h4>${dotStrip()}</div>`,
+      autopia: () => `<p class="orig-link">Original map: <a href="${ORIGS.parkways1946.href}" target="_blank" rel="noopener">1946 · County Regional Planning Commission, <i>Interregional, Regional and Metropolitan Parkways</i></a></p>
+        <div class="tiles">
           ${tile(fmt(S.aadt.max.v), "vehicles a day on the Santa Monica Freeway")}
           ${tile(`${Math.round(B.bh.within_500ft_pct)}%`, "of Boyle Heights homes stand within 500 ft of a freeway")}
         </div>
-        <div class="mini"><h4>Homes within 500 ft of a freeway</h4>${proxBars()}</div>`,
-      centers: () => `<div class="tiles">
+        <div class="mini"><h4>Homes within 500 ft of a Freeway</h4>${proxBars()}</div>`,
+      centers: () => `<p class="orig-link">Original map: <a href="${ORIGS.plan1974.href}" target="_blank" rel="noopener">1974 · City of Los Angeles, <i>Concept Los Angeles</i>, adopted centers map</a></p>
+        <div class="tiles">
           ${tile(`${C.outcomes_half_mile.realised} of ${C.n}`, "planned centres got both tall buildings and a rail station")}
           ${tile(`${Math.round(C.city_towers_in_half / C.city_towers * 100)}%`, "of the City’s tall buildings stand in the planned centres")}
         </div>
-        <div class="mini"><h4>What the 56 planned centres became</h4>${outcomeBar()}</div>`,
-      coop: () => `<div class="mini"><h4>The experiments</h4>${gantt()}
-          <p class="glegend"><span class="g1"></span>community <span class="g2"></span>buildings still standing <span class="g3"></span>never built</p></div>`,
+        <div class="mini"><h4>What the 56 Planned Centres Became</h4>${outcomeBar()}</div>`,
+      coop: () => `<p class="orig-link">Original maps: U.S. Geological Survey sheets, ${Object.entries(topoMeta).map(([id, t]) => `<a href="${ORIGS["topo:" + id].href}" target="_blank" rel="noopener">${topoName(t.file)} ${t.year}</a>`).join(", ")}</p>
+        <div class="mini"><h4>The Experiments</h4>${gantt()}
+          <p class="glegend"><span class="g1"></span>Community <span class="g2"></span>Buildings still standing <span class="g3"></span>Never built</p></div>`,
     };
     document.querySelectorAll(".evid[data-card]").forEach((el) => {
       el.innerHTML = CARDS[el.dataset.card]();
@@ -711,8 +816,31 @@
 
     /* chronology interlude */
     const msList = document.getElementById("milestones");
-    msList.innerHTML = MILESTONES.map(([y, ch, t]) => `<li data-ch="${ch}" data-year="${y}"><b>${y}</b><span>${t}</span></li>`).join("");
+    msList.innerHTML = MILESTONES.map(([y, ch, t]) => `<li data-year="${y}"><b>${y}</b><span>${t}</span><i title="${{ pastoral: "Pastoral suburb", autopia: "Autopia", centers: "Polycentric", coop: "Cooperative" }[ch]}">${NUM[ch]}</i></li>`).join("");
     msList.querySelectorAll("li").forEach((li) => li.addEventListener("click", () => tweenYear(+li.dataset.year, 900)));
+
+    /* ======================= your photographs (photos/photos.json) ======================= */
+    const esc = (t) => String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+    fetch(D0 + "photos/photos.json", { cache: "no-cache" }).then((r) => (r.ok ? r.json() : [])).then((list) => {
+      if (!Array.isArray(list)) return;
+      list = list.filter((ph) => ph && ph.file);
+      if (!list.length) return;
+      const fig = (ph) => `<figure class="photo"><img src="photos/${encodeURI(ph.file)}" alt="${esc(ph.caption || ph.place || "Photograph")}" loading="lazy">
+        <figcaption>${ph.place ? `<b>${esc(ph.place)}</b>` : ""}${ph.place && ph.caption ? " · " : ""}${esc(ph.caption || "")}</figcaption></figure>`;
+      const groups = {};
+      list.forEach((ph) => { const ch = ph.chapter && document.getElementById(ph.chapter) && ph.chapter !== "references" ? ph.chapter : "photos"; (groups[ch] = groups[ch] || []).push(ph); });
+      Object.entries(groups).forEach(([ch, phs]) => {
+        if (ch === "photos") { document.getElementById("photos").hidden = false; document.getElementById("photos-grid").innerHTML = phs.map(fig).join(""); }
+        else { const g = document.createElement("div"); g.className = "photos-grid"; g.innerHTML = phs.map(fig).join(""); document.getElementById(ch).appendChild(g); }
+      });
+      const pp = map.createPane("photos"); pp.style.zIndex = 452;
+      list.filter((ph) => isFinite(ph.lat) && isFinite(ph.lng)).forEach((ph) => {
+        L.marker([ph.lat, ph.lng], { pane: "photos", icon: L.divIcon({ className: "", html: '<span class="photo-pin"></span>', iconSize: [14, 14], iconAnchor: [7, 7] }) })
+          .bindPopup(`<div class="st-pop"><p class="meta">Photograph</p>${ph.place ? `<h4>${esc(ph.place)}</h4>` : ""}<img src="photos/${encodeURI(ph.file)}" alt="" style="width:240px;display:block;border:1.5px solid #111">
+            ${ph.caption ? `<p>${esc(ph.caption)}</p>` : ""}</div>`, { maxWidth: 270 }).addTo(map);
+      });
+      hasPhotos = list.some((ph) => isFinite(ph.lat) && isFinite(ph.lng)); updateKey();
+    }).catch(() => {});
 
     /* ======================= scroll steps ======================= */
     const steps = [...document.querySelectorAll("[data-s]")];
@@ -758,6 +886,14 @@
     }
     observe();
     mobile.addEventListener("change", () => { observe(); map.invalidateSize(); });
+    let settle = 0;
+    function resync() {
+      const line = innerHeight * (mobile.matches ? 0.66 : 0.4);
+      let best = null;
+      for (const el of steps) { const r = el.getBoundingClientRect(); if (r.top <= line) best = el; else break; }
+      if (best) activate(best);
+    }
+    addEventListener("scroll", () => { clearTimeout(settle); settle = setTimeout(resync, 160); }, { passive: true });
     const prog = document.querySelector(".st-progress span");
     addEventListener("scroll", () => {
       const h = document.documentElement.scrollHeight - innerHeight;
