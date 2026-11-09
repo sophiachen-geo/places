@@ -1,8 +1,66 @@
 {
  "name": "parks1930",
- "control_points": 334,
- "median_m": 3,
- "p90_m": 9,
- "m_per_px": 59,
+ "method": "interior control points by local pattern matching against LA County road and rail centrelines (plate_gcps.py), model chosen by leave-one-out error and distortion",
+ "control_points": 109,
+ "m_per_px": 60,
+ "model": "tps_s200",
+ "models": {
+  "affine": {
+   "rmse_m": 165,
+   "loo_rmse_m": 176,
+   "loo_median_m": 128,
+   "loo_p90_m": 245,
+   "scale_variation_pct": 0.0,
+   "stretch_p95": 1.04
+  },
+  "poly2": {
+   "rmse_m": 130,
+   "loo_rmse_m": 142,
+   "loo_median_m": 125,
+   "loo_p90_m": 199,
+   "scale_variation_pct": 0.3,
+   "stretch_p95": 1.054
+  },
+  "poly3": {
+   "rmse_m": 120,
+   "loo_rmse_m": 248,
+   "loo_median_m": 120,
+   "loo_p90_m": 194,
+   "scale_variation_pct": 1.3,
+   "stretch_p95": 1.054
+  },
+  "tps_s1000": {
+   "rmse_m": 101,
+   "loo_rmse_m": 129,
+   "loo_median_m": 104,
+   "loo_p90_m": 171,
+   "scale_variation_pct": 0.6,
+   "stretch_p95": 1.052
+  },
+  "tps_s200": {
+   "rmse_m": 81,
+   "loo_rmse_m": 120,
+   "loo_median_m": 91,
+   "loo_p90_m": 166,
+   "scale_variation_pct": 0.9,
+   "stretch_p95": 1.058
+  },
+  "tps_s50": {
+   "rmse_m": 62,
+   "loo_rmse_m": 117,
+   "loo_median_m": 86,
+   "loo_p90_m": 166,
+   "scale_variation_pct": 1.2,
+   "stretch_p95": 1.063
+  },
+  "tps_s10": {
+   "rmse_m": 36,
+   "loo_rmse_m": 120,
+   "loo_median_m": 88,
+   "loo_p90_m": 175,
+   "scale_variation_pct": 1.6,
+   "stretch_p95": 1.072
+  }
+ },
  "zmax": 12
 }
