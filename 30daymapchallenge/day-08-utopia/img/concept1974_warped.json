@@ -16,14 +16,18 @@
  "res_webmerc_m": 22.0,
  "gcps": {
   "inland_centers": 51,
-  "shoreline": 71,
-  "tps_smoothing": 40
+  "shoreline": 53
+ },
+ "model": "similarity (uniform scale, rotation, shift): no distortion",
+ "center_residual_m": {
+  "median": 281,
+  "rmse": 501
  },
  "affine_rmse_m": 474,
  "loo_center_error_m": {
-  "median": 403,
-  "p90": 1320,
-  "max": 2107
+  "median": 285,
+  "p90": 1031,
+  "max": 1401
  },
  "source": "Los Angeles City Planning Dept., Concept Los Angeles diagram, adopted 3 Apr 1974 (LA Metro Research Library scan, 300 ppi)"
 }

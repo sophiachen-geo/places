@@ -1,4 +1,4 @@
-"""Rubber-sheet the 1974 Concept Los Angeles diagram (native 300-ppi scan) onto Web Mercator.
+"""Place the 1974 Concept Los Angeles diagram (native 300-ppi scan) on Web Mercator with a shape-preserving fit.
 
 Control points
   * 56 centers: disc centres detected on the scan  <->  exact street-centerline intersections of each
@@ -6,8 +6,8 @@ Control points
   * Coastline: the drawn shoreline (dark line bounding the white sea, found by flood fill)  <->  the
     LA County boundary shoreline (County of LA, edited Nov 2025), matched by nearest neighbour after
     pre-alignment, iterated twice. Port/harbour excluded (drawn schematically).
-Model: thin-plate spline geo(EPSG:3310) -> scan pixel; the five centers drawn on the shoreline are excluded and the
-smallest smoothing with no fold is chosen. Writes img/concept1974_warped.json (bounds, control points, leave-one-out error).
+Model: a similarity transform geo(EPSG:3310) -> scan pixel (uniform scale, rotation, shift), so the diagram keeps its
+shape; the five centers drawn on the shoreline are excluded. Writes img/concept1974_warped.json (bounds, control points, leave-one-out error).
 """
 import os as _os
 DAY = _os.environ.get("DAY", "../places/30daymapchallenge/day-08-utopia/")
@@ -86,41 +86,42 @@ for seg in getattr(coast, 'geoms', [coast]):
     samples += [sm.interpolate(i * sm.length / n).coords[0] for i in range(n + 1)]
 G_s = np.array(samples, float)
 
-# ---------- 4. iterate correspondences ----------
-def fit(smooth):
-    model = lambda Gxy: aff_g2p(Gxy)
-    for it, tol in enumerate((110, 70, 45, 45)):                    # search radius in sheet px (~1.4 km -> 0.6 km)
-        d, idx = tree.query(model(G_s))
-        ok = d < tol
-        G_all = np.r_[G_c, G_s[ok]]; P_all = np.r_[P_c, shore_px[idx[ok]]]
-        model = RBFInterpolator(G_all, P_all, kernel='thin_plate_spline', smoothing=smooth)
-    return model, G_all, P_all, ok, idx
+# ---------- 4. iterate correspondences, rigid model ----------
+# A similarity transform (one scale, one rotation, a shift) keeps the diagram's shape exactly. Compared on the same
+# control points, a thin-plate spline bent the sheet (local scale varying 15%, stretch up to 44%) and still predicted
+# held-out centres worse (leave-one-out median 403 m vs 285 m): the diagram is schematic, so forcing every disc onto
+# its modern core only distorts it.
+def fit_similarity(G, P):
+    mu, k = G.mean(0), G.std(0)[0]
+    z = (G - mu) / k
+    A_ = np.zeros((2 * len(z), 4)); r = np.r_[P[:, 0], -P[:, 1]]          # pixel v points down: mirror it
+    A_[:len(z)] = np.c_[z[:, 0], -z[:, 1], np.ones(len(z)), np.zeros(len(z))]
+    A_[len(z):] = np.c_[z[:, 1], z[:, 0], np.zeros(len(z)), np.ones(len(z))]
+    p, *_ = np.linalg.lstsq(A_, r, rcond=None)
+    def f(Gq):
+        zq = (np.asarray(Gq, float) - mu) / k
+        return np.c_[p[0] * zq[:, 0] - p[1] * zq[:, 1] + p[2], -(p[1] * zq[:, 0] + p[0] * zq[:, 1] + p[3])]
+    return f
 
-def folds(model):
-    gx, gy = np.meshgrid(np.linspace(G_c[:, 0].min() - 8e3, G_c[:, 0].max() + 8e3, 160),
-                         np.linspace(G_c[:, 1].min() - 8e3, G_c[:, 1].max() + 8e3, 200))
-    uv = model(np.c_[gx.ravel(), gy.ravel()]); U = uv[:, 0].reshape(gx.shape); V = uv[:, 1].reshape(gx.shape)
-    du_dx = np.gradient(U, axis=1); du_dy = np.gradient(U, axis=0); dv_dx = np.gradient(V, axis=1); dv_dy = np.gradient(V, axis=0)
-    det = du_dx * dv_dy - du_dy * dv_dx
-    return int((np.sign(det) != np.sign(np.median(det))).sum())
-
-for SMOOTH in (40, 150, 500, 1500, 5000, 15000):
-    model, G_all, P_all, ok, idx = fit(SMOOTH)
-    nf = folds(model)
-    print(f'smoothing {SMOOTH}: {ok.sum()} shoreline GCPs, folded cells {nf}')
-    if nf == 0:
-        break
+model = aff_g2p
+for tol in (110, 70, 45, 45):                                      # search radius in sheet px (~1.4 km -> 0.6 km)
+    d, idx = tree.query(model(G_s))
+    ok = d < tol
+    G_all = np.r_[G_c, G_s[ok]]; P_all = np.r_[P_c, shore_px[idx[ok]]]
+    model = fit_similarity(G_all, P_all)
+print(f'similarity on {len(G_c)} inland centers + {ok.sum()} shoreline GCPs')
 
 # ---------- 5. leave-one-out residuals on the centers ----------
 loo = []
 for i in range(len(G_c)):
     keep = np.ones(len(G_all), bool); keep[i] = False
-    f = RBFInterpolator(G_all[keep], P_all[keep], kernel='thin_plate_spline', smoothing=SMOOTH)
+    f = fit_similarity(G_all[keep], P_all[keep])
     du, dv = (f(G_c[i:i + 1]) - P_c[i:i + 1])[0]
     loo.append(math.hypot(du, dv))
 px_m = np.sqrt(abs(np.linalg.det(np.linalg.lstsq(np.c_[P_c, np.ones(len(P_c))], G_c, rcond=None)[0][:2])))
 loo_m = np.array(loo) * px_m
-print(f'scale ≈ {px_m:.1f} m/px; leave-one-out center error: median {np.median(loo_m):.0f} m, p90 {np.percentile(loo_m, 90):.0f} m')
+res_m = np.hypot(*(model(G_c) - P_c).T) * px_m
+print(f'scale ≈ {px_m:.1f} m/px; center residual median {np.median(res_m):.0f} m; leave-one-out median {np.median(loo_m):.0f} m, p90 {np.percentile(loo_m, 90):.0f} m')
 
 # ---------- 6. warp onto a regular EPSG:3857 grid ----------
 corners_px = np.array([[0, 0], [W, 0], [W, V_MAX], [0, V_MAX]], float)
@@ -150,7 +151,8 @@ sw = w2g(x0, y0); ne = w2g(x1, y1)
 meta = {
     'bounds': [[round(sw[1], 6), round(sw[0], 6)], [round(ne[1], 6), round(ne[0], 6)]],
     'size_px': [nx, ny], 'res_webmerc_m': RES,
-    'gcps': {'inland_centers': len(G_c), 'shoreline': int(ok.sum()), 'tps_smoothing': SMOOTH},
+    'gcps': {'inland_centers': len(G_c), 'shoreline': int(ok.sum())}, 'model': 'similarity (uniform scale, rotation, shift): no distortion',
+    'center_residual_m': {'median': round(float(np.median(res_m))), 'rmse': round(float(np.sqrt((res_m ** 2).mean())))},
     'affine_rmse_m': round(float(np.sqrt((res_aff ** 2).mean()))),
     'loo_center_error_m': {'median': round(float(np.median(loo_m))), 'p90': round(float(np.percentile(loo_m, 90))), 'max': round(float(loo_m.max()))},
     'source': 'Los Angeles City Planning Dept., Concept Los Angeles diagram, adopted 3 Apr 1974 (LA Metro Research Library scan, 300 ppi)',
