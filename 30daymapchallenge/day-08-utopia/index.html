@@ -57,10 +57,12 @@
           <button type="button" class="panel-t" aria-expanded="true" aria-controls="o-body"><span class="panel-h">Then <b>The Original Map</b></span><span class="chev" aria-hidden="true"></span></button>
           <div class="panel-b" id="o-body">
           <select id="o-select" aria-label="Original map under the swipe">
-            <option value="parks1930">1930 · Parks, Playgrounds and Beaches</option>
-            <option value="parkways1946">1946 · Parkways Plan</option>
-            <option value="plan1974">1974 · Centers Concept</option>
-            <option value="topo">Old Survey Map (USGS)</option>
+            <optgroup label="Plans">
+              <option value="parks1930">1930 · Parks, Playgrounds and Beaches</option>
+              <option value="parkways1946">1946 · Parkways Plan</option>
+              <option value="plan1974">1974 · Centers Concept</option>
+            </optgroup>
+            <optgroup label="USGS Survey Maps" id="o-sheets"></optgroup>
             <option value="none">No Original Map</option>
           </select>
           <div class="o-row">
