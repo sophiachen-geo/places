@@ -17,7 +17,7 @@ Steps 14–20 feed the illustrated essay (`../index.html`); `../analysis.html` i
 | 8 | County boundary (`County_Boundary`), Dodger Stadium parcels (`ASSR_PARCELS_25_View`, AIN 541501*) | Nov 2025 / 2025 | `raw2/county_boundary.geojson`, `raw2/chavez_parcels.geojson` |
 | 9 | `python circles2.py && python georef.py && python cores.py` | 150-dpi render of the diagram (`pdftoppm -r 150`) | first-pass disc detection + drawn positions (`work/`) |
 | 10 | `python cores2.py` | County CAMS street centerlines (live) | `work/centers_exact.json` — every core at an exact intersection |
-| 11 | `python circles_native.py && python warp1974.py && python tiles1974.py` | native scan + County shoreline | `img/concept1974_warped.json`, `tiles/plan1974/` (z9–13) |
+| 11 | `python circles_native.py && python warp1974.py && python tiles1974.py` | native scan + County shoreline | `img/concept1974_warped.json`, `tiles/plan1974/` (z9–14) |
 | 12 | `python tiles_garden.py` | 2026 roll + City zoning | `tiles/built2026/`, `tiles/zonedsf/` (z10–14) |
 | 13 | `python build2.py $DAY/data` | everything above; `sites_text.json` | `data/*.geojson`, `data/stats.json` |
 | 14 | `python fetch_roll26_county.py 2400000` | County Assessor roll 2026, **all** parcels (year built, units) | `raw2/roll2026_county.csv` |

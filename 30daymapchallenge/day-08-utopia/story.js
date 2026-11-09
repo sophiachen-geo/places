@@ -243,7 +243,7 @@
       parkways1946: { url: "tiles/parkways1946/{z}/{x}/{y}.webp", maxN: 12, bounds: [[33.52, -119.12], [34.60, -117.48]], tag: "1946 Plan",
         cap: "Los Angeles County Regional Planning Commission, 1946", href: "https://libraryarchives.metro.net/DPGTL/trafficplans/1946_interregional_regional_metropolitan_parkways.pdf",
         win: [[33.70, -118.95], [34.42, -117.65]] },
-      plan1974: { url: "tiles/plan1974/{z}/{x}/{y}.webp", maxN: 13, bounds: [[33.64, -118.78], [34.39, -118.02]], tag: "1974 Plan",
+      plan1974: { url: "tiles/plan1974/{z}/{x}/{y}.webp", maxN: 14, bounds: [[33.64, -118.78], [34.39, -118.02]], tag: "1974 Plan",
         cap: "City of Los Angeles, Concept Los Angeles, 1974", href: "https://libraryarchives.metro.net/dpgtl/lacity/1974-concept-los-angeles-side-1.pdf",
         win: [[33.70, -118.70], [34.34, -118.06]] },
     };
