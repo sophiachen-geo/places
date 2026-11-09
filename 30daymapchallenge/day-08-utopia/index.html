@@ -57,10 +57,12 @@
           <button type="button" class="panel-t" aria-expanded="true" aria-controls="o-body"><span class="panel-h">Then <b>The Original Map</b></span><span class="chev" aria-hidden="true"></span></button>
           <div class="panel-b" id="o-body">
           <select id="o-select" aria-label="Original map under the swipe">
-            <option value="parks1930">1930 · Parks, Playgrounds and Beaches</option>
-            <option value="parkways1946">1946 · Parkways Plan</option>
-            <option value="plan1974">1974 · Centers Concept</option>
-            <option value="topo">Old Survey Map (USGS)</option>
+            <optgroup label="Plans">
+              <option value="parks1930">1930 · Parks, Playgrounds and Beaches</option>
+              <option value="parkways1946">1946 · Parkways Plan</option>
+              <option value="plan1974">1974 · Centers Concept</option>
+            </optgroup>
+            <optgroup label="USGS Survey Maps" id="o-sheets"></optgroup>
             <option value="none">No Original Map</option>
           </select>
           <div class="o-row">
@@ -290,7 +292,7 @@
             <a href="https://libraryarchives.metro.net/DPGTL/losangelescity/1970_concept_los_angeles.pdf">1970 · City of Los Angeles, <i>Concept Los Angeles</i></a>; <a href="https://libraryarchives.metro.net/dpgtl/lacity/1974-concept-los-angeles-side-1.pdf">1974 · <i>Concept Los Angeles</i>, adopted centers map</a>.</li>
           <li><b>Old survey maps:</b> U.S. Geological Survey, Historical Topographic Map Collection, 1:24,000 (PDF):
             <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Llano_292412_1930_24000_geo.pdf">Llano 1930</a>; <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_La%20Crescenta_291958_1928_24000_geo.pdf">La Crescenta 1928</a>; <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Hollywood_291374_1953_24000_geo.pdf">Hollywood 1953</a>;
-            <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Beverly%20Hills_288350_1950_24000_geo.pdf">Beverly Hills 1950</a>; <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Los%20Angeles_292551_1953_24000_geo.pdf">Los Angeles 1953</a>.</li>
+            <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Beverly%20Hills_288350_1950_24000_geo.pdf">Beverly Hills 1950</a>; <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Los%20Angeles_292551_1953_24000_geo.pdf">Los Angeles 1953</a>. Each sheet is shown in full at the scan’s resolution, placed with the coordinates printed into its PDF (NAD27, shifted to today’s datum with the NADCON grid).</li>
           <li><b>Llano del Rio:</b> California Office of Historic Preservation, <a href="https://ohp.parks.ca.gov/ListedResources/Detail/933">California Historical Landmark No. 933</a>.</li>
           <li><b>Chronology dates:</b> the essay; LA Metro (rail openings); Caltrans and published freeway histories (Arroyo Seco Parkway, Four Level Interchange, Santa Monica Freeway); City of Los Angeles (General Plan Framework).</li>
           <li><b>Animated map (prologue):</b> parks, forest and open space from the California Protected Areas Database (GreenInfo Network, 2026 release, <a href="https://www.calands.org/">calands.org</a>);
