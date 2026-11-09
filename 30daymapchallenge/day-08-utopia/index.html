@@ -7,16 +7,17 @@
   <meta name="description" content="Los Angeles and the Afterlife of Utopia — an illustrated essay on the pastoral suburb, Autopia, the polycentric metropolis and the cooperative experiments that shaped Los Angeles." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..800;1,9..144,300..800&family=Work+Sans:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
   <link rel="stylesheet" href="story.css" />
 </head>
 <body>
   <nav class="st-nav" aria-label="Chapters">
-    <a class="st-home" href="../">← 30 Day Map Challenge</a>
+    <a class="st-home" href="../">Back to the 30 Day Map Challenge</a>
     <ol class="st-chips">
       <li><a href="#prologue" data-ch="all">Prologue</a></li>
+      <li><a href="#opening" data-ch="all">Introduction</a></li>
       <li><a href="#chronology" data-ch="none">Chronology</a></li>
       <li><a href="#pastoral" data-ch="pastoral"><i>I</i> Pastoral</a></li>
       <li><a href="#autopia" data-ch="autopia"><i>II</i> Autopia</a></li>
@@ -35,31 +36,27 @@
         <div id="st-map" data-focus="all" aria-label="Map of Los Angeles that follows the essay"></div>
 
         <div class="st-orig" id="st-orig">
-          <label class="o-sel"><span>Original map</span>
-            <select id="o-select" aria-label="Original map under the swipe">
-              <option value="parks1930">1930 · Parks plan</option>
-              <option value="parkways1946">1946 · Parkways plan</option>
-              <option value="plan1974">1974 · Centers plan</option>
-              <option value="topo">Old survey map (USGS)</option>
-              <option value="none">None</option>
-            </select></label>
+          <button type="button" class="panel-t" aria-expanded="true" aria-controls="o-body"><span class="panel-h">Then <b>The Original Map</b></span><span class="chev" aria-hidden="true"></span></button>
+          <div class="panel-b" id="o-body">
+          <select id="o-select" aria-label="Original map under the swipe">
+            <option value="parks1930">1930 · Parks, Playgrounds and Beaches</option>
+            <option value="parkways1946">1946 · Parkways Plan</option>
+            <option value="plan1974">1974 · Centers Concept</option>
+            <option value="topo">Old Survey Map (USGS)</option>
+            <option value="none">No Original Map</option>
+          </select>
           <div class="o-row">
             <label>Opacity <input type="range" id="o-op" min="0" max="100" value="85" aria-label="Original map opacity" /></label>
             <label class="o-chk"><input type="checkbox" id="o-swipe" checked /> Swipe</label>
           </div>
+          <div class="o-legend" id="o-legend" aria-label="Legend of the original map"></div>
           <p class="o-cap" id="o-cap"></p>
+          </div>
         </div>
-
-        <ul class="st-focus" id="st-focus" aria-label="The four utopias">
-          <li data-ch="pastoral"><a href="#pastoral"><span class="sw"></span><i>I</i> Pastoral suburb</a></li>
-          <li data-ch="autopia"><a href="#autopia"><span class="sw"></span><i>II</i> Autopia</a></li>
-          <li data-ch="centers"><a href="#centers"><span class="sw"></span><i>III</i> Polycentric</a></li>
-          <li data-ch="coop"><a href="#coop"><span class="sw"></span><i>IV</i> Cooperative</a></li>
-        </ul>
         <div class="st-key" id="st-key" aria-live="polite"></div>
 
         <div class="st-time" id="st-time">
-          <button class="t-play" id="t-play" type="button" aria-label="Play the city's growth">▶</button>
+          <button class="t-play" id="t-play" type="button" aria-label="Play the city's growth">Play</button>
           <div class="t-read"><b id="t-year">2026</b><span id="t-share"></span></div>
           <div class="t-hist" id="t-hist" role="slider" tabindex="0" aria-label="Year: buildings appear in the year they were built"
                aria-valuemin="1880" aria-valuemax="2026" aria-valuenow="2026"></div>
@@ -72,9 +69,33 @@
 
       <section class="ch" id="prologue" data-ch="all">
         <header class="st-title" data-s="v=region;y=2026;o=none">
+          <div class="st-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
           <h1>Los Angeles and the Afterlife of Utopia</h1>
-          <p class="st-sub">The unfinished promises of the modern metropolis</p>
+          <p class="st-sub">The Unfinished Promises of the Modern Metropolis</p>
         </header>
+
+        <div class="prologue-own" id="journey">
+          <h2 class="pro-h" data-s="v=region;y=2026;o=none">Los Angeles — Prologue</h2>
+
+          <p data-s="v=region;y=2026">During my travels along the American West Coast in 2026, visiting friends and family between Seattle and San Francisco, I decided almost on a whim to spend three days in Los Angeles. It was my first encounter with a city I had, in some sense, already visited countless times through cinema, television, literature, and the collective mythology of Hollywood. Few places arrive in our imagination so thoroughly rehearsed before we ever set foot in them; Los Angeles, perhaps more than anywhere else, exists as an image before it becomes a place.</p>
+
+          <p data-s="v=basin;y=2026">Yet the experience of finally arriving was strangely disconcerting. Beyond the familiar iconography of palm-lined boulevards, cinematic sunsets, and the Hollywood Hills, I encountered an urban landscape of extraordinary fragmentation, where distances seemed interminable, destinations dissolved into unremarkable surroundings, and the promise of arrival rarely culminated in anything resembling fulfilment.</p>
+
+          <p data-s="v=basin;y=2026">I found myself returning to Kevin Lynch's <i>The Image of the City</i> (1960), particularly his interviews with Los Angeles residents, who described their city as <i>“formless”</i> and <i>“without centers.”</i> One interviewee captured the sensation with almost tragicomic precision, likening the experience to travelling somewhere for a long time, only to discover <i>“there was nothing there, after all.”</i></p>
+
+          <p data-s="v=basin;y=2026">More than six decades later, I was astonished by how intimately that observation resonated with my own experience. There was something profoundly melancholic about this landscape of chromatic exuberance and existential emptiness, of extravagant promises and perpetual anticlimax. Everywhere seemed capable of becoming a film set, yet the city itself resisted any coherent narrative.</p>
+
+          <p data-s="v=basin;y=2026">Perhaps Los Angeles never intended to deceive us; it simply exposes the conceit that places must cohere, journeys must culminate, and arrival must offer fulfilment. What if the mirage was never the city, but our expectation that somewhere, at last, we would arrive?</p>
+
+          <figure class="gif-fig" data-s="v=basin;y=2026">
+            <a href="img/la_built_year_by_year.gif" target="_blank" rel="noopener"><img src="img/la_built_year_by_year.gif" width="742" height="997"
+              alt="Animated map: Los Angeles County's buildings appear year by year from 1880 to 2026, with freeways, Metro lines, parks, water and city boundaries." loading="lazy"></a>
+            <figcaption><b>Los Angeles, Built Year by Year, 1880 to 2026.</b> Buildings by year built (Los Angeles County Assessor, 2026); freeways and Metro lines appear as they opened.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="ch" id="opening" data-ch="all">
 
         <p data-s="v=basin;y=2026">Los Angeles has long unsettled conventional expectations of what a city ought to be. Its vast residential expanses, intermittent concentrations of density, monumental freeways, and seemingly disconnected urban fragments resist the familiar image of a metropolis organized around a recognizable centre. Travelling through it can produce a curious sensation of perpetual anticipation, as one destination gives way to another without the intervening landscape ever quite resolving into a coherent whole. Yet to interpret this apparent disorder as the consequence of uncontrolled expansion would overlook a more intriguing possibility. Much of the city’s contemporary geography bears the imprint of successive, sometimes competing visions of urban perfection.</p>
 
@@ -86,8 +107,8 @@
       <!-- chronology -->
       <section class="ch interlude" id="chronology" data-ch="none">
         <div class="int-box" data-s="v=region;y=play;o=none">
-          <h2>The city, year by year</h2>
-          <p><button type="button" class="pl pl-play" data-play="1">▶ Play 1880 → 2026</button></p>
+          <h2>A City in Layers, 1880 to 2026</h2>
+          <p><button type="button" class="pl pl-play" data-play="1">Play 1880 to 2026</button></p>
           <ol class="milestones" id="milestones"></ol>
         </div>
       </section>
@@ -96,7 +117,7 @@
       <section class="ch" id="pastoral" data-ch="pastoral">
         <header class="ch-head" data-s="v=pastoral;y=1930;o=parks1930">
           <span class="ch-num">I</span>
-          <h2>The pastoral metropolis and the suburban dream</h2>
+          <h2>The Pastoral Metropolis and the Suburban Dream</h2>
         </header>
         <aside class="evid" data-card="pastoral" data-s="v=pastoral;y=1930;o=parks1930"></aside>
 
@@ -108,7 +129,7 @@
 
         <p data-s="v=city;y=1939;x=holc">The promise of suburban independence, however, was never detached from the political economy of land. In City of Quartz (1990), Mike Davis situates Los Angeles within the history of speculative urban development, revealing how property interests, class relations, and political influence shaped the distribution of metropolitan opportunity. The pastoral image of the California home was sustained through a real-estate market in which residential exclusivity could itself become a valuable commodity; racial covenants, discriminatory lending, and restrictive land-use practices further determined who could inhabit particular versions of this ideal.</p>
 
-        <p data-s="v=plate;y=1930;o=parks1930;w=0.72">An especially revealing alternative emerged in 1930, when the Olmsted Brothers and Harland Bartholomew &amp; Associates proposed an extensive regional system of parks, parkways, playgrounds, and public beaches. Their plan envisaged a continuous public landscape connecting communities and natural environments across the metropolitan region, with proposals encompassing the Los Angeles River, coastal areas, and major open-space corridors.</p>
+        <p data-s="v=plate;y=1930;o=parks1930;w=0.72">An especially revealing alternative emerged in 1930, when the <a class="src-link" href="https://libraryarchives.metro.net/DPGTL/trafficplans/1930_parks_playgrounds_beaches_los_angeles_region.pdf" target="_blank" rel="noopener" title="Open the original 1930 report (PDF)">Olmsted Brothers and Harland Bartholomew &amp; Associates</a> proposed an extensive regional system of parks, parkways, playgrounds, and public beaches. Their plan envisaged a continuous public landscape connecting communities and natural environments across the metropolitan region, with proposals encompassing the Los Angeles River, coastal areas, and major open-space corridors.</p>
 
         <p data-s="v=plate;y=1930;o=parks1930;w=0.72">Greg Hise and William Deverell recover this largely unrealized vision in Eden by Design (2000), demonstrating that the city’s present landscape emerged from choices among competing possibilities rather than from an inevitable process of suburban expansion. Although individual recommendations influenced subsequent recreational improvements, including elements incorporated into Depression-era public works, the comprehensive regional system was never adopted. Its abandonment left a particularly revealing contrast between the widespread provision of private residential greenery and the more uneven development of accessible, interconnected public open space.</p>
 
@@ -119,7 +140,7 @@
       <section class="ch" id="autopia" data-ch="autopia">
         <header class="ch-head" data-s="v=basin;y=1946;o=parkways1946">
           <span class="ch-num">II</span>
-          <h2>Autopia and the promise of movement</h2>
+          <h2>Autopia and the Promise of Movement</h2>
         </header>
         <aside class="evid" data-card="autopia" data-s="v=basin;y=1946;o=parkways1946"></aside>
 
@@ -142,11 +163,11 @@
       <section class="ch" id="centers" data-ch="centers">
         <header class="ch-head" data-s="v=centers;y=1974;o=plan1974">
           <span class="ch-num">III</span>
-          <h2>The polycentric metropolis and the search for order</h2>
+          <h2>The Polycentric Metropolis and the Search for Order</h2>
         </header>
         <aside class="evid" data-card="centers" data-s="v=centers;y=1974;o=plan1974"></aside>
 
-        <p data-s="v=centers;y=1970">As Los Angeles expanded, the challenge of metropolitan planning gradually shifted from accommodating decentralization to establishing a comprehensible structure within an already dispersed urban landscape. The Centers Concept, developed in 1970 and adopted by the City Council on April 3, 1974, represented one of the most ambitious attempts to reconcile the competing demands of suburban preservation and metropolitan concentration.</p>
+        <p data-s="v=centers;y=1970">As Los Angeles expanded, the challenge of metropolitan planning gradually shifted from accommodating decentralization to establishing a comprehensible structure within an already dispersed urban landscape. The <a class="src-link" href="https://libraryarchives.metro.net/dpgtl/lacity/1974-concept-los-angeles-side-1.pdf" target="_blank" rel="noopener" title="Open the adopted 1974 Centers Concept map (PDF)">Centers Concept</a>, <a class="src-link" href="https://libraryarchives.metro.net/DPGTL/losangelescity/1970_concept_los_angeles.pdf" target="_blank" rel="noopener" title="Open the 1970 Concept Los Angeles report (PDF)">developed in 1970</a> and adopted by the City Council on April 3, 1974, represented one of the most ambitious attempts to reconcile the competing demands of suburban preservation and metropolitan concentration.</p>
 
         <p data-s="v=centers;y=1974">The adopted plan identified 56 major centres across its wider planning geography, including 37 within the City of Los Angeles. These were intended to accommodate substantial concentrations of employment, housing, commerce, and public activity, linked through an extensive rapid-transit network while predominantly low-density residential districts retained their suburban character. The proposal sought an ordered decentralization in which metropolitan intensity would be concentrated at selected nodes rather than distributed indiscriminately across the urban fabric.</p>
 
@@ -154,7 +175,7 @@
 
         <p data-s="v=centers;y=2026;x=rail">The crucial limitation concerned transportation. The envisioned network of rapid-transit connections was never constructed in its original form, leaving many emerging centres dependent upon automobile access and an increasingly congested regional road system. Later rail investments, including the Metro subway and light-rail network, introduced important alternatives, but they did not amount to the comprehensive realization of the earlier scheme.</p>
 
-        <p data-s="v=centers;y=2026;x=rail,towers">The city’s subsequent General Plan Framework acknowledged this inheritance, describing its own approach as an evolution of the Centers Concept while retaining the principle of directing growth towards designated centres and corridors. The earlier proposal therefore achieved a significant degree of institutional influence and partial physical realization, even as its intended integration of land use and transportation remained incomplete.</p>
+        <p data-s="v=centers;y=2026;x=rail,towers">The city’s subsequent <a class="src-link" href="https://planning.lacity.gov/plans-policies/framework-element" target="_blank" rel="noopener" title="City of Los Angeles, General Plan Framework Element">General Plan Framework</a> acknowledged this inheritance, describing its own approach as an evolution of the Centers Concept while retaining the principle of directing growth towards designated centres and corridors. The earlier proposal therefore achieved a significant degree of institutional influence and partial physical realization, even as its intended integration of land use and transportation remained incomplete.</p>
 
         <p data-s="v=basin;y=2026;x=towers">Edward Soja’s conception of the postmetropolis provides a broader theoretical framework for understanding this condition. In Postmetropolis (2000) and My Los Angeles (2014), Soja examines the restructuring of metropolitan space beyond the conventional opposition between a dominant urban core and its dependent periphery, emphasizing the emergence of differentiated centres, changing employment geographies, and increasingly complex regional relationships.</p>
 
@@ -167,15 +188,15 @@
       <section class="ch" id="coop" data-ch="coop">
         <header class="ch-head" data-s="v=sites;y=1914;o=none">
           <span class="ch-num">IV</span>
-          <h2>The cooperative imagination and alternative ways of living</h2>
+          <h2>The Cooperative Imagination and Alternative Ways of Living</h2>
         </header>
         <aside class="evid" data-card="coop" data-s="v=sites;y=1914;o=none"></aside>
 
         <p data-s="v=sites;y=1914;o=none">Beyond these metropolitan-scale ambitions, Los Angeles and its surrounding region also became a laboratory for experiments in collective life, many of which challenged the assumption that private suburban ownership represented the inevitable culmination of modern domestic aspirations.</p>
 
-        <p data-s="v=topo:llano;y=1914;o=topo:llano;w=0.72">Founded in 1914 in the Antelope Valley, <button type="button" class="pl" data-place="llano">Llano del Rio</button> sought to establish a socialist cooperative community beyond the established metropolis. Its associated architect, Alice Constance Austin, developed proposals for a radically reorganized domestic environment, including kitchenless residences and centralized services intended to reduce the burden of household labour. As Dolores Hayden demonstrates in her research on feminist architectural reform, such proposals belonged to a wider movement that regarded domestic arrangements as inseparable from questions of gender, labour, and social emancipation.</p>
+        <p data-s="v=topo:llano;y=1914;o=topo:llano;w=0.72">Founded in 1914 in the <a class="src-link" href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Llano_292412_1930_24000_geo.pdf" target="_blank" rel="noopener" title="Open the 1930 USGS survey map of Llano (PDF)">Antelope Valley</a>, <button type="button" class="pl" data-place="llano">Llano del Rio</button> sought to establish a socialist cooperative community beyond the established metropolis. Its associated architect, Alice Constance Austin, developed proposals for a radically reorganized domestic environment, including kitchenless residences and centralized services intended to reduce the burden of household labour. As Dolores Hayden demonstrates in her research on feminist architectural reform, such proposals belonged to a wider movement that regarded domestic arrangements as inseparable from questions of gender, labour, and social emancipation.</p>
 
-        <p data-s="v=topo:llano;y=1930;o=topo:llano;w=0.72">The colony itself existed for several years, and its surviving ruins remain near <button type="button" class="pl" data-place="llano">Llano</button>, northeast of the Los Angeles Basin, but Austin’s most ambitious architectural proposals were never constructed. The experiment therefore occupies an unusual position in the region’s utopian history, having achieved a temporary communal existence without realizing the built environment through which its most radical social ambitions were to be expressed.</p>
+        <p data-s="v=topo:llano;y=1930;o=topo:llano;w=0.72">The colony itself existed for several years, and its <a class="src-link" href="https://ohp.parks.ca.gov/ListedResources/Detail/933" target="_blank" rel="noopener" title="California Historical Landmark No. 933, Llano del Rio">surviving ruins</a> remain near <button type="button" class="pl" data-place="llano">Llano</button>, northeast of the Los Angeles Basin, but Austin’s most ambitious architectural proposals were never constructed. The experiment therefore occupies an unusual position in the region’s utopian history, having achieved a temporary communal existence without realizing the built environment through which its most radical social ambitions were to be expressed.</p>
 
         <p data-s="v=topo:landers;y=1928;o=topo:landers;w=0.66">A related, though less revolutionary, experiment emerged in <button type="button" class="pl" data-place="landers">Tujunga</button> through the Little Landers movement, which promoted small-scale agricultural settlement and mutual assistance. Its legacy survives in the historical identity of the community and landmarks such as <button type="button" class="pl" data-place="landers">Bolton Hall</button>, although the original cooperative economic model did not endure as a defining structure of metropolitan development.</p>
 
@@ -183,7 +204,7 @@
 
         <p data-s="v=topo:village;y=1953;o=topo:village">The project remains an exceptionally clear example of the Garden City tradition adapted to multifamily housing in Los Angeles. Its architectural principles were substantially realized and remain visible today, although its privately financed character and historically exclusionary occupancy practices complicate any interpretation of the development as an unequivocal achievement of social egalitarianism.</p>
 
-        <p data-s="v=topo:crestwood;y=1950;o=topo:crestwood;w=0.66">At <button type="button" class="pl" data-place="crestwood">Crestwood Hills</button>, in the Brentwood area of the Santa Monica Mountains, the Mutual Housing Association pursued a different synthesis of individual and collective living. Established in 1946, the cooperative commissioned modernist architects including A. Quincy Jones and Whitney Smith to design a residential community combining individually owned houses, shared open space, and communal facilities. The resulting architecture, carefully adapted to the hillside terrain, remains among the most distinctive surviving expressions of postwar cooperative housing in Southern California.</p>
+        <p data-s="v=topo:crestwood;y=1950;o=topo:crestwood;w=0.66">At <button type="button" class="pl" data-place="crestwood">Crestwood Hills</button>, in the Brentwood area of the Santa Monica Mountains, the <a class="src-link" href="https://www.laconservancy.org/learn/historic-places/crestwood-hills/" target="_blank" rel="noopener" title="Los Angeles Conservancy: Crestwood Hills">Mutual Housing Association</a> pursued a different synthesis of individual and collective living. Established in 1946, the cooperative commissioned modernist architects including A. Quincy Jones and Whitney Smith to design a residential community combining individually owned houses, shared open space, and communal facilities. The resulting architecture, carefully adapted to the hillside terrain, remains among the most distinctive surviving expressions of postwar cooperative housing in Southern California.</p>
 
         <p data-s="v=topo:crestwood;y=1960;o=topo:crestwood">Its founding aspirations were nevertheless constrained by the institutional conditions of housing finance. Federal Housing Administration requirements and racially restrictive covenants compromised the association’s original commitment to inclusion, while some proposed communal facilities were never realized. Crestwood Hills consequently represents a substantial architectural achievement whose broader social programme was fulfilled only in part.</p>
 
@@ -200,7 +221,7 @@
       <section class="ch" id="afterlife" data-ch="all">
         <header class="ch-head" data-s="v=basin;y=2026;o=none">
           <span class="ch-num ch-all" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          <h2>The metropolis as an accumulation of imagined futures</h2>
+          <h2>The Metropolis as an Accumulation of Imagined Futures</h2>
         </header>
         
         <p data-s="v=region;y=2026">The four traditions illuminate much of Los Angeles’s contemporary spatial character, although none can independently explain the metropolis that emerged. Its expansion was also shaped by real-estate speculation, municipal annexation, industrial development, migration, and successive transformations of regional employment. The construction of the Los Angeles Aqueduct and subsequent water infrastructure enabled growth far beyond the capacity of local water resources, while flood-control engineering profoundly altered the region’s rivers and ecological systems.</p>
@@ -224,6 +245,11 @@
         <p class="sep" aria-hidden="true">⸻</p>
       </section>
 
+      <section class="ch photos" id="photos" data-ch="all" hidden>
+        <header class="ch-head"><span class="ch-num ch-all" aria-hidden="true"><i></i><i></i><i></i><i></i></span><h2>Photographs</h2></header>
+        <div class="photos-grid" id="photos-grid"></div>
+      </section>
+
       <section class="ch refs" id="references" data-ch="all">
         <h2 data-s="v=region;y=2026;o=none">References</h2>
         <ol>
@@ -232,17 +258,42 @@
           <li>Soja, Edward W. Postmetropolis: Critical Studies of Cities and Regions. 2000; My Los Angeles: From Urban Restructuring to Regional Urbanization. 2014.</li>
           <li>Hise, Greg, and William Deverell. Eden by Design: The 1930 Olmsted-Bartholomew Plan for the Los Angeles Region. 2000.</li>
           <li>Hayden, Dolores. “Two Utopian Feminists and Their Campaigns for Kitchenless Houses.” Signs 4, no. 2 (1978), 274–290.</li>
-          <li>Olmsted Brothers and Harland Bartholomew &amp; Associates. Parks, Playgrounds and Beaches for the Los Angeles Region. 1930.</li>
-          <li>City of Los Angeles. Concept Los Angeles. Developed 1970, adopted 1974; General Plan Framework Element.</li>
+          <li>Olmsted Brothers and Harland Bartholomew &amp; Associates. <a class="src-link" href="https://libraryarchives.metro.net/DPGTL/trafficplans/1930_parks_playgrounds_beaches_los_angeles_region.pdf" target="_blank" rel="noopener" title="Open the original report (PDF)">Parks, Playgrounds and Beaches for the Los Angeles Region</a>. 1930.</li>
+          <li>City of Los Angeles. <a class="src-link" href="https://libraryarchives.metro.net/dpgtl/lacity/1974-concept-los-angeles-side-1.pdf" target="_blank" rel="noopener" title="Open the adopted 1974 map (PDF)">Concept Los Angeles</a>. Developed 1970, adopted 1974; <a class="src-link" href="https://planning.lacity.gov/plans-policies/framework-element" target="_blank" rel="noopener" title="City of Los Angeles Planning">General Plan Framework Element</a>.</li>
           <li>Los Angeles City Planning. Historical Housing and Land Use Study. 2024.</li>
           <li>Society of Architectural Historians. “Village Green,” SAH Archipedia.</li>
-          <li>Los Angeles Conservancy. “Crestwood Hills.”</li>
+          <li>Los Angeles Conservancy. <a class="src-link" href="https://www.laconservancy.org/learn/historic-places/crestwood-hills/" target="_blank" rel="noopener" title="Los Angeles Conservancy">“Crestwood Hills.”</a></li>
           <li>UCLA Library. “Public Purpose and Private Gain in the Chavez Ravine.”</li>
           <li>Gruen, Marlon Thann. Arcadias and Avalons: Reframing Real Estate, Radicalism, and Race in the Cooperative Commonwealth of Los Angeles, 1893–1929. 2015.</li>
         </ol>
 
-        <p class="credits">Maps: Olmsted Brothers &amp; Bartholomew and Associates (1930); Los Angeles County Regional Planning Commission (1946);
-          City of Los Angeles, Concept Los Angeles (1974); U.S. Geological Survey. Data: Los Angeles County, City of Los Angeles, Caltrans, LA Metro, U.S. Census Bureau, Mapping Inequality.</p>
+        <h2 class="sub">Data Sources</h2>
+        <ol class="datasrc">
+          <li><b>Buildings, year built and homes:</b> Los Angeles County Assessor, Parcel Data Roll 2026 (2.2 million parcels). <a href="https://data.lacounty.gov/">data.lacounty.gov</a></li>
+          <li><b>Zoning:</b> City of Los Angeles, Department of City Planning, zoning layer (edited 5 November 2026). <a href="https://geohub.lacity.org/">geohub.lacity.org</a></li>
+          <li><b>Neighbourhood outlines:</b> City of Los Angeles Historic Preservation Overlay Zones (Hancock Park, Windsor Square), Community Plan Areas (Hollywood, Boyle Heights) and Area Planning Commissions (San Fernando Valley). <a href="https://geohub.lacity.org/">geohub.lacity.org</a></li>
+          <li><b>City and county boundaries:</b> Los Angeles County, City and Unincorporated Community Boundaries; County Boundary. <a href="https://egis-lacounty.hub.arcgis.com/">LA County eGIS</a></li>
+          <li><b>1939 mortgage-risk grades:</b> Robert K. Nelson et al., <i>Mapping Inequality: Redlining in New Deal America</i>, University of Richmond Digital Scholarship Lab. <a href="https://dsl.richmond.edu/panorama/redlining/">dsl.richmond.edu</a></li>
+          <li><b>Freeways:</b> California Department of Transportation (Caltrans), State Highway Network functional classification and postmiles. <a href="https://gisdata-caltrans.opendata.arcgis.com/">Caltrans GIS data</a></li>
+          <li><b>Traffic:</b> Caltrans Traffic Census Program, Annual Average Daily Traffic 2024; Caltrans District 7 Mobility Performance Report (bottlenecks, calendar 2024). <a href="https://dot.ca.gov/programs/research-innovation-system-information/office-of-highway-system-information-performance/traffic-census-program">dot.ca.gov</a></li>
+          <li><b>Metro rail and stations:</b> Los Angeles County Metropolitan Transportation Authority, rail GTFS (7 November 2026) and projects under construction. <a href="https://gitlab.com/LACMTA/gtfs_rail">gitlab.com/LACMTA</a></li>
+          <li><b>Tall buildings:</b> Los Angeles Region Imagery Acquisition Consortium (LARIAC), countywide building outlines 2020; Los Angeles Department of Building and Safety, certificates of occupancy 2020 to 2026. <a href="https://data.lacity.org/">data.lacity.org</a></li>
+          <li><b>Centre cores:</b> Los Angeles County CAMS street centerlines (2026). <a href="https://egis-lacounty.hub.arcgis.com/">LA County eGIS</a></li>
+          <li><b>Cooperative sites:</b> City of Los Angeles Historic-Cultural Monuments; Los Angeles County Assessor parcels (Dodger Stadium); California Historical Landmark No. 933 (Llano del Rio).</li>
+          <li><b>Original maps (scans, LA Metro Research Library):</b> <a href="https://libraryarchives.metro.net/DPGTL/trafficplans/1930_parks_playgrounds_beaches_los_angeles_region.pdf">1930 · Olmsted Brothers and Bartholomew and Associates, <i>Parks, Playgrounds and Beaches for the Los Angeles Region</i></a>;
+            <a href="https://libraryarchives.metro.net/DPGTL/trafficplans/1946_interregional_regional_metropolitan_parkways.pdf">1946 · Los Angeles County Regional Planning Commission, <i>Interregional, Regional and Metropolitan Parkways</i></a>;
+            <a href="https://libraryarchives.metro.net/DPGTL/losangelescity/1970_concept_los_angeles.pdf">1970 · City of Los Angeles, <i>Concept Los Angeles</i></a>; <a href="https://libraryarchives.metro.net/dpgtl/lacity/1974-concept-los-angeles-side-1.pdf">1974 · <i>Concept Los Angeles</i>, adopted centers map</a>.</li>
+          <li><b>Old survey maps:</b> U.S. Geological Survey, Historical Topographic Map Collection, 1:24,000 (PDF):
+            <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Llano_292412_1930_24000_geo.pdf">Llano 1930</a>; <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_La%20Crescenta_291958_1928_24000_geo.pdf">La Crescenta 1928</a>; <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Hollywood_291374_1953_24000_geo.pdf">Hollywood 1953</a>;
+            <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Beverly%20Hills_288350_1950_24000_geo.pdf">Beverly Hills 1950</a>; <a href="https://prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/CA_Los%20Angeles_292551_1953_24000_geo.pdf">Los Angeles 1953</a>.</li>
+          <li><b>Llano del Rio:</b> California Office of Historic Preservation, <a href="https://ohp.parks.ca.gov/ListedResources/Detail/933">California Historical Landmark No. 933</a>.</li>
+          <li><b>Chronology dates:</b> the essay; LA Metro (rail openings); Caltrans and published freeway histories (Arroyo Seco Parkway, Four Level Interchange, Santa Monica Freeway); City of Los Angeles (General Plan Framework).</li>
+          <li><b>Animated map (prologue):</b> parks, forest and open space from the California Protected Areas Database (GreenInfo Network, 2026 release, <a href="https://www.calands.org/">calands.org</a>);
+            water from the USGS National Hydrography Dataset (<a href="https://www.usgs.gov/national-hydrography">usgs.gov</a>); freeway opening years from
+            <a href="http://www.laalmanac.com/transport/tr26.php">LA Almanac, “Freeways and Highways in Los Angeles County”</a>, with Wikipedia and AARoads for State Routes 103 and 170;
+            busway routes from the LA Metro bus GTFS (2026, <a href="https://gitlab.com/LACMTA/gtfs_bus">gitlab.com/LACMTA</a>).</li>
+          <li><b>Basemap:</b> Esri World Light Gray Canvas (Esri, HERE, Garmin, © OpenStreetMap contributors). Place names on the map are set in the page's own type.</li>
+        </ol>
       </section>
     </article>
   </div>

@@ -35,3 +35,16 @@ Live services change: a re-fetch will move some counts (new towers, new permits,
 `morph_grid.png` packs the chronology into one RGBA image: one pixel per 120 m Web-Mercator cell, R = median year built
 of the cell's parcels − 1850, G = parcel count (capped at 255), A = occupied. The story page recolours it in the browser
 for any year, so the timeline needs no tiles per year.
+
+## The animated map (prologue GIF)
+
+Run from the working directory, with a `gif/` folder holding the Esri Light Gray z11 tiles (`gif/tiles/11_x_y.png`) and the
+Fraunces and Work Sans font files (Google Fonts, `gif/fonts/`).
+
+| # | Step | Source | Output |
+|---|---|---|---|
+| 21 | LA Metro bus GTFS (`gtfs_bus.zip` from <https://gitlab.com/LACMTA/gtfs_bus>) unzipped to `raw3/bus/`; `python gif_prep_transit.py` | rail + bus GTFS 2026; opening years of each section from LA Metro | `gif/transit_segments.json` |
+| 22 | `python gif_prep_freeways.py` | Caltrans LRS (`raw/fwy_d7.geojson`); opening years from LA Almanac (laalmanac.com/transport/tr26.php), Wikipedia (Hollywood Fwy, SR 103), AARoads (SR 170) | `gif/freeways_dated.json` |
+| 23 | CPAD Holdings, current release (GreenInfo Network ArcGIS service) to `raw3/cpad_view.geojson`; USGS NHD waterbodies, areas and named flowlines to `raw3/nhd_view.json`; then `python gif_make_gif2.py` | everything above + `img/morph_grid.png`, `raw2/city_comm.geojson`, `raw2/county_boundary.geojson` | `gif/la_built_year_by_year_v2.gif` (copied to `img/la_built_year_by_year.gif`) |
+
+`cities.py` writes `data/cities.geojson` (incorporated city boundaries for the story map).
