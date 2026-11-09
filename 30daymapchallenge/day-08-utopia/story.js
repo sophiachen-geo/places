@@ -17,7 +17,8 @@
   const D0 = "";
   const Y0 = 1880, Y1 = 2026;
   const fmt = (n) => Number(n).toLocaleString("en-US");
-  const J = (p) => fetch(D0 + p).then((r) => { if (!r.ok) throw new Error(p); return r.json(); });
+  // data files carry the build stamp, so a new deploy is never read from a stale cache
+  const J = (p) => fetch(D0 + p + "?v=" + (window.D8V || "")).then((r) => { if (!r.ok) throw new Error(p); return r.json(); });
   const VIEWS = {
     basin: [[33.70, -118.70], [34.34, -118.06]],
     city: [[33.72, -118.67], [34.34, -118.15]],
@@ -795,60 +796,53 @@
     const KIND = { la: "City of Los Angeles", city: "City", unincorporated: "Unincorporated" };
     const placeName = (p) => (p.kind === "la" ? p.name.split(" - ").slice(0, 2).join(" – ")
       : p.name.toLowerCase().replace(/(^|[\s-])\w/g, (c) => c.toUpperCase()).replace(/ - /g, " – "));
-    function parkBars() {
-      // two measures per plan area: public park per 1,000 homes (bar) and median household income (bar on its own scale)
-      const PK = SS.parks, la = PK.la, cap = 50, imax = 200000;
-      const pick = la.slice(0, 6).concat(la.slice(-4));
-      const sub = { Wilshire: "with Hancock Park, Windsor Square" };
-      const W = cardW(), narrow = W < 420, LW = narrow ? 128 : 178, RH = 30, GAP = 14;
+    // two measures per place, each on its own scale: the chapter's measure (filled bar) and median household income (outlined bar)
+    const money = (v) => (v == null ? "n/a" : v >= 200000 ? "$200k+" : "$" + Math.round(v / 1000) + "k");
+    function twoBars({ rows, refs, head1, fmt1, max1, cap1, ch, gapAfter }) {
+      const W = cardW(), narrow = W < 420, LW = narrow ? 128 : 178, RH = 30, GAP = 14, imax = 200000;
       const pw = (W - LW - GAP) * 0.5, X1 = LW, X2 = LW + pw + GAP, bw = pw - (narrow ? 34 : 40);
-      const PX = (v) => X1 + Math.min(v, cap) / cap * bw, IX = (v) => X2 + Math.min(v, imax) / imax * bw;
-      const f1 = (v) => (v < 10 ? v.toFixed(1) : Math.round(v).toLocaleString("en-US"));
-      const money = (v) => (v == null ? "n/a" : v >= imax ? "$200k+" : "$" + Math.round(v / 1000) + "k");
-      let s = `<text x="${X1}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">Park acres per 1,000 homes</text>
+      const PX = (v) => X1 + Math.min(v, cap1 || max1) / max1 * bw, IX = (v) => X2 + Math.min(v, imax) / imax * bw;
+      let s = `<text x="${X1}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">${head1}</text>
         <text x="${X2}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">Median household income</text>`;
       const T0 = 18;
-      const row = (n, k, v, inc, hi, id, y) => {
+      const row = ({ n, k, v, inc, hi, id }, y) => {
         y += T0;
-        if (id) s += `<g class="row" data-area="${id}" data-name="${n}" data-ch="pastoral" tabindex="0" role="button" aria-label="Show ${n} on the map"><rect class="hit" x="0" y="${y}" width="${W}" height="${RH - 2}" fill="transparent"/>`;
+        if (id) s += `<g class="row" data-area="${id}" data-name="${n}" data-ch="${ch}" tabindex="0" role="button" aria-label="Show ${n} on the map"><rect class="hit" x="0" y="${y}" width="${W}" height="${RH - 2}" fill="transparent"/>`;
         s += `<text class="lbl" x="0" y="${y + 11}"${hi ? ' style="font-weight:700"' : ""}>${n}</text><text x="0" y="${y + 23}" style="font-size:9.5px;fill:#6b6b6b">${k}</text>
-          <rect x="${X1}" y="${y + 3}" width="${Math.max(hi ? 4 : 1, PX(v) - X1)}" height="16" rx="3" fill="${hi ? COL.pastoral : "#c9c3b6"}"/>`;
-        if (v > cap) s += `<path d="M${PX(v) - 12} ${y + 1}l-5 20M${PX(v) - 7} ${y + 1}l-5 20" stroke="#fff" stroke-width="2.5"/>`;   // broken bar: off the scale
-        s += `<text x="${PX(v) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${f1(v)}</text>
+          <rect x="${X1}" y="${y + 3}" width="${Math.max(hi ? 4 : 1, PX(v) - X1)}" height="16" rx="3" fill="${hi ? COL[ch] : "#c9c3b6"}"/>`;
+        if (cap1 && v > cap1) s += `<path d="M${PX(v) - 12} ${y + 1}l-5 20M${PX(v) - 7} ${y + 1}l-5 20" stroke="#fff" stroke-width="2.5"/>`;   // broken bar: off the scale
+        s += `<text x="${PX(v) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${fmt1(v)}</text>
           <rect x="${X2}" y="${y + 3}" width="${Math.max(1, IX(inc || 0) - X2)}" height="16" rx="3" fill="#fff" stroke="#6f6b63" stroke-width="1.4"/>
           <text x="${IX(inc || 0) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${money(inc)}</text>`;
         if (id) s += `</g>`;
       };
-      pick.forEach((p, i) => {
-        const n = placeName({ kind: "la", name: p.name });
-        row(n, sub[p.name] || "City of Los Angeles plan area", p.per_1000_homes, p.median_income, p.name === "Wilshire", "la:" + p.name, i * RH + (i >= 6 ? 10 : 0));
-      });
-      const y0 = pick.length * RH + 18;
-      s += `<text x="${X1}" y="${T0 + 6 * RH + 7}" style="font-size:9.5px;fill:#6b6b6b">… ${la.length - 10} plan areas in between …</text>`;
+      rows.forEach((r, i) => row(r, i * RH + (gapAfter && i >= gapAfter ? 10 : 0)));
+      if (gapAfter) s += `<text x="${X1}" y="${T0 + gapAfter * RH + 7}" style="font-size:9.5px;fill:#6b6b6b">${rows.between}</text>`;
+      const y0 = rows.length * RH + (gapAfter ? 18 : 8);
       s += `<line x1="0" x2="${W}" y1="${T0 + y0 - 4}" y2="${T0 + y0 - 4}" stroke="#d6d6d6"/>`;
-      row("City of Los Angeles", "the whole city, for comparison", PK.city.per_1000_homes, PK.city.median_income, false, null, y0);
-      row("Los Angeles County", "the whole county, for comparison", PK.county.per_1000_homes, PK.county.median_income, false, null, y0 + RH);
-      return svgEl(W, T0 + y0 + 2 * RH, s) +
-        `<p class="mini-note">Click a plan area to see it on the map. The City of Los Angeles’s 35 community plan areas: the six with the least public park land and the four with the most (park bars beyond ${cap} acres are cut). Public park: open-access land in the California Protected Areas Database (GreenInfo Network, current release), federal forest excluded; homes on the 2026 Assessor roll. Median household income: U.S. Census Bureau, American Community Survey 2020–2024 (5-year estimates), the plan area’s census tracts pooled; the top bracket is $200,000 or more.</p>`;
+      refs.forEach((r, i) => row(r, y0 + i * RH));
+      return svgEl(W, T0 + y0 + refs.length * RH, s);
+    }
+    const INCOME_NOTE = "Median household income: U.S. Census Bureau, American Community Survey 2020–2024 (5-year estimates); a city’s or community’s own published median where the Bureau publishes one, otherwise its census tracts pooled; the top bracket is $200,000 or more.";
+    function parkBars() {
+      const PK = SS.parks, la = PK.la, pick = la.slice(0, 6).concat(la.slice(-4));
+      const sub = { Wilshire: "with Hancock Park, Windsor Square" };
+      const rows = pick.map((p) => ({ n: placeName({ kind: "la", name: p.name }), k: sub[p.name] || "City of Los Angeles plan area",
+        v: p.per_1000_homes, inc: p.median_income, hi: p.name === "Wilshire", id: "la:" + p.name }));
+      rows.between = `… ${la.length - 10} plan areas in between …`;
+      const refs = [{ n: "City of Los Angeles", k: "the whole city, for comparison", v: PK.city.per_1000_homes, inc: PK.city.median_income },
+                    { n: "Los Angeles County", k: "the whole county, for comparison", v: PK.county.per_1000_homes, inc: PK.county.median_income }];
+      return twoBars({ rows, refs, head1: "Park acres per 1,000 homes", fmt1: (v) => (v < 10 ? v.toFixed(1) : Math.round(v).toLocaleString("en-US")),
+                       max1: 50, cap1: 50, ch: "pastoral", gapAfter: 6 }) +
+        `<p class="mini-note">Click a plan area to see it on the map. The City of Los Angeles’s 35 community plan areas: the six with the least public park land and the four with the most (park bars beyond 50 acres are cut). Public park: open-access land in the California Protected Areas Database (GreenInfo Network, current release), federal forest excluded; homes on the 2026 Assessor roll. ${INCOME_NOTE}</p>`;
     }
     function proxBars() {
-      const top = B.places.slice(0, 10).map((p) => [placeName(p), KIND[p.kind], p.within_500ft_pct, p.name === "Boyle Heights", (p.kind === "la" ? "la:" : "cc:") + p.name]);
-      const refs = [["City of Los Angeles", "the whole city, for comparison", B.city.within_500ft_pct], ["Los Angeles County", "the whole county, for comparison", B.county.within_500ft_pct]];
-      const W = cardW(), LW = W < 420 ? 150 : 196, RH = 30, max = Math.ceil(top[0][2] / 5) * 5, X = (v) => LW + v / max * (W - LW - 46);
-      let s = "";
-      const row = ([n, k, v, hi, id], y) => {
-        if (id) s += `<g class="row" data-area="${id}" data-name="${n}" data-ch="autopia" tabindex="0" role="button" aria-label="Show ${n} on the map"><rect class="hit" x="0" y="${y}" width="${W}" height="${RH - 2}" fill="transparent"/>`;
-        s += `<text class="lbl" x="0" y="${y + 11}"${hi ? ' style="font-weight:700"' : ""}>${n}</text><text x="0" y="${y + 23}" style="font-size:9.5px;fill:#6b6b6b">${k}</text>
-          <rect x="${LW}" y="${y + 3}" width="${Math.max(1, X(v) - LW)}" height="16" rx="3" fill="${hi ? COL.autopia : "#c9c3b6"}"/>
-          <text x="${X(v) + 6}" y="${y + 15}" style="font-weight:600;fill:#111">${Math.round(v)}%</text>`;
-        if (id) s += `</g>`;
-      };
-      top.forEach((r, i) => row(r, i * RH));
-      const y0 = top.length * RH + 8;
-      s += `<line x1="0" x2="${W}" y1="${y0 - 4}" y2="${y0 - 4}" stroke="#d6d6d6"/>`;
-      refs.forEach((r, i) => row(r, y0 + i * RH));
-      return svgEl(W, y0 + refs.length * RH, s) +
-        `<p class="mini-note">Click a place to see it on the map. Ranked among the ${B.places.length} places with at least 5,000 homes: the City of Los Angeles’s 35 community plan areas, the County’s other cities and its unincorporated communities. Homes on the 2026 Assessor roll; freeways from Caltrans.</p>`;
+      const rows = B.places.slice(0, 10).map((p) => ({ n: placeName(p), k: KIND[p.kind], v: p.within_500ft_pct, inc: p.median_income,
+        hi: p.name === "Boyle Heights", id: (p.kind === "la" ? "la:" : "cc:") + p.name }));
+      const refs = [{ n: "City of Los Angeles", k: "the whole city, for comparison", v: B.city.within_500ft_pct, inc: B.city.median_income },
+                    { n: "Los Angeles County", k: "the whole county, for comparison", v: B.county.within_500ft_pct, inc: B.county.median_income }];
+      return twoBars({ rows, refs, head1: "Homes within 500 ft of a freeway", fmt1: (v) => Math.round(v) + "%", max1: Math.ceil(rows[0].v / 5) * 5, ch: "autopia" }) +
+        `<p class="mini-note">Click a place to see it on the map. Ranked among the ${B.places.length} places with at least 5,000 homes: the City of Los Angeles’s 35 community plan areas, the County’s other cities and its unincorporated communities. Homes on the 2026 Assessor roll; freeways from Caltrans. ${INCOME_NOTE}</p>`;
     }
     function outcomeBar() {
       const o = C.outcomes_half_mile, keys = ["realised", "towers", "rail", "neither"], W = cardW(), h = 22;
