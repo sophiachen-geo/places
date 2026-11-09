@@ -366,7 +366,7 @@
     const placeById = Object.fromEntries(places.features.map((f) => [f.properties.id, f]));
 
     // I · pastoral — named suburbs (official outlines), with year-built profile
-    const pastoralIds = ["valley", "pasadena", "hollywood", "hancock", "windsor"];
+    const pastoralIds = ["valley", "pasadena", "hancock", "windsor"];
     const pastoralLayer = L.featureGroup(pastoralIds.map((id) => {
       const f = placeById[id], p = f.properties;
       const l = L.geoJSON(f, { pane: "g-pastoral", style: { color: LINE.pastoral, weight: id === "valley" ? 1.6 : 2, fillColor: COL.pastoral, fillOpacity: id === "valley" ? 0.1 : 0.2 } })
@@ -724,7 +724,7 @@
     const cardW = () => { const e = document.querySelector(".evid"); return Math.round(Math.max(300, Math.min(560, (e ? e.clientWidth : 520) - 38))); };
 
     function dotStrip() {
-      const rows = ["windsor", "hancock", "hollywood", "pasadena", "valley"].map((id) => placeById[id].properties);
+      const rows = ["windsor", "hancock", "pasadena", "valley"].map((id) => placeById[id].properties);
       const W = cardW(), LW = W < 420 ? 112 : 132, RH = 24, x0 = LW, x1 = W - 16, ya = 1900, yb = 1980, T = 14, H2 = rows.length * RH + 22 + T;
       const X = (y) => x0 + (y - ya) / (yb - ya) * (x1 - x0);
       let s = "";
