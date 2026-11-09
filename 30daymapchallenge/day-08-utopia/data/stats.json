@@ -9,107 +9,109 @@
  },
  "centers": {
   "n": 56,
-  "n_in_city": 37,
+  "n_in_city": 41,
   "outcomes_half_mile": {
-   "neither": 28,
-   "towers": 5,
-   "rail": 11,
-   "realised": 12
+   "neither": 29,
+   "towers": 6,
+   "realised": 12,
+   "rail": 9
   },
   "outcomes_quarter_mile": {
-   "neither": 33,
-   "realised": 8,
-   "rail": 11,
-   "towers": 4
+   "neither": 38,
+   "realised": 5,
+   "towers": 4,
+   "rail": 9
   },
-  "rail_open_half": 23,
+  "rail_open_half": 21,
   "rail_building_half": 5,
-  "city_towers_in_half": 413,
-  "city_towers": 627,
-  "half_share_of_city_land": 5.8,
-  "city_towers_in_quarter": 210,
-  "quarter_share_of_city_land": 1.5,
-  "all_towers_in_half": 477,
-  "downtown4_towers": 217,
-  "new_towers_in_half": 11,
+  "city_towers_in_half": 434,
+  "city_towers": 665,
+  "half_share_of_city_land": 5.1,
+  "city_towers_in_quarter": 174,
+  "quarter_share_of_city_land": 1.4,
+  "all_towers_in_half": 472,
+  "downtown4_towers": 213,
+  "new_towers_in_half": 15,
   "new_towers": 21,
   "neither_types": {
    "jobs": {
-    "n": 5,
+    "n": 4,
     "names": [
      "Burbank",
-     "Sherman Oaks",
+     "Del Amo",
      "Glendale",
-     "Sunset Strip",
-     "Del Amo"
+     "Sunset Strip"
     ]
    },
    "transit": {
-    "n": 8,
+    "n": 10,
     "names": [
+     "Boyle Heights",
      "Chatsworth",
+     "Culver City",
+     "East Los Angeles",
+     "General Hospital",
+     "Lincoln Heights",
+     "North Hollywood",
      "Panorama City",
      "Van Nuys",
-     "Highland Park",
-     "Lincoln Heights",
-     "General Hospital",
-     "East Los Angeles",
      "Vernon\u2013Central"
     ]
    },
    "urban": {
-    "n": 8,
+    "n": 7,
     "names": [
      "Alhambra",
+     "Avalon\u2013Manchester",
      "Echo Park",
      "Huntington Park",
-     "Vermont\u2013Manchester",
-     "Avalon\u2013Manchester",
-     "Redondo Beach",
      "San Pedro",
-     "Venice"
+     "Venice",
+     "Vermont\u2013Manchester"
     ]
    },
    "suburban": {
-    "n": 7,
+    "n": 8,
     "names": [
-     "San Fernando",
-     "Granada Hills",
-     "Northridge",
      "Downey",
-     "South Bay",
+     "Granada Hills",
      "Lakewood",
-     "Reseda"
+     "Northridge",
+     "Redondo Beach",
+     "Reseda",
+     "San Fernando",
+     "South Bay"
     ]
    }
   },
   "median_by_outcome": {
    "realised": {
-    "jobs": 18409.0,
-    "homes": 12534.0,
-    "sfr_pct": 2.0,
-    "mid": 7.5
+    "jobs": 17912.0,
+    "homes": 13995.0,
+    "sfr_pct": 1.6,
+    "mid": 6.0
    },
    "towers": {
-    "jobs": 29619,
-    "homes": 5704,
-    "sfr_pct": 6.0,
-    "mid": 3
+    "jobs": 26632.0,
+    "homes": 5190.0,
+    "sfr_pct": 8.2,
+    "mid": 2.5
    },
    "rail": {
-    "jobs": 5675,
-    "homes": 4633,
-    "sfr_pct": 7.0,
-    "mid": 1
+    "jobs": 4201,
+    "homes": 4315,
+    "sfr_pct": 11.7,
+    "mid": 0
    },
    "neither": {
-    "jobs": 4792.0,
-    "homes": 4509.5,
-    "sfr_pct": 19.8,
-    "mid": 0.0
+    "jobs": 3931,
+    "homes": 4240,
+    "sfr_pct": 15.8,
+    "mid": 0
    }
   },
-  "jobs_src": "LEHD LODES8 WAC 2023 (all jobs)"
+  "jobs_src": "LEHD LODES8 WAC 2023 (all jobs)",
+  "positions": "as drawn on the 1974 map"
  },
  "garden": {
   "zoning_edited": "2026-11-05",
@@ -192,5 +194,37 @@
   "q2_2025_top": "I110-N Solano Ave",
   "loop_detectors_offline_q4_2024_pct": 77.7
  },
- "dodger_site_acres": 202.7
+ "dodger_site_acres": 202.7,
+ "today": {
+  "n": 36,
+  "jobs": 2573137,
+  "county_jobs": 4875632,
+  "with_planned": 16,
+  "unplanned": [
+   "Burbank",
+   "Culver City",
+   "Long Beach",
+   "Santa Fe Springs",
+   "Harbor Gateway",
+   "Torrance",
+   "Carson",
+   "Torrance",
+   "Duarte",
+   "Industry",
+   "Santa Fe Springs",
+   "Reseda",
+   "Culver City",
+   "La Mirada",
+   "Cerritos",
+   "Diamond Bar",
+   "San Dimas",
+   "Commerce",
+   "Palms",
+   "Claremont"
+  ],
+  "unplanned_jobs": 531473,
+  "planned_matched": 34,
+  "planned_n": 56,
+  "def": "Giuliano & Small (1991): contiguous area with at least 10 jobs per acre and 10,000 jobs in all; LODES 2023"
+ }
 }
