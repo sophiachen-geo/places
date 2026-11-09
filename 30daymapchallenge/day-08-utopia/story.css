@@ -344,3 +344,7 @@ button, select, input { font-family: var(--sans); }
   .st-key { width: 214px; }
 }
 .swipe-divider.no-tags .swipe-tag { display: none; }
+
+/* timeline items link to further reading; the row itself still sets the year */
+.milestones .ms-link { color: inherit; text-decoration: underline; text-decoration-color: #6b6b6b; text-underline-offset: 3px; }
+.milestones .ms-link:hover { text-decoration-color: var(--paper); }
