@@ -16,9 +16,23 @@ def ff(prefix, style):
     raise SystemExit(f'missing {prefix} {style}')
 F_TITLE, F_ITAL = ff('fraunces', 'SemiBold'), ff('fraunces', 'Italic')
 F_UI, F_UIB, F_NUM = ff('worksans', 'Regular'), ff('worksans', 'SemiBold'), ff('worksans', 'SemiBold')
-TITLE, ITAL = ImageFont.truetype(F_TITLE, 28), ImageFont.truetype(F_ITAL, 14)
-UI, UIB, NUM = ImageFont.truetype(F_UI, 12), ImageFont.truetype(F_UIB, 12), ImageFont.truetype(F_NUM, 56)
-TINY, SRC, LBL = ImageFont.truetype(F_UI, 10), ImageFont.truetype(F_UI, 10), ImageFont.truetype(F_UIB, 11)
+K = float(os.environ.get('K', '1.5'))   # output scale: layout is written for 742 px; everything is drawn K times larger
+fs = lambda n: int(round(n * K))
+TITLE, ITAL = ImageFont.truetype(F_TITLE, fs(28)), ImageFont.truetype(F_ITAL, fs(14))
+UI, UIB, NUM = ImageFont.truetype(F_UI, fs(12)), ImageFont.truetype(F_UIB, fs(12)), ImageFont.truetype(F_NUM, fs(56))
+TINY, SRC, LBL = ImageFont.truetype(F_UI, fs(10)), ImageFont.truetype(F_UI, fs(10)), ImageFont.truetype(F_UIB, fs(11))
+class SD:
+    """ImageDraw that takes layout (742 px) coordinates and draws K times larger"""
+    def __init__(s, d): s.d = d
+    def _p(s, xy):
+        if xy and isinstance(xy[0], (list, tuple)): return [(x * K, y * K) for x, y in xy]
+        return [v * K for v in xy]
+    def line(s, xy, fill=None, width=1, joint=None): s.d.line(s._p(xy), fill=fill, width=max(1, int(round(width * K))), joint=joint)
+    def rectangle(s, xy, fill=None, outline=None, width=1): s.d.rectangle(s._p(xy), fill=fill, outline=outline, width=max(1, int(round(width * K))))
+    def polygon(s, xy, fill=None, outline=None): s.d.polygon(s._p(xy), fill=fill, outline=outline)
+    def text(s, xy, t, font=None, fill=None, stroke_width=0, stroke_fill=None):
+        s.d.text((xy[0] * K, xy[1] * K), t, font=font, fill=fill, stroke_width=int(round(stroke_width * K)), stroke_fill=stroke_fill)
+    def textlength(s, t, font=None): return s.d.textlength(t, font=font) / K
 
 hex2 = lambda c: tuple(int(c[i:i + 2], 16) for i in (1, 3, 5))
 PAPER, INK, INK2, INK3, HAIR = (255, 255, 255), (17, 17, 17), (85, 85, 85), (128, 128, 128), (214, 214, 214)
@@ -43,12 +57,13 @@ _lo = np.r_[W_ + (E_ - W_) * _bl, np.full(60, E_), E_ - (E_ - W_) * _bl, np.full
 _la = np.r_[np.full(60, S_), S_ + (N_ - S_) * _bl, np.full(60, N_), N_ - (N_ - S_) * _bl]
 _x, _y = T.transform(_lo, _la)
 PXMIN, PXMAX, PYMIN, PYMAX = _x.min(), _x.max(), _y.min(), _y.max()
-W = 742; PRES = (PXMAX - PXMIN) / W; H = int(round((PYMAX - PYMIN) / PRES))
+LW = 742; LPRES = (PXMAX - PXMIN) / LW; LH = int(round((PYMAX - PYMIN) / LPRES))
+W = int(round(LW * K)); H = int(round(LH * K)); PRES = (PXMAX - PXMIN) / W
 def P(coords):
     a = np.asarray(coords, float)
     if a.ndim == 1: a = a[None, :]
     X, Y = T.transform(a[:, 0], a[:, 1])
-    return list(zip(((X - PXMIN) / PRES).tolist(), ((PYMAX - Y) / PRES).tolist()))
+    return list(zip(((X - PXMIN) / LPRES).tolist(), ((PYMAX - Y) / LPRES).tolist()))
 topx = lambda lo, la: P([(lo, la)])[0]
 # every output pixel back to lon/lat, then into the Web-Mercator sources (year grid, basemap tiles)
 _gx, _gy = np.meshgrid(PXMIN + (np.arange(W) + 0.5) * PRES, PYMAX - (np.arange(H) + 0.5) * PRES)
@@ -74,7 +89,7 @@ smooth = np.dstack([ndi.map_coordinates(MA[..., c], [V, U], order=1) for c in ra
 base = smooth * 0.5 + 255 * 0.5
 
 def raster(polys, holes=True):
-    im = Image.new('L', (W, H), 0); d = ImageDraw.Draw(im)
+    im = Image.new('L', (W, H), 0); d = SD(ImageDraw.Draw(im))
     for pg in polys:
         for p in (pg.geoms if pg.geom_type == 'MultiPolygon' else [pg]):
             if p.is_empty or p.geom_type != 'Polygon': continue
@@ -172,6 +187,7 @@ hist = {int(k): v for k, v in M['hist'].items()}; N = M['parcels']
 cum = np.cumsum([hist.get(y, 0) for y in range(1850, 2027)]) / N
 HY0, HY1 = 1880, 2026; hmax = max(hist.get(y, 0) for y in range(HY0, HY1 + 1))
 TOP, BOT = 64, 372
+FH = int(round((TOP + LH + BOT) * K))
 
 def halo_text(d, xy, s, font, fill, halo=(255, 255, 255), sw=3):
     d.text(xy, s, font=font, fill=fill, stroke_width=sw, stroke_fill=halo)
@@ -180,7 +196,7 @@ def frame(Y):
     m = (yr > 0) & (yr <= Y)
     col = LUT[np.clip(yr, 0, 2029)]; col[(yr > Y - FRONT) & m] = INK
     a = np.where(m, 0.9, 0.0)[..., None]
-    mp = Image.fromarray((base * (1 - a) + col * a).clip(0, 255).astype(np.uint8)); dm = ImageDraw.Draw(mp)
+    mp = Image.fromarray((base * (1 - a) + col * a).clip(0, 255).astype(np.uint8)); dm = SD(ImageDraw.Draw(mp))
     for line in county_line: dm.line(line, fill=(150, 150, 150), width=1)
     for ln in rivers: dm.line(ln, fill=RIVER, width=2, joint='curve')
     for ring in CITY_OTHER: dm.line(ring, fill=(150, 150, 150), width=1)
@@ -203,19 +219,19 @@ def frame(Y):
     legend = {}
     for sg, k_, c_ in on: legend.setdefault(k_, c_)
 
-    im = Image.new('RGB', (W, TOP + H + BOT), PAPER); im.paste(mp, (0, TOP)); d = ImageDraw.Draw(im)
+    im = Image.new('RGB', (W, FH), PAPER); im.paste(mp, (0, int(round(TOP * K)))); d = SD(ImageDraw.Draw(im))
     d.text((18, 15), 'Los Angeles, Built Year by Year', font=TITLE, fill=INK)
-    d.rectangle([0, TOP - 3, W, TOP - 1], fill=INK); d.rectangle([0, TOP + H, W, TOP + H + 2], fill=INK)
+    d.rectangle([0, TOP - 3, LW, TOP - 1], fill=INK); d.rectangle([0, TOP + LH, LW, TOP + LH + 2], fill=INK)
     for name, lo, la in PLACES:
         x, y = topx(lo, la); w = d.textlength(name, font=UIB); halo_text(d, (x - w / 2, TOP + y - 8), name, UIB, INK2)
     for name, lo, la, c in NATURE:
         x, y = topx(lo, la); w = d.textlength(name, font=ITAL); halo_text(d, (x - w / 2, TOP + y - 9), name, ITAL, c, sw=2)
     # year, share, histogram, milestone
-    by = TOP + H + 3
+    by = TOP + LH + 3
     d.text((16, by + 18), str(Y), font=NUM, fill=INK)
     p = cum[min(Y, 2026) - 1850] * 100
     d.text((18, by + 86), f'{p:.0f}% of today’s buildings' if p >= 1 else f'{p:.1f}% of today’s buildings', font=UI, fill=INK2)
-    hx0, hx1, hy0, hy1 = 206, W - 16, by + 44, by + 96
+    hx0, hx1, hy0, hy1 = 206, LW - 16, by + 44, by + 96
     bw = (hx1 - hx0) / (HY1 - HY0 + 1)
     for y in range(HY0, HY1 + 1):
         v = hist.get(y, 0); h = (hy1 - hy0) * v / hmax
@@ -244,16 +260,16 @@ def frame(Y):
             for q in range(18): d.line([(sx + q, sy + 2), (sx + q, sy + 11)], fill=tuple(int(v) for v in ramp(1890 + q * 7)))
         elif kind == 'metro': d.line([(sx, sy + 7), (sx + 18, sy + 7)], fill=col, width=4)
     ly = by + 124
-    d.line([(16, ly), (W - 16, ly)], fill=HAIR)
+    d.line([(16, ly), (LW - 16, ly)], fill=HAIR)
     d.text((16, ly + 9), 'MAP KEY', font=LBL, fill=INK)
     rows = [('water', 'Water'), ('open', 'Parks, forest, open space'), ('fwy', 'Freeway'),
             ('fwyb', 'Freeway, opening in stages'), ('old', 'Buildings: darker = older'), ('new', f'Built in the last {FRONT} years'),
             ('cla', 'City of Los Angeles'), ('cot', 'Other cities'), ('scale', '')]
-    cw = (W - 32) / 3
+    cw = (LW - 32) / 3
     for k, (kind, t) in enumerate(rows):
         sx, sy = 16 + (k % 3) * cw, ly + 27 + (k // 3) * 17
         if kind == 'scale':   # true scale in this projection
-            ppm = 5280 / PRES; x0_ = sx
+            ppm = 5280 / LPRES; x0_ = sx
             for q in range(2): d.rectangle([x0_ + q * 5 * ppm, sy + 5, x0_ + (q + 1) * 5 * ppm, sy + 9], fill=INK if q == 0 else PAPER, outline=INK)
             d.text((x0_ + 10 * ppm + 6, sy), '10 miles', font=UI, fill=INK2)
             continue
@@ -262,12 +278,12 @@ def frame(Y):
     d.text((16, my_), 'METRO LINES', font=LBL, fill=INK)
     opened = [k_ for k_ in 'ABCDELKGJ' if k_ in legend]
     if not opened: d.text((16, my_ + 18), 'No Metro rail yet: the first line opens in 1990.', font=UI, fill=INK3)
-    cw2 = (W - 32) / 5
+    cw2 = (LW - 32) / 5
     for k, L_ in enumerate(opened):
         sx, sy = 16 + (k % 5) * cw2, my_ + 18 + (k // 5) * 17
         sw_('metro', sx, sy, legend[L_]); d.text((sx + 26, sy), lname(L_, Y), font=UI, fill=INK2)
     fy = my_ + 18 + 2 * 17 + 14
-    d.line([(16, fy - 8), (W - 16, fy - 8)], fill=HAIR)
+    d.line([(16, fy - 8), (LW - 16, fy - 8)], fill=HAIR)
     for k, t in enumerate(['Buildings: Los Angeles County Assessor, 2026 property roll — year built of 2.2 million parcels (LA County only).',
                            'Metro: LA Metro GTFS 2026, each section from the year it opened. Freeways: Caltrans; opening years: LA Almanac.',
                            'Parks & forest: California Protected Areas Database (GreenInfo Network, 2026). Water: USGS National Hydrography Dataset.',
@@ -288,8 +304,8 @@ if os.environ.get('FRAMES'):            # full frames for video / full-frame GIF
     for k, f in enumerate(frames): f.save(f'{fd}/f{k:03d}.png')
     json.dump(years, open(f'{fd}/years.json', 'w'))
     raise SystemExit(0)
-sample = Image.new('RGB', (W, (TOP + H + BOT) * 3))
-for k, y in enumerate((1925, 1960, 2026)): sample.paste(frame(y), (0, (TOP + H + BOT) * k))
+sample = Image.new('RGB', (W, FH * 3))
+for k, y in enumerate((1925, 1960, 2026)): sample.paste(frame(y), (0, FH * k))
 PIN = list(dict.fromkeys([sg[2] for sg in segs] + [AQUA, GOLD, RED, GREEN, WATER, RIVER, OPEN, CASE, INK, (255, 255, 255)] +
                          [hex2(c) for _, c, _ in MIL if isinstance(c, str) and c.startswith('#')]))
 NA = 127 - len(PIN)
@@ -303,6 +319,6 @@ for k, arr in enumerate(q):
     if k: a2[arr == q[k - 1]] = TR
     im = Image.fromarray(a2.astype(np.uint8), 'P'); im.putpalette(plt + [0, 0, 0] * 128); imgs.append(im)
 dur = [1500] + [200] * (len(imgs) - 2) + [4500]
-out = G + 'la_built_year_by_year_v2.gif'
+out = os.environ.get('OUT', DAY + 'img/la_built_year_by_year.gif')
 imgs[0].save(out, save_all=True, append_images=imgs[1:], duration=dur, loop=0, optimize=False, disposal=1, transparency=TR)
 print(out, os.path.getsize(out) // 1024, 'KB', len(imgs), 'frames', 'pinned', len(PIN))
