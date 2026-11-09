@@ -13,788 +13,1049 @@
   },
   "city": {
    "homes": 1586010,
-   "within_500ft_pct": 6.0
+   "within_500ft_pct": 6.0,
+   "median_income": 81939
   },
   "county": {
    "homes": 3798768,
-   "within_500ft_pct": 4.9
+   "within_500ft_pct": 4.9,
+   "median_income": 90112
   },
   "places": [
    {
     "name": "Boyle Heights",
     "kind": "la",
     "homes": 23920,
-    "within_500ft_pct": 22.2
+    "within_500ft_pct": 22.2,
+    "median_income": 60100,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Encino - Tarzana",
     "kind": "la",
     "homes": 33910,
-    "within_500ft_pct": 16.3
+    "within_500ft_pct": 16.3,
+    "median_income": 111800,
+    "income_method": "pooled tracts"
    },
    {
     "name": "CLAREMONT",
     "kind": "city",
     "homes": 16019,
-    "within_500ft_pct": 15.6
+    "within_500ft_pct": 15.6,
+    "median_income": 125647,
+    "income_method": "published"
    },
    {
     "name": "Silver Lake - Echo Park - Elysian Valley",
     "kind": "la",
     "homes": 31885,
-    "within_500ft_pct": 14.6
+    "within_500ft_pct": 14.6,
+    "median_income": 101300,
+    "income_method": "pooled tracts"
    },
    {
     "name": "SOUTH PASADENA",
     "kind": "city",
     "homes": 11057,
-    "within_500ft_pct": 14.5
+    "within_500ft_pct": 14.5,
+    "median_income": 127175,
+    "income_method": "published"
    },
    {
     "name": "SANTA FE SPRINGS",
     "kind": "city",
     "homes": 6983,
-    "within_500ft_pct": 14.2
+    "within_500ft_pct": 14.2,
+    "median_income": 88238,
+    "income_method": "published"
    },
    {
     "name": "WEST WHITTIER - LOS NIETOS",
     "kind": "unincorporated",
     "homes": 6675,
-    "within_500ft_pct": 14.1
+    "within_500ft_pct": 14.1,
+    "median_income": 111699,
+    "income_method": "published"
    },
    {
     "name": "Sylmar",
     "kind": "la",
     "homes": 22867,
-    "within_500ft_pct": 14.0
+    "within_500ft_pct": 14.0,
+    "median_income": 97000,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Harbor Gateway",
     "kind": "la",
     "homes": 14082,
-    "within_500ft_pct": 13.8
+    "within_500ft_pct": 13.8,
+    "median_income": 73200,
+    "income_method": "pooled tracts"
    },
    {
     "name": "AGOURA HILLS",
     "kind": "city",
     "homes": 8547,
-    "within_500ft_pct": 12.9
+    "within_500ft_pct": 12.9,
+    "median_income": 171302,
+    "income_method": "published"
    },
    {
     "name": "LENNOX",
     "kind": "unincorporated",
     "homes": 5789,
-    "within_500ft_pct": 12.9
+    "within_500ft_pct": 12.9,
+    "median_income": 57759,
+    "income_method": "published"
    },
    {
     "name": "WEST CARSON",
     "kind": "unincorporated",
     "homes": 8383,
-    "within_500ft_pct": 12.8
+    "within_500ft_pct": 12.8,
+    "median_income": 92775,
+    "income_method": "published"
    },
    {
     "name": "HACIENDA HEIGHTS",
     "kind": "unincorporated",
     "homes": 17113,
-    "within_500ft_pct": 12.5
+    "within_500ft_pct": 12.5,
+    "median_income": 109193,
+    "income_method": "published"
    },
    {
     "name": "Sherman Oaks - Studio City - Toluca Lake - Cahuenga Pass",
     "kind": "la",
     "homes": 44801,
-    "within_500ft_pct": 12.0
+    "within_500ft_pct": 12.0,
+    "median_income": 119600,
+    "income_method": "pooled tracts"
    },
    {
     "name": "EAST LOS ANGELES",
     "kind": "unincorporated",
     "homes": 32208,
-    "within_500ft_pct": 10.7
+    "within_500ft_pct": 10.7,
+    "median_income": 68741,
+    "income_method": "published"
    },
    {
     "name": "Downtown",
     "kind": "la",
     "homes": 49459,
-    "within_500ft_pct": 10.4
+    "within_500ft_pct": 10.4,
+    "median_income": 64400,
+    "income_method": "pooled tracts"
    },
    {
     "name": "LA CRESCENTA - MONTROSE",
     "kind": "unincorporated",
     "homes": 8362,
-    "within_500ft_pct": 9.8
+    "within_500ft_pct": 9.8,
+    "median_income": 130000,
+    "income_method": "published"
    },
    {
     "name": "PASADENA",
     "kind": "city",
     "homes": 66457,
-    "within_500ft_pct": 9.8
+    "within_500ft_pct": 9.8,
+    "median_income": 105192,
+    "income_method": "published"
    },
    {
     "name": "BALDWIN PARK",
     "kind": "city",
     "homes": 19497,
-    "within_500ft_pct": 9.3
+    "within_500ft_pct": 9.3,
+    "median_income": 80663,
+    "income_method": "published"
    },
    {
     "name": "Palms - Mar Vista - Del Rey",
     "kind": "la",
     "homes": 55884,
-    "within_500ft_pct": 9.1
+    "within_500ft_pct": 9.1,
+    "median_income": 110600,
+    "income_method": "pooled tracts"
    },
    {
     "name": "MONROVIA",
     "kind": "city",
     "homes": 16987,
-    "within_500ft_pct": 9.1
+    "within_500ft_pct": 9.1,
+    "median_income": 96021,
+    "income_method": "published"
    },
    {
     "name": "LAWNDALE",
     "kind": "city",
     "homes": 10564,
-    "within_500ft_pct": 9.0
+    "within_500ft_pct": 9.0,
+    "median_income": 85441,
+    "income_method": "published"
    },
    {
     "name": "NORWALK",
     "kind": "city",
     "homes": 29061,
-    "within_500ft_pct": 8.6
+    "within_500ft_pct": 8.6,
+    "median_income": 100085,
+    "income_method": "published"
    },
    {
     "name": "CERRITOS",
     "kind": "city",
     "homes": 17030,
-    "within_500ft_pct": 8.4
+    "within_500ft_pct": 8.4,
+    "median_income": 135439,
+    "income_method": "published"
    },
    {
     "name": "Northeast Los Angeles",
     "kind": "la",
     "homes": 80314,
-    "within_500ft_pct": 8.3
+    "within_500ft_pct": 8.3,
+    "median_income": 89600,
+    "income_method": "pooled tracts"
    },
    {
     "name": "West Los Angeles",
     "kind": "la",
     "homes": 44199,
-    "within_500ft_pct": 8.2
+    "within_500ft_pct": 8.2,
+    "median_income": 120000,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Sun Valley - La Tuna Canyon",
     "kind": "la",
     "homes": 25883,
-    "within_500ft_pct": 8.1
+    "within_500ft_pct": 8.1,
+    "median_income": 81700,
+    "income_method": "pooled tracts"
    },
    {
     "name": "DIAMOND BAR",
     "kind": "city",
     "homes": 19384,
-    "within_500ft_pct": 7.8
+    "within_500ft_pct": 7.8,
+    "median_income": 108281,
+    "income_method": "published"
    },
    {
     "name": "CULVER CITY",
     "kind": "city",
     "homes": 19136,
-    "within_500ft_pct": 7.7
+    "within_500ft_pct": 7.7,
+    "median_income": 117389,
+    "income_method": "published"
    },
    {
     "name": "LYNWOOD",
     "kind": "city",
     "homes": 16200,
-    "within_500ft_pct": 7.7
+    "within_500ft_pct": 7.7,
+    "median_income": 74844,
+    "income_method": "published"
    },
    {
     "name": "GLENDALE",
     "kind": "city",
     "homes": 85070,
-    "within_500ft_pct": 7.6
+    "within_500ft_pct": 7.6,
+    "median_income": 88393,
+    "income_method": "published"
    },
    {
     "name": "POMONA",
     "kind": "city",
     "homes": 47674,
-    "within_500ft_pct": 7.5
+    "within_500ft_pct": 7.5,
+    "median_income": 79479,
+    "income_method": "published"
    },
    {
     "name": "SAN DIMAS",
     "kind": "city",
     "homes": 13296,
-    "within_500ft_pct": 7.5
+    "within_500ft_pct": 7.5,
+    "median_income": 105321,
+    "income_method": "published"
    },
    {
     "name": "Mission Hills - Panorama City - North Hills",
     "kind": "la",
     "homes": 45296,
-    "within_500ft_pct": 7.4
+    "within_500ft_pct": 7.4,
+    "median_income": 67400,
+    "income_method": "pooled tracts"
    },
    {
     "name": "WEST COVINA",
     "kind": "city",
     "homes": 36409,
-    "within_500ft_pct": 7.3
+    "within_500ft_pct": 7.3,
+    "median_income": 101065,
+    "income_method": "published"
    },
    {
     "name": "SOUTH EL MONTE",
     "kind": "city",
     "homes": 5733,
-    "within_500ft_pct": 7.2
+    "within_500ft_pct": 7.2,
+    "median_income": 72990,
+    "income_method": "published"
    },
    {
     "name": "ROSEMEAD",
     "kind": "city",
     "homes": 16096,
-    "within_500ft_pct": 7.0
+    "within_500ft_pct": 7.0,
+    "median_income": 73566,
+    "income_method": "published"
    },
    {
     "name": "CALABASAS",
     "kind": "city",
     "homes": 10267,
-    "within_500ft_pct": 6.9
+    "within_500ft_pct": 6.9,
+    "median_income": 165288,
+    "income_method": "published"
    },
    {
     "name": "WILLOWBROOK",
     "kind": "unincorporated",
     "homes": 6943,
-    "within_500ft_pct": 6.8
+    "within_500ft_pct": 6.8,
+    "median_income": 62582,
+    "income_method": "published"
    },
    {
     "name": "Southeast Los Angeles",
     "kind": "la",
     "homes": 70611,
-    "within_500ft_pct": 6.7
+    "within_500ft_pct": 6.7,
+    "median_income": 55300,
+    "income_method": "pooled tracts"
    },
    {
     "name": "ARTESIA",
     "kind": "city",
     "homes": 5757,
-    "within_500ft_pct": 6.6
+    "within_500ft_pct": 6.6,
+    "median_income": 101004,
+    "income_method": "published"
    },
    {
     "name": "LA CANADA FLINTRIDGE",
     "kind": "city",
     "homes": 7186,
-    "within_500ft_pct": 6.6
+    "within_500ft_pct": 6.6,
+    "median_income": 200000,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Van Nuys - North Sherman Oaks",
     "kind": "la",
     "homes": 67284,
-    "within_500ft_pct": 6.5
+    "within_500ft_pct": 6.5,
+    "median_income": 74600,
+    "income_method": "pooled tracts"
    },
    {
     "name": "ALHAMBRA",
     "kind": "city",
     "homes": 32409,
-    "within_500ft_pct": 6.5
+    "within_500ft_pct": 6.5,
+    "median_income": 88024,
+    "income_method": "published"
    },
    {
     "name": "West Adams - Baldwin Hills - Leimert",
     "kind": "la",
     "homes": 74015,
-    "within_500ft_pct": 6.3
+    "within_500ft_pct": 6.3,
+    "median_income": 66400,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Arleta - Pacoima",
     "kind": "la",
     "homes": 22358,
-    "within_500ft_pct": 6.2
+    "within_500ft_pct": 6.2,
+    "median_income": 84000,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Hollywood",
     "kind": "la",
     "homes": 123218,
-    "within_500ft_pct": 6.1
+    "within_500ft_pct": 6.1,
+    "median_income": 77600,
+    "income_method": "pooled tracts"
    },
    {
     "name": "South Los Angeles",
     "kind": "la",
     "homes": 90838,
-    "within_500ft_pct": 5.9
+    "within_500ft_pct": 5.9,
+    "median_income": 56600,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Granada Hills - Knollwood",
     "kind": "la",
     "homes": 22092,
-    "within_500ft_pct": 5.6
+    "within_500ft_pct": 5.6,
+    "median_income": 112000,
+    "income_method": "pooled tracts"
    },
    {
     "name": "BELLFLOWER",
     "kind": "city",
     "homes": 26319,
-    "within_500ft_pct": 5.6
+    "within_500ft_pct": 5.6,
+    "median_income": 78722,
+    "income_method": "published"
    },
    {
     "name": "CARSON",
     "kind": "city",
     "homes": 28728,
-    "within_500ft_pct": 5.6
+    "within_500ft_pct": 5.6,
+    "median_income": 108703,
+    "income_method": "published"
    },
    {
     "name": "SANTA CLARITA VALLEY",
     "kind": "unincorporated",
     "homes": 19207,
-    "within_500ft_pct": 5.6
+    "within_500ft_pct": 5.6,
+    "median_income": 147800,
+    "income_method": "pooled tracts"
    },
    {
     "name": "BELL GARDENS",
     "kind": "city",
     "homes": 10562,
-    "within_500ft_pct": 5.5
+    "within_500ft_pct": 5.5,
+    "median_income": 62298,
+    "income_method": "published"
    },
    {
     "name": "BURBANK",
     "kind": "city",
     "homes": 48135,
-    "within_500ft_pct": 5.5
+    "within_500ft_pct": 5.5,
+    "median_income": 97082,
+    "income_method": "published"
    },
    {
     "name": "DOWNEY",
     "kind": "city",
     "homes": 36538,
-    "within_500ft_pct": 5.2
+    "within_500ft_pct": 5.2,
+    "median_income": 90699,
+    "income_method": "published"
    },
    {
     "name": "EL MONTE",
     "kind": "city",
     "homes": 30252,
-    "within_500ft_pct": 5.0
+    "within_500ft_pct": 5.0,
+    "median_income": 68030,
+    "income_method": "published"
    },
    {
     "name": "Westlake",
     "kind": "la",
     "homes": 47222,
-    "within_500ft_pct": 4.7
+    "within_500ft_pct": 4.7,
+    "median_income": 47800,
+    "income_method": "pooled tracts"
    },
    {
     "name": "North Hollywood - Valley Village",
     "kind": "la",
     "homes": 64612,
-    "within_500ft_pct": 4.5
+    "within_500ft_pct": 4.5,
+    "median_income": 75800,
+    "income_method": "pooled tracts"
    },
    {
     "name": "AZUSA",
     "kind": "city",
     "homes": 18024,
-    "within_500ft_pct": 4.4
+    "within_500ft_pct": 4.4,
+    "median_income": 90721,
+    "income_method": "published"
    },
    {
     "name": "MONTEREY PARK",
     "kind": "city",
     "homes": 22645,
-    "within_500ft_pct": 4.3
+    "within_500ft_pct": 4.3,
+    "median_income": 81855,
+    "income_method": "published"
    },
    {
     "name": "Canoga Park - Winnetka - Woodland Hills - West Hills",
     "kind": "la",
     "homes": 74753,
-    "within_500ft_pct": 4.2
+    "within_500ft_pct": 4.2,
+    "median_income": 102900,
+    "income_method": "pooled tracts"
    },
    {
     "name": "HAWTHORNE",
     "kind": "city",
     "homes": 32937,
-    "within_500ft_pct": 4.2
+    "within_500ft_pct": 4.2,
+    "median_income": 75848,
+    "income_method": "published"
    },
    {
     "name": "LA VERNE",
     "kind": "city",
     "homes": 13365,
-    "within_500ft_pct": 4.2
+    "within_500ft_pct": 4.2,
+    "median_income": 103761,
+    "income_method": "published"
    },
    {
     "name": "W ATHENS - WESTMONT",
     "kind": "unincorporated",
     "homes": 13685,
-    "within_500ft_pct": 4.0
+    "within_500ft_pct": 4.0,
+    "median_income": 56700,
+    "income_method": "pooled tracts"
    },
    {
     "name": "PARAMOUNT",
     "kind": "city",
     "homes": 15338,
-    "within_500ft_pct": 3.7
+    "within_500ft_pct": 3.7,
+    "median_income": 75250,
+    "income_method": "published"
    },
    {
     "name": "ARCADIA",
     "kind": "city",
     "homes": 24076,
-    "within_500ft_pct": 3.5
+    "within_500ft_pct": 3.5,
+    "median_income": 113516,
+    "income_method": "published"
    },
    {
     "name": "Wilmington - Harbor City",
     "kind": "la",
     "homes": 24562,
-    "within_500ft_pct": 3.4
+    "within_500ft_pct": 3.4,
+    "median_income": 68900,
+    "income_method": "pooled tracts"
    },
    {
     "name": "LONG BEACH",
     "kind": "city",
     "homes": 190228,
-    "within_500ft_pct": 3.2
+    "within_500ft_pct": 3.2,
+    "median_income": 87430,
+    "income_method": "published"
    },
    {
     "name": "SANTA CLARITA",
     "kind": "city",
     "homes": 82557,
-    "within_500ft_pct": 3.2
+    "within_500ft_pct": 3.2,
+    "median_income": 123062,
+    "income_method": "published"
    },
    {
     "name": "GLENDORA",
     "kind": "city",
     "homes": 20012,
-    "within_500ft_pct": 3.1
+    "within_500ft_pct": 3.1,
+    "median_income": 113569,
+    "income_method": "published"
    },
    {
     "name": "Sunland - Tujunga - Lake View Terrace - Shadow Hills - East La Tuna Canyon",
     "kind": "la",
     "homes": 23100,
-    "within_500ft_pct": 3.0
+    "within_500ft_pct": 3.0,
+    "median_income": 91700,
+    "income_method": "pooled tracts"
    },
    {
     "name": "ROWLAND HEIGHTS",
     "kind": "unincorporated",
     "homes": 16529,
-    "within_500ft_pct": 2.8
+    "within_500ft_pct": 2.8,
+    "median_income": 85617,
+    "income_method": "published"
    },
    {
     "name": "SANTA MONICA",
     "kind": "city",
     "homes": 57627,
-    "within_500ft_pct": 2.8
+    "within_500ft_pct": 2.8,
+    "median_income": 114885,
+    "income_method": "published"
    },
    {
     "name": "MONTEBELLO",
     "kind": "city",
     "homes": 20709,
-    "within_500ft_pct": 2.7
+    "within_500ft_pct": 2.7,
+    "median_income": 79971,
+    "income_method": "published"
    },
    {
     "name": "Bel Air - Beverly Crest",
     "kind": "la",
     "homes": 9181,
-    "within_500ft_pct": 2.6
+    "within_500ft_pct": 2.6,
+    "median_income": 200000,
+    "income_method": "pooled tracts"
    },
    {
     "name": "DUARTE",
     "kind": "city",
     "homes": 8776,
-    "within_500ft_pct": 2.6
+    "within_500ft_pct": 2.6,
+    "median_income": 105483,
+    "income_method": "published"
    },
    {
     "name": "LAKEWOOD",
     "kind": "city",
     "homes": 28142,
-    "within_500ft_pct": 2.6
+    "within_500ft_pct": 2.6,
+    "median_income": 119177,
+    "income_method": "published"
    },
    {
     "name": "SAN GABRIEL",
     "kind": "city",
     "homes": 14478,
-    "within_500ft_pct": 2.4
+    "within_500ft_pct": 2.4,
+    "median_income": 90488,
+    "income_method": "published"
    },
    {
     "name": "Brentwood - Pacific Palisades",
     "kind": "la",
     "homes": 28185,
-    "within_500ft_pct": 2.2
+    "within_500ft_pct": 2.2,
+    "median_income": 176100,
+    "income_method": "pooled tracts"
    },
    {
     "name": "SIGNAL HILL",
     "kind": "city",
     "homes": 5411,
-    "within_500ft_pct": 2.1
+    "within_500ft_pct": 2.1,
+    "median_income": 113298,
+    "income_method": "published"
    },
    {
     "name": "Westchester - Playa del Rey",
     "kind": "la",
     "homes": 36961,
-    "within_500ft_pct": 2.0
+    "within_500ft_pct": 2.0,
+    "median_income": 140600,
+    "income_method": "pooled tracts"
    },
    {
     "name": "COMPTON",
     "kind": "city",
     "homes": 25564,
-    "within_500ft_pct": 2.0
+    "within_500ft_pct": 2.0,
+    "median_income": 78465,
+    "income_method": "published"
    },
    {
     "name": "San Pedro",
     "kind": "la",
     "homes": 33080,
-    "within_500ft_pct": 1.8
+    "within_500ft_pct": 1.8,
+    "median_income": 86500,
+    "income_method": "pooled tracts"
    },
    {
     "name": "LA MIRADA",
     "kind": "city",
     "homes": 16138,
-    "within_500ft_pct": 1.6
+    "within_500ft_pct": 1.6,
+    "median_income": 109288,
+    "income_method": "published"
    },
    {
     "name": "REDONDO BEACH",
     "kind": "city",
     "homes": 31851,
-    "within_500ft_pct": 1.6
+    "within_500ft_pct": 1.6,
+    "median_income": 150245,
+    "income_method": "published"
    },
    {
     "name": "SOUTH GATE",
     "kind": "city",
     "homes": 25333,
-    "within_500ft_pct": 1.6
+    "within_500ft_pct": 1.6,
+    "median_income": 74571,
+    "income_method": "published"
    },
    {
     "name": "TORRANCE",
     "kind": "city",
     "homes": 64185,
-    "within_500ft_pct": 1.6
+    "within_500ft_pct": 1.6,
+    "median_income": 116217,
+    "income_method": "published"
    },
    {
     "name": "PALMDALE",
     "kind": "city",
     "homes": 54030,
-    "within_500ft_pct": 1.5
+    "within_500ft_pct": 1.5,
+    "median_income": 81770,
+    "income_method": "published"
    },
    {
     "name": "COVINA",
     "kind": "city",
     "homes": 19089,
-    "within_500ft_pct": 1.4
+    "within_500ft_pct": 1.4,
+    "median_income": 98671,
+    "income_method": "published"
    },
    {
     "name": "Westwood",
     "kind": "la",
     "homes": 21894,
-    "within_500ft_pct": 1.3
+    "within_500ft_pct": 1.3,
+    "median_income": 83100,
+    "income_method": "pooled tracts"
    },
    {
     "name": "INGLEWOOD",
     "kind": "city",
     "homes": 42215,
-    "within_500ft_pct": 1.3
+    "within_500ft_pct": 1.3,
+    "median_income": 72750,
+    "income_method": "published"
    },
    {
     "name": "LANCASTER",
     "kind": "city",
     "homes": 61942,
-    "within_500ft_pct": 1.2
+    "within_500ft_pct": 1.2,
+    "median_income": 81511,
+    "income_method": "published"
    },
    {
     "name": "EAST PASADENA - EAST SAN GABRIEL",
     "kind": "unincorporated",
     "homes": 10712,
-    "within_500ft_pct": 1.1
+    "within_500ft_pct": 1.1,
+    "median_income": 110000,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Chatsworth - Porter Ranch",
     "kind": "la",
     "homes": 40184,
-    "within_500ft_pct": 1.0
+    "within_500ft_pct": 1.0,
+    "median_income": 116500,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Wilshire",
     "kind": "la",
     "homes": 147973,
-    "within_500ft_pct": 1.0
+    "within_500ft_pct": 1.0,
+    "median_income": 73200,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Venice",
     "kind": "la",
     "homes": 23189,
-    "within_500ft_pct": 0.9
+    "within_500ft_pct": 0.9,
+    "median_income": 123800,
+    "income_method": "pooled tracts"
    },
    {
     "name": "WHITTIER",
     "kind": "city",
     "homes": 31847,
-    "within_500ft_pct": 0.9
+    "within_500ft_pct": 0.9,
+    "median_income": 97201,
+    "income_method": "published"
    },
    {
     "name": "W RANCHO DOMINGUEZ - VICTORIA",
     "kind": "unincorporated",
     "homes": 6995,
-    "within_500ft_pct": 0.8
+    "within_500ft_pct": 0.8,
+    "median_income": 85600,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Northridge",
     "kind": "la",
     "homes": 26436,
-    "within_500ft_pct": 0.7
+    "within_500ft_pct": 0.7,
+    "median_income": 97700,
+    "income_method": "pooled tracts"
    },
    {
     "name": "ANTELOPE VALLEY",
     "kind": "unincorporated",
     "homes": 26789,
-    "within_500ft_pct": 0.7
+    "within_500ft_pct": 0.7,
+    "median_income": 84800,
+    "income_method": "pooled tracts"
    },
    {
     "name": "Reseda - West Van Nuys",
     "kind": "la",
     "homes": 40766,
-    "within_500ft_pct": 0.1
+    "within_500ft_pct": 0.1,
+    "median_income": 84600,
+    "income_method": "pooled tracts"
    },
    {
     "name": "ALTADENA",
     "kind": "unincorporated",
     "homes": 15904,
-    "within_500ft_pct": 0.1
+    "within_500ft_pct": 0.1,
+    "median_income": 128720,
+    "income_method": "published"
    },
    {
     "name": "BELL",
     "kind": "city",
     "homes": 9101,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 61020,
+    "income_method": "published"
    },
    {
     "name": "BEVERLY HILLS",
     "kind": "city",
     "homes": 18678,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 132977,
+    "income_method": "published"
    },
    {
     "name": "CUDAHY",
     "kind": "city",
     "homes": 5802,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 56615,
+    "income_method": "published"
    },
    {
     "name": "EL SEGUNDO",
     "kind": "city",
     "homes": 10334,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 150737,
+    "income_method": "published"
    },
    {
     "name": "FLORENCE - FIRESTONE",
     "kind": "unincorporated",
     "homes": 14840,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 64800,
+    "income_method": "pooled tracts"
    },
    {
     "name": "GARDENA",
     "kind": "city",
     "homes": 23799,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 84803,
+    "income_method": "published"
    },
    {
     "name": "HERMOSA BEACH",
     "kind": "city",
     "homes": 10439,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 166442,
+    "income_method": "published"
    },
    {
     "name": "HUNTINGTON PARK",
     "kind": "city",
     "homes": 17543,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 59996,
+    "income_method": "published"
    },
    {
     "name": "LA PUENTE",
     "kind": "city",
     "homes": 10145,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 86602,
+    "income_method": "published"
    },
    {
     "name": "LADERA HEIGHTS / VIEW PARK - WINDSOR HILLS",
     "kind": "unincorporated",
     "homes": 7892,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 139800,
+    "income_method": "pooled tracts"
    },
    {
     "name": "LOMITA",
     "kind": "city",
     "homes": 9766,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 93810,
+    "income_method": "published"
    },
    {
     "name": "MALIBU",
     "kind": "city",
     "homes": 6289,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 194421,
+    "income_method": "published"
    },
    {
     "name": "MANHATTAN BEACH",
     "kind": "city",
     "homes": 15717,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 204306,
+    "income_method": "published"
    },
    {
     "name": "MAYWOOD",
     "kind": "city",
     "homes": 6852,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 60943,
+    "income_method": "published"
    },
    {
     "name": "PALOS VERDES ESTATES",
     "kind": "city",
     "homes": 5301,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 242014,
+    "income_method": "published"
    },
    {
     "name": "PICO RIVERA",
     "kind": "city",
     "homes": 18294,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 88201,
+    "income_method": "published"
    },
    {
     "name": "RANCHO PALOS VERDES",
     "kind": "city",
     "homes": 16820,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 179623,
+    "income_method": "published"
    },
    {
     "name": "SAN FERNANDO",
     "kind": "city",
     "homes": 6380,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 83024,
+    "income_method": "published"
    },
    {
     "name": "SIERRA MADRE",
     "kind": "city",
     "homes": 5079,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 143547,
+    "income_method": "published"
    },
    {
     "name": "SOUTH SAN JOSE HILLS",
     "kind": "unincorporated",
     "homes": 6014,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 94806,
+    "income_method": "published"
    },
    {
     "name": "SOUTH WHITTIER - SUNSHINE ACRES",
     "kind": "unincorporated",
     "homes": 19109,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 104500,
+    "income_method": "pooled tracts"
    },
    {
     "name": "TEMPLE CITY",
     "kind": "city",
     "homes": 12481,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 104425,
+    "income_method": "published"
    },
    {
     "name": "VALINDA",
     "kind": "unincorporated",
     "homes": 5105,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 100165,
+    "income_method": "published"
    },
    {
     "name": "WALNUT",
     "kind": "city",
     "homes": 9466,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 129449,
+    "income_method": "published"
    },
    {
     "name": "WEST HOLLYWOOD",
     "kind": "city",
     "homes": 28365,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 96995,
+    "income_method": "published"
    },
    {
     "name": "WEST PUENTE VALLEY",
     "kind": "unincorporated",
     "homes": 5155,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 88279,
+    "income_method": "published"
    },
    {
     "name": "SOUTH MONROVIA ISLANDS",
     "kind": "unincorporated",
     "homes": 5016,
-    "within_500ft_pct": 0.0
+    "within_500ft_pct": 0.0,
+    "median_income": 97600,
+    "income_method": "pooled tracts"
    }
-  ]
+  ],
+  "income_src": "U.S. Census Bureau, American Community Survey 5-year estimates 2020-2024 (B19013 published medians for cities and CDPs; B19001 brackets pooled over tracts for plan areas and composite communities)"
  },
  "parkways1946": {
   "miles": {
@@ -813,272 +1074,238 @@
     "homes": 147973,
     "acres": 87,
     "per_1000_homes": 0.59,
-    "median_income": 73200,
-    "households_acs": 126801
+    "median_income": 73200
    },
    {
     "name": "Palms - Mar Vista - Del Rey",
     "homes": 55884,
     "acres": 55,
     "per_1000_homes": 0.98,
-    "median_income": 110600,
-    "households_acs": 56387
+    "median_income": 110600
    },
    {
     "name": "Westlake",
     "homes": 47222,
     "acres": 46,
     "per_1000_homes": 0.98,
-    "median_income": 47800,
-    "households_acs": 43223
+    "median_income": 47800
    },
    {
     "name": "West Los Angeles",
     "homes": 44199,
     "acres": 48,
     "per_1000_homes": 1.09,
-    "median_income": 120000,
-    "households_acs": 37683
+    "median_income": 120000
    },
    {
     "name": "South Los Angeles",
     "homes": 90838,
     "acres": 101,
     "per_1000_homes": 1.11,
-    "median_income": 56600,
-    "households_acs": 82780
+    "median_income": 56600
    },
    {
     "name": "Reseda - West Van Nuys",
     "homes": 40766,
     "acres": 55,
     "per_1000_homes": 1.34,
-    "median_income": 84600,
-    "households_acs": 37629
+    "median_income": 84600
    },
    {
     "name": "Downtown",
     "homes": 49459,
     "acres": 69,
     "per_1000_homes": 1.39,
-    "median_income": 64400,
-    "households_acs": 45272
+    "median_income": 64400
    },
    {
     "name": "Mission Hills - Panorama City - North Hills",
     "homes": 45296,
     "acres": 63,
     "per_1000_homes": 1.4,
-    "median_income": 67400,
-    "households_acs": 40707
+    "median_income": 67400
    },
    {
     "name": "Van Nuys - North Sherman Oaks",
     "homes": 67284,
     "acres": 98,
     "per_1000_homes": 1.46,
-    "median_income": 74600,
-    "households_acs": 61477
+    "median_income": 74600
    },
    {
     "name": "Westwood",
     "homes": 21894,
     "acres": 35,
     "per_1000_homes": 1.62,
-    "median_income": 83100,
-    "households_acs": 18450
+    "median_income": 83100
    },
    {
     "name": "Southeast Los Angeles",
     "homes": 70611,
     "acres": 127,
     "per_1000_homes": 1.8,
-    "median_income": 55300,
-    "households_acs": 69469
+    "median_income": 55300
    },
    {
     "name": "Northridge",
     "homes": 26436,
     "acres": 50,
     "per_1000_homes": 1.9,
-    "median_income": 97700,
-    "households_acs": 23338
+    "median_income": 97700
    },
    {
     "name": "North Hollywood - Valley Village",
     "homes": 64612,
     "acres": 148,
     "per_1000_homes": 2.3,
-    "median_income": 75800,
-    "households_acs": 58427
+    "median_income": 75800
    },
    {
     "name": "Boyle Heights",
     "homes": 23920,
     "acres": 59,
     "per_1000_homes": 2.48,
-    "median_income": 60100,
-    "households_acs": 22762
+    "median_income": 60100
    },
    {
     "name": "West Adams - Baldwin Hills - Leimert",
     "homes": 74015,
     "acres": 200,
     "per_1000_homes": 2.7,
-    "median_income": 66400,
-    "households_acs": 66522
+    "median_income": 66400
    },
    {
     "name": "Harbor Gateway",
     "homes": 14082,
     "acres": 55,
     "per_1000_homes": 3.92,
-    "median_income": 73200,
-    "households_acs": 13106
+    "median_income": 73200
    },
    {
     "name": "Westchester - Playa del Rey",
     "homes": 36961,
     "acres": 280,
     "per_1000_homes": 7.57,
-    "median_income": 140600,
-    "households_acs": 26741
+    "median_income": 140600
    },
    {
     "name": "Venice",
     "homes": 23189,
     "acres": 190,
     "per_1000_homes": 8.18,
-    "median_income": 123800,
-    "households_acs": 18908
+    "median_income": 123800
    },
    {
     "name": "Wilmington - Harbor City",
     "homes": 24562,
     "acres": 300,
     "per_1000_homes": 12.22,
-    "median_income": 68900,
-    "households_acs": 23185
+    "median_income": 68900
    },
    {
     "name": "Northeast Los Angeles",
     "homes": 80314,
     "acres": 1015,
     "per_1000_homes": 12.63,
-    "median_income": 89600,
-    "households_acs": 80302
+    "median_income": 89600
    },
    {
     "name": "Sylmar",
     "homes": 22867,
     "acres": 292,
     "per_1000_homes": 12.77,
-    "median_income": 97000,
-    "households_acs": 21900
+    "median_income": 97000
    },
    {
     "name": "San Pedro",
     "homes": 33080,
     "acres": 501,
     "per_1000_homes": 15.14,
-    "median_income": 86500,
-    "households_acs": 30766
+    "median_income": 86500
    },
    {
     "name": "Sherman Oaks - Studio City - Toluca Lake - Cahuenga Pass",
     "homes": 44801,
     "acres": 685,
     "per_1000_homes": 15.29,
-    "median_income": 119600,
-    "households_acs": 43273
+    "median_income": 119600
    },
    {
     "name": "Canoga Park - Winnetka - Woodland Hills - West Hills",
     "homes": 74753,
     "acres": 1369,
     "per_1000_homes": 18.31,
-    "median_income": 102900,
-    "households_acs": 67192
+    "median_income": 102900
    },
    {
     "name": "Silver Lake - Echo Park - Elysian Valley",
     "homes": 31885,
     "acres": 665,
     "per_1000_homes": 20.85,
-    "median_income": 101300,
-    "households_acs": 29191
+    "median_income": 101300
    },
    {
     "name": "Encino - Tarzana",
     "homes": 33910,
     "acres": 845,
     "per_1000_homes": 24.93,
-    "median_income": 111800,
-    "households_acs": 31877
+    "median_income": 111800
    },
    {
     "name": "Granada Hills - Knollwood",
     "homes": 22092,
     "acres": 778,
     "per_1000_homes": 35.24,
-    "median_income": 112000,
-    "households_acs": 21204
+    "median_income": 112000
    },
    {
     "name": "Hollywood",
     "homes": 123218,
     "acres": 4920,
     "per_1000_homes": 39.93,
-    "median_income": 77600,
-    "households_acs": 99195
+    "median_income": 77600
    },
    {
     "name": "Chatsworth - Porter Ranch",
     "homes": 40184,
     "acres": 1631,
     "per_1000_homes": 40.58,
-    "median_income": 116500,
-    "households_acs": 37017
+    "median_income": 116500
    },
    {
     "name": "Sun Valley - La Tuna Canyon",
     "homes": 25883,
     "acres": 1075,
     "per_1000_homes": 41.53,
-    "median_income": 81700,
-    "households_acs": 24396
+    "median_income": 81700
    },
    {
     "name": "Arleta - Pacoima",
     "homes": 22358,
     "acres": 971,
     "per_1000_homes": 43.41,
-    "median_income": 84000,
-    "households_acs": 23453
+    "median_income": 84000
    },
    {
     "name": "Bel Air - Beverly Crest",
     "homes": 9181,
     "acres": 625,
     "per_1000_homes": 68.05,
-    "median_income": 200000,
-    "households_acs": 7517
+    "median_income": 200000
    },
    {
     "name": "Sunland - Tujunga - Lake View Terrace - Shadow Hills - East La Tuna Canyon",
     "homes": 23100,
     "acres": 3339,
     "per_1000_homes": 144.55,
-    "median_income": 91700,
-    "households_acs": 19881
+    "median_income": 91700
    },
    {
     "name": "Brentwood - Pacific Palisades",
     "homes": 28185,
     "acres": 13983,
     "per_1000_homes": 496.13,
-    "median_income": 176100,
-    "households_acs": 24680
+    "median_income": 176100
    }
   ],
   "city": {
