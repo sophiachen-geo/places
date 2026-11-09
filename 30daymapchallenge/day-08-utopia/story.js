@@ -44,11 +44,11 @@
   ];
 
   async function init() {
-    const [S, M, SS, places, centers, towers, rail, stations, fwy, aadt, bott, holc, utop, topoMeta, cities] = await Promise.all([
+    const [S, M, SS, places, centers, towers, rail, stations, fwy, aadt, bott, holc, utop, topoMeta, cities, fwy500] = await Promise.all([
       J("data/stats.json"), J("data/morph.json"), J("data/story_stats.json"), J("data/story_places.geojson"),
       J("data/centers.geojson"), J("data/towers.geojson"), J("data/rail.geojson"), J("data/stations.geojson"),
       J("data/freeways.geojson"), J("data/aadt.geojson"), J("data/bottlenecks.geojson"), J("data/holc.geojson"),
-      J("data/utopias.geojson"), J("img/topo_meta.json"), J("data/cities.geojson"),
+      J("data/utopias.geojson"), J("img/topo_meta.json"), J("data/cities.geojson"), J("data/fwy500.geojson"),
     ]);
     const mobile = window.matchMedia("(max-width: 900px)");
 
@@ -407,9 +407,9 @@
     // II · Autopia — freeways, named freeways & interchanges, Boyle Heights
     const fwyLayer = L.geoJSON(fwy, { pane: "g-autopia", interactive: false, style: { color: LINE.autopia, weight: 1.7, opacity: 0.85 } }).addTo(map);
     const boyle = placeById.boyle;
-    const boyleLayer = L.geoJSON(boyle, { pane: "g-autopia", style: { color: LINE.autopia, weight: 2, dashArray: "5 4", fillColor: COL.autopia, fillOpacity: 0.08 } })
+    const boyleLayer = L.geoJSON(boyle, { pane: "g-autopia", style: { color: LINE.autopia, weight: 2.6, fillColor: COL.autopia, fillOpacity: 0.16 } })
       .bindPopup(pop("Boyle Heights", "Autopia", `<p>Typical year built: <b>${boyle.properties.median_year}</b><br>
-        ${Math.round(SS.boyle.bh.within_500ft_pct)}% of its homes stand within 500 ft of a freeway (City: ${Math.round(SS.boyle.city.within_500ft_pct)}%)</p>`)).addTo(map);
+        ${Math.round(SS.boyle.bh.within_500ft_pct)}% of its homes stand within 500 ft of a freeway, the highest share of ${SS.boyle.places.length} places in the County (City of Los Angeles: ${Math.round(SS.boyle.city.within_500ft_pct)}%)</p>`)).addTo(map);
     reg("boyle", { ch: "autopia", name: "Boyle Heights", bounds: boyleLayer.getBounds(), layer: boyleLayer, maxZoom: 14 });
     ["smfwy", "santaana"].forEach((id) => {
       const f = placeById[id];
@@ -425,7 +425,7 @@
         .bindPopup(pop(f.properties.name, "Autopia", "")).addTo(map);
       reg(id, { ch: "autopia", name: id === "smsd" ? "Santa Monica × San Diego freeways" : f.properties.name, short: id === "smsd" ? "I-10 × I-405" : null, bounds: L.latLngBounds([[lat, lng], [lat, lng]]), layer: l, maxZoom: 14, ll: [lat, lng] });
     });
-    const bh500 = L.geoJSON(placeById.bh500, { pane: "g-autopia", interactive: false, style: { stroke: false, fillColor: COL.autopia, fillOpacity: 0.45 } });
+    const bh500 = L.geoJSON(fwy500, { pane: "g-autopia", interactive: false, style: { stroke: false, fillColor: COL.autopia, fillOpacity: 0.45 } });
     const maxV = S.aadt.max.v, MINV = 100000;
     const aR = (v) => 1.6 + 8 * Math.sqrt(Math.max(0, v - MINV) / (maxV - MINV));
     const aadtLayer = L.layerGroup(aadt.features.filter((f) => f.properties.v >= MINV).sort((a, b) => a.properties.v - b.properties.v).map((f) => {
@@ -445,12 +445,18 @@
       rail: { fill: "#ffffff", op: 0.65, stroke: LINE.centers, w: 2.6, label: "Rail, no towers" },
       neither: { fill: "#ffffff", op: 0.05, stroke: "#8b877e", w: 1.2, dash: "3 3", label: "Neither" },
     };
+    const NB = {
+      jobs: { label: "A job centre built low", rule: "10,000 or more jobs", fill: "#6f6b63" },
+      transit: { label: "Rail or a busway nearby, or coming", rule: "Metro within a mile, a line being built, or a busway or Metrolink stop", fill: "#9d988d" },
+      urban: { label: "A dense low-rise neighbourhood", rule: "4,000 or more homes", fill: "#c4bfb4" },
+      suburban: { label: "Still suburban", rule: "none of these", fill: "#e8e4dc" },
+    };
     const ALIAS = { "Canoga Park–Woodland Hills": "Warner Center" };
     const centerLayer = L.geoJSON(centers, { pane: "g-centers",
       pointToLayer: (f, ll) => { const o = OUT[f.properties.oc];
         return L.circle(ll, { pane: "g-centers", radius: 804.7, color: o.stroke, weight: o.w, dashArray: o.dash, fillColor: o.fill, fillOpacity: o.op }); },
       onEachFeature: (f, l) => { const p = f.properties, nm = ALIAS[p.name] || p.name;
-        l.bindPopup(pop(nm, "A Centre of the 1974 Plan", `<p><b>${{ realised: "Got tall buildings and a rail station", towers: "Got tall buildings, no rail station", rail: "Got a rail station, no tall buildings", neither: "Got neither tall buildings nor a rail station" }[p.oc]}</b></p>`)); } }).addTo(map);
+        l.bindPopup(pop(nm, "A Centre of the 1974 Plan", `<p><b>${{ realised: "Got tall buildings and a rail station", towers: "Got tall buildings, no rail station", rail: "Got a rail station, no tall buildings", neither: "Got neither tall buildings nor a rail station" }[p.oc]}</b></p>${p.oc === "neither" && NB[p.nb] ? `<p>What it became instead: ${NB[p.nb].label.toLowerCase()}. Within half a mile of its core: ${fmt(p.jobs)} jobs, ${fmt(p.homes)} homes.</p>` : ""}`)); } }).addTo(map);
     const circleByName = {};
     centerLayer.eachLayer((l) => { circleByName[l.feature.properties.name] = l; });
     const cIdx = Object.fromEntries(centers.features.map((f) => [f.properties.name, f]));
@@ -623,7 +629,7 @@
         h += `<h5>I · Pastoral Suburb</h5>` + lgRow("fill", COL.pastoral + "55", "Neighbourhoods named in the text");
         if (extras.includes("zoned")) h += lgRow("fill", "#3f8a2e", "Zoned for detached houses (2026)");
       } else if (g === "autopia") {
-        h += `<h5>II · Autopia</h5>` + lgRow("line", LINE.autopia, "Freeways") + lgRow("dotf", COL.autopia, "Interchanges named in the text") + lgRow("dash", LINE.autopia, "Boyle Heights");
+        h += `<h5>II · Autopia</h5>` + lgRow("line", LINE.autopia, "Freeways") + lgRow("dotf", COL.autopia, "Interchanges named in the text") + lgRow("fill", COL.autopia + "55", "Boyle Heights");
         if (extras.includes("aadt")) h += lgRow("disc", COL.autopia, "Traffic: vehicles a day (bigger = busier)");
         if (extras.includes("bott")) h += lgRow("line", "#6b4a00", "Worst traffic jams, 2024");
         if (extras.includes("bh500")) h += lgRow("fill", COL.autopia + "88", "Within 500 ft of a freeway");
@@ -724,8 +730,8 @@
       map.flyToBounds(t.b, { ...pad(), maxZoom: t.z, duration: 1.0 });
       showLabels([id]); flash(P); showBack();
       map.once("moveend", () => {
-        if (!P.layer || !P.layer.openPopup) return;
-        if (P.ll) P.layer.openPopup(); else P.layer.openPopup(L.latLng(P.labelAt || P.bounds.getCenter()));
+        // points open their popup; areas keep their name label and outline in view (a popup would hide the label)
+        if (P.ll && P.layer && P.layer.openPopup) P.layer.openPopup();
       });
     }
     document.querySelectorAll(".pl[data-place]").forEach((b) => b.addEventListener("click", () => {
@@ -761,29 +767,54 @@
       });
       return svgEl(W, H2, s);
     }
+    const KIND = { la: "City of Los Angeles", city: "City", unincorporated: "Unincorporated" };
+    const placeName = (p) => (p.kind === "la" ? p.name.split(" - ").slice(0, 2).join(" – ")
+      : p.name.toLowerCase().replace(/(^|[\s-])\w/g, (c) => c.toUpperCase()).replace(/ - /g, " – "));
     function proxBars() {
-      const rows = [["Boyle Heights", Math.round(B.bh.within_500ft_pct), true], ["City of Los Angeles", Math.round(B.city.within_500ft_pct)], ["Los Angeles County", Math.round(B.county.within_500ft_pct)]];
-      const W = cardW(), LW = W < 420 ? 112 : 132, RH = 24, max = 25, X = (v) => LW + v / max * (W - LW - 46);
+      const top = B.places.slice(0, 10).map((p) => [placeName(p), KIND[p.kind], p.within_500ft_pct, p.name === "Boyle Heights"]);
+      const refs = [["City of Los Angeles", "the whole city, for comparison", B.city.within_500ft_pct], ["Los Angeles County", "the whole county, for comparison", B.county.within_500ft_pct]];
+      const W = cardW(), LW = W < 420 ? 150 : 196, RH = 30, max = Math.ceil(top[0][2] / 5) * 5, X = (v) => LW + v / max * (W - LW - 46);
       let s = "";
-      rows.forEach(([n, v, hi], i) => {
-        const y = i * RH + 4;
-        s += `<text class="lbl" x="0" y="${y + 12}">${n}</text><rect x="${LW}" y="${y}" width="${X(v) - LW}" height="16" rx="3" fill="${hi ? COL.autopia : "#c9c3b6"}"/>
-          <text x="${X(v) + 6}" y="${y + 12}" style="font-weight:600;fill:#1b2a3a">${v}%</text>`;
-      });
-      return svgEl(W, rows.length * RH + 4, s);
+      const row = ([n, k, v, hi], y) => {
+        s += `<text class="lbl" x="0" y="${y + 11}"${hi ? ' style="font-weight:700"' : ""}>${n}</text><text x="0" y="${y + 23}" style="font-size:9.5px;fill:#6b6b6b">${k}</text>
+          <rect x="${LW}" y="${y + 3}" width="${Math.max(1, X(v) - LW)}" height="16" rx="3" fill="${hi ? COL.autopia : "#c9c3b6"}"/>
+          <text x="${X(v) + 6}" y="${y + 15}" style="font-weight:600;fill:#111">${Math.round(v)}%</text>`;
+      };
+      top.forEach((r, i) => row(r, i * RH));
+      const y0 = top.length * RH + 8;
+      s += `<line x1="0" x2="${W}" y1="${y0 - 4}" y2="${y0 - 4}" stroke="#d6d6d6"/>`;
+      refs.forEach((r, i) => row(r, y0 + i * RH));
+      return svgEl(W, y0 + refs.length * RH, s) +
+        `<p class="mini-note">Ranked among the ${B.places.length} places with at least 5,000 homes: the City of Los Angeles’s 35 community plan areas, the County’s other cities and its unincorporated communities. Homes on the 2026 Assessor roll; freeways from Caltrans.</p>`;
     }
     function outcomeBar() {
       const o = C.outcomes_half_mile, keys = ["realised", "towers", "rail", "neither"], W = cardW(), h = 22;
       const LBL = { realised: "Tall buildings and rail", towers: "Tall buildings only", rail: "Rail only", neither: "Neither" };
       const SW = { realised: ["dotf", COL.centers], towers: ["dotf", "#86b6ef"], rail: ["ring", LINE.centers], neither: ["ringd", "#8b877e"] };
       let x = 0, s = "";
+      const NT = C.neither_types, nbKeys = ["jobs", "transit", "urban", "suburban"];
       keys.forEach((k) => {
         const w = o[k] / C.n * W, st = OUT[k];
+        if (k === "neither") {   // split into what those centres became instead
+          let xx = x;
+          nbKeys.forEach((t) => {
+            const ww = NT[t].n / C.n * W;
+            s += `<rect x="${xx + 1}" y="0" width="${Math.max(0, ww - 2)}" height="${h}" fill="${NB[t].fill}"/>
+              <text x="${xx + ww / 2}" y="${h + 14}" text-anchor="middle" class="lbl">${NT[t].n}</text>`;
+            xx += ww;
+          });
+          s += `<rect x="${x + 0.5}" y="0.5" width="${w - 1}" height="${h - 1}" fill="none" stroke="${st.stroke}" stroke-width="1.2" stroke-dasharray="3 3"/>
+            <path d="M${x + 2} ${h + 20}v5h${w - 4}v-5" fill="none" stroke="#8b877e"/><text x="${x + w / 2}" y="${h + 38}" text-anchor="middle" class="lbl">Neither · ${o[k]}</text>`;
+          x += w; return;
+        }
         s += `<rect x="${x + 1}" y="0" width="${Math.max(0, w - 2)}" height="${h}" fill="${st.fill}" fill-opacity="${Math.max(st.op, 0.85)}" stroke="${st.stroke}" stroke-width="${k === "rail" ? 2.4 : 1}" ${st.dash ? `stroke-dasharray="${st.dash}"` : ""}/>
           <text x="${x + w / 2}" y="${h + 14}" text-anchor="middle" class="lbl">${o[k]}</text>`;
         x += w;
       });
-      return svgEl(W, h + 18, s) + `<div class="bar-key">${keys.map((k) => lgRow(SW[k][0], SW[k][1], `${LBL[k]} · ${o[k]}`)).join("")}</div>`;
+      return svgEl(W, h + 42, s) + `<div class="bar-key">${keys.slice(0, 3).map((k) => lgRow(SW[k][0], SW[k][1], `${LBL[k]} · ${o[k]}`)).join("")}</div>
+        <p class="nb-h">Neither tall buildings nor rail · ${o.neither}. What they became instead:</p>
+        <div class="nb-key">${nbKeys.map((t) => `<div class="lg">${swatch("fill", NB[t].fill)}<span><b>${NB[t].label} · ${NT[t].n}</b> <span class="nb-rule">(${NB[t].rule})</span><br>${NT[t].names.join(", ")}</span></div>`).join("")}</div>
+        <p class="mini-note">The plan gave each centre “a ‘core’ of about one-quarter mile radius containing a rapid transit station, high-rise office structures, department stores, hotels, theaters, restaurants and government offices”, with apartments nearby. The bar tests the two most visible of those, buildings of 150 ft and up and a rail station, within half a mile of each core; jobs and homes are counted within the same half mile.</p>`;
     }
     const SPANS = [
       ["landers", 1913, 1917, "gone"], ["llano", 1914, 1918, "gone"], ["village", 1941, 1942, "survives"],
@@ -819,9 +850,9 @@
       autopia: () => `<p class="orig-link">Original map: <a href="${ORIGS.parkways1946.href}" target="_blank" rel="noopener">1946 · County Regional Planning Commission, <i>Interregional, Regional and Metropolitan Parkways</i></a></p>
         <div class="tiles">
           ${tile(fmt(S.aadt.max.v), "vehicles a day on the Santa Monica Freeway")}
-          ${tile(`${Math.round(B.bh.within_500ft_pct)}%`, "of Boyle Heights homes stand within 500 ft of a freeway")}
+          ${tile(`${Math.round(B.bh.within_500ft_pct)}%`, `of Boyle Heights homes stand within 500 ft of a freeway, the highest share of ${B.places.length} places in the County`)}
         </div>
-        <div class="mini"><h4>Homes within 500 ft of a Freeway</h4>${proxBars()}</div>`,
+        <div class="mini"><h4>The Ten Places with the Most Homes within 500 ft of a Freeway</h4>${proxBars()}</div>`,
       centers: () => `<p class="orig-link">Original map: <a href="${ORIGS.plan1974.href}" target="_blank" rel="noopener">1974 · City of Los Angeles, <i>Concept Los Angeles</i>, adopted centers map</a></p>
         <div class="tiles">
           ${tile(`${C.outcomes_half_mile.realised} of ${C.n}`, "planned centres got both tall buildings and a rail station")}

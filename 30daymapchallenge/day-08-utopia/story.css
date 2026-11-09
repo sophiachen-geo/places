@@ -116,6 +116,7 @@ button, select, input { font-family: var(--sans); }
 .mini svg .ax { stroke: var(--hair); }
 .mini svg .row { cursor: pointer; }
 .mini svg .row:hover .hit { fill: var(--wash); }
+.st-text .mini-note, .mini-note { font: 400 0.68rem/1.45 var(--sans); color: var(--ink-2); margin: 6px 0 0; }
 .st-text .glegend { font: 400 0.72rem/1.4 var(--sans); color: var(--ink-2); margin: 8px 0 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .glegend span { display: inline-block; width: 16px; height: 8px; margin-left: 6px; }
 .glegend .g1 { background: var(--u-coop); margin-left: 0; }
@@ -337,6 +338,11 @@ button, select, input { font-family: var(--sans); }
 #opening { border-top: 3px solid var(--ink); padding-top: 34px; }
 @media (max-width: 900px) { .gif-fig { margin-left: 0; margin-right: 0; } }
 .bar-key { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; margin-top: 6px; }
+.st-text .nb-h, .nb-h { font: 600 0.72rem/1.4 var(--sans); color: var(--ink); margin: 10px 0 4px; }
+.nb-key .lg { align-items: flex-start; margin: 0 0 5px; }
+.nb-key .lg span { font: 400 0.72rem/1.4 var(--sans); color: var(--ink-2); }
+.nb-key .lg b { color: var(--ink); font-weight: 600; }
+.nb-key .lg .nb-rule { color: #6b6b6b; }
 
 /* narrower maps (1024 px class): both panels fit side by side */
 @media (max-width: 1180px) and (min-width: 901px) {

@@ -18,7 +18,783 @@
   "county": {
    "homes": 3798768,
    "within_500ft_pct": 4.9
-  }
+  },
+  "places": [
+   {
+    "name": "Boyle Heights",
+    "kind": "la",
+    "homes": 23920,
+    "within_500ft_pct": 22.2
+   },
+   {
+    "name": "Encino - Tarzana",
+    "kind": "la",
+    "homes": 33910,
+    "within_500ft_pct": 16.3
+   },
+   {
+    "name": "CLAREMONT",
+    "kind": "city",
+    "homes": 16019,
+    "within_500ft_pct": 15.6
+   },
+   {
+    "name": "Silver Lake - Echo Park - Elysian Valley",
+    "kind": "la",
+    "homes": 31885,
+    "within_500ft_pct": 14.6
+   },
+   {
+    "name": "SOUTH PASADENA",
+    "kind": "city",
+    "homes": 11057,
+    "within_500ft_pct": 14.5
+   },
+   {
+    "name": "SANTA FE SPRINGS",
+    "kind": "city",
+    "homes": 6983,
+    "within_500ft_pct": 14.2
+   },
+   {
+    "name": "WEST WHITTIER - LOS NIETOS",
+    "kind": "unincorporated",
+    "homes": 6675,
+    "within_500ft_pct": 14.1
+   },
+   {
+    "name": "Sylmar",
+    "kind": "la",
+    "homes": 22867,
+    "within_500ft_pct": 14.0
+   },
+   {
+    "name": "Harbor Gateway",
+    "kind": "la",
+    "homes": 14082,
+    "within_500ft_pct": 13.8
+   },
+   {
+    "name": "AGOURA HILLS",
+    "kind": "city",
+    "homes": 8547,
+    "within_500ft_pct": 12.9
+   },
+   {
+    "name": "LENNOX",
+    "kind": "unincorporated",
+    "homes": 5789,
+    "within_500ft_pct": 12.9
+   },
+   {
+    "name": "WEST CARSON",
+    "kind": "unincorporated",
+    "homes": 8383,
+    "within_500ft_pct": 12.8
+   },
+   {
+    "name": "HACIENDA HEIGHTS",
+    "kind": "unincorporated",
+    "homes": 17113,
+    "within_500ft_pct": 12.5
+   },
+   {
+    "name": "Sherman Oaks - Studio City - Toluca Lake - Cahuenga Pass",
+    "kind": "la",
+    "homes": 44801,
+    "within_500ft_pct": 12.0
+   },
+   {
+    "name": "EAST LOS ANGELES",
+    "kind": "unincorporated",
+    "homes": 32208,
+    "within_500ft_pct": 10.7
+   },
+   {
+    "name": "Downtown",
+    "kind": "la",
+    "homes": 49459,
+    "within_500ft_pct": 10.4
+   },
+   {
+    "name": "LA CRESCENTA - MONTROSE",
+    "kind": "unincorporated",
+    "homes": 8362,
+    "within_500ft_pct": 9.8
+   },
+   {
+    "name": "PASADENA",
+    "kind": "city",
+    "homes": 66457,
+    "within_500ft_pct": 9.8
+   },
+   {
+    "name": "BALDWIN PARK",
+    "kind": "city",
+    "homes": 19497,
+    "within_500ft_pct": 9.3
+   },
+   {
+    "name": "Palms - Mar Vista - Del Rey",
+    "kind": "la",
+    "homes": 55884,
+    "within_500ft_pct": 9.1
+   },
+   {
+    "name": "MONROVIA",
+    "kind": "city",
+    "homes": 16987,
+    "within_500ft_pct": 9.1
+   },
+   {
+    "name": "LAWNDALE",
+    "kind": "city",
+    "homes": 10564,
+    "within_500ft_pct": 9.0
+   },
+   {
+    "name": "NORWALK",
+    "kind": "city",
+    "homes": 29061,
+    "within_500ft_pct": 8.6
+   },
+   {
+    "name": "CERRITOS",
+    "kind": "city",
+    "homes": 17030,
+    "within_500ft_pct": 8.4
+   },
+   {
+    "name": "Northeast Los Angeles",
+    "kind": "la",
+    "homes": 80314,
+    "within_500ft_pct": 8.3
+   },
+   {
+    "name": "West Los Angeles",
+    "kind": "la",
+    "homes": 44199,
+    "within_500ft_pct": 8.2
+   },
+   {
+    "name": "Sun Valley - La Tuna Canyon",
+    "kind": "la",
+    "homes": 25883,
+    "within_500ft_pct": 8.1
+   },
+   {
+    "name": "DIAMOND BAR",
+    "kind": "city",
+    "homes": 19384,
+    "within_500ft_pct": 7.8
+   },
+   {
+    "name": "CULVER CITY",
+    "kind": "city",
+    "homes": 19136,
+    "within_500ft_pct": 7.7
+   },
+   {
+    "name": "LYNWOOD",
+    "kind": "city",
+    "homes": 16200,
+    "within_500ft_pct": 7.7
+   },
+   {
+    "name": "GLENDALE",
+    "kind": "city",
+    "homes": 85070,
+    "within_500ft_pct": 7.6
+   },
+   {
+    "name": "POMONA",
+    "kind": "city",
+    "homes": 47674,
+    "within_500ft_pct": 7.5
+   },
+   {
+    "name": "SAN DIMAS",
+    "kind": "city",
+    "homes": 13296,
+    "within_500ft_pct": 7.5
+   },
+   {
+    "name": "Mission Hills - Panorama City - North Hills",
+    "kind": "la",
+    "homes": 45296,
+    "within_500ft_pct": 7.4
+   },
+   {
+    "name": "WEST COVINA",
+    "kind": "city",
+    "homes": 36409,
+    "within_500ft_pct": 7.3
+   },
+   {
+    "name": "SOUTH EL MONTE",
+    "kind": "city",
+    "homes": 5733,
+    "within_500ft_pct": 7.2
+   },
+   {
+    "name": "ROSEMEAD",
+    "kind": "city",
+    "homes": 16096,
+    "within_500ft_pct": 7.0
+   },
+   {
+    "name": "CALABASAS",
+    "kind": "city",
+    "homes": 10267,
+    "within_500ft_pct": 6.9
+   },
+   {
+    "name": "WILLOWBROOK",
+    "kind": "unincorporated",
+    "homes": 6943,
+    "within_500ft_pct": 6.8
+   },
+   {
+    "name": "Southeast Los Angeles",
+    "kind": "la",
+    "homes": 70611,
+    "within_500ft_pct": 6.7
+   },
+   {
+    "name": "ARTESIA",
+    "kind": "city",
+    "homes": 5757,
+    "within_500ft_pct": 6.6
+   },
+   {
+    "name": "LA CANADA FLINTRIDGE",
+    "kind": "city",
+    "homes": 7186,
+    "within_500ft_pct": 6.6
+   },
+   {
+    "name": "Van Nuys - North Sherman Oaks",
+    "kind": "la",
+    "homes": 67284,
+    "within_500ft_pct": 6.5
+   },
+   {
+    "name": "ALHAMBRA",
+    "kind": "city",
+    "homes": 32409,
+    "within_500ft_pct": 6.5
+   },
+   {
+    "name": "West Adams - Baldwin Hills - Leimert",
+    "kind": "la",
+    "homes": 74015,
+    "within_500ft_pct": 6.3
+   },
+   {
+    "name": "Arleta - Pacoima",
+    "kind": "la",
+    "homes": 22358,
+    "within_500ft_pct": 6.2
+   },
+   {
+    "name": "Hollywood",
+    "kind": "la",
+    "homes": 123218,
+    "within_500ft_pct": 6.1
+   },
+   {
+    "name": "South Los Angeles",
+    "kind": "la",
+    "homes": 90838,
+    "within_500ft_pct": 5.9
+   },
+   {
+    "name": "Granada Hills - Knollwood",
+    "kind": "la",
+    "homes": 22092,
+    "within_500ft_pct": 5.6
+   },
+   {
+    "name": "BELLFLOWER",
+    "kind": "city",
+    "homes": 26319,
+    "within_500ft_pct": 5.6
+   },
+   {
+    "name": "CARSON",
+    "kind": "city",
+    "homes": 28728,
+    "within_500ft_pct": 5.6
+   },
+   {
+    "name": "SANTA CLARITA VALLEY",
+    "kind": "unincorporated",
+    "homes": 19207,
+    "within_500ft_pct": 5.6
+   },
+   {
+    "name": "BELL GARDENS",
+    "kind": "city",
+    "homes": 10562,
+    "within_500ft_pct": 5.5
+   },
+   {
+    "name": "BURBANK",
+    "kind": "city",
+    "homes": 48135,
+    "within_500ft_pct": 5.5
+   },
+   {
+    "name": "DOWNEY",
+    "kind": "city",
+    "homes": 36538,
+    "within_500ft_pct": 5.2
+   },
+   {
+    "name": "EL MONTE",
+    "kind": "city",
+    "homes": 30252,
+    "within_500ft_pct": 5.0
+   },
+   {
+    "name": "Westlake",
+    "kind": "la",
+    "homes": 47222,
+    "within_500ft_pct": 4.7
+   },
+   {
+    "name": "North Hollywood - Valley Village",
+    "kind": "la",
+    "homes": 64612,
+    "within_500ft_pct": 4.5
+   },
+   {
+    "name": "AZUSA",
+    "kind": "city",
+    "homes": 18024,
+    "within_500ft_pct": 4.4
+   },
+   {
+    "name": "MONTEREY PARK",
+    "kind": "city",
+    "homes": 22645,
+    "within_500ft_pct": 4.3
+   },
+   {
+    "name": "Canoga Park - Winnetka - Woodland Hills - West Hills",
+    "kind": "la",
+    "homes": 74753,
+    "within_500ft_pct": 4.2
+   },
+   {
+    "name": "HAWTHORNE",
+    "kind": "city",
+    "homes": 32937,
+    "within_500ft_pct": 4.2
+   },
+   {
+    "name": "LA VERNE",
+    "kind": "city",
+    "homes": 13365,
+    "within_500ft_pct": 4.2
+   },
+   {
+    "name": "W ATHENS - WESTMONT",
+    "kind": "unincorporated",
+    "homes": 13685,
+    "within_500ft_pct": 4.0
+   },
+   {
+    "name": "PARAMOUNT",
+    "kind": "city",
+    "homes": 15338,
+    "within_500ft_pct": 3.7
+   },
+   {
+    "name": "ARCADIA",
+    "kind": "city",
+    "homes": 24076,
+    "within_500ft_pct": 3.5
+   },
+   {
+    "name": "Wilmington - Harbor City",
+    "kind": "la",
+    "homes": 24562,
+    "within_500ft_pct": 3.4
+   },
+   {
+    "name": "LONG BEACH",
+    "kind": "city",
+    "homes": 190228,
+    "within_500ft_pct": 3.2
+   },
+   {
+    "name": "SANTA CLARITA",
+    "kind": "city",
+    "homes": 82557,
+    "within_500ft_pct": 3.2
+   },
+   {
+    "name": "GLENDORA",
+    "kind": "city",
+    "homes": 20012,
+    "within_500ft_pct": 3.1
+   },
+   {
+    "name": "Sunland - Tujunga - Lake View Terrace - Shadow Hills - East La Tuna Canyon",
+    "kind": "la",
+    "homes": 23100,
+    "within_500ft_pct": 3.0
+   },
+   {
+    "name": "ROWLAND HEIGHTS",
+    "kind": "unincorporated",
+    "homes": 16529,
+    "within_500ft_pct": 2.8
+   },
+   {
+    "name": "SANTA MONICA",
+    "kind": "city",
+    "homes": 57627,
+    "within_500ft_pct": 2.8
+   },
+   {
+    "name": "MONTEBELLO",
+    "kind": "city",
+    "homes": 20709,
+    "within_500ft_pct": 2.7
+   },
+   {
+    "name": "Bel Air - Beverly Crest",
+    "kind": "la",
+    "homes": 9181,
+    "within_500ft_pct": 2.6
+   },
+   {
+    "name": "DUARTE",
+    "kind": "city",
+    "homes": 8776,
+    "within_500ft_pct": 2.6
+   },
+   {
+    "name": "LAKEWOOD",
+    "kind": "city",
+    "homes": 28142,
+    "within_500ft_pct": 2.6
+   },
+   {
+    "name": "SAN GABRIEL",
+    "kind": "city",
+    "homes": 14478,
+    "within_500ft_pct": 2.4
+   },
+   {
+    "name": "Brentwood - Pacific Palisades",
+    "kind": "la",
+    "homes": 28185,
+    "within_500ft_pct": 2.2
+   },
+   {
+    "name": "SIGNAL HILL",
+    "kind": "city",
+    "homes": 5411,
+    "within_500ft_pct": 2.1
+   },
+   {
+    "name": "Westchester - Playa del Rey",
+    "kind": "la",
+    "homes": 36961,
+    "within_500ft_pct": 2.0
+   },
+   {
+    "name": "COMPTON",
+    "kind": "city",
+    "homes": 25564,
+    "within_500ft_pct": 2.0
+   },
+   {
+    "name": "San Pedro",
+    "kind": "la",
+    "homes": 33080,
+    "within_500ft_pct": 1.8
+   },
+   {
+    "name": "LA MIRADA",
+    "kind": "city",
+    "homes": 16138,
+    "within_500ft_pct": 1.6
+   },
+   {
+    "name": "REDONDO BEACH",
+    "kind": "city",
+    "homes": 31851,
+    "within_500ft_pct": 1.6
+   },
+   {
+    "name": "SOUTH GATE",
+    "kind": "city",
+    "homes": 25333,
+    "within_500ft_pct": 1.6
+   },
+   {
+    "name": "TORRANCE",
+    "kind": "city",
+    "homes": 64185,
+    "within_500ft_pct": 1.6
+   },
+   {
+    "name": "PALMDALE",
+    "kind": "city",
+    "homes": 54030,
+    "within_500ft_pct": 1.5
+   },
+   {
+    "name": "COVINA",
+    "kind": "city",
+    "homes": 19089,
+    "within_500ft_pct": 1.4
+   },
+   {
+    "name": "Westwood",
+    "kind": "la",
+    "homes": 21894,
+    "within_500ft_pct": 1.3
+   },
+   {
+    "name": "INGLEWOOD",
+    "kind": "city",
+    "homes": 42215,
+    "within_500ft_pct": 1.3
+   },
+   {
+    "name": "LANCASTER",
+    "kind": "city",
+    "homes": 61942,
+    "within_500ft_pct": 1.2
+   },
+   {
+    "name": "EAST PASADENA - EAST SAN GABRIEL",
+    "kind": "unincorporated",
+    "homes": 10712,
+    "within_500ft_pct": 1.1
+   },
+   {
+    "name": "Chatsworth - Porter Ranch",
+    "kind": "la",
+    "homes": 40184,
+    "within_500ft_pct": 1.0
+   },
+   {
+    "name": "Wilshire",
+    "kind": "la",
+    "homes": 147973,
+    "within_500ft_pct": 1.0
+   },
+   {
+    "name": "Venice",
+    "kind": "la",
+    "homes": 23189,
+    "within_500ft_pct": 0.9
+   },
+   {
+    "name": "WHITTIER",
+    "kind": "city",
+    "homes": 31847,
+    "within_500ft_pct": 0.9
+   },
+   {
+    "name": "W RANCHO DOMINGUEZ - VICTORIA",
+    "kind": "unincorporated",
+    "homes": 6995,
+    "within_500ft_pct": 0.8
+   },
+   {
+    "name": "Northridge",
+    "kind": "la",
+    "homes": 26436,
+    "within_500ft_pct": 0.7
+   },
+   {
+    "name": "ANTELOPE VALLEY",
+    "kind": "unincorporated",
+    "homes": 26789,
+    "within_500ft_pct": 0.7
+   },
+   {
+    "name": "Reseda - West Van Nuys",
+    "kind": "la",
+    "homes": 40766,
+    "within_500ft_pct": 0.1
+   },
+   {
+    "name": "ALTADENA",
+    "kind": "unincorporated",
+    "homes": 15904,
+    "within_500ft_pct": 0.1
+   },
+   {
+    "name": "BELL",
+    "kind": "city",
+    "homes": 9101,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "BEVERLY HILLS",
+    "kind": "city",
+    "homes": 18678,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "CUDAHY",
+    "kind": "city",
+    "homes": 5802,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "EL SEGUNDO",
+    "kind": "city",
+    "homes": 10334,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "FLORENCE - FIRESTONE",
+    "kind": "unincorporated",
+    "homes": 14840,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "GARDENA",
+    "kind": "city",
+    "homes": 23799,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "HERMOSA BEACH",
+    "kind": "city",
+    "homes": 10439,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "HUNTINGTON PARK",
+    "kind": "city",
+    "homes": 17543,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "LA PUENTE",
+    "kind": "city",
+    "homes": 10145,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "LADERA HEIGHTS / VIEW PARK - WINDSOR HILLS",
+    "kind": "unincorporated",
+    "homes": 7892,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "LOMITA",
+    "kind": "city",
+    "homes": 9766,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "MALIBU",
+    "kind": "city",
+    "homes": 6289,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "MANHATTAN BEACH",
+    "kind": "city",
+    "homes": 15717,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "MAYWOOD",
+    "kind": "city",
+    "homes": 6852,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "PALOS VERDES ESTATES",
+    "kind": "city",
+    "homes": 5301,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "PICO RIVERA",
+    "kind": "city",
+    "homes": 18294,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "RANCHO PALOS VERDES",
+    "kind": "city",
+    "homes": 16820,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "SAN FERNANDO",
+    "kind": "city",
+    "homes": 6380,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "SIERRA MADRE",
+    "kind": "city",
+    "homes": 5079,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "SOUTH SAN JOSE HILLS",
+    "kind": "unincorporated",
+    "homes": 6014,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "SOUTH WHITTIER - SUNSHINE ACRES",
+    "kind": "unincorporated",
+    "homes": 19109,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "TEMPLE CITY",
+    "kind": "city",
+    "homes": 12481,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "VALINDA",
+    "kind": "unincorporated",
+    "homes": 5105,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "WALNUT",
+    "kind": "city",
+    "homes": 9466,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "WEST HOLLYWOOD",
+    "kind": "city",
+    "homes": 28365,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "WEST PUENTE VALLEY",
+    "kind": "unincorporated",
+    "homes": 5155,
+    "within_500ft_pct": 0.0
+   },
+   {
+    "name": "SOUTH MONROVIA ISLANDS",
+    "kind": "unincorporated",
+    "homes": 5016,
+    "within_500ft_pct": 0.0
+   }
+  ]
  },
  "parkways1946": {
   "miles": {
