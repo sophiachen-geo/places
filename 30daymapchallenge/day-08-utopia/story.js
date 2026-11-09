@@ -56,10 +56,24 @@
     const map = L.map("st-map", { zoomSnap: 0.25, zoomDelta: 0.5, wheelPxPerZoomLevel: 100, maxZoom: 17, minZoom: 7 }).fitBounds(VIEWS.basin);
     map.zoomControl.setPosition("topright");
     const ESRI = "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/";
-    L.tileLayer(ESRI + "World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", {
-      maxZoom: 17, maxNativeZoom: 16,
-      attribution: 'Tiles &copy; Esri, HERE, Garmin, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> · data: LA County, City of LA, Caltrans, LA Metro, USGS, US Census, Mapping Inequality',
-    }).addTo(map);
+    const DATA_ATTR = " · data: LA County, City of LA, Caltrans, LA Metro, USGS, US Census, Mapping Inequality";
+    const BASES = {
+      map: L.tileLayer(ESRI + "World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}", { maxZoom: 17, maxNativeZoom: 16,
+        attribution: 'Tiles &copy; Esri, HERE, Garmin, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' + DATA_ATTR }),
+      sat: L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", { maxZoom: 17,
+        attribution: "Imagery &copy; Esri, Maxar, Earthstar Geographics and the GIS User Community" + DATA_ATTR }),
+    };
+    let baseKind = "map";
+    try { if (localStorage.getItem("d8-base") === "sat") baseKind = "sat"; } catch (e) { /* storage blocked: default map */ }
+    function setBase(k) {
+      if (!BASES[k]) return;
+      Object.entries(BASES).forEach(([n, l]) => { if (n !== k && map.hasLayer(l)) map.removeLayer(l); });
+      BASES[k].addTo(map); baseKind = k;
+      blendOrig();
+      map.getContainer().classList.toggle("sat", k === "sat");
+      document.querySelectorAll("[data-base]").forEach((b) => { b.classList.toggle("on", b.dataset.base === k); b.setAttribute("aria-pressed", String(b.dataset.base === k)); });
+      try { localStorage.setItem("d8-base", k); } catch (e) { /* not remembered */ }
+    }
     const pane = (name, z, cls) => { const p = map.createPane(name); p.style.zIndex = z; if (cls) p.classList.add(cls); return p; };
     pane("morph", 250);
     const origPane = pane("orig", 280);
@@ -303,6 +317,9 @@
     // printed survey sheets are full maps on their own paper: shown opaque, not multiplied into today's map
     const isSheet = (k) => k.startsWith("topo:");
     const opFor = (k) => (isSheet(k) && !userOpacity ? 1 : origOpacity);
+    // survey sheets, and every scan over satellite imagery, are drawn as printed; plans on the grey map are multiplied in
+    function blendOrig() { origPane.style.mixBlendMode = isSheet(curOrig) || baseKind === "sat" ? "normal" : "multiply"; }
+    setBase(baseKind);
     const swipe = { on: true, x: 0.5 };
     const divider = L.DomUtil.create("div", "swipe-divider", map.getContainer());
     divider.innerHTML = '<span class="swipe-tag l"></span><span class="swipe-tag r">Today</span><button class="swipe-handle" type="button" aria-label="Drag to compare the original map with today"></button>';
@@ -362,7 +379,7 @@
       oSel.dataset.init = 1;
       if (curOrig !== "none") map.removeLayer(getOrig(curOrig));
       curOrig = k;
-      origPane.style.mixBlendMode = isSheet(k) ? "normal" : "multiply";
+      blendOrig();
       if (k !== "none") { const l = getOrig(k); l.setOpacity(opFor(k)); l.addTo(map); document.getElementById("o-op").value = Math.round(opFor(k) * 100); }
       oSel.value = k.startsWith("topo:") ? "sheet:" + (topoMeta[k.slice(5)].tiles || k.slice(5)) : k;
       oPanel.classList.toggle("is-none", k === "none");
@@ -608,6 +625,8 @@
     const recall = (k) => { try { return localStorage.getItem(k) === "1"; } catch (e) { return false; } };
     let keyClosed = recall("d8-key-closed");
     keyEl.addEventListener("click", (e) => {
+      const bb = e.target.closest("[data-base]");
+      if (bb) { setBase(bb.dataset.base); return; }
       if (!e.target.closest(".panel-t")) return;
       keyClosed = !keyClosed; remember("d8-key-closed", keyClosed);
       keyEl.classList.toggle("closed", keyClosed); keyEl.querySelector(".panel-t").setAttribute("aria-expanded", String(!keyClosed)); placeLabels(); clipOrig();
@@ -622,7 +641,7 @@
     function updateKey() {
       const RN = { pastoral: ["I", "Pastoral"], autopia: ["II", "Autopia"], centers: ["III", "Polycentric"], coop: ["IV", "Cooperative"] };
       let h = `<button type="button" class="panel-t" aria-expanded="${!keyClosed}"><span class="panel-h">Now <b>Today’s Map</b></span><span class="chev" aria-hidden="true"></span></button>
-        <div class="panel-b"><div class="k-u">${GROUPS.map((g) => `<a href="#${g}" class="${focus === g ? "on" : focus === "all" ? "all" : ""}" style="--c:${COL[g]}" title="${RN[g][1]}"><i></i>${RN[g][0]}${focus === g ? ` ${RN[g][1]}` : ""}</a>`).join("")}</div>
+        <div class="panel-b"><div class="k-base" role="group" aria-label="Base map">${[["map", "Map"], ["sat", "Satellite"]].map(([k, t]) => `<button type="button" data-base="${k}" class="${baseKind === k ? "on" : ""}" aria-pressed="${baseKind === k}">${t}</button>`).join("")}</div><div class="k-u">${GROUPS.map((g) => `<a href="#${g}" class="${focus === g ? "on" : focus === "all" ? "all" : ""}" style="--c:${COL[g]}" title="${RN[g][1]}"><i></i>${RN[g][0]}${focus === g ? ` ${RN[g][1]}` : ""}</a>`).join("")}</div>
         <h5>Year on the Map</h5><p class="k-year" id="k-year"></p><div id="k-yrrows"></div>`;
       const g = focus;
       if (g === "pastoral") {

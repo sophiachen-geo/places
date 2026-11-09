@@ -1,4 +1,4 @@
-"""Cut the rubber-sheeted 1974 diagram into XYZ WebP tiles (z9-14; the scan is ~12.7 m per pixel, z14 ~7.9 m, so every
+"""Cut the placed 1974 diagram into XYZ WebP tiles (z9-14; the scan is ~12.7 m per pixel, z14 ~7.9 m, so every
 scanned pixel survives).
 Reuses the control points and spline of warp1974.py; samples the native scan directly per tile."""
 import os as _os
