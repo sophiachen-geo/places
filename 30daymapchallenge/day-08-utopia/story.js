@@ -45,11 +45,11 @@
   ];
 
   async function init() {
-    const [S, M, SS, places, centers, towers, rail, stations, fwy, aadt, bott, holc, utop, topoMeta, cities, fwy500, chartPlaces] = await Promise.all([
+    const [S, M, SS, places, centers, towers, rail, stations, fwy, aadt, bott, holc, utop, topoMeta, cities, fwy500, chartPlaces, todayC] = await Promise.all([
       J("data/stats.json"), J("data/morph.json"), J("data/story_stats.json"), J("data/story_places.geojson"),
       J("data/centers.geojson"), J("data/towers.geojson"), J("data/rail.geojson"), J("data/stations.geojson"),
       J("data/freeways.geojson"), J("data/aadt.geojson"), J("data/bottlenecks.geojson"), J("data/holc.geojson"),
-      J("data/utopias.geojson"), J("img/topo_meta.json"), J("data/cities.geojson"), J("data/fwy500.geojson"), J("data/chart_places.geojson"),
+      J("data/utopias.geojson"), J("img/topo_meta.json"), J("data/cities.geojson"), J("data/fwy500.geojson"), J("data/chart_places.geojson"), J("data/today_centres.geojson"),
     ]);
     const mobile = window.matchMedia("(max-width: 900px)");
 
@@ -479,11 +479,17 @@
       suburban: { label: "Still suburban", rule: "none of these", fill: "#e8e4dc" },
     };
     const ALIAS = { "Canoga Park–Woodland Hills": "Warner Center" };
+    // where the jobs are today (Giuliano & Small: 10+ jobs per acre, 10,000+ jobs), under the planned circles
+    const todayLayer = L.geoJSON(todayC, { pane: "g-centers",
+      style: { color: LINE.centers, weight: 1.6, opacity: 0.9, fillColor: COL.centers, fillOpacity: 0.1 },
+      onEachFeature: (f, l) => { const p = f.properties;
+        l.bindPopup(pop(p.name, "A Job Centre Today", `<p><b>${fmt(p.jobs)} jobs</b> over ${p.km2} km² (at least 10 jobs per acre throughout)</p>
+          <p>${p.planned.length ? `The 1974 plan drew ${p.planned.length === 1 ? "a centre" : p.planned.length + " centres"} here: ${p.planned.map((n) => ALIAS[n] || n).join(", ")}.` : "The 1974 plan drew no centre here."}</p>`)); } }).addTo(map);
     const centerLayer = L.geoJSON(centers, { pane: "g-centers",
       pointToLayer: (f, ll) => { const o = OUT[f.properties.oc];
         return L.circle(ll, { pane: "g-centers", radius: 804.7, color: o.stroke, weight: o.w, dashArray: o.dash, fillColor: o.fill, fillOpacity: o.op }); },
       onEachFeature: (f, l) => { const p = f.properties, nm = ALIAS[p.name] || p.name;
-        l.bindPopup(pop(nm, "A Centre of the 1974 Plan", `<p><b>${{ realised: "Got tall buildings and a rail station", towers: "Got tall buildings, no rail station", rail: "Got a rail station, no tall buildings", neither: "Got neither tall buildings nor a rail station" }[p.oc]}</b></p>${p.oc === "neither" && NB[p.nb] ? `<p>What it became instead: ${NB[p.nb].label.toLowerCase()}. Within half a mile of its core: ${fmt(p.jobs)} jobs, ${fmt(p.homes)} homes.</p>` : ""}`)); } }).addTo(map);
+        l.bindPopup(pop(nm, "A Centre of the 1974 Plan", `<p><b>${{ realised: "Got tall buildings and a rail station", towers: "Got tall buildings, no rail station", rail: "Got a rail station, no tall buildings", neither: "Got neither tall buildings nor a rail station" }[p.oc]}</b> within half a mile of where the plan drew it.</p>${p.today_id ? `<p>Today it lies ${p.today_in ? "in" : "beside"} a job centre of ${fmt(p.today_jobs)} jobs over ${p.today_km2} km².</p>` : `<p>No job centre today within 800 m.</p>`}${p.oc === "neither" && NB[p.nb] ? `<p>What it became instead: ${NB[p.nb].label.toLowerCase()}. Within half a mile of its core: ${fmt(p.jobs)} jobs, ${fmt(p.homes)} homes.</p>` : ""}`)); } }).addTo(map);
     const circleByName = {};
     centerLayer.eachLayer((l) => { circleByName[l.feature.properties.name] = l; });
     const cIdx = Object.fromEntries(centers.features.map((f) => [f.properties.name, f]));
@@ -663,9 +669,10 @@
         if (extras.includes("bott")) h += lgRow("line", "#6b4a00", "Worst traffic jams, 2024");
         if (extras.includes("bh500")) h += lgRow("fill", COL.autopia + "88", "Within 500 ft of a freeway");
       } else if (g === "centers") {
-        h += `<h5>III · The 56 Centres of 1974</h5>` + lgRow("dotf", COL.centers, `Got tall buildings and rail · ${S.centers.outcomes_half_mile.realised}`) +
+        h += `<h5>III · The 56 Centres of 1974, Where the Plan Drew Them</h5>` + lgRow("dotf", COL.centers, `Got tall buildings and rail · ${S.centers.outcomes_half_mile.realised}`) +
           lgRow("dotf", "#86b6ef", `Tall buildings, no rail · ${S.centers.outcomes_half_mile.towers}`) + lgRow("ring", LINE.centers, `Rail, no tall buildings · ${S.centers.outcomes_half_mile.rail}`) +
-          lgRow("ringd", "#8b877e", `Neither · ${S.centers.outcomes_half_mile.neither}`);
+          lgRow("ringd", "#8b877e", `Neither · ${S.centers.outcomes_half_mile.neither}`) +
+          `<h5>Job Centres Today</h5>` + lgRow("fill", COL.centers + "33", `10+ jobs per acre, 10,000+ jobs · ${S.today.n}`);
         if (extras.includes("towers")) h += lgRow("sq", INK, "Tall buildings (150 ft and up)");
         if (extras.includes("rail")) h += lgRow("line", INK, "Metro rail");
       } else if (g === "coop") {
@@ -874,9 +881,11 @@
       const SWB = { realised: sw(COL.centers, LINE.centers, 1), towers: sw("#86b6ef", LINE.centers, 1), rail: sw("#fff", LINE.centers, 2.4) };
       const item = (swh, label, n, rule, names) => `<div class="lg">${swh}<span><b>${label} · ${n}</b> <span class="nb-rule">(${rule})</span><br>${names.join(", ")}</span></div>`;
       return svgEl(W, h + 42, s) + `<div class="nb-key">${keys.slice(0, 3).map((k) => item(SWB[k], LBL[k], o[k], RULE[k], namesOf(k))).join("")}</div>
-        <p class="nb-h">Neither · ${o.neither}: what they became instead</p>
+        <p class="nb-h">Neither · ${o.neither}: What They Became Instead</p>
         <div class="nb-key">${nbKeys.map((t) => item(sw(NB[t].fill, "#8b877e", 1, "3 2"), NB[t].label, NT[t].n, NB[t].rule, NT[t].names)).join("")}</div>
-        <p class="mini-note">The plan gave each centre “a ‘core’ of about one-quarter mile radius containing a rapid transit station, high-rise office structures, department stores, hotels, theaters, restaurants and government offices”, with apartments nearby. The bar tests the two most visible of those, buildings of 150 ft and up and a rail station, within half a mile of each core; jobs and homes are counted within the same half mile.</p>`;
+        <p class="nb-h">Today: ${S.today.n} Job Centres</p>
+        <p class="mini-note">Areas with at least 10 jobs per acre and 10,000 jobs in all (the definition of Giuliano and Small’s study of Los Angeles, 1991), from the Census Bureau’s 2023 workplace counts, hold ${fmt(Math.round(S.today.jobs / 1e5) * 1e5)} of the County’s ${fmt(Math.round(S.today.county_jobs / 1e5) * 1e5)} jobs. ${S.today.planned_matched} of the 56 planned centres lie in or beside one; one continuous core now runs from Downtown to Santa Monica and takes in ${todayC.features[0].properties.planned.length} of them. ${S.today.n - S.today.with_planned} job centres grew where the plan drew none, among them ${[...new Set(S.today.unplanned)].slice(0, 8).join(", ")}.</p>
+        <p class="mini-note">The plan gave each centre “a ‘core’ of about one-quarter mile radius containing a rapid transit station, high-rise office structures, department stores, hotels, theaters, restaurants and government offices”, with apartments nearby. The bar tests the two most visible of those, buildings of 150 ft and up and a rail station, within half a mile of each centre as the plan drew it (the diagram, placed without distortion); jobs and homes are counted within the same half mile.</p>`;
     }
     const SPANS = [
       ["landers", 1913, 1917, "gone"], ["llano", 1914, 1918, "gone"], ["village", 1941, 1942, "survives"],
