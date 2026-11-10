@@ -121,6 +121,7 @@ button, select, input { font-family: var(--sans); }
 .mini svg .row:hover .hit { fill: var(--wash); }
 .mini svg .row:focus { outline: none; }
 .mini svg .row:focus-visible .hit { fill: var(--wash); stroke: var(--ink); stroke-width: 1.5; }
+.inline-fig { margin: 6px 0 34px; }
 .st-text .mini-note, .mini-note { font: 400 0.68rem/1.45 var(--sans); color: var(--ink-2); margin: 6px 0 0; }
 .st-text .glegend { font: 400 0.72rem/1.4 var(--sans); color: var(--ink-2); margin: 8px 0 0; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
 .glegend span { display: inline-block; width: 16px; height: 8px; margin-left: 6px; }

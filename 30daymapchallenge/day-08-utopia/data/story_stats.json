@@ -1899,5 +1899,100 @@
    }
   ],
   "src": "Block groups (2020): ACS 2020-2024 B08301, B19013; homes and the 500 ft band as in the 500 ft ranking; Metro rail stations and bus stops (GTFS 2026). Cluster-robust errors by tract."
+ },
+ "old_network": {
+  "miles_1925": {
+   "PE": 407.2,
+   "LARy": 134.8
+  },
+  "miles_1925_plate_window": {
+   "PE": 386.0,
+   "LARy": 134.8
+  },
+  "accuracy": {
+   "wiki": "as drawn by Wikipedia editors on modern maps (tens of metres)",
+   "plate": "plate georeference 113 m (leave-one-out RMSE) plus tracing 50-80 m; about half the traced length snapped to a surviving rail or road centreline",
+   "streets": "exact street centrelines; the route follows each article's street list (plate agrees within ~65 m along 65-94% of each line)",
+   "ohm": "OpenHistoricalMap track, kept only where the plate shows a line within 6 px (about 100 m)"
+  },
+  "gaps": [
+   "Pacific Electric: Long Beach-San Pedro (harbour belt too tangled on the plate to trace); Annandale, Westgate, Hawthorne-El Nido, Catalina Dock and East Washington locals; the Santa Ana-Huntington Beach line and the Inland Empire lines beyond the plate (Redlands, Highland, Arrowhead, Riverside-Rialto/Arlington, Upland-Ontario)",
+   "Los Angeles Railway: lines without a Wikipedia route description (C, E before it became 5, H, Q, U and branches) and short-lived 1920s variants; the 1932-1955 numbered routes (2, 7, 8, 9, 10) are not drawn separately"
+  ],
+  "lines": {
+   "PE_wiki": [
+    "Balboa Line",
+    "Echo Park Avenue Line",
+    "Fullerton Line",
+    "La Habra\u2013Yorba Linda Line",
+    "Long Beach Line",
+    "Monrovia\u2013Glendora Line",
+    "Owensmouth Line",
+    "Pasadena Short Line",
+    "San Bernardino\u2013Riverside Line",
+    "San Fernando Line",
+    "Santa Ana Line",
+    "Santa Ana\u2013Orange Line",
+    "Santa Monica Air Line",
+    "Sawtelle Line",
+    "Shorb Line",
+    "Sierra Madre Line",
+    "Venice Short Line",
+    "Venice\u2013Inglewood Line",
+    "Watts Line",
+    "Western and Franklin Avenue Line",
+    "Whittier Line"
+   ],
+   "PE_plate": [
+    "Alhambra\u2013San Gabriel Line",
+    "Glendale\u2013Burbank Line",
+    "Hawthorne\u2013El Segundo Line",
+    "Hawthorne\u2013Redondo Beach",
+    "Hawthorne\u2013South Los Angeles",
+    "Pomona local lines",
+    "Pomona local lines (south)",
+    "Pomona\u2013Claremont Line",
+    "Pomona\u2013La Verne",
+    "Redondo Beach via Gardena Line",
+    "Redondo Beach via Playa del Rey Line",
+    "San Pedro via Dominguez Line",
+    "San Pedro via Gardena Line",
+    "Upland\u2013San Bernardino Line"
+   ],
+   "LARy_streets": [
+    "3",
+    "5 (Eagle Rock)",
+    "5 (Hawthorne)",
+    "A",
+    "B",
+    "D",
+    "F",
+    "G",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M (later 8)",
+    "N",
+    "O",
+    "P",
+    "R",
+    "S",
+    "V",
+    "W"
+   ],
+   "last_1961": [
+    "Long Beach Line"
+   ],
+   "last_1963": [
+    "J",
+    "P",
+    "R",
+    "S",
+    "V"
+   ]
+  },
+  "method": "Pacific Electric: Wikipedia route maps where a line has one; the other lines traced from the 1925 Kelker, De Leuw plate (georeferenced, leave-one-out error 113 m) and snapped to surviving rail or road centrelines; OpenHistoricalMap track where the plate agrees. Los Angeles Railway: each line routed on today's streets from the street sequence its Wikipedia article gives for the 1920s. Route miles: lines buffered 25 m and unioned, shared track counted once, per company.",
+  "src": "Wikipedia line articles and route maps (CC BY-SA); OpenHistoricalMap (CC0); Kelker, De Leuw & Co. 1925, Plate 1 (LA Metro Research Library); LA County CAMS centrelines"
  }
 }
