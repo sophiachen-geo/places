@@ -573,16 +573,19 @@
     // the rail network Los Angeles dismantled: Red Cars (Pacific Electric) and Yellow Cars (Los Angeles Railway) in 1925, traced from
     // the Kelker, De Leuw plate (and line maps where they are more precise), in the plate's own browns; the last lines drawn heavier
     const OLDC = { PE: "#a8743a", LARy: "#c88845" };
-    const oldStyle = (p) => (p.op === "PE" ? { color: OLDC.PE, weight: 2.2, opacity: 0.9 } : { color: OLDC.LARy, weight: 1.6, opacity: 0.95, dashArray: "4 3" });
+    const oldStyle = (p, faded) => (p.op === "PE" ? { color: OLDC.PE, weight: 2.6, opacity: faded ? 0.35 : 0.95 } : { color: OLDC.LARy, weight: 1.9, opacity: faded ? 0.35 : 1, dashArray: "4 3" });
     const oldName = (p) => (p.op === "PE" ? "Red Cars (Pacific Electric)" : "Yellow Cars (Los Angeles Railway)");
+    const lineName = (p) => (!p.name ? oldName(p) : /Line|Railway/.test(p.name) ? p.name : `Line ${p.name}`);
+    const HOW = { plate: "Traced from the Kelker, De Leuw plan of 1925.", wiki: "Route as mapped for the line’s Wikipedia article from historical maps.",
+      ohm: "Track as mapped on OpenHistoricalMap, kept where the 1925 plan shows it.", streets: "Routed on today’s streets from the line’s 1920s route." };
     const oldnetLayer = L.geoJSON({ type: "FeatureCollection", features: oldnet.features.filter((f) => !f.properties.last) }, { pane: "g-transit", style: (f) => oldStyle(f.properties),
-      onEachFeature: (f, l) => l.bindPopup(pop(f.properties.name || oldName(f.properties), `${oldName(f.properties)}, 1925`, `<p>${f.properties.op === "PE" ? "Interurban line" : "Streetcar line"} as drawn on the Kelker, De Leuw plan of 1925${f.properties.src === "plate" ? "" : " (route from a line map)"}.</p>`)) });
+      onEachFeature: (f, l) => l.bindPopup(pop(lineName(f.properties), `${oldName(f.properties)}, about 1925`, `<p>${HOW[f.properties.src] || ""}</p>`)) });
     const lastF = (yr) => oldnet.features.filter((f) => f.properties.last === yr);
     const lastLayer = L.featureGroup();
     ["1961", "1963"].forEach((yr) => lastF(yr).forEach((f) => {
       L.geoJSON(f, { pane: "g-transit", interactive: false, style: { color: INK, weight: 6, opacity: 0.85 } }).addTo(lastLayer);
       L.geoJSON(f, { pane: "g-transit", style: { color: OLDC[f.properties.op], weight: 3.4, opacity: 1 } })
-        .bindPopup(pop(f.properties.name || oldName(f.properties), yr === "1961" ? "The Last Red Car, April 1961" : "The Last Streetcars, 31 March 1963",
+        .bindPopup(pop(lineName(f.properties), yr === "1961" ? "The Last Red Car, April 1961" : "The Last Streetcars, 31 March 1963",
           `<p>${yr === "1961" ? "The Pacific Electric’s line between Los Angeles and Long Beach, the last Red Car route, closed by the Metropolitan Transit Authority." : "One of the five Yellow Car lines (J, P, R, S, V) the Metropolitan Transit Authority replaced with buses, the last streetcars in Los Angeles."}</p>`)).addTo(lastLayer);
     }));
     [["lastredcar", "The last Red Car, 1961", "1961"], ["laststreetcars", "The last streetcars, 1963", "1963"]].forEach(([id, name, yr]) => {
@@ -628,6 +631,7 @@
       extras = list;
       morphOpacity();
       Object.entries(EXTRAS).forEach(([k, l]) => { const on = list.includes(k); if (on && !map.hasLayer(l)) l.addTo(map); if (!on && map.hasLayer(l)) map.removeLayer(l); });
+      oldnetLayer.setStyle((f) => oldStyle(f.properties, list.includes("lastrail")));   // the survivors stand out against the faded 1925 network
     }
 
     /* ======================= focus, labels, key ======================= */
@@ -761,7 +765,7 @@
         if (extras.includes("rail")) h += lgRow("line", INK, "Metro rail");
       } else if (g === "transit") {
         h += `<h5>${NUM.transit} · The Transit Metropolis</h5>` + lgRow("line", LINE.transit, "Metro rail, as open in the year on the map") + lgRow("dash", LINE.transit, "Metro busway") + lgRow("ring", LINE.transit, "Rail station");
-        if (extras.includes("oldnet") && oldnet.features.length) h += `<h5>The Network of 1925</h5>` + lgRow("line", OLDC.PE, "Red Cars (Pacific Electric)") + lgRow("tdash", OLDC.LARy, "Yellow Cars (Los Angeles Railway)");
+        if (extras.includes("oldnet") && oldnet.features.length) h += `<h5>The Network of About 1925</h5>` + lgRow("line", OLDC.PE, "Red Cars (Pacific Electric)") + lgRow("tdash", OLDC.LARy, "Yellow Cars (Los Angeles Railway)");
         if (extras.includes("lastrail") && oldnet.features.length) h += lgRow("line", INK, "The last lines: Red Car 1961, streetcars 1963");
       } else if (g === "coop") {
         h += `<h5>${NUM.coop} · Cooperative Experiments</h5>` + lgRow("pin", COL.coop, "Experiment sites (numbered)") + lgRow("fill", COL.coop + "55", "Site outlines");
