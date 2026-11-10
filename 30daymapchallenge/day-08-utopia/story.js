@@ -491,7 +491,7 @@
     };
     const NB = {
       jobs: { label: "A job centre built low", rule: "10,000 or more jobs", fill: "#6f6b63" },
-      transit: { label: "Rail or a busway nearby, or coming", rule: "Metro within a mile, a line being built, or a busway or Metrolink stop", fill: "#9d988d" },
+      transit: { label: "Rail or a busway nearby, or coming", rule: "Metro within a mile, a line being built, or a busway or Metrolink stop", fill: "#cddaf2", stroke: LINE.centers, dash: "4 2.5" },   // rail in waiting: next to "Rail only", dashed like a line under construction
       urban: { label: "A dense low-rise neighbourhood", rule: "4,000 or more homes", fill: "#c4bfb4" },
       suburban: { label: "Still suburban", rule: "none of these", fill: "#e8e4dc" },
     };
@@ -967,14 +967,17 @@
       const o = C.outcomes_half_mile, keys = ["realised", "towers", "rail", "neither"], W = cardW(), h = 22;
       const LBL = { realised: "Tall buildings and rail", towers: "Tall buildings only", rail: "Rail only", neither: "Neither" };
       let x = 0, s = "";
-      const NT = C.neither_types, nbKeys = ["jobs", "transit", "urban", "suburban"];
+      const NT = C.neither_types, nbKeys = ["transit", "jobs", "urban", "suburban"];   // the rail-in-waiting group sits beside "Rail only"
       keys.forEach((k) => {
         const w = o[k] / C.n * W, st = OUT[k];
         if (k === "neither") {   // split into what those centres became instead
           let xx = x;
           nbKeys.forEach((t) => {
             const ww = NT[t].n / C.n * W;
-            s += `<rect x="${xx + 1}" y="0" width="${Math.max(0, ww - 2)}" height="${h}" fill="${NB[t].fill}"/>
+            s += NB[t].stroke
+              ? `<rect x="${xx + 2}" y="1" width="${Math.max(0, ww - 4)}" height="${h - 2}" fill="${NB[t].fill}" stroke="${NB[t].stroke}" stroke-width="2" stroke-dasharray="${NB[t].dash}"/>`
+              : `<rect x="${xx + 1}" y="0" width="${Math.max(0, ww - 2)}" height="${h}" fill="${NB[t].fill}"/>`;
+            s += `
               <text x="${xx + ww / 2}" y="${h + 14}" text-anchor="middle" class="lbl">${NT[t].n}</text>`;
             xx += ww;
           });
@@ -994,7 +997,7 @@
       const item = (swh, label, n, rule, names) => `<div class="lg">${swh}<span><b>${label} · ${n}</b> <span class="nb-rule">(${rule})</span><br>${names.join(", ")}</span></div>`;
       return svgEl(W, h + 42, s) + `<div class="nb-key">${keys.slice(0, 3).map((k) => item(SWB[k], LBL[k], o[k], RULE[k], namesOf(k))).join("")}</div>
         <p class="nb-h">Neither · ${o.neither}: What They Became Instead</p>
-        <div class="nb-key">${nbKeys.map((t) => item(sw(NB[t].fill, "#8b877e", 1, "3 2"), NB[t].label, NT[t].n, NB[t].rule, NT[t].names)).join("")}</div>
+        <div class="nb-key">${nbKeys.map((t) => item(sw(NB[t].fill, NB[t].stroke || "#8b877e", NB[t].stroke ? 2 : 1, "3 2"), NB[t].label, NT[t].n, NB[t].rule, NT[t].names)).join("")}</div>
         <p class="nb-h">Today: ${S.today.n} Job Centres</p>
         <p class="mini-note">Areas with at least 10 jobs per acre and 10,000 jobs in all (the definition of Giuliano and Small’s study of Los Angeles, 1991), from the Census Bureau’s 2023 workplace counts, hold ${fmt(Math.round(S.today.jobs / 1e5) * 1e5)} of the County’s ${fmt(Math.round(S.today.county_jobs / 1e5) * 1e5)} jobs. ${S.today.planned_matched} of the 56 planned centres lie in or beside one; one continuous core now runs from Downtown to Santa Monica and takes in ${todayC.features[0].properties.planned.length} of them. ${S.today.n - S.today.with_planned} job centres grew where the plan drew none, among them ${[...new Set(S.today.unplanned)].slice(0, 8).join(", ")}.</p>
         <p class="mini-note">The plan gave each centre “a ‘core’ of about one-quarter mile radius containing a rapid transit station, high-rise office structures, department stores, hotels, theaters, restaurants and government offices”, with apartments nearby. The bar tests the two most visible of those, buildings of 150 ft and up and a rail station, within half a mile of each centre as the plan drew it (the diagram, placed without distortion); jobs and homes are counted within the same half mile.</p>`;
