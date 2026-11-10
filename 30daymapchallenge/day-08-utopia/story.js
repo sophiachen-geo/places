@@ -554,6 +554,18 @@
       reg(id, { ch: "transit", name, bounds: l.getBounds(), layer: l, maxZoom: z, labelAt: [mid[1], mid[0]] });
     });
 
+    // the Hollywood Subway, 1925 to 1955: Subway Terminal Building (417 S Hill St) to the Belmont Tunnel portal (1304 W 2nd St),
+    // both City Historic-Cultural Monuments; drawn straight between them (0.82 mi, the tunnel's recorded 4,325 ft)
+    const HS = [[34.05017, -118.25129], [34.05999, -118.25934]];
+    const hsub = L.featureGroup([
+      L.polyline(HS, { pane: "g-transit", color: "#fff", weight: 7, opacity: 0.9 }),
+      L.polyline(HS, { pane: "g-transit", color: INK, weight: 3.2, dashArray: "7 4", lineCap: "butt" }),
+      ...HS.map((ll) => L.circleMarker(ll, { pane: "g-transit", radius: 4.5, color: INK, weight: 2, fillColor: "#fff", fillOpacity: 1 })),
+    ]).bindPopup(pop("The Hollywood Subway", "Pacific Electric, 1925 to 1955", `<p>Just under a mile of tunnel beneath Bunker Hill, from the Subway Terminal Building on Hill Street to the Belmont Tunnel portal near Glendale Boulevard, where the Red Cars came up for Hollywood, Glendale and the Valley. Opened in 1925, closed in 1955; drawn here straight between its two ends, both City Historic-Cultural Monuments.</p><p><a href="https://en.wikipedia.org/wiki/Hollywood_Subway" target="_blank" rel="noopener">Read more (Wikipedia)</a></p>`));
+    yearHooks.push((Y) => { const on = Y >= 1925 && Y <= 1955; if (on !== map.hasLayer(hsub)) on ? hsub.addTo(map) : map.removeLayer(hsub); });
+    if (year >= 1925 && year <= 1955) hsub.addTo(map);
+    reg("hsubway", { ch: "transit", name: "Hollywood Subway, 1925", bounds: L.latLngBounds(HS).pad(0.35), layer: L.polyline(HS), maxZoom: 15, labelAt: [34.0551, -118.2553] });
+
     // V · Cooperative — footprints + numbered pins
     const pins = utop.features.filter((f) => !f.properties.shape);
     const shapes = Object.fromEntries(utop.features.filter((f) => f.properties.shape).map((f) => [f.properties.id, f]));
@@ -1071,7 +1083,7 @@
       for (let y = ya; y < yb; y++) s += `<rect x="${X(y)}" y="${T0}" width="${X(y + 1) - X(y)}" height="${Y(0) - T0}" fill="transparent"><title>${y}: ${at(y, 1)} miles of rail, ${at(y, 2)} of busway</title></rect>`;
       return svgEl(W, H, s) + key([[`height:0;border-top:2px solid ${LINE.transit}`, "rail"], [`height:0;border-top:2px dashed ${LINE.transit}`, "busway"],
         ["height:12px;width:0;border-left:1px dashed #a9a49a", "a transit tax passes"]]) +
-        `<p class="mini-note">Route miles of today’s network by the year each section opened, shared track counted once (LA Metro rail and bus GTFS, November 2026); lines since closed are not counted. Votes: LA Metro Research Library, Los Angeles County Mass Transit Ballot Initiative Vote History (2017), with the share each measure required: the 1980 and 1990 taxes were held exempt from Proposition 13, while those of the merged agency since 1993 need two-thirds.</p>`;
+        `<p class="mini-note">Route miles of today’s network by the year each section opened, shared track counted once (LA Metro rail and bus GTFS, November 2026); lines since closed are not counted. The marked votes are those that passed (see the chart of all nine in the text).</p>`;
     }
     const CARDS = {
       pastoral: () => `<p class="orig-link">Original map: <a href="${ORIGS.parks1930.href}" target="_blank" rel="noopener">1930 · Olmsted Brothers and Bartholomew, <i>Parks, Playgrounds and Beaches for the Los Angeles Region</i></a></p>
@@ -1098,12 +1110,17 @@
           ${tile(Math.round(T.rail_miles_2026), `miles of Metro rail in 2026, with ${T.stations_open} stations, and ${Math.round(T.busway_miles_2026)} miles of busway`)}
           ${tile(`${T.ballots.find((b) => b.measure === "Measure M").pct_yes}%`, "voted for Measure M in 2016, where a transit tax needs two-thirds")}
         </div>
-        <div class="mini"><h4>Nine Countywide Votes on Transit, 1968 to 2016</h4>${ballotBars()}</div>
         <div class="mini"><h4>Metro Route Miles Open, 1980 to 2026</h4>${milesChart()}</div>`,
       coop: () => `<p class="orig-link">Original maps: U.S. Geological Survey sheets, ${Object.entries(topoMeta).map(([id, t]) => `<a href="${ORIGS["topo:" + id].href}" target="_blank" rel="noopener">${topoName(t.file)} ${t.year}</a>`).join(", ")}</p>
         <div class="mini"><h4>The Experiments</h4>${gantt()}
           <p class="glegend"><span class="g1"></span>Community <span class="g2"></span>Buildings still standing <span class="g3"></span>Never built</p></div>`,
     };
+    // charts set in the essay itself, beside the paragraph they illustrate
+    const INLINE = {
+      ballots: () => `<h4>Nine Countywide Votes on Transit, 1968 to 2016</h4>${ballotBars()}
+        <p class="mini-note">LA Metro Research Library, Los Angeles County Mass Transit Ballot Initiative Vote History (2017), with the share each measure required: the 1980 and 1990 taxes were held exempt from Proposition 13, while those of the merged agency since 1993 need two-thirds.</p>`,
+    };
+    document.querySelectorAll("[data-inline]").forEach((el) => { el.innerHTML = INLINE[el.dataset.inline](); });
     document.querySelectorAll(".evid[data-card]").forEach((el) => {
       el.innerHTML = CARDS[el.dataset.card]();
       el.querySelectorAll("[data-orig]").forEach((b) => b.addEventListener("click", () => setOriginal(b.dataset.orig, true)));
