@@ -2,17 +2,18 @@
  * The essay scrolls; the map follows it. Each paragraph carries a step (data-s):
  *   v = view (basin | city | region | centers | pastoral | plate | sites | topo:<site> | place ids)
  *   y = year shown by the morphogenesis layer (or "play")
- *   o = original map under the swipe (parks1930 | parkways1946 | plan1974 | topo:<site> | none) — inherited within a chapter
+ *   o = original map under the swipe (transit1925 | parks1930 | parkways1946 | plan1974 | topo:<site> | none) — inherited within a chapter
  *   x = extra evidence layers (holc, zoned, aadt, bott, bh500, towers, rail)
  *   w = swipe divider position (0–1)
- * The chapter (section[data-ch]) decides which utopia is lit; the other three are dimmed. */
+ * The chapter (section[data-ch]) decides which utopia is lit; the other four are dimmed. */
 (() => {
   "use strict";
-  // four riso inks, one per utopia, and nothing else uses them; everything else is black ink on white paper
-  const COL = { pastoral: "#00a95c", autopia: "#f0a202", centers: "#3255a4", coop: "#ff48b0", all: "#111111" };
-  const LINE = { pastoral: "#007a42", autopia: "#b07600", centers: "#22397a", coop: "#d12c8a" }; // darker steps of the same inks, for strokes
-  const GROUPS = ["pastoral", "autopia", "centers", "coop"];
-  const NUM = { pastoral: "I", autopia: "II", centers: "III", coop: "IV" };
+  // five riso inks, one per utopia, and nothing else uses them; everything else is black ink on white paper
+  const COL = { pastoral: "#00a95c", autopia: "#f0a202", centers: "#3255a4", transit: "#9e2a2b", coop: "#ff48b0", all: "#111111" };
+  const LINE = { pastoral: "#007a42", autopia: "#b07600", centers: "#22397a", transit: "#7a1f20", coop: "#d12c8a" }; // darker steps of the same inks, for strokes
+  const GROUPS = ["pastoral", "autopia", "centers", "transit", "coop"];
+  const NUM = { pastoral: "I", autopia: "II", centers: "III", transit: "IV", coop: "V" };
+  const UNAME = { pastoral: "Pastoral suburb", autopia: "Autopia", centers: "Polycentric", transit: "Transit", coop: "Cooperative" };
   const INK = "#111111";
   const D0 = "";
   const Y0 = 1880, Y1 = 2026;
@@ -29,6 +30,7 @@
     [1904, "pastoral", "Residential District Ordinance", "https://en.wikipedia.org/wiki/Zoning_in_the_United_States#Los_Angeles,_1904-1909"],
     [1913, "coop", "Little Landers colony, Tujunga", "https://en.wikipedia.org/wiki/Little_Landers"],
     [1914, "coop", "Llano del Rio founded", "https://en.wikipedia.org/wiki/Llano_del_Rio"],
+    [1925, "transit", "Kelker, De Leuw rapid transit plan; Hollywood Subway opens", "https://libraryarchives.metro.net/DPGTL/trafficplans/1925_comprehensive_rapid_transit_plan_los_angeles.pdf"],
     [1930, "pastoral", "Olmsted–Bartholomew regional parks plan", "https://libraryarchives.metro.net/DPGTL/trafficplans/1930_parks_playgrounds_beaches_los_angeles_region.pdf"],
     [1940, "autopia", "Arroyo Seco Parkway, the first freeway, opens", "https://en.wikipedia.org/wiki/Arroyo_Seco_Parkway"],
     [1942, "coop", "Baldwin Hills Village completed", "https://en.wikipedia.org/wiki/Village_Green,_Los_Angeles"],
@@ -36,20 +38,24 @@
     [1946, "coop", "Crestwood Hills cooperative established", "https://en.wikipedia.org/wiki/Crestwood_Hills,_Los_Angeles"],
     [1949, "autopia", "Four Level Interchange completed", "https://en.wikipedia.org/wiki/Four_Level_Interchange"],
     [1953, "coop", "Elysian Park Heights cancelled", "https://en.wikipedia.org/wiki/Battle_of_Chavez_Ravine"],
+    [1961, "transit", "The last Red Car runs, to Long Beach", "https://en.wikipedia.org/wiki/Pacific_Electric"],
     [1962, "coop", "Dodger Stadium opens in Chávez Ravine", "https://en.wikipedia.org/wiki/Dodger_Stadium"],
     [1966, "autopia", "Santa Monica Freeway completed", "https://en.wikipedia.org/wiki/Santa_Monica_Freeway"],
     [1971, "autopia", "Banham publishes <i>Los Angeles: The Architecture of Four Ecologies</i>", "https://en.wikipedia.org/wiki/Reyner_Banham"],
     [1974, "centers", "Centers Concept adopted, 3 April", "https://libraryarchives.metro.net/dpgtl/lacity/1974-concept-los-angeles-side-1.pdf"],
-    [1990, "centers", "Blue Line: first modern rail line opens", "https://en.wikipedia.org/wiki/A_Line_(Los_Angeles_Metro)"],
+    [1980, "transit", "Proposition A: voters fund transit, at the fifth attempt", "https://libraryarchives.metro.net/DPGTL/histories/2017-History-BallotInitiatives.xls"],
+    [1990, "transit", "Blue Line: first modern rail line opens", "https://en.wikipedia.org/wiki/A_Line_(Los_Angeles_Metro)"],
     [1996, "centers", "General Plan Framework adopted", "https://planning.lacity.gov/plans-policies/framework-element"],
+    [2016, "transit", "Measure M passes with 71% of the vote", "https://en.wikipedia.org/wiki/2008_Los_Angeles_County_Measure_R"],
   ];
 
   async function init() {
-    const [S, M, SS, places, centers, towers, rail, stations, fwy, aadt, bott, holc, utop, topoMeta, cities, fwy500, chartPlaces, todayC] = await Promise.all([
+    const [S, M, SS, places, centers, towers, rail, stations, fwy, aadt, bott, holc, utop, topoMeta, cities, fwy500, chartPlaces, todayC, metro] = await Promise.all([
       J("data/stats.json"), J("data/morph.json"), J("data/story_stats.json"), J("data/story_places.geojson"),
       J("data/centers.geojson"), J("data/towers.geojson"), J("data/rail.geojson"), J("data/stations.geojson"),
       J("data/freeways.geojson"), J("data/aadt.geojson"), J("data/bottlenecks.geojson"), J("data/holc.geojson"),
       J("data/utopias.geojson"), J("img/topo_meta.json"), J("data/cities.geojson"), J("data/fwy500.geojson"), J("data/chart_places.geojson"), J("data/today_centres.geojson"),
+      J("data/metro_lines.geojson"),
     ]);
     const mobile = window.matchMedia("(max-width: 900px)");
 
@@ -196,6 +202,7 @@
     new ResizeObserver(buildHist).observe(tEl);
 
     let frame = 0;
+    const yearHooks = [];   // layers that follow the year (the Metro network)
     function setYear(y) {
       year = Math.max(Y0, Math.min(Y1, Math.round(y)));
       if (frame) return;
@@ -205,6 +212,7 @@
         const p = cum[year] * 100;
         tShare.textContent = `${p < 1 ? p.toFixed(1) : Math.round(p)}% of today’s buildings stood`;
         tEl.setAttribute("aria-valuenow", year); tEl.setAttribute("aria-valuetext", `${year}: ${tShare.textContent}`);
+        yearHooks.forEach((f) => f(year));
         if (window.__d8year) window.__d8year(year);
       });
     }
@@ -252,13 +260,16 @@
     /* ======================= original maps + swipe ======================= */
     const topoName = (f) => f.split("_").slice(1).filter((s) => !/^\d+$/.test(s) && !s.includes(".")).join(" ");
     const ORIGS = {
-      parks1930: { url: "tiles/parks1930/{z}/{x}/{y}.webp", maxN: 12, bounds: [[33.62, -118.98], [34.62, -117.42]], tag: "1930 Plan",
+      transit1925: { url: "tiles/transit1925/{z}/{x}/{y}.webp", maxN: 13, bounds: [[33.66, -118.69], [34.37, -117.61]], tag: "1925 Plan",
+        cap: "Kelker, De Leuw &amp; Co., 1925", href: "https://libraryarchives.metro.net/DPGTL/trafficplans/1925_comprehensive_rapid_transit_plan_los_angeles.pdf",
+        win: [[33.72, -118.66], [34.30, -117.80]] },
+      parks1930: { url: "tiles/parks1930/{z}/{x}/{y}.webp", maxN: 12, bounds: [[33.73, -118.73], [34.45, -117.52]], tag: "1930 Plan",
         cap: "Olmsted Brothers &amp; Bartholomew, 1930", href: "https://libraryarchives.metro.net/DPGTL/trafficplans/1930_parks_playgrounds_beaches_los_angeles_region.pdf",
         win: [[33.80, -118.81], [34.45, -117.60]] },
-      parkways1946: { url: "tiles/parkways1946/{z}/{x}/{y}.webp", maxN: 12, bounds: [[33.52, -119.12], [34.60, -117.48]], tag: "1946 Plan",
+      parkways1946: { url: "tiles/parkways1946/{z}/{x}/{y}.webp", maxN: 12, bounds: [[33.66, -118.99], [34.37, -117.61]], tag: "1946 Plan",
         cap: "Los Angeles County Regional Planning Commission, 1946", href: "https://libraryarchives.metro.net/DPGTL/trafficplans/1946_interregional_regional_metropolitan_parkways.pdf",
         win: [[33.70, -118.95], [34.42, -117.65]] },
-      plan1974: { url: "tiles/plan1974/{z}/{x}/{y}.webp", maxN: 14, bounds: [[33.64, -118.78], [34.39, -118.02]], tag: "1974 Plan",
+      plan1974: { url: "tiles/plan1974/{z}/{x}/{y}.webp", maxN: 14, bounds: [[33.67, -118.76], [34.36, -118.04]], tag: "1974 Plan",
         cap: "City of Los Angeles, Concept Los Angeles, 1974", href: "https://libraryarchives.metro.net/dpgtl/lacity/1974-concept-los-angeles-side-1.pdf",
         win: [[33.70, -118.70], [34.34, -118.06]] },
     };
@@ -278,6 +289,8 @@
       .map(([k, v]) => `<option value="sheet:${k}">${v.year} · ${v.names.join(" and ")}</option>`).join("");
     // each original map's own printed legend (colours sampled from the scans)
     const OLEG = {
+      transit1925: [["band", "#211916", "Rapid transit, existing"], ["band", "#d8775e", "Rapid transit for immediate construction"], ["bandd", "#d8775e", "Rapid transit for future construction"],
+        ["bando", "#d8775e", "Future separation of grades"], ["tdash", "#c88845", "Los Angeles Railway (streetcars)"], ["line", "#ba7c3b", "Pacific Electric Railway (Red Cars)"]],
       parks1930: [["fill", "#659257", "Existing parks"], ["fill", "#ea7669", "Proposed parks, parkways and beaches"], ["line", "#4a4a4a", "Roads, railways and terrain (base map)"]],
       parkways1946: [["line", "#c25843", "U.S. interregional system"], ["dash", "#c25843", "State regional system"], ["dot", "#c25843", "Metropolitan parkway system"], ["thin", "#8c8c8c", "Existing roads (base map)"]],
       plan1974: [["disc", "#f40509", "Centers"], ["node", "#4e462a", "Node or satellite"], ["fillb", "#ffffff", "Suburban residential area"], ["fill", "#dbd6a7", "Industrial district"],
@@ -302,6 +315,10 @@
         dotf: `<circle cx="11" cy="6" r="4.6" fill="${c}" stroke="#fff" stroke-width="1"/>`,
         pin: `<rect x="5" y="0.5" width="11" height="11" fill="${c}" stroke="#111" stroke-width="1.2"/>`,
         sq: `<rect x="7" y="2" width="8" height="8" fill="${c}"/>`,
+        band: `<rect x="1" y="3" width="20" height="6" fill="${c}"/>`,
+        bandd: `<rect x="1" y="3" width="8" height="6" fill="${c}"/><rect x="13" y="3" width="8" height="6" fill="${c}"/>`,
+        bando: `<rect x="1" y="3" width="6" height="6" fill="${c}"/><circle cx="11" cy="6" r="2.6" fill="${c}"/><rect x="15" y="3" width="6" height="6" fill="${c}"/>`,
+        tdash: L_('stroke-width="1.6" stroke-dasharray="3 2.4"'),
       }[t];
       return `<svg viewBox="0 0 22 12" aria-hidden="true">${body}</svg>`;
     };
@@ -500,14 +517,44 @@
     const towerLayer = L.layerGroup(towers.features.map((f) => { const p = f.properties, [lng, lat] = f.geometry.coordinates;
       return L.circleMarker([lat, lng], { pane: "g-centers", renderer: cv.centers, radius: 1.6 + (p.h || p.st * 12.5) / 450, stroke: false, fillColor: INK, fillOpacity: 0.85 })
         .bindTooltip(p.h ? `${fmt(p.h)} ft` : `${p.st} storeys`, { direction: "top" }); }));
+    const openStations = new Set(stations.features.filter((f) => f.properties.k === "open").map((f) => f.properties.name));
     const railLayer = L.layerGroup([
       L.geoJSON(rail, { pane: "g-centers", interactive: false, style: { color: INK, weight: 2.4, opacity: 0.85 } }),
-      L.geoJSON(stations, { pane: "g-centers", filter: (f) => f.properties.k === "open" || f.properties.k === "uc",
+      L.geoJSON(stations, { pane: "g-centers", filter: (f) => f.properties.k === "open" || (f.properties.k === "uc" && !openStations.has(f.properties.name)),
         pointToLayer: (f, ll) => L.circleMarker(ll, { pane: "g-centers", radius: f.properties.k === "uc" ? 4 : 2.8, color: INK, weight: 1.3, dashArray: f.properties.k === "uc" ? "2 2" : null, fillColor: f.properties.k === "uc" ? "#fbeede" : "#fff", fillOpacity: 1 }),
         onEachFeature: (f, l) => l.bindTooltip(`${f.properties.name}${f.properties.k === "uc" ? ` — under construction (${f.properties.line})` : ""}`, { direction: "top" }) }),
     ]);
 
-    // IV · Cooperative — footprints + numbered pins
+    // IV · Transit — today's Metro, section by section as it opened (rail solid, busway dashed), and its stations
+    const LN = { A: "A Line (Blue, then Gold)", B: "B Line (Red)", C: "C Line (Green)", D: "D Line (Purple)", E: "E Line (Expo, then Gold)", K: "K Line (Crenshaw)", G: "G Line busway (Orange)", J: "J Line busway (Silver)" };
+    const metroLayer = L.layerGroup().addTo(map);
+    const metroItems = metro.features.map((f) => {
+      const p = f.properties;
+      const l = p.kind === "station"
+        ? L.circleMarker([f.geometry.coordinates[1], f.geometry.coordinates[0]], { pane: "g-transit", radius: 2.6, color: LINE.transit, weight: 1.3, fillColor: "#fff", fillOpacity: 1 })
+            .bindTooltip(`${p.name} · ${p.year}`, { direction: "top" })
+        : L.geoJSON(f, { pane: "g-transit", style: p.kind === "bus" ? { color: LINE.transit, weight: 2.2, opacity: 0.95, dashArray: "5 4" } : { color: LINE.transit, weight: 3, opacity: 0.95 } })
+            .bindPopup(pop(LN[p.line] || p.line + " Line", "The Transit Metropolis", `<p>This section opened in <b>${p.year}</b>${p.kind === "bus" ? " as a busway" : ""}.</p>`));
+      return [p.year, p.kind === "station", l];
+    });
+    let metroY = null;
+    const metroYear = (Y) => {
+      if (Y === metroY) return; metroY = Y;
+      metroItems.forEach(([y, st, l]) => { const on = y <= Y; if (on !== metroLayer.hasLayer(l)) { if (on) { metroLayer.addLayer(l); if (st) l.bringToFront(); } else metroLayer.removeLayer(l); } });
+    };
+    yearHooks.push(metroYear); metroYear(year);
+    // sections named in the text: outlined on click, never drawn twice
+    [["blueline", "Blue Line, 1990", (p) => p.line === "A" && p.year <= 1991, 11.5], ["redline", "Red Line, 1993", (p) => p.line === "B" && p.year === 1993, 14],
+     ["expo", "Expo Line to Santa Monica, 2016", (p) => p.line === "E" && p.year === 2016, 12.5], ["connector", "Regional Connector, 2023", (p) => p.line === "A" && p.year === 2023, 15],
+     ["pomona", "A Line to Pomona, 2025", (p) => p.line === "A" && p.year === 2025, 12.5], ["dline", "D Line to La Cienega, 2026", (p) => p.line === "D" && p.year === 2026, 14]].forEach(([id, name, test, z]) => {
+      const fs = metro.features.filter((f) => f.properties.kind !== "station" && test(f.properties));
+      const l = L.geoJSON({ type: "FeatureCollection", features: fs });
+      const cs = fs.map((f) => (f.geometry.type === "LineString" ? f.geometry.coordinates : f.geometry.coordinates.flat())).reduce((a, b) => (b.length > a.length ? b : a));
+      const mid = cs[Math.floor(cs.length / 2)];
+      reg(id, { ch: "transit", name, bounds: l.getBounds(), layer: l, maxZoom: z, labelAt: [mid[1], mid[0]] });
+    });
+
+    // V · Cooperative — footprints + numbered pins
     const pins = utop.features.filter((f) => !f.properties.shape);
     const shapes = Object.fromEntries(utop.features.filter((f) => f.properties.shape).map((f) => [f.properties.id, f]));
     const coopLayer = L.featureGroup();
@@ -655,7 +702,7 @@
     }
     L.DomEvent.disableClickPropagation(keyEl); L.DomEvent.disableScrollPropagation(keyEl);
     function updateKey() {
-      const RN = { pastoral: ["I", "Pastoral"], autopia: ["II", "Autopia"], centers: ["III", "Polycentric"], coop: ["IV", "Cooperative"] };
+      const RN = Object.fromEntries(GROUPS.map((g) => [g, [NUM[g], { pastoral: "Pastoral", autopia: "Autopia", centers: "Polycentric", transit: "Transit", coop: "Cooperative" }[g]]]));
       let h = `<button type="button" class="panel-t" aria-expanded="${!keyClosed}"><span class="panel-h">Now <b>Today’s Map</b></span><span class="chev" aria-hidden="true"></span></button>
         <div class="panel-b"><div class="k-base" role="group" aria-label="Base map">${[["map", "Map"], ["sat", "Satellite"]].map(([k, t]) => `<button type="button" data-base="${k}" class="${baseKind === k ? "on" : ""}" aria-pressed="${baseKind === k}">${t}</button>`).join("")}</div><div class="k-u">${GROUPS.map((g) => `<a href="#${g}" class="${focus === g ? "on" : focus === "all" ? "all" : ""}" style="--c:${COL[g]}" title="${RN[g][1]}"><i></i>${RN[g][0]}${focus === g ? ` ${RN[g][1]}` : ""}</a>`).join("")}</div>
         <h5>Year on the Map</h5><p class="k-year" id="k-year"></p><div id="k-yrrows"></div>`;
@@ -675,8 +722,10 @@
           `<h5>Job Centres Today</h5>` + lgRow("fill", COL.centers + "33", `10+ jobs per acre, 10,000+ jobs · ${S.today.n}`);
         if (extras.includes("towers")) h += lgRow("sq", INK, "Tall buildings (150 ft and up)");
         if (extras.includes("rail")) h += lgRow("line", INK, "Metro rail");
+      } else if (g === "transit") {
+        h += `<h5>IV · The Transit Metropolis</h5>` + lgRow("line", LINE.transit, "Metro rail, as open in the year on the map") + lgRow("dash", LINE.transit, "Metro busway") + lgRow("ring", LINE.transit, "Rail station");
       } else if (g === "coop") {
-        h += `<h5>IV · Cooperative Experiments</h5>` + lgRow("pin", COL.coop, "Experiment sites (numbered)") + lgRow("fill", COL.coop + "55", "Site outlines");
+        h += `<h5>V · Cooperative Experiments</h5>` + lgRow("pin", COL.coop, "Experiment sites (numbered)") + lgRow("fill", COL.coop + "55", "Site outlines");
       }
       if (extras.includes("holc")) h += `<h5>1939 Mortgage-Risk Grades</h5>` + ["A", "B", "C", "D"].map((k) => lgRow("fill", `rgba(17,17,17,${HOLC_OP[k] + 0.04})`,
         `${k} · “${{ A: "Best", B: "Still desirable", C: "Declining", D: "Hazardous" }[k]}”`)).join("");
@@ -805,12 +854,12 @@
       : p.name.toLowerCase().replace(/(^|[\s-])\w/g, (c) => c.toUpperCase()).replace(/ - /g, " – "));
     // two measures per place, each on its own scale: the chapter's measure (filled bar) and median household income (outlined bar)
     const money = (v) => (v == null ? "n/a" : v >= 200000 ? "$200k+" : "$" + Math.round(v / 1000) + "k");
-    function twoBars({ rows, refs, head1, fmt1, max1, cap1, ch, gapAfter }) {
-      const W = cardW(), narrow = W < 420, LW = narrow ? 128 : 178, RH = 30, GAP = 14, imax = 200000;
+    function twoBars({ rows, refs, head1, fmt1, max1, cap1, ch, gapAfter, head2 = "Median household income", fmt2 = money, max2 = 200000 }) {
+      const W = cardW(), narrow = W < 420, LW = narrow ? 128 : 178, RH = 30, GAP = 14, imax = max2;
       const pw = (W - LW - GAP) * 0.5, X1 = LW, X2 = LW + pw + GAP, bw = pw - (narrow ? 34 : 40);
       const PX = (v) => X1 + Math.min(v, cap1 || max1) / max1 * bw, IX = (v) => X2 + Math.min(v, imax) / imax * bw;
       let s = `<text x="${X1}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">${head1}</text>
-        <text x="${X2}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">Median household income</text>`;
+        <text x="${X2}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">${head2}</text>`;
       const T0 = 18;
       const row = ({ n, k, v, inc, hi, id }, y) => {
         y += T0;
@@ -820,7 +869,7 @@
         if (cap1 && v > cap1) s += `<path d="M${PX(v) - 12} ${y + 1}l-5 20M${PX(v) - 7} ${y + 1}l-5 20" stroke="#fff" stroke-width="2.5"/>`;   // broken bar: off the scale
         s += `<text x="${PX(v) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${fmt1(v)}</text>
           <rect x="${X2}" y="${y + 3}" width="${Math.max(1, IX(inc || 0) - X2)}" height="16" rx="3" fill="#fff" stroke="#6f6b63" stroke-width="1.4"/>
-          <text x="${IX(inc || 0) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${money(inc)}</text>`;
+          <text x="${IX(inc || 0) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${fmt2(inc)}</text>`;
         if (id) s += `</g>`;
       };
       rows.forEach((r, i) => row(r, i * RH + (gapAfter && i >= gapAfter ? 10 : 0)));
@@ -832,24 +881,65 @@
     }
     const INCOME_NOTE = "Median household income: U.S. Census Bureau, American Community Survey 2020–2024 (5-year estimates); a city’s or community’s own published median where the Bureau publishes one, otherwise its census tracts pooled; the top bracket is $200,000 or more.";
     function parkBars() {
-      const PK = SS.parks, la = PK.la, pick = la.slice(0, 6).concat(la.slice(-4));
-      const sub = { Wilshire: "with Hancock Park, Windsor Square" };
-      const rows = pick.map((p) => ({ n: placeName({ kind: "la", name: p.name }), k: sub[p.name] || "City of Los Angeles plan area",
-        v: p.per_1000_homes, inc: p.median_income, hi: p.name === "Wilshire", id: "la:" + p.name }));
-      rows.between = `… ${la.length - 10} plan areas in between …`;
-      const refs = [{ n: "City of Los Angeles", k: "the whole city, for comparison", v: PK.city.per_1000_homes, inc: PK.city.median_income },
-                    { n: "Los Angeles County", k: "the whole county, for comparison", v: PK.county.per_1000_homes, inc: PK.county.median_income }];
-      return twoBars({ rows, refs, head1: "Park acres per 1,000 homes", fmt1: (v) => (v < 10 ? v.toFixed(1) : Math.round(v).toLocaleString("en-US")),
-                       max1: 50, cap1: 50, ch: "pastoral", gapAfter: 6 }) +
-        `<p class="mini-note">Click a plan area to see it on the map. The City of Los Angeles’s 35 community plan areas: the six with the least public park land and the four with the most (park bars beyond 50 acres are cut). Public park: open-access land in the California Protected Areas Database (GreenInfo Network, current release), federal forest excluded; homes on the 2026 Assessor roll. ${INCOME_NOTE}</p>`;
+      const PK = SS.parks, all = PK.la.slice();
+      const short = (n) => ({ "Arleta - Pacoima": "Arleta – Pacoima", "Bel Air - Beverly Crest": "Bel Air", "Brentwood - Pacific Palisades": "Brentwood" }[n] || n.split(" - ")[0]
+        .replace("Southeast Los Angeles", "Southeast LA").replace("South Los Angeles", "South LA").replace("Northeast Los Angeles", "Northeast LA").replace("West Los Angeles", "West LA"));
+      const poorest = new Set(all.slice().sort((a, b) => a.median_income - b.median_income).slice(0, 10).map((d) => d.name));
+      const tone = (n) => (n === "Wilshire" ? COL.pastoral : poorest.has(n) ? "#3b3934" : "#c9c3b6");
+      const byPark = all.slice().sort((a, b) => b.per_1000_homes - a.per_1000_homes), byInc = all.slice().sort((a, b) => b.median_income - a.median_income);
+      const pick = (L) => L.slice(0, 10).concat([null], L.slice(-10));
+      const W = cardW(), narrow = W < 420, G = narrow ? 18 : 30, Lw = (W - G) / 2, NW = narrow ? 70 : 92, RH = 17, T0 = 30, BH = 11;
+      const BW = Lw - NW - 6 - (narrow ? 36 : 44), cap = 150;
+      const PX = (v) => Math.max(2, Math.min(v, cap) / cap * BW), IX = (v) => Math.max(2, Math.min(v, 200000) / 200000 * BW);
+      const f1 = (v) => (v < 10 ? v.toFixed(1) : Math.round(v).toLocaleString("en-US"));
+      const rowY = (i) => T0 + i * RH + (i > 10 ? 4 : 0);
+      let s = `<text x="0" y="10" style="font-size:9.5px;font-weight:600;fill:#111">Park acres per 1,000 homes</text>
+        <text x="${Lw + G}" y="10" style="font-size:9.5px;font-weight:600;fill:#111">Median household income</text>
+        <text x="0" y="22" style="font-size:9px;fill:#6b6b6b">most to least</text><text x="${Lw + G}" y="22" style="font-size:9px;fill:#6b6b6b">highest to lowest</text>`;
+      const left = pick(byPark), right = pick(byInc), yL = {}, yR = {};
+      left.forEach((d, i) => { if (d) yL[d.name] = rowY(i) + RH / 2; });
+      right.forEach((d, i) => { if (d) yR[d.name] = rowY(i) + RH / 2; });
+      // lines first, under the rows: a plan area on both sides
+      Object.keys(yL).filter((n) => n in yR).sort((a, b) => (tone(a) === "#c9c3b6") - (tone(b) === "#c9c3b6")).reverse().forEach((n) => {
+        const c = tone(n) === "#c9c3b6" ? "#b9b4a9" : tone(n);
+        s += `<line x1="${Lw - 2}" y1="${yL[n]}" x2="${Lw + G + 2}" y2="${yR[n]}" stroke="${c}" stroke-width="${n === "Wilshire" ? 2.4 : c === "#b9b4a9" ? 1 : 1.8}"/>`;
+      });
+      const side = (L, x0, val, fmt, broken) => L.forEach((d, i) => {
+        const y = rowY(i);
+        if (!d) { s += `<text x="${x0 + NW + 6}" y="${y + 11}" style="font-size:9px;fill:#6b6b6b">… 14 plan areas between …</text>`; return; }
+        const n = short(d.name), w = val(d), hi = d.name === "Wilshire" || poorest.has(d.name);
+        s += `<g class="row" data-area="la:${d.name}" data-name="${n}" data-ch="pastoral" tabindex="0" role="button" aria-label="Show ${n} on the map"><rect class="hit" x="${x0}" y="${y}" width="${Lw}" height="${RH - 1}" fill="transparent"/>
+          <text x="${x0 + NW}" y="${y + 12}" text-anchor="end" style="font-size:9.5px;fill:#111;font-weight:${hi ? 600 : 400}">${n}</text>
+          <rect x="${x0 + NW + 6}" y="${y + 3}" width="${w}" height="${BH}" fill="${tone(d.name)}"/>`;
+        if (broken && broken(d)) s += `<path d="M${x0 + NW + 6 + w - 12} ${y + 1}l-4 15M${x0 + NW + 6 + w - 8} ${y + 1}l-4 15" stroke="#fff" stroke-width="2"/>`;
+        s += `<text x="${x0 + NW + 6 + w + 4}" y="${y + 12}" style="font-size:9.5px;font-weight:600;fill:#111">${fmt(d)}</text></g>`;
+      });
+      side(left, 0, (d) => PX(d.per_1000_homes), (d) => f1(d.per_1000_homes), (d) => d.per_1000_homes > cap);
+      side(right, Lw + G, (d) => IX(d.median_income), (d) => money(d.median_income));
+      const y0 = rowY(21) + 10;
+      s += `<line x1="0" x2="${W}" y1="${y0 - 5}" y2="${y0 - 5}" stroke="#d6d6d6"/>`;
+      [["City of Los Angeles", PK.city], ["Los Angeles County", PK.county]].forEach(([n, d], k) => {
+        const y = y0 + k * RH, nm = narrow ? n.replace("City of Los Angeles", "City of LA").replace("Los Angeles County", "LA County") : n;
+        s += `<text x="${NW}" y="${y + 12}" text-anchor="end" style="font-size:9.5px;font-weight:600;fill:#111">${nm}</text>
+          <rect x="${NW + 6}" y="${y + 3}" width="${PX(d.per_1000_homes)}" height="${BH}" fill="#fff" stroke="#6f6b63" stroke-width="1.2"/>
+          <text x="${NW + 6 + PX(d.per_1000_homes) + 4}" y="${y + 12}" style="font-size:9.5px;font-weight:600;fill:#111">${f1(d.per_1000_homes)}</text>
+          <text x="${Lw + G + NW}" y="${y + 12}" text-anchor="end" style="font-size:9.5px;font-weight:600;fill:#111">${nm}</text>
+          <rect x="${Lw + G + NW + 6}" y="${y + 3}" width="${IX(d.median_income)}" height="${BH}" fill="#fff" stroke="#6f6b63" stroke-width="1.2"/>
+          <text x="${Lw + G + NW + 6 + IX(d.median_income) + 4}" y="${y + 12}" style="font-size:9.5px;font-weight:600;fill:#111">${money(d.median_income)}</text>`;
+      });
+      const key = `<div class="rank-key"><span><i style="background:#3b3934"></i>the ten lowest-income plan areas</span><span><i style="background:${COL.pastoral}"></i>Wilshire, with Hancock Park and Windsor Square</span><span><i style="background:#c9c3b6"></i>the others</span><span><i style="background:#fff;border:1.2px solid #6f6b63"></i>City and County, for comparison</span></div>`;
+      return svgEl(W, y0 + 2 * RH + 2, s) + key +
+        `<p class="mini-note">Click a plan area to see it on the map. The City of Los Angeles’s ${all.length} community plan areas with at least 5,000 homes: the ten with the most and the ten with the least of each, bars to scale (park bars beyond ${cap} acres are cut); a line joins a plan area that appears on both sides. Public park: open-access land in the California Protected Areas Database (GreenInfo Network, current release), federal forest excluded; homes on the 2026 Assessor roll. ${INCOME_NOTE}</p>`;
     }
     function proxBars() {
-      const rows = B.places.slice(0, 10).map((p) => ({ n: placeName(p), k: KIND[p.kind], v: p.within_500ft_pct, inc: p.median_income,
+      const rows = B.places.slice(0, 10).map((p) => ({ n: placeName(p), k: KIND[p.kind], v: p.within_500ft_pct, inc: p.transit_pct,
         hi: p.name === "Boyle Heights", id: (p.kind === "la" ? "la:" : "cc:") + p.name }));
-      const refs = [{ n: "City of Los Angeles", k: "the whole city, for comparison", v: B.city.within_500ft_pct, inc: B.city.median_income },
-                    { n: "Los Angeles County", k: "the whole county, for comparison", v: B.county.within_500ft_pct, inc: B.county.median_income }];
-      return twoBars({ rows, refs, head1: "Homes within 500 ft of a freeway", fmt1: (v) => Math.round(v) + "%", max1: Math.ceil(rows[0].v / 5) * 5, ch: "autopia" }) +
-        `<p class="mini-note">Click a place to see it on the map. Ranked among the ${B.places.length} places with at least 5,000 homes: the City of Los Angeles’s 35 community plan areas, the County’s other cities and its unincorporated communities. Homes on the 2026 Assessor roll; freeways from Caltrans. ${INCOME_NOTE}</p>`;
+      const refs = [{ n: "City of Los Angeles", k: "the whole city, for comparison", v: B.city.within_500ft_pct, inc: B.city.transit_pct },
+                    { n: "Los Angeles County", k: "the whole county, for comparison", v: B.county.within_500ft_pct, inc: B.county.transit_pct }];
+      const tmax = Math.ceil(Math.max(...rows.map((r) => r.inc || 0), B.city.transit_pct) / 5) * 5;
+      return twoBars({ rows, refs, head1: "Homes within 500 ft of a freeway", fmt1: (v) => Math.round(v) + "%", max1: Math.ceil(rows[0].v / 5) * 5, ch: "autopia",
+                       head2: "Commute by transit", fmt2: (v) => (v == null ? "n/a" : v.toFixed(1) + "%"), max2: tmax }) +
+        `<p class="mini-note">Click a place to see it on the map. Ranked among the ${B.places.length} places with at least 5,000 homes: the City of Los Angeles’s ${B.places.filter((p) => p.kind === "la").length} community plan areas, the County’s other cities and its unincorporated communities. Homes on the 2026 Assessor roll; freeways from Caltrans. Commuting by transit: workers 16 and over who get to work by public transportation (taxis excluded), U.S. Census Bureau, American Community Survey 2020–2024; a city’s or community’s own published figure where the Bureau publishes one, otherwise its census tracts pooled.</p>`;
     }
     function outcomeBar() {
       const o = C.outcomes_half_mile, keys = ["realised", "towers", "rail", "neither"], W = cardW(), h = 22;
@@ -911,13 +1001,60 @@
       });
       return svgEl(W, SPANS.length * RH + 22, s);
     }
+    // IV · the votes that paid for the network, and the miles they bought
+    const T = SS.transit;
+    const BDESC = { "1968 Measure A": "Bonds for 62 miles of rapid transit", "1974 Proposition A": "One-cent sales tax", "1976 Measure R": "Half-cent sales tax to build 232 miles of rail",
+      "1976 Measure T": "Half-cent sales tax to run the system", "1980 Proposition A": "Half-cent sales tax, no end date", "1990 Proposition C": "A second half-cent, no end date",
+      "2008 Measure R": "Half-cent sales tax for 30 years", "2012 Measure J": "Extending Measure R’s tax by 30 years", "2016 Measure M": "A further half-cent; Measure R’s tax made permanent" };
+    const key = (items) => `<div class="rank-key">${items.map(([st, t]) => `<span><i style="${st}"></i>${t}</span>`).join("")}</div>`;
+    function ballotBars() {
+      const W = cardW(), narrow = W < 420, LW = narrow ? 122 : 132, RH = 34, T0 = 16, max = 80, n = T.ballots.length;
+      const bw = W - LW - (narrow ? 84 : 96), X = (v) => LW + v / max * bw;
+      let s = `<text x="${LW}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">Share voting yes</text>`;
+      [0, 25, 50, 75].forEach((v) => { s += `<line x1="${X(v)}" x2="${X(v)}" y1="${T0}" y2="${T0 + n * RH - 8}" stroke="#ececec"/>
+        <text x="${X(v)}" y="${T0 + n * RH + 9}" text-anchor="middle" style="font-size:9px;fill:#6b6b6b">${v}%</text>`; });
+      T.ballots.forEach((b, i) => {
+        const y = T0 + i * RH, d = BDESC[`${b.year} ${b.measure}`] || "", end = X(Math.max(b.pct_yes, b.pct_needed));
+        s += `<g><title>${b.year} ${b.measure}: ${b.pct_yes.toFixed(1)}% yes, ${b.pct_needed}% needed, ${b.passed ? "passed" : "failed"}</title>
+          <text class="lbl" x="0" y="${y + 12}">${b.year} · ${b.measure.replace("Proposition", "Prop.")}</text>
+          <rect x="${LW}" y="${y + 2}" width="${X(b.pct_yes) - LW}" height="14" fill="${b.passed ? COL.transit : "#fff"}" stroke="${LINE.transit}" stroke-width="${b.passed ? 0 : 1.4}"/>
+          <line x1="${X(b.pct_needed)}" x2="${X(b.pct_needed)}" y1="${y - 1}" y2="${y + 19}" stroke="${INK}" stroke-width="1.8"/>
+          <text x="${end + 5}" y="${y + 13}" style="font-weight:600;fill:#111">${b.pct_yes.toFixed(1)}%<tspan style="font-weight:400;fill:#6b6b6b"> ${b.passed ? "passed" : "failed"}</tspan></text>
+          <text x="0" y="${y + 26}" style="font-size:9.5px;fill:#6b6b6b">${d}</text></g>`;
+      });
+      return svgEl(W, T0 + n * RH + 13, s) + key([[`background:${COL.transit}`, "passed"], [`background:#fff;border:1.4px solid ${LINE.transit}`, "failed"],
+        [`width:2px;height:12px;background:${INK}`, "share required: a majority until 1990, two-thirds since"]]);
+    }
+    function milesChart() {
+      const W = cardW(), narrow = W < 420, H = 160, L0 = 38, R0 = narrow ? 46 : 78, T0 = 22, B0 = 20, ya = 1980, yb = 2027, vmax = 140, MB = T.miles_by_year;
+      const X = (y) => L0 + (y - ya) / (yb - ya) * (W - L0 - R0), Y = (v) => T0 + (1 - v / vmax) * (H - T0 - B0);
+      const at = (y, k) => MB.reduce((v, r) => (r[0] <= y ? r[k] : v), 0);
+      const path = (k) => { let d = `M${X(ya)} ${Y(0)}`, prev = 0; for (let y = ya; y < yb; y++) { const v = at(y, k); if (v !== prev) { d += `H${X(y)}V${Y(v)}`; prev = v; } } return d + `H${X(yb)}`; };
+      let s = "";
+      [50, 100].forEach((v) => { s += `<line x1="${L0}" x2="${X(yb)}" y1="${Y(v)}" y2="${Y(v)}" stroke="#ececec"/><text x="${L0 - 4}" y="${Y(v) + 3}" text-anchor="end" style="font-size:9px;fill:#6b6b6b">${v}${v === 100 ? " mi" : ""}</text>`; });
+      [[1980, "Prop. A", "A"], [1990, "Prop. C", "C"], [2008, "Measure R", "R"], [2016, "Measure M", "M"]].forEach(([y, t, sh]) => {
+        s += `<line x1="${X(y)}" x2="${X(y)}" y1="${T0 - 6}" y2="${Y(0)}" stroke="#a9a49a" stroke-dasharray="2 2"/>
+          <text x="${X(y) + 3}" y="${T0 - 9}" style="font-size:9px;fill:#6b6b6b">${narrow ? sh : t}</text>`; });
+      s += `<path d="${path(1)}V${Y(0)}Z" fill="${COL.transit}" fill-opacity="0.14"/>
+        <path d="${path(1)}" fill="none" stroke="${LINE.transit}" stroke-width="2"/>
+        <path d="${path(2)}" fill="none" stroke="${LINE.transit}" stroke-width="2" stroke-dasharray="5 3"/>
+        <line x1="${L0}" x2="${X(yb)}" y1="${Y(0)}" y2="${Y(0)}" stroke="${INK}"/>`;
+      [1980, 1990, 2000, 2010, 2020].forEach((y) => { s += `<text x="${X(y)}" y="${H - 6}" text-anchor="middle" style="font-size:9px;fill:#6b6b6b">${y}</text>`; });
+      const r1 = at(2026, 1), r2 = at(2026, 2);
+      s += `<text x="${X(yb) + 5}" y="${Y(r1) + 4}" style="font-weight:600;fill:#111">${Math.round(r1)} mi${narrow ? "" : " rail"}</text>
+        <text x="${X(yb) + 5}" y="${Y(r2) + 4}" style="font-weight:600;fill:#111">${Math.round(r2)} mi${narrow ? "" : " busway"}</text>`;
+      for (let y = ya; y < yb; y++) s += `<rect x="${X(y)}" y="${T0}" width="${X(y + 1) - X(y)}" height="${Y(0) - T0}" fill="transparent"><title>${y}: ${at(y, 1)} miles of rail, ${at(y, 2)} of busway</title></rect>`;
+      return svgEl(W, H, s) + key([[`height:0;border-top:2px solid ${LINE.transit}`, "rail"], [`height:0;border-top:2px dashed ${LINE.transit}`, "busway"],
+        ["height:12px;width:0;border-left:1px dashed #a9a49a", "a transit tax passes"]]) +
+        `<p class="mini-note">Route miles of today’s network by the year each section opened, shared track counted once (LA Metro rail and bus GTFS, November 2026); lines since closed are not counted. Votes: LA Metro Research Library, Los Angeles County Mass Transit Ballot Initiative Vote History (2017), with the share each measure required: the 1980 and 1990 taxes were held exempt from Proposition 13, while those of the merged agency since 1993 need two-thirds.</p>`;
+    }
     const CARDS = {
       pastoral: () => `<p class="orig-link">Original map: <a href="${ORIGS.parks1930.href}" target="_blank" rel="noopener">1930 · Olmsted Brothers and Bartholomew, <i>Parks, Playgrounds and Beaches for the Los Angeles Region</i></a></p>
         <div class="tiles">
           ${tile(`${Math.round(G.sf_share_of_residential_zoned_land)}%`, "of the City’s residential land is zoned for detached houses")}
           ${tile(`${Math.round(G.sfr_share_of_all_units)}%`, "of its homes are detached houses")}
         </div>
-        <div class="mini"><h4>Public Park and Household Income, by Plan Area</h4>${parkBars()}</div>`,
+        <div class="mini"><h4>Public Park and Household Income, Ranked</h4>${parkBars()}</div>`,
       autopia: () => `<p class="orig-link">Original map: <a href="${ORIGS.parkways1946.href}" target="_blank" rel="noopener">1946 · County Regional Planning Commission, <i>Interregional, Regional and Metropolitan Parkways</i></a></p>
         <div class="tiles">
           ${tile(fmt(S.aadt.max.v), "vehicles a day on the Santa Monica Freeway")}
@@ -930,6 +1067,13 @@
           ${tile(`${Math.round(C.city_towers_in_half / C.city_towers * 100)}%`, "of the City’s tall buildings stand in the planned centres")}
         </div>
         <div class="mini"><h4>What the 56 Planned Centres Became</h4>${outcomeBar()}</div>`,
+      transit: () => `<p class="orig-link">Original map: <a href="${ORIGS.transit1925.href}" target="_blank" rel="noopener">1925 · Kelker, De Leuw &amp; Co., <i>Comprehensive Rapid Transit Plan for the City and County of Los Angeles</i>, Plate 1</a></p>
+        <div class="tiles">
+          ${tile(Math.round(T.rail_miles_2026), `miles of Metro rail in 2026, with ${T.stations_open} stations, and ${Math.round(T.busway_miles_2026)} miles of busway`)}
+          ${tile(`${T.ballots.find((b) => b.measure === "Measure M").pct_yes}%`, "voted for Measure M in 2016, where a transit tax needs two-thirds")}
+        </div>
+        <div class="mini"><h4>Nine Countywide Votes on Transit, 1968 to 2016</h4>${ballotBars()}</div>
+        <div class="mini"><h4>Metro Route Miles Open, 1980 to 2026</h4>${milesChart()}</div>`,
       coop: () => `<p class="orig-link">Original maps: U.S. Geological Survey sheets, ${Object.entries(topoMeta).map(([id, t]) => `<a href="${ORIGS["topo:" + id].href}" target="_blank" rel="noopener">${topoName(t.file)} ${t.year}</a>`).join(", ")}</p>
         <div class="mini"><h4>The Experiments</h4>${gantt()}
           <p class="glegend"><span class="g1"></span>Community <span class="g2"></span>Buildings still standing <span class="g3"></span>Never built</p></div>`,
@@ -947,7 +1091,7 @@
 
     /* chronology interlude */
     const msList = document.getElementById("milestones");
-    msList.innerHTML = MILESTONES.map(([y, ch, t, u]) => `<li data-year="${y}"><b>${y}</b><span><a class="ms-link" href="${u}" target="_blank" rel="noopener" title="Read more">${t}</a></span><i title="${{ pastoral: "Pastoral suburb", autopia: "Autopia", centers: "Polycentric", coop: "Cooperative" }[ch]}">${NUM[ch]}</i></li>`).join("");
+    msList.innerHTML = MILESTONES.map(([y, ch, t, u]) => `<li data-year="${y}"><b>${y}</b><span><a class="ms-link" href="${u}" target="_blank" rel="noopener" title="Read more">${t}</a></span><i title="${UNAME[ch]}">${NUM[ch]}</i></li>`).join("");
     msList.querySelectorAll("li").forEach((li) => li.addEventListener("click", () => tweenYear(+li.dataset.year, 900)));
     msList.querySelectorAll(".ms-link").forEach((a_) => a_.addEventListener("click", (e) => e.stopPropagation()));
 

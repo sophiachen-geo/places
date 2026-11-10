@@ -16,8 +16,20 @@ from scipy.interpolate import RBFInterpolator
 NAME = sys.argv[1]
 HERE = os.path.dirname(os.path.abspath(__file__))
 ANCH = {'parks1930': '[[68,853,-118.8065,34.0011],[307,550,-118.6551,34.1771],[107,550,-118.7759,34.1803],[1745,966,-117.7786,33.9330],[1844,830,-117.7230,34.0067],[1781,825,-117.7604,34.0098]]'}
-sys.argv = ['register_plate.py', NAME] + ([ANCH[NAME]] if NAME in ANCH else [])
-exec(open(os.path.join(HERE, 'register_plate.py')).read().split('# tiles')[0])   # A, C, g2m, w2g, DAY
+sys.path.insert(0, HERE)
+from plates import CUSTOM
+if NAME in CUSTOM:                              # a plate with no County outline (plates.py)
+    from pyproj import Transformer
+    cfg = CUSTOM[NAME]
+    A = cfg['load'](cfg['img'])
+    C = {'crop': cfg['crop'], 'zmax': cfg['zmax'], 'window': cfg['window']}
+    x0c, y0c, x1c, y1c = C['crop']
+    g2m = Transformer.from_crs(4326, 3310, always_xy=True).transform
+    w2g = Transformer.from_crs(3857, 4326, always_xy=True).transform
+    DAY = os.environ.get("DAY", "../places/30daymapchallenge/day-08-utopia/")
+else:
+    sys.argv = ['register_plate.py', NAME] + ([ANCH[NAME]] if NAME in ANCH else [])
+    exec(open(os.path.join(HERE, 'register_plate.py')).read().split('# tiles')[0])   # A, C, g2m, w2g, DAY
 gj = json.load(open(f'work2/gcps_{NAME}.json'))
 mpp = gj['mpp']
 pts = [o for o in gj['gcps'] if o.get('inlier')]

@@ -14,12 +14,14 @@
   "city": {
    "homes": 1586010,
    "within_500ft_pct": 6.0,
-   "median_income": 81939
+   "median_income": 81939,
+   "transit_pct": 6.1
   },
   "county": {
    "homes": 3798768,
    "within_500ft_pct": 4.9,
-   "median_income": 90112
+   "median_income": 90112,
+   "transit_pct": 3.9
   },
   "places": [
    {
@@ -28,7 +30,9 @@
     "homes": 23920,
     "within_500ft_pct": 22.2,
     "median_income": 60100,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 9.3,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Encino - Tarzana",
@@ -36,7 +40,9 @@
     "homes": 33910,
     "within_500ft_pct": 16.3,
     "median_income": 111800,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 1.9,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "CLAREMONT",
@@ -44,7 +50,9 @@
     "homes": 16019,
     "within_500ft_pct": 15.6,
     "median_income": 125647,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.3,
+    "transit_method": "published"
    },
    {
     "name": "Silver Lake - Echo Park - Elysian Valley",
@@ -52,7 +60,9 @@
     "homes": 31885,
     "within_500ft_pct": 14.6,
     "median_income": 101300,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 5.5,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "SOUTH PASADENA",
@@ -60,7 +70,9 @@
     "homes": 11057,
     "within_500ft_pct": 14.5,
     "median_income": 127175,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.6,
+    "transit_method": "published"
    },
    {
     "name": "SANTA FE SPRINGS",
@@ -68,7 +80,9 @@
     "homes": 6983,
     "within_500ft_pct": 14.2,
     "median_income": 88238,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.2,
+    "transit_method": "published"
    },
    {
     "name": "WEST WHITTIER - LOS NIETOS",
@@ -76,7 +90,9 @@
     "homes": 6675,
     "within_500ft_pct": 14.1,
     "median_income": 111699,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.0,
+    "transit_method": "published"
    },
    {
     "name": "Sylmar",
@@ -84,7 +100,9 @@
     "homes": 22867,
     "within_500ft_pct": 14.0,
     "median_income": 97000,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 1.4,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Harbor Gateway",
@@ -92,7 +110,9 @@
     "homes": 14082,
     "within_500ft_pct": 13.8,
     "median_income": 73200,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 1.9,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "AGOURA HILLS",
@@ -100,7 +120,9 @@
     "homes": 8547,
     "within_500ft_pct": 12.9,
     "median_income": 171302,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.0,
+    "transit_method": "published"
    },
    {
     "name": "LENNOX",
@@ -108,7 +130,9 @@
     "homes": 5789,
     "within_500ft_pct": 12.9,
     "median_income": 57759,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 5.8,
+    "transit_method": "published"
    },
    {
     "name": "WEST CARSON",
@@ -116,7 +140,9 @@
     "homes": 8383,
     "within_500ft_pct": 12.8,
     "median_income": 92775,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.5,
+    "transit_method": "published"
    },
    {
     "name": "HACIENDA HEIGHTS",
@@ -124,7 +150,9 @@
     "homes": 17113,
     "within_500ft_pct": 12.5,
     "median_income": 109193,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.4,
+    "transit_method": "published"
    },
    {
     "name": "Sherman Oaks - Studio City - Toluca Lake - Cahuenga Pass",
@@ -132,7 +160,9 @@
     "homes": 44801,
     "within_500ft_pct": 12.0,
     "median_income": 119600,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 1.2,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "EAST LOS ANGELES",
@@ -140,7 +170,9 @@
     "homes": 32208,
     "within_500ft_pct": 10.7,
     "median_income": 68741,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 6.1,
+    "transit_method": "published"
    },
    {
     "name": "Downtown",
@@ -148,7 +180,9 @@
     "homes": 49459,
     "within_500ft_pct": 10.4,
     "median_income": 64400,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 9.0,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "LA CRESCENTA - MONTROSE",
@@ -156,7 +190,9 @@
     "homes": 8362,
     "within_500ft_pct": 9.8,
     "median_income": 130000,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.2,
+    "transit_method": "published"
    },
    {
     "name": "PASADENA",
@@ -164,7 +200,9 @@
     "homes": 66457,
     "within_500ft_pct": 9.8,
     "median_income": 105192,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.8,
+    "transit_method": "published"
    },
    {
     "name": "BALDWIN PARK",
@@ -172,7 +210,9 @@
     "homes": 19497,
     "within_500ft_pct": 9.3,
     "median_income": 80663,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.4,
+    "transit_method": "published"
    },
    {
     "name": "Palms - Mar Vista - Del Rey",
@@ -180,7 +220,9 @@
     "homes": 55884,
     "within_500ft_pct": 9.1,
     "median_income": 110600,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 3.9,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "MONROVIA",
@@ -188,7 +230,9 @@
     "homes": 16987,
     "within_500ft_pct": 9.1,
     "median_income": 96021,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.4,
+    "transit_method": "published"
    },
    {
     "name": "LAWNDALE",
@@ -196,7 +240,9 @@
     "homes": 10564,
     "within_500ft_pct": 9.0,
     "median_income": 85441,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.5,
+    "transit_method": "published"
    },
    {
     "name": "NORWALK",
@@ -204,7 +250,9 @@
     "homes": 29061,
     "within_500ft_pct": 8.6,
     "median_income": 100085,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.7,
+    "transit_method": "published"
    },
    {
     "name": "CERRITOS",
@@ -212,7 +260,9 @@
     "homes": 17030,
     "within_500ft_pct": 8.4,
     "median_income": 135439,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.9,
+    "transit_method": "published"
    },
    {
     "name": "Northeast Los Angeles",
@@ -220,7 +270,9 @@
     "homes": 80314,
     "within_500ft_pct": 8.3,
     "median_income": 89600,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 4.6,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "West Los Angeles",
@@ -228,7 +280,9 @@
     "homes": 44199,
     "within_500ft_pct": 8.2,
     "median_income": 120000,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 4.3,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Sun Valley - La Tuna Canyon",
@@ -236,7 +290,9 @@
     "homes": 25883,
     "within_500ft_pct": 8.1,
     "median_income": 81700,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 3.2,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "DIAMOND BAR",
@@ -244,7 +300,9 @@
     "homes": 19384,
     "within_500ft_pct": 7.8,
     "median_income": 108281,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.0,
+    "transit_method": "published"
    },
    {
     "name": "CULVER CITY",
@@ -252,7 +310,9 @@
     "homes": 19136,
     "within_500ft_pct": 7.7,
     "median_income": 117389,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.5,
+    "transit_method": "published"
    },
    {
     "name": "LYNWOOD",
@@ -260,7 +320,9 @@
     "homes": 16200,
     "within_500ft_pct": 7.7,
     "median_income": 74844,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 4.0,
+    "transit_method": "published"
    },
    {
     "name": "GLENDALE",
@@ -268,7 +330,9 @@
     "homes": 85070,
     "within_500ft_pct": 7.6,
     "median_income": 88393,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.3,
+    "transit_method": "published"
    },
    {
     "name": "POMONA",
@@ -276,7 +340,9 @@
     "homes": 47674,
     "within_500ft_pct": 7.5,
     "median_income": 79479,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.9,
+    "transit_method": "published"
    },
    {
     "name": "SAN DIMAS",
@@ -284,7 +350,9 @@
     "homes": 13296,
     "within_500ft_pct": 7.5,
     "median_income": 105321,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.4,
+    "transit_method": "published"
    },
    {
     "name": "Mission Hills - Panorama City - North Hills",
@@ -292,7 +360,9 @@
     "homes": 45296,
     "within_500ft_pct": 7.4,
     "median_income": 67400,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 5.6,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "WEST COVINA",
@@ -300,7 +370,9 @@
     "homes": 36409,
     "within_500ft_pct": 7.3,
     "median_income": 101065,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.0,
+    "transit_method": "published"
    },
    {
     "name": "SOUTH EL MONTE",
@@ -308,7 +380,9 @@
     "homes": 5733,
     "within_500ft_pct": 7.2,
     "median_income": 72990,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.0,
+    "transit_method": "published"
    },
    {
     "name": "ROSEMEAD",
@@ -316,7 +390,9 @@
     "homes": 16096,
     "within_500ft_pct": 7.0,
     "median_income": 73566,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.4,
+    "transit_method": "published"
    },
    {
     "name": "CALABASAS",
@@ -324,7 +400,9 @@
     "homes": 10267,
     "within_500ft_pct": 6.9,
     "median_income": 165288,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.7,
+    "transit_method": "published"
    },
    {
     "name": "WILLOWBROOK",
@@ -332,7 +410,9 @@
     "homes": 6943,
     "within_500ft_pct": 6.8,
     "median_income": 62582,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.8,
+    "transit_method": "published"
    },
    {
     "name": "Southeast Los Angeles",
@@ -340,7 +420,9 @@
     "homes": 70611,
     "within_500ft_pct": 6.7,
     "median_income": 55300,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 10.7,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "ARTESIA",
@@ -348,7 +430,9 @@
     "homes": 5757,
     "within_500ft_pct": 6.6,
     "median_income": 101004,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.9,
+    "transit_method": "published"
    },
    {
     "name": "LA CANADA FLINTRIDGE",
@@ -356,7 +440,9 @@
     "homes": 7186,
     "within_500ft_pct": 6.6,
     "median_income": 200000,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 0.7,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Van Nuys - North Sherman Oaks",
@@ -364,7 +450,9 @@
     "homes": 67284,
     "within_500ft_pct": 6.5,
     "median_income": 74600,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 5.3,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "ALHAMBRA",
@@ -372,7 +460,9 @@
     "homes": 32409,
     "within_500ft_pct": 6.5,
     "median_income": 88024,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.1,
+    "transit_method": "published"
    },
    {
     "name": "West Adams - Baldwin Hills - Leimert",
@@ -380,7 +470,9 @@
     "homes": 74015,
     "within_500ft_pct": 6.3,
     "median_income": 66400,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 8.6,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Arleta - Pacoima",
@@ -388,7 +480,9 @@
     "homes": 22358,
     "within_500ft_pct": 6.2,
     "median_income": 84000,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 2.8,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Hollywood",
@@ -396,7 +490,9 @@
     "homes": 123218,
     "within_500ft_pct": 6.1,
     "median_income": 77600,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 8.5,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "South Los Angeles",
@@ -404,7 +500,9 @@
     "homes": 90838,
     "within_500ft_pct": 5.9,
     "median_income": 56600,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 10.0,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Granada Hills - Knollwood",
@@ -412,7 +510,9 @@
     "homes": 22092,
     "within_500ft_pct": 5.6,
     "median_income": 112000,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 1.4,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "BELLFLOWER",
@@ -420,7 +520,9 @@
     "homes": 26319,
     "within_500ft_pct": 5.6,
     "median_income": 78722,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.9,
+    "transit_method": "published"
    },
    {
     "name": "CARSON",
@@ -428,7 +530,9 @@
     "homes": 28728,
     "within_500ft_pct": 5.6,
     "median_income": 108703,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.6,
+    "transit_method": "published"
    },
    {
     "name": "SANTA CLARITA VALLEY",
@@ -436,7 +540,9 @@
     "homes": 19207,
     "within_500ft_pct": 5.6,
     "median_income": 147800,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 0.7,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "BELL GARDENS",
@@ -444,7 +550,9 @@
     "homes": 10562,
     "within_500ft_pct": 5.5,
     "median_income": 62298,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.5,
+    "transit_method": "published"
    },
    {
     "name": "BURBANK",
@@ -452,7 +560,9 @@
     "homes": 48135,
     "within_500ft_pct": 5.5,
     "median_income": 97082,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.8,
+    "transit_method": "published"
    },
    {
     "name": "DOWNEY",
@@ -460,7 +570,9 @@
     "homes": 36538,
     "within_500ft_pct": 5.2,
     "median_income": 90699,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.6,
+    "transit_method": "published"
    },
    {
     "name": "EL MONTE",
@@ -468,7 +580,9 @@
     "homes": 30252,
     "within_500ft_pct": 5.0,
     "median_income": 68030,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.3,
+    "transit_method": "published"
    },
    {
     "name": "Westlake",
@@ -476,7 +590,9 @@
     "homes": 47222,
     "within_500ft_pct": 4.7,
     "median_income": 47800,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 24.0,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "North Hollywood - Valley Village",
@@ -484,7 +600,9 @@
     "homes": 64612,
     "within_500ft_pct": 4.5,
     "median_income": 75800,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 4.7,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "AZUSA",
@@ -492,7 +610,9 @@
     "homes": 18024,
     "within_500ft_pct": 4.4,
     "median_income": 90721,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.4,
+    "transit_method": "published"
    },
    {
     "name": "MONTEREY PARK",
@@ -500,7 +620,9 @@
     "homes": 22645,
     "within_500ft_pct": 4.3,
     "median_income": 81855,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.6,
+    "transit_method": "published"
    },
    {
     "name": "Canoga Park - Winnetka - Woodland Hills - West Hills",
@@ -508,7 +630,9 @@
     "homes": 74753,
     "within_500ft_pct": 4.2,
     "median_income": 102900,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 2.5,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "HAWTHORNE",
@@ -516,7 +640,9 @@
     "homes": 32937,
     "within_500ft_pct": 4.2,
     "median_income": 75848,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.7,
+    "transit_method": "published"
    },
    {
     "name": "LA VERNE",
@@ -524,7 +650,9 @@
     "homes": 13365,
     "within_500ft_pct": 4.2,
     "median_income": 103761,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.8,
+    "transit_method": "published"
    },
    {
     "name": "W ATHENS - WESTMONT",
@@ -532,7 +660,9 @@
     "homes": 13685,
     "within_500ft_pct": 4.0,
     "median_income": 56700,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 7.3,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "PARAMOUNT",
@@ -540,7 +670,9 @@
     "homes": 15338,
     "within_500ft_pct": 3.7,
     "median_income": 75250,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.4,
+    "transit_method": "published"
    },
    {
     "name": "ARCADIA",
@@ -548,7 +680,9 @@
     "homes": 24076,
     "within_500ft_pct": 3.5,
     "median_income": 113516,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.6,
+    "transit_method": "published"
    },
    {
     "name": "Wilmington - Harbor City",
@@ -556,7 +690,9 @@
     "homes": 24562,
     "within_500ft_pct": 3.4,
     "median_income": 68900,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 2.2,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "LONG BEACH",
@@ -564,7 +700,9 @@
     "homes": 190228,
     "within_500ft_pct": 3.2,
     "median_income": 87430,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.8,
+    "transit_method": "published"
    },
    {
     "name": "SANTA CLARITA",
@@ -572,7 +710,9 @@
     "homes": 82557,
     "within_500ft_pct": 3.2,
     "median_income": 123062,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.6,
+    "transit_method": "published"
    },
    {
     "name": "GLENDORA",
@@ -580,7 +720,9 @@
     "homes": 20012,
     "within_500ft_pct": 3.1,
     "median_income": 113569,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.0,
+    "transit_method": "published"
    },
    {
     "name": "Sunland - Tujunga - Lake View Terrace - Shadow Hills - East La Tuna Canyon",
@@ -588,7 +730,9 @@
     "homes": 23100,
     "within_500ft_pct": 3.0,
     "median_income": 91700,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 1.7,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "ROWLAND HEIGHTS",
@@ -596,7 +740,9 @@
     "homes": 16529,
     "within_500ft_pct": 2.8,
     "median_income": 85617,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.7,
+    "transit_method": "published"
    },
    {
     "name": "SANTA MONICA",
@@ -604,7 +750,9 @@
     "homes": 57627,
     "within_500ft_pct": 2.8,
     "median_income": 114885,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.2,
+    "transit_method": "published"
    },
    {
     "name": "MONTEBELLO",
@@ -612,7 +760,9 @@
     "homes": 20709,
     "within_500ft_pct": 2.7,
     "median_income": 79971,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.9,
+    "transit_method": "published"
    },
    {
     "name": "Bel Air - Beverly Crest",
@@ -620,7 +770,9 @@
     "homes": 9181,
     "within_500ft_pct": 2.6,
     "median_income": 200000,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 0.5,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "DUARTE",
@@ -628,7 +780,9 @@
     "homes": 8776,
     "within_500ft_pct": 2.6,
     "median_income": 105483,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.6,
+    "transit_method": "published"
    },
    {
     "name": "LAKEWOOD",
@@ -636,7 +790,9 @@
     "homes": 28142,
     "within_500ft_pct": 2.6,
     "median_income": 119177,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.0,
+    "transit_method": "published"
    },
    {
     "name": "SAN GABRIEL",
@@ -644,7 +800,9 @@
     "homes": 14478,
     "within_500ft_pct": 2.4,
     "median_income": 90488,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.1,
+    "transit_method": "published"
    },
    {
     "name": "Brentwood - Pacific Palisades",
@@ -652,7 +810,9 @@
     "homes": 28185,
     "within_500ft_pct": 2.2,
     "median_income": 176100,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 1.2,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "SIGNAL HILL",
@@ -660,7 +820,9 @@
     "homes": 5411,
     "within_500ft_pct": 2.1,
     "median_income": 113298,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.4,
+    "transit_method": "published"
    },
    {
     "name": "Westchester - Playa del Rey",
@@ -668,7 +830,9 @@
     "homes": 36961,
     "within_500ft_pct": 2.0,
     "median_income": 140600,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 0.7,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "COMPTON",
@@ -676,7 +840,9 @@
     "homes": 25564,
     "within_500ft_pct": 2.0,
     "median_income": 78465,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.9,
+    "transit_method": "published"
    },
    {
     "name": "San Pedro",
@@ -684,7 +850,9 @@
     "homes": 33080,
     "within_500ft_pct": 1.8,
     "median_income": 86500,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 4.3,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "LA MIRADA",
@@ -692,7 +860,9 @@
     "homes": 16138,
     "within_500ft_pct": 1.6,
     "median_income": 109288,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.4,
+    "transit_method": "published"
    },
    {
     "name": "REDONDO BEACH",
@@ -700,7 +870,9 @@
     "homes": 31851,
     "within_500ft_pct": 1.6,
     "median_income": 150245,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.6,
+    "transit_method": "published"
    },
    {
     "name": "SOUTH GATE",
@@ -708,7 +880,9 @@
     "homes": 25333,
     "within_500ft_pct": 1.6,
     "median_income": 74571,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.8,
+    "transit_method": "published"
    },
    {
     "name": "TORRANCE",
@@ -716,7 +890,9 @@
     "homes": 64185,
     "within_500ft_pct": 1.6,
     "median_income": 116217,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.9,
+    "transit_method": "published"
    },
    {
     "name": "PALMDALE",
@@ -724,7 +900,9 @@
     "homes": 54030,
     "within_500ft_pct": 1.5,
     "median_income": 81770,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.9,
+    "transit_method": "published"
    },
    {
     "name": "COVINA",
@@ -732,7 +910,9 @@
     "homes": 19089,
     "within_500ft_pct": 1.4,
     "median_income": 98671,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.9,
+    "transit_method": "published"
    },
    {
     "name": "Westwood",
@@ -740,7 +920,9 @@
     "homes": 21894,
     "within_500ft_pct": 1.3,
     "median_income": 83100,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 2.3,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "INGLEWOOD",
@@ -748,7 +930,9 @@
     "homes": 42215,
     "within_500ft_pct": 1.3,
     "median_income": 72750,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 5.5,
+    "transit_method": "published"
    },
    {
     "name": "LANCASTER",
@@ -756,7 +940,9 @@
     "homes": 61942,
     "within_500ft_pct": 1.2,
     "median_income": 81511,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.4,
+    "transit_method": "published"
    },
    {
     "name": "EAST PASADENA - EAST SAN GABRIEL",
@@ -764,7 +950,9 @@
     "homes": 10712,
     "within_500ft_pct": 1.1,
     "median_income": 110000,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 3.0,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Chatsworth - Porter Ranch",
@@ -772,7 +960,9 @@
     "homes": 40184,
     "within_500ft_pct": 1.0,
     "median_income": 116500,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 1.7,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Wilshire",
@@ -780,7 +970,9 @@
     "homes": 147973,
     "within_500ft_pct": 1.0,
     "median_income": 73200,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 11.4,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Venice",
@@ -788,7 +980,9 @@
     "homes": 23189,
     "within_500ft_pct": 0.9,
     "median_income": 123800,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 1.4,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "WHITTIER",
@@ -796,7 +990,9 @@
     "homes": 31847,
     "within_500ft_pct": 0.9,
     "median_income": 97201,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.4,
+    "transit_method": "published"
    },
    {
     "name": "W RANCHO DOMINGUEZ - VICTORIA",
@@ -804,7 +1000,9 @@
     "homes": 6995,
     "within_500ft_pct": 0.8,
     "median_income": 85600,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 4.5,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Northridge",
@@ -812,7 +1010,9 @@
     "homes": 26436,
     "within_500ft_pct": 0.7,
     "median_income": 97700,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 2.0,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "ANTELOPE VALLEY",
@@ -820,7 +1020,9 @@
     "homes": 26789,
     "within_500ft_pct": 0.7,
     "median_income": 84800,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 1.1,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "Reseda - West Van Nuys",
@@ -828,7 +1030,9 @@
     "homes": 40766,
     "within_500ft_pct": 0.1,
     "median_income": 84600,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 3.3,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "ALTADENA",
@@ -836,7 +1040,9 @@
     "homes": 15904,
     "within_500ft_pct": 0.1,
     "median_income": 128720,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.5,
+    "transit_method": "published"
    },
    {
     "name": "BELL",
@@ -844,7 +1050,9 @@
     "homes": 9101,
     "within_500ft_pct": 0.0,
     "median_income": 61020,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 5.4,
+    "transit_method": "published"
    },
    {
     "name": "BEVERLY HILLS",
@@ -852,7 +1060,9 @@
     "homes": 18678,
     "within_500ft_pct": 0.0,
     "median_income": 132977,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.2,
+    "transit_method": "published"
    },
    {
     "name": "CUDAHY",
@@ -860,7 +1070,9 @@
     "homes": 5802,
     "within_500ft_pct": 0.0,
     "median_income": 56615,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 5.0,
+    "transit_method": "published"
    },
    {
     "name": "EL SEGUNDO",
@@ -868,7 +1080,9 @@
     "homes": 10334,
     "within_500ft_pct": 0.0,
     "median_income": 150737,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.6,
+    "transit_method": "published"
    },
    {
     "name": "FLORENCE - FIRESTONE",
@@ -876,7 +1090,9 @@
     "homes": 14840,
     "within_500ft_pct": 0.0,
     "median_income": 64800,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 6.1,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "GARDENA",
@@ -884,7 +1100,9 @@
     "homes": 23799,
     "within_500ft_pct": 0.0,
     "median_income": 84803,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.9,
+    "transit_method": "published"
    },
    {
     "name": "HERMOSA BEACH",
@@ -892,7 +1110,9 @@
     "homes": 10439,
     "within_500ft_pct": 0.0,
     "median_income": 166442,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.3,
+    "transit_method": "published"
    },
    {
     "name": "HUNTINGTON PARK",
@@ -900,7 +1120,9 @@
     "homes": 17543,
     "within_500ft_pct": 0.0,
     "median_income": 59996,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 7.2,
+    "transit_method": "published"
    },
    {
     "name": "LA PUENTE",
@@ -908,7 +1130,9 @@
     "homes": 10145,
     "within_500ft_pct": 0.0,
     "median_income": 86602,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.3,
+    "transit_method": "published"
    },
    {
     "name": "LADERA HEIGHTS / VIEW PARK - WINDSOR HILLS",
@@ -916,7 +1140,9 @@
     "homes": 7892,
     "within_500ft_pct": 0.0,
     "median_income": 139800,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 0.0,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "LOMITA",
@@ -924,7 +1150,9 @@
     "homes": 9766,
     "within_500ft_pct": 0.0,
     "median_income": 93810,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.6,
+    "transit_method": "published"
    },
    {
     "name": "MALIBU",
@@ -932,7 +1160,9 @@
     "homes": 6289,
     "within_500ft_pct": 0.0,
     "median_income": 194421,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.0,
+    "transit_method": "published"
    },
    {
     "name": "MANHATTAN BEACH",
@@ -940,7 +1170,9 @@
     "homes": 15717,
     "within_500ft_pct": 0.0,
     "median_income": 204306,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.7,
+    "transit_method": "published"
    },
    {
     "name": "MAYWOOD",
@@ -948,7 +1180,9 @@
     "homes": 6852,
     "within_500ft_pct": 0.0,
     "median_income": 60943,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.9,
+    "transit_method": "published"
    },
    {
     "name": "PALOS VERDES ESTATES",
@@ -956,7 +1190,9 @@
     "homes": 5301,
     "within_500ft_pct": 0.0,
     "median_income": 242014,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 0.0,
+    "transit_method": "published"
    },
    {
     "name": "PICO RIVERA",
@@ -964,7 +1200,9 @@
     "homes": 18294,
     "within_500ft_pct": 0.0,
     "median_income": 88201,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.5,
+    "transit_method": "published"
    },
    {
     "name": "RANCHO PALOS VERDES",
@@ -972,7 +1210,9 @@
     "homes": 16820,
     "within_500ft_pct": 0.0,
     "median_income": 179623,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.3,
+    "transit_method": "published"
    },
    {
     "name": "SAN FERNANDO",
@@ -980,7 +1220,9 @@
     "homes": 6380,
     "within_500ft_pct": 0.0,
     "median_income": 83024,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.9,
+    "transit_method": "published"
    },
    {
     "name": "SIERRA MADRE",
@@ -988,7 +1230,9 @@
     "homes": 5079,
     "within_500ft_pct": 0.0,
     "median_income": 143547,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.7,
+    "transit_method": "published"
    },
    {
     "name": "SOUTH SAN JOSE HILLS",
@@ -996,7 +1240,9 @@
     "homes": 6014,
     "within_500ft_pct": 0.0,
     "median_income": 94806,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.8,
+    "transit_method": "published"
    },
    {
     "name": "SOUTH WHITTIER - SUNSHINE ACRES",
@@ -1004,7 +1250,9 @@
     "homes": 19109,
     "within_500ft_pct": 0.0,
     "median_income": 104500,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 0.9,
+    "transit_method": "pooled tracts"
    },
    {
     "name": "TEMPLE CITY",
@@ -1012,7 +1260,9 @@
     "homes": 12481,
     "within_500ft_pct": 0.0,
     "median_income": 104425,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.2,
+    "transit_method": "published"
    },
    {
     "name": "VALINDA",
@@ -1020,7 +1270,9 @@
     "homes": 5105,
     "within_500ft_pct": 0.0,
     "median_income": 100165,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.7,
+    "transit_method": "published"
    },
    {
     "name": "WALNUT",
@@ -1028,7 +1280,9 @@
     "homes": 9466,
     "within_500ft_pct": 0.0,
     "median_income": 129449,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 1.8,
+    "transit_method": "published"
    },
    {
     "name": "WEST HOLLYWOOD",
@@ -1036,7 +1290,9 @@
     "homes": 28365,
     "within_500ft_pct": 0.0,
     "median_income": 96995,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 3.2,
+    "transit_method": "published"
    },
    {
     "name": "WEST PUENTE VALLEY",
@@ -1044,7 +1300,9 @@
     "homes": 5155,
     "within_500ft_pct": 0.0,
     "median_income": 88279,
-    "income_method": "published"
+    "income_method": "published",
+    "transit_pct": 2.2,
+    "transit_method": "published"
    },
    {
     "name": "SOUTH MONROVIA ISLANDS",
@@ -1052,10 +1310,13 @@
     "homes": 5016,
     "within_500ft_pct": 0.0,
     "median_income": 97600,
-    "income_method": "pooled tracts"
+    "income_method": "pooled tracts",
+    "transit_pct": 2.2,
+    "transit_method": "pooled tracts"
    }
   ],
-  "income_src": "U.S. Census Bureau, American Community Survey 5-year estimates 2020-2024 (B19013 published medians for cities and CDPs; B19001 brackets pooled over tracts for plan areas and composite communities)"
+  "income_src": "U.S. Census Bureau, American Community Survey 5-year estimates 2020-2024 (B19013 published medians for cities and CDPs; B19001 brackets pooled over tracts for plan areas and composite communities)",
+  "transit_src": "U.S. Census Bureau, American Community Survey 5-year estimates 2020-2024, table B08301 (public transportation, excluding taxicab, as a share of workers 16 and over)"
  },
  "parkways1946": {
   "miles": {
@@ -1322,5 +1583,208 @@
   },
   "src": "CPAD holdings (GreenInfo Network, current release), open-access land excluding federal; 2026 Assessor roll units",
   "income_src": "U.S. Census Bureau, American Community Survey 5-year estimates 2020-2024, tables B19001 and B19013"
+ },
+ "transit": {
+  "miles_by_year": [
+   [
+    1990,
+    20.7,
+    0.0
+   ],
+   [
+    1991,
+    21.3,
+    0.0
+   ],
+   [
+    1993,
+    25.9,
+    0.0
+   ],
+   [
+    1995,
+    45.4,
+    0.0
+   ],
+   [
+    1996,
+    47.7,
+    0.0
+   ],
+   [
+    1999,
+    52.2,
+    0.0
+   ],
+   [
+    2000,
+    58.6,
+    0.0
+   ],
+   [
+    2003,
+    72.2,
+    0.0
+   ],
+   [
+    2005,
+    72.2,
+    13.8
+   ],
+   [
+    2009,
+    78.1,
+    52.3
+   ],
+   [
+    2012,
+    85.6,
+    56.5
+   ],
+   [
+    2016,
+    103.5,
+    56.5
+   ],
+   [
+    2022,
+    109.5,
+    56.5
+   ],
+   [
+    2023,
+    111.1,
+    56.5
+   ],
+   [
+    2024,
+    112.3,
+    56.5
+   ],
+   [
+    2025,
+    122.9,
+    56.5
+   ],
+   [
+    2026,
+    126.8,
+    56.5
+   ]
+  ],
+  "rail_miles_2026": 126.8,
+  "busway_miles_2026": 56.5,
+  "stations_open": 111,
+  "ballots": [
+   {
+    "year": 1968,
+    "month": "Nov",
+    "what": "Rapid Transit Bond, 62 rail miles, 8.5 years",
+    "measure": "Measure A",
+    "agency": "SCRTD",
+    "yes": 1090958,
+    "no": 1340109,
+    "pct_yes": 44.9,
+    "pct_needed": 50.0,
+    "passed": false
+   },
+   {
+    "year": 1974,
+    "month": "Nov",
+    "what": "1 Cent Sales Tax, in perpetuity",
+    "measure": "Proposition A",
+    "agency": "SCRTD",
+    "yes": 854915,
+    "no": 988086,
+    "pct_yes": 46.4,
+    "pct_needed": 50.0,
+    "passed": false
+   },
+   {
+    "year": 1976,
+    "month": "June",
+    "what": "1/2 Cent Sales Tax, Construction, 232 rail miles",
+    "measure": "Measure R",
+    "agency": "SCRTD",
+    "yes": 679755,
+    "no": 992982,
+    "pct_yes": 40.6,
+    "pct_needed": 50.0,
+    "passed": false
+   },
+   {
+    "year": 1976,
+    "month": "June",
+    "what": "1/2 cent Sales Tax, Operations, in perpetuity",
+    "measure": "Measure T",
+    "agency": "SCRTD",
+    "yes": 544888,
+    "no": 829762,
+    "pct_yes": 39.6,
+    "pct_needed": 50.0,
+    "passed": false
+   },
+   {
+    "year": 1980,
+    "month": "Nov",
+    "what": "1/2 cent Sales Tax, in perpetuity",
+    "measure": "Proposition A",
+    "agency": "LACTC",
+    "yes": 1160275,
+    "no": 975510,
+    "pct_yes": 54.3,
+    "pct_needed": 50.0,
+    "passed": true
+   },
+   {
+    "year": 1990,
+    "month": "Nov",
+    "what": "1/2 Cent Sales Tax, in perpetuity",
+    "measure": "Proposition C",
+    "agency": "LACTC",
+    "yes": 850221,
+    "no": 835504,
+    "pct_yes": 50.4,
+    "pct_needed": 50.0,
+    "passed": true
+   },
+   {
+    "year": 2008,
+    "month": "Nov",
+    "what": "1/2 Cent Sales Tax, 30 Years",
+    "measure": "Measure R",
+    "agency": "LACMTA",
+    "yes": 2039214,
+    "no": 962569,
+    "pct_yes": 67.9,
+    "pct_needed": 66.7,
+    "passed": true
+   },
+   {
+    "year": 2012,
+    "month": "Nov",
+    "what": "Extension of 1/2 cent \"R\" Sales Tax, 30 years",
+    "measure": "Measure J",
+    "agency": "LACMTA",
+    "yes": 1893340,
+    "no": 970611,
+    "pct_yes": 66.1,
+    "pct_needed": 66.7,
+    "passed": false
+   },
+   {
+    "year": 2016,
+    "month": "Nov",
+    "what": "Extension of 1/2 cent \"R\" Sales Tax, indefinitely",
+    "measure": "Measure M",
+    "agency": "LACMTA",
+    "yes": 2259654,
+    "no": 916375,
+    "pct_yes": 71.1,
+    "pct_needed": 66.7,
+    "passed": true
+   }
+  ],
+  "src": "LA Metro GTFS (rail and bus, Nov 2026), sections dated by opening year; LA Metro Research Library ballot history (2017)"
  }
 }

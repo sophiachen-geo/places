@@ -16,7 +16,8 @@
   --u-pastoral: #00a95c;   /* I   riso green      */
   --u-autopia: #f0a202;    /* II  riso sunflower  */
   --u-centers: #3255a4;    /* III riso blue       */
-  --u-coop: #ff48b0;       /* IV  riso fluo pink  */
+  --u-transit: #9e2a2b;    /* IV  riso brick red  */
+  --u-coop: #ff48b0;       /* V   riso fluo pink  */
   --u-all: #111111;
   --nav-h: 50px;
   --serif: "D8 Digits", "Fraunces", Georgia, "Times New Roman", serif;
@@ -32,6 +33,7 @@ button, select, input { font-family: var(--sans); }
 [data-ch="pastoral"] { --c: var(--u-pastoral); }
 [data-ch="autopia"] { --c: var(--u-autopia); }
 [data-ch="centers"] { --c: var(--u-centers); }
+[data-ch="transit"] { --c: var(--u-transit); }
 [data-ch="coop"] { --c: var(--u-coop); }
 [data-ch="all"], [data-ch="none"] { --c: var(--u-all); }
 
@@ -76,7 +78,8 @@ button, select, input { font-family: var(--sans); }
 .st-mark i:nth-child(1) { background: var(--u-pastoral); }
 .st-mark i:nth-child(2) { background: var(--u-autopia); }
 .st-mark i:nth-child(3) { background: var(--u-centers); }
-.st-mark i:nth-child(4) { background: var(--u-coop); }
+.st-mark i:nth-child(4) { background: var(--u-transit); }
+.st-mark i:nth-child(5) { background: var(--u-coop); }
 
 /* ---------- essay ---------- */
 .st-text p { font-family: var(--serif); font-optical-sizing: auto; font-weight: 400; font-size: 1.13rem; line-height: 1.72; margin: 0 0 1.2em;
@@ -88,10 +91,10 @@ button, select, input { font-family: var(--sans); }
 .ch-head { display: flex; align-items: flex-start; gap: 18px; margin: 76px 0 24px; padding-top: 18px; border-top: 3px solid var(--ink); }
 .ch-num { position: relative; flex: none; min-width: 3.4rem; text-align: center; font: italic 600 3.1rem/1 var(--serif); color: var(--ink); isolation: isolate; padding: 2px 4px 0; }
 .ch-num::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; width: 3rem; height: 3rem; transform: translate(-50%, -50%); border-radius: 50%; background: var(--c); mix-blend-mode: multiply; }
-.ch-all { display: grid; grid-template-columns: 14px 14px; gap: 3px; margin-top: 8px; width: auto; font-size: 0; }
+.ch-all { display: grid; grid-template-columns: repeat(3, 12px); gap: 3px; margin-top: 8px; width: auto; font-size: 0; }
 .ch-all::before { display: none; }
-.ch-all i { width: 14px; height: 14px; background: var(--u-pastoral); }
-.ch-all i:nth-child(2) { background: var(--u-autopia); } .ch-all i:nth-child(3) { background: var(--u-centers); } .ch-all i:nth-child(4) { background: var(--u-coop); }
+.ch-all i { width: 12px; height: 12px; background: var(--u-pastoral); }
+.ch-all i:nth-child(2) { background: var(--u-autopia); } .ch-all i:nth-child(3) { background: var(--u-centers); } .ch-all i:nth-child(4) { background: var(--u-transit); } .ch-all i:nth-child(5) { background: var(--u-coop); }
 .ch-head h2 { font: 650 2.05rem/1.06 var(--serif); letter-spacing: -0.012em; margin: 0; }
 .coda { font-style: italic; font-size: 1.32rem !important; line-height: 1.5 !important; }
 .sep { text-align: center; color: var(--ink) !important; font-size: 1.5rem !important; }
@@ -362,3 +365,6 @@ button, select, input { font-family: var(--sans); }
 /* timeline items link to further reading; the row itself still sets the year */
 .milestones .ms-link { color: inherit; text-decoration: underline; text-decoration-color: #6b6b6b; text-underline-offset: 3px; }
 .milestones .ms-link:hover { text-decoration-color: var(--paper); }
+.rank-key { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 6px 0 0; font: 400 0.68rem/1.3 var(--sans); color: var(--ink-2); }
+.rank-key span { display: inline-flex; align-items: center; gap: 6px; }
+.rank-key i { width: 12px; height: 10px; display: inline-block; box-sizing: border-box; }
