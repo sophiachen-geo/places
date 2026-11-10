@@ -1786,5 +1786,118 @@
    }
   ],
   "src": "LA Metro GTFS (rail and bus, Nov 2026), sections dated by opening year; LA Metro Research Library ballot history (2017)"
+ },
+ "fwy_transit": {
+  "n_block_groups": 6031,
+  "spearman_near_transit": 0.016,
+  "spearman_p": 0.22318680483299222,
+  "spearman_near_drive_alone": 0.024,
+  "ols_raw_per10pts": {
+   "b": 0.2,
+   "lo": 0.06,
+   "hi": 0.35,
+   "p": 0.007041534663807444
+  },
+  "ols_controlled_per10pts": {
+   "b": -0.02,
+   "lo": -0.14,
+   "hi": 0.11,
+   "p": 0.7646013248195231
+  },
+  "ols_controlled_drive_alone_per10pts": {
+   "b": 0.3,
+   "lo": 0.04,
+   "hi": 0.57,
+   "p": 0.025018758260358955
+  },
+  "r2_raw": 0.002,
+  "r2_controlled": 0.284,
+  "controls": [
+   "log median household income",
+   "log homes per km2",
+   "share of homes within 800 m of a rail station",
+   "log(1 + bus stops per km2)",
+   "km to Downtown"
+  ],
+  "control_coefs": {
+   "log_income": {
+    "b": -3.93,
+    "lo": -4.36,
+    "hi": -3.5,
+    "p": 6.340568953797544e-72
+   },
+   "log_density": {
+    "b": 0.46,
+    "lo": 0.27,
+    "hi": 0.65,
+    "p": 1.5913497728735627e-06
+   },
+   "rail_per10pts": {
+    "b": 0.35,
+    "lo": 0.26,
+    "hi": 0.44,
+    "p": 8.61903806262114e-14
+   },
+   "log_bus": {
+    "b": 0.65,
+    "lo": 0.52,
+    "hi": 0.79,
+    "p": 5.7690528919165954e-21
+   },
+   "km_downtown": {
+    "b": -0.06,
+    "lo": -0.08,
+    "hi": -0.05,
+    "p": 7.784133117170494e-28
+   }
+  },
+  "by_income_quintile": [
+   {
+    "q": 1,
+    "inc_lo": 5213,
+    "inc_hi": 63107,
+    "near_n": 103,
+    "near_pct": 9.8,
+    "none_n": 980,
+    "none_pct": 9.2
+   },
+   {
+    "q": 2,
+    "inc_lo": 63110,
+    "inc_hi": 83247,
+    "near_n": 115,
+    "near_pct": 5.2,
+    "none_n": 969,
+    "none_pct": 4.9
+   },
+   {
+    "q": 3,
+    "inc_lo": 83250,
+    "inc_hi": 104924,
+    "near_n": 107,
+    "near_pct": 2.9,
+    "none_n": 947,
+    "none_pct": 2.7
+   },
+   {
+    "q": 4,
+    "inc_lo": 104931,
+    "inc_hi": 137443,
+    "near_n": 100,
+    "near_pct": 2.1,
+    "none_n": 929,
+    "none_pct": 2.0
+   },
+   {
+    "q": 5,
+    "inc_lo": 137578,
+    "inc_hi": 250001,
+    "near_n": 66,
+    "near_pct": 1.7,
+    "none_n": 998,
+    "none_pct": 1.1
+   }
+  ],
+  "src": "Block groups (2020): ACS 2020-2024 B08301, B19013; homes and the 500 ft band as in the 500 ft ranking; Metro rail stations and bus stops (GTFS 2026). Cluster-robust errors by tract."
  }
 }

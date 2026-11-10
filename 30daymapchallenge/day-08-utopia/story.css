@@ -13,10 +13,10 @@
   --ink-2: #3a3a3a;
   --ink-3: #767676;
   --hair: #d2d2d2;
-  --u-pastoral: #00a95c;   /* I   riso green      */
-  --u-autopia: #f0a202;    /* II  riso sunflower  */
-  --u-centers: #3255a4;    /* III riso blue       */
-  --u-transit: #9e2a2b;    /* IV  riso brick red  */
+  --u-transit: #9e2a2b;    /* I   riso brick red  */
+  --u-pastoral: #00a95c;   /* II  riso green      */
+  --u-autopia: #f0a202;    /* III riso sunflower  */
+  --u-centers: #3255a4;    /* IV  riso blue       */
   --u-coop: #ff48b0;       /* V   riso fluo pink  */
   --u-all: #111111;
   --nav-h: 50px;
@@ -75,10 +75,10 @@ button, select, input { font-family: var(--sans); }
 .st-mark { display: flex; margin: 0 0 26px; height: 46px; }
 .st-mark i { width: 46px; height: 46px; border-radius: 50%; mix-blend-mode: multiply; opacity: 0.95; flex: none; }
 .st-mark i + i { margin-left: -14px; }
-.st-mark i:nth-child(1) { background: var(--u-pastoral); }
-.st-mark i:nth-child(2) { background: var(--u-autopia); }
-.st-mark i:nth-child(3) { background: var(--u-centers); }
-.st-mark i:nth-child(4) { background: var(--u-transit); }
+.st-mark i:nth-child(1) { background: var(--u-transit); }
+.st-mark i:nth-child(2) { background: var(--u-pastoral); }
+.st-mark i:nth-child(3) { background: var(--u-autopia); }
+.st-mark i:nth-child(4) { background: var(--u-centers); }
 .st-mark i:nth-child(5) { background: var(--u-coop); }
 
 /* ---------- essay ---------- */
@@ -93,8 +93,8 @@ button, select, input { font-family: var(--sans); }
 .ch-num::before { content: ""; position: absolute; z-index: -1; left: 50%; top: 50%; width: 3rem; height: 3rem; transform: translate(-50%, -50%); border-radius: 50%; background: var(--c); mix-blend-mode: multiply; }
 .ch-all { display: grid; grid-template-columns: repeat(3, 12px); gap: 3px; margin-top: 8px; width: auto; font-size: 0; }
 .ch-all::before { display: none; }
-.ch-all i { width: 12px; height: 12px; background: var(--u-pastoral); }
-.ch-all i:nth-child(2) { background: var(--u-autopia); } .ch-all i:nth-child(3) { background: var(--u-centers); } .ch-all i:nth-child(4) { background: var(--u-transit); } .ch-all i:nth-child(5) { background: var(--u-coop); }
+.ch-all i { width: 12px; height: 12px; background: var(--u-transit); }
+.ch-all i:nth-child(2) { background: var(--u-pastoral); } .ch-all i:nth-child(3) { background: var(--u-autopia); } .ch-all i:nth-child(4) { background: var(--u-centers); } .ch-all i:nth-child(5) { background: var(--u-coop); }
 .ch-head h2 { font: 650 2.05rem/1.06 var(--serif); letter-spacing: -0.012em; margin: 0; }
 .coda { font-style: italic; font-size: 1.32rem !important; line-height: 1.5 !important; }
 .sep { text-align: center; color: var(--ink) !important; font-size: 1.5rem !important; }
