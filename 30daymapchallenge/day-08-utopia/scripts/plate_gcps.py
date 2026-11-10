@@ -23,10 +23,27 @@ from pyproj import Transformer
 from collections import Counter
 
 NAME = sys.argv[1]
-SRC = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'register_plate.py')
+HERE = os.path.dirname(os.path.abspath(__file__))
+SRC = os.path.join(HERE, 'register_plate.py')
+sys.path.insert(0, HERE)
+from plates import CUSTOM
 ANCH = {'parks1930': '[[68,853,-118.8065,34.0011],[307,550,-118.6551,34.1771],[107,550,-118.7759,34.1803],[1745,966,-117.7786,33.9330],[1844,830,-117.7230,34.0067],[1781,825,-117.7604,34.0098]]'}
-sys.argv = ['register_plate.py', NAME] + ([ANCH[NAME]] if NAME in ANCH else [])
-exec(open(SRC).read().split('# tiles')[0])     # -> A (plate RGB), C (config), model (EPSG:3310 m -> plate px), inv_scale, main, g2m
+if NAME in CUSTOM:                             # a plate with no County outline: first guess from its anchors
+    from shapely.geometry import shape as _shape
+    cfg = CUSTOM[NAME]
+    A = cfg['load'](cfg['img'])
+    g2m = Transformer.from_crs(4326, 3310, always_xy=True).transform
+    Ga = np.array([g2m(*ll) for _, ll in cfg['anchors']]); Pa = np.array([uv for uv, _ in cfg['anchors']], float)
+    _M, *_ = np.linalg.lstsq(np.c_[Ga, np.ones(len(Ga))], Pa, rcond=None)
+    model = lambda xy: np.c_[np.asarray(xy, float), np.ones(len(xy))] @ _M
+    inv_scale = 1 / math.sqrt(abs(np.linalg.det(_M[:2])))
+    print('anchor residuals px', np.round(np.hypot(*(model(Ga) - Pa).T)).astype(int).tolist(), f'~{inv_scale:.1f} m per px')
+    C = {'crop': cfg['crop'], 'zmax': cfg['zmax']}
+    cb = _shape(json.load(open('raw2/county_boundary.geojson'))['features'][0]['geometry'])
+    main = max(cb.geoms, key=lambda p: p.area) if cb.geom_type == 'MultiPolygon' else cb
+else:
+    sys.argv = ['register_plate.py', NAME] + ([ANCH[NAME]] if NAME in ANCH else [])
+    exec(open(SRC).read().split('# tiles')[0])     # -> A (plate RGB), C (config), model (EPSG:3310 m -> plate px), inv_scale, main, g2m
 mpp = float(inv_scale)
 m2g_ = Transformer.from_crs(3310, 4326, always_xy=True).transform
 x0c, y0c, x1c, y1c = C['crop']
@@ -38,8 +55,10 @@ def strokes(m, min_px, min_ext):
     keep = np.zeros(n + 1, bool); keep[1:] = (sizes >= min_px) & (ext >= min_ext)
     return keep[lab]
 Ai = A.astype(int); s_ = Ai.sum(-1); sat = Ai.max(-1) - Ai.min(-1)
-LINES = {'parks1930': lambda: strokes((s_ < 230) & (sat < 60), 120, 40),          # thick black roads and railways
-         'parkways1946': lambda: strokes((s_ > 200) & (s_ < 560) & (sat < 40), 60, 30)}[NAME]()   # grey existing roads
+LINES = (lambda: CUSTOM[NAME]['lines'](A)) if NAME in CUSTOM else {
+         'parks1930': lambda: strokes((s_ < 230) & (sat < 60), 120, 40),          # thick black roads and railways
+         'parkways1946': lambda: strokes((s_ > 200) & (s_ < 560) & (sat < 40), 60, 30)}[NAME]   # grey existing roads
+LINES = LINES()
 I = ndi.gaussian_filter(LINES.astype(float), 1.0)
 crop = np.zeros_like(LINES); crop[y0c:y1c, x0c:x1c] = True
 I[~crop] = 0
@@ -125,7 +144,7 @@ def ransac(gc, thr_px, iters=3000, seed=0):
         inl = np.hypot(*(f(G) - P).T) < thr_px; f = poly2(G[inl], P[inl])
     return f, inl
 
-THR = {'parks1930': 4.0, 'parkways1946': 3.0}[NAME]       # ~240 m / ~280 m
+THR = CUSTOM[NAME]['thr_px'] if NAME in CUSTOM else {'parks1930': 4.0, 'parkways1946': 3.0}[NAME]       # ~240 m / ~280 m / ~190 m
 rounds = []
 cur = model
 for rnd, (R_m, search_m, step_m) in enumerate([(4500, 3000, 6000), (2500, 1100, 3500)]):

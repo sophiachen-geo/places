@@ -70,3 +70,32 @@ def median(name, geom, kind):
         v = published(name)
         if v is not None: return v, 'published'
     return pooled(geom), 'pooled tracts'
+
+# ---------------------------------------------------------------------------------------------------------------
+# Transit commute share: workers 16+ who get to work by public transportation (excluding taxicab), table B08301
+# (E010 / E001), ACS 5-year 2020-2024 (raw4/acs/acsdt5y2024-b08301.dat). A share pools by simple sums.
+_tw = {}          # tract -> (workers, transit)
+_pw = {}          # county / place GEO_ID -> (workers, transit)
+with open(S + 'raw4/acs/acsdt5y2024-b08301.dat') as f:
+    rd = csv.reader(f, delimiter='|'); hdr = next(rd); i1, i10 = hdr.index('B08301_E001'), hdr.index('B08301_E010')
+    for row in rd:
+        g = row[0]
+        if g.startswith('1400000US06037') or g.startswith(('0500000US06', '1600000US06')):
+            try: v = (float(row[i1] or 0), float(row[i10] or 0))
+            except ValueError: continue
+            if g.startswith('1400000US'): _tw[g[9:]] = v
+            else: _pw[g] = v
+def _pct(w, t): return round(t / w * 100, 1) if w else None
+TRANSIT_COUNTY = _pct(*_pw['0500000US06037'])
+TRANSIT_CITY_LA = _pct(*_pw['1600000US0644000'])
+
+def transit_share(name, geom, kind):
+    """(percent of workers commuting by public transit, method)"""
+    if kind != 'la':
+        k = name.lower().replace(' - ', '-')
+        for suffix in (' city', ' cdp'):
+            g = _place.get(k + suffix)
+            if g and g in _pw: return _pct(*_pw[g]), 'published'
+    m = contains_xy(geom, _tlon, _tlat)
+    w = sum(_tw[_tid[i]][0] for i in np.nonzero(m)[0] if _tid[i] in _tw); t = sum(_tw[_tid[i]][1] for i in np.nonzero(m)[0] if _tid[i] in _tw)
+    return _pct(w, t), 'pooled tracts'

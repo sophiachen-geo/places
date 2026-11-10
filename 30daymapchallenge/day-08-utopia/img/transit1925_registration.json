@@ -1,0 +1,66 @@
+{
+ "name": "transit1925",
+ "method": "interior control points by local pattern matching against LA County road and rail centrelines (plate_gcps.py), model chosen by leave-one-out error and distortion",
+ "control_points": 48,
+ "m_per_px": 16,
+ "model": "tps_s200",
+ "models": {
+  "affine": {
+   "rmse_m": 218,
+   "loo_rmse_m": 240,
+   "loo_median_m": 180,
+   "loo_p90_m": 340,
+   "scale_variation_pct": 0.0,
+   "stretch_p95": 1.011
+  },
+  "poly2": {
+   "rmse_m": 95,
+   "loo_rmse_m": 109,
+   "loo_median_m": 88,
+   "loo_p90_m": 167,
+   "scale_variation_pct": 2.9,
+   "stretch_p95": 1.031
+  },
+  "poly3": {
+   "rmse_m": 87,
+   "loo_rmse_m": 114,
+   "loo_median_m": 94,
+   "loo_p90_m": 181,
+   "scale_variation_pct": 3.0,
+   "stretch_p95": 1.038
+  },
+  "tps_s1000": {
+   "rmse_m": 94,
+   "loo_rmse_m": 126,
+   "loo_median_m": 99,
+   "loo_p90_m": 196,
+   "scale_variation_pct": 1.5,
+   "stretch_p95": 1.023
+  },
+  "tps_s200": {
+   "rmse_m": 70,
+   "loo_rmse_m": 113,
+   "loo_median_m": 82,
+   "loo_p90_m": 185,
+   "scale_variation_pct": 1.9,
+   "stretch_p95": 1.025
+  },
+  "tps_s50": {
+   "rmse_m": 53,
+   "loo_rmse_m": 114,
+   "loo_median_m": 79,
+   "loo_p90_m": 189,
+   "scale_variation_pct": 2.1,
+   "stretch_p95": 1.028
+  },
+  "tps_s10": {
+   "rmse_m": 29,
+   "loo_rmse_m": 122,
+   "loo_median_m": 89,
+   "loo_p90_m": 200,
+   "scale_variation_pct": 2.4,
+   "stretch_p95": 1.036
+  }
+ },
+ "zmax": 13
+}
