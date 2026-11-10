@@ -27,6 +27,8 @@
     centers: [[33.74, -118.62], [34.28, -118.08]],
   };
   const MILESTONES = [   // year, utopia, label, where to read more
+    [1874, "transit", "First horsecar line, Spring and Sixth Streets", "https://metroprimaryresources.info/this-date-in-los-angeles-transportation-history/july/july-1/"],
+    [1901, "transit", "Pacific Electric incorporated; Red Cars to Long Beach in 1902", "https://en.wikipedia.org/wiki/Pacific_Electric"],
     [1904, "pastoral", "Residential District Ordinance", "https://en.wikipedia.org/wiki/Zoning_in_the_United_States#Los_Angeles,_1904-1909"],
     [1913, "coop", "Little Landers colony, Tujunga", "https://en.wikipedia.org/wiki/Little_Landers"],
     [1914, "coop", "Llano del Rio founded", "https://en.wikipedia.org/wiki/Llano_del_Rio"],
@@ -40,6 +42,7 @@
     [1953, "coop", "Elysian Park Heights cancelled", "https://en.wikipedia.org/wiki/Battle_of_Chavez_Ravine"],
     [1961, "transit", "The last Red Car runs, to Long Beach", "https://en.wikipedia.org/wiki/Pacific_Electric"],
     [1962, "coop", "Dodger Stadium opens in Chávez Ravine", "https://en.wikipedia.org/wiki/Dodger_Stadium"],
+    [1963, "transit", "The last streetcars (lines J, P, R, S and V) give way to buses", "https://metroprimaryresources.info/this-date-in-los-angeles-transportation-history/march/march-31/"],
     [1966, "autopia", "Santa Monica Freeway completed", "https://en.wikipedia.org/wiki/Santa_Monica_Freeway"],
     [1971, "autopia", "Banham publishes <i>Los Angeles: The Architecture of Four Ecologies</i>", "https://en.wikipedia.org/wiki/Reyner_Banham"],
     [1974, "centers", "Centers Concept adopted, 3 April", "https://libraryarchives.metro.net/dpgtl/lacity/1974-concept-los-angeles-side-1.pdf"],
@@ -57,6 +60,7 @@
       J("data/utopias.geojson"), J("img/topo_meta.json"), J("data/cities.geojson"), J("data/fwy500.geojson"), J("data/chart_places.geojson"), J("data/today_centres.geojson"),
       J("data/metro_lines.geojson"),
     ]);
+    const oldnet = await J("data/old_network.geojson").catch(() => ({ type: "FeatureCollection", features: [] }));
     const mobile = window.matchMedia("(max-width: 900px)");
 
     /* ======================= map & panes ======================= */
@@ -566,6 +570,27 @@
     if (year >= 1925 && year <= 1955) hsub.addTo(map);
     reg("hsubway", { ch: "transit", name: "Hollywood Subway, 1925", bounds: L.latLngBounds(HS).pad(0.35), layer: L.polyline(HS), maxZoom: 15, labelAt: [34.0551, -118.2553] });
 
+    // the rail network Los Angeles dismantled: Red Cars (Pacific Electric) and Yellow Cars (Los Angeles Railway) in 1925, traced from
+    // the Kelker, De Leuw plate (and line maps where they are more precise), in the plate's own browns; the last lines drawn heavier
+    const OLDC = { PE: "#a8743a", LARy: "#c88845" };
+    const oldStyle = (p) => (p.op === "PE" ? { color: OLDC.PE, weight: 2.2, opacity: 0.9 } : { color: OLDC.LARy, weight: 1.6, opacity: 0.95, dashArray: "4 3" });
+    const oldName = (p) => (p.op === "PE" ? "Red Cars (Pacific Electric)" : "Yellow Cars (Los Angeles Railway)");
+    const oldnetLayer = L.geoJSON({ type: "FeatureCollection", features: oldnet.features.filter((f) => !f.properties.last) }, { pane: "g-transit", style: (f) => oldStyle(f.properties),
+      onEachFeature: (f, l) => l.bindPopup(pop(f.properties.name || oldName(f.properties), `${oldName(f.properties)}, 1925`, `<p>${f.properties.op === "PE" ? "Interurban line" : "Streetcar line"} as drawn on the Kelker, De Leuw plan of 1925${f.properties.src === "plate" ? "" : " (route from a line map)"}.</p>`)) });
+    const lastF = (yr) => oldnet.features.filter((f) => f.properties.last === yr);
+    const lastLayer = L.featureGroup();
+    ["1961", "1963"].forEach((yr) => lastF(yr).forEach((f) => {
+      L.geoJSON(f, { pane: "g-transit", interactive: false, style: { color: INK, weight: 6, opacity: 0.85 } }).addTo(lastLayer);
+      L.geoJSON(f, { pane: "g-transit", style: { color: OLDC[f.properties.op], weight: 3.4, opacity: 1 } })
+        .bindPopup(pop(f.properties.name || oldName(f.properties), yr === "1961" ? "The Last Red Car, April 1961" : "The Last Streetcars, 31 March 1963",
+          `<p>${yr === "1961" ? "The Pacific Electric’s line between Los Angeles and Long Beach, the last Red Car route, closed by the Metropolitan Transit Authority." : "One of the five Yellow Car lines (J, P, R, S, V) the Metropolitan Transit Authority replaced with buses, the last streetcars in Los Angeles."}</p>`)).addTo(lastLayer);
+    }));
+    [["lastredcar", "The last Red Car, 1961", "1961"], ["laststreetcars", "The last streetcars, 1963", "1963"]].forEach(([id, name, yr]) => {
+      const fs = lastF(yr); if (!fs.length) return;
+      const l = L.geoJSON({ type: "FeatureCollection", features: fs });
+      reg(id, { ch: "transit", name, bounds: l.getBounds(), layer: l, maxZoom: yr === "1961" ? 11.5 : 12.5 });
+    });
+
     // V · Cooperative — footprints + numbered pins
     const pins = utop.features.filter((f) => !f.properties.shape);
     const shapes = Object.fromEntries(utop.features.filter((f) => f.properties.shape).map((f) => [f.properties.id, f]));
@@ -588,7 +613,7 @@
     });
     coopLayer.addTo(map);
 
-    const EXTRAS = { holc: holcLayer, zoned: zonedLayer, aadt: aadtLayer, bott: bottLayer, bh500, towers: towerLayer, rail: railLayer };
+    const EXTRAS = { holc: holcLayer, zoned: zonedLayer, aadt: aadtLayer, bott: bottLayer, bh500, towers: towerLayer, rail: railLayer, oldnet: oldnetLayer, lastrail: lastLayer };
     let extras = [];
     // the year layer is a 120 m grid: it reads at city scale and turns into blocks at street scale, so it fades out from zoom 12 to 13
     function morphOpacity() {
@@ -736,6 +761,8 @@
         if (extras.includes("rail")) h += lgRow("line", INK, "Metro rail");
       } else if (g === "transit") {
         h += `<h5>${NUM.transit} · The Transit Metropolis</h5>` + lgRow("line", LINE.transit, "Metro rail, as open in the year on the map") + lgRow("dash", LINE.transit, "Metro busway") + lgRow("ring", LINE.transit, "Rail station");
+        if (extras.includes("oldnet") && oldnet.features.length) h += `<h5>The Network of 1925</h5>` + lgRow("line", OLDC.PE, "Red Cars (Pacific Electric)") + lgRow("tdash", OLDC.LARy, "Yellow Cars (Los Angeles Railway)");
+        if (extras.includes("lastrail") && oldnet.features.length) h += lgRow("line", INK, "The last lines: Red Car 1961, streetcars 1963");
       } else if (g === "coop") {
         h += `<h5>${NUM.coop} · Cooperative Experiments</h5>` + lgRow("pin", COL.coop, "Experiment sites (numbered)") + lgRow("fill", COL.coop + "55", "Site outlines");
       }
@@ -1115,8 +1142,43 @@
         <div class="mini"><h4>The Experiments</h4>${gantt()}
           <p class="glegend"><span class="g1"></span>Community <span class="g2"></span>Buildings still standing <span class="g3"></span>Never built</p></div>`,
     };
+    // who ran what, when: each rail or busway system, private company years light, public agency years full ink
+    function systemsChart() {
+      const ROWS = [
+        ["Horsecars", [[1874, 1897, "p"]]],
+        ["Cable cars", [[1885, 1902, "p"]]],
+        ["Yellow Cars (streetcars)", [[1895, 1945, "p", "LA Railway"], [1945, 1958, "p", "LATL"], [1958, 1963, "g", ""]]],
+        ["Red Cars (interurbans)", [[1901, 1953, "p", "Pacific Electric"], [1953, 1958, "p", "MCL"], [1958, 1961, "g", ""]]],
+        ["Hollywood Subway", [[1925, 1955, "p"]]],
+        ["Busways", [[1973, 2026, "g", "El Monte 1973; Orange Line 2005"]]],
+        ["Metro Rail", [[1990, 2026, "g", "Blue Line 1990"]]],
+        ["Metrolink", [[1992, 2026, "g"]]],
+      ];
+      const W = cardW(), narrow = W < 420, LW = narrow ? 104 : 150, RH = 24, T0 = 6, ya = 1870, yb = 2026, X = (y) => LW + (y - ya) / (yb - ya) * (W - LW - 4);
+      const mx = (X(1963) + X(1990)) / 2;   // 31 March 1963 to 14 July 1990: no streetcar, interurban or metro line ran
+      let s = `<rect x="${X(1963)}" y="${T0}" width="${X(1990) - X(1963)}" height="${ROWS.length * RH}" fill="#f3f2ee"/>
+        <text x="${mx}" y="${T0 + 14}" text-anchor="middle" style="font-size:9px;fill:#6b6b6b">27 years</text>
+        <text x="${mx}" y="${T0 + 25}" text-anchor="middle" style="font-size:9px;fill:#6b6b6b">with no</text>
+        <text x="${mx}" y="${T0 + 36}" text-anchor="middle" style="font-size:9px;fill:#6b6b6b">streetcar</text>
+        <text x="${mx}" y="${T0 + 47}" text-anchor="middle" style="font-size:9px;fill:#6b6b6b">or metro</text>`;
+      (narrow ? [1880, 1920, 1960, 2000] : [1880, 1900, 1920, 1940, 1960, 1980, 2000, 2020]).forEach((y) => { s += `<line class="ax" x1="${X(y)}" x2="${X(y)}" y1="${T0}" y2="${T0 + ROWS.length * RH}"/><text x="${X(y)}" y="${T0 + ROWS.length * RH + 12}" text-anchor="middle" style="font-size:9px;fill:#6b6b6b">${y}</text>`; });
+      ROWS.forEach(([name, segs], i) => {
+        const y = T0 + i * RH + 4;
+        s += `<text class="lbl" x="0" y="${y + 11}" style="font-size:${narrow ? 10 : 11}px">${name}</text>`;
+        segs.forEach(([a, b, k, t]) => {
+          const w = Math.max(3, X(b) - X(a));
+          s += `<g><title>${name}: ${a} to ${b === 2026 ? "today" : b}${t ? ` (${t})` : ""}, ${k === "g" ? "public agency" : "private company"}</title>
+            <rect x="${X(a) + 0.5}" y="${y}" width="${w - 1}" height="15" fill="${k === "g" ? COL.transit : "#e7c9c4"}" stroke="${LINE.transit}" stroke-width="${k === "g" ? 0 : 1}"/></g>`;
+          if (t && w > t.length * 5.6 + 8) s += `<text x="${X(a) + 5}" y="${y + 11}" style="font-size:9.5px;fill:${k === "g" ? "#fff" : "#111"};stroke:none">${t}</text>`;
+        });
+      });
+      return `<h4>Who Ran Los Angeles’s Rail Transit, 1874 to 2026</h4>` + svgEl(W, T0 + ROWS.length * RH + 16, s) +
+        key([["background:#e7c9c4;border:1px solid " + LINE.transit, "private company"], [`background:${COL.transit}`, "public agency"]]) +
+        `<p class="mini-note">LATL: Los Angeles Transit Lines (National City Lines), 1945 to 1958. MCL: Metropolitan Coach Lines, which took over the Pacific Electric’s passenger services in 1953. From 1958 the public Los Angeles Metropolitan Transit Authority ran both until their last lines closed; Metro rail and busways are run today by the Los Angeles County Metropolitan Transportation Authority (1993), Metrolink by the Southern California Regional Rail Authority. Sources: LA Metro Research Library (“This Date in Los Angeles Transportation History” and its record of rail openings); Kelker, De Leuw &amp; Co. (1925).</p>`;
+    }
     // charts set in the essay itself, beside the paragraph they illustrate
     const INLINE = {
+      systems: systemsChart,
       ballots: () => `<h4>Nine Countywide Votes on Transit, 1968 to 2016</h4>${ballotBars()}
         <p class="mini-note">LA Metro Research Library, Los Angeles County Mass Transit Ballot Initiative Vote History (2017), with the share each measure required: the 1980 and 1990 taxes were held exempt from Proposition 13, while those of the merged agency since 1993 need two-thirds.</p>`,
     };
