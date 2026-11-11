@@ -20,6 +20,8 @@ Validation: 20% of the points (seeded) are held out, the models are fitted on th
 reported next to the leave-one-out figures; refit_plate.py then fits on all points and selects the model.
 
 usage: python dense_gcps.py <name>  (in plate_gcps.py's working directory)
+       python dense_gcps.py <name> --coverage <model>   redraw only the coverage image, coloured by <model>'s
+       leave-one-out residuals (e.g. the model refit_plate.py kept: img/<name>_registration.json)
   -> work2/gcps_<name>.json (dense; the plate_gcps.py points kept as 'seed'), work2/gcps_<name>_validation.json,
      work2/gcps_<name>_coverage.jpg (points coloured by leave-one-out residual, residual vectors x20, the grid)
 """
@@ -43,6 +45,40 @@ g2m = Transformer.from_crs(4326, 3310, always_xy=True).transform
 m2g = Transformer.from_crs(3310, 4326, always_xy=True).transform
 A = cfg['load'](cfg['img'])
 x0c, y0c, x1c, y1c = cfg['crop']
+
+def coverage_image(G, P, mpp, model_name, hold=None, empty=(), NX=12, NY=14):
+    """points coloured by leave-one-out residual of `model_name` (tps_s<smoothing>), residual vectors x20, the grid"""
+    sm = float(model_name.split('_s')[1]); loo_v = np.zeros_like(P)
+    for i in range(len(G)):
+        k = np.ones(len(G), bool); k[i] = False
+        f = RBFInterpolator(G[k] / 1000.0, P[k], kernel='thin_plate_spline', smoothing=sm); loo_v[i] = P[i] - f(G[i:i + 1] / 1000.0)[0]
+    loo = np.hypot(*loo_v.T) * mpp
+    sc = 4
+    prev = Image.fromarray(A[y0c:y1c:sc, x0c:x1c:sc]).convert('RGB')
+    prev = Image.blend(prev, Image.new('RGB', prev.size, 'white'), 0.45); d = ImageDraw.Draw(prev)
+    for i in range(1, NX): xx = (x1c - x0c) / NX * i / sc; d.line([(xx, 0), (xx, prev.size[1])], fill=(120, 120, 120))
+    for j in range(1, NY): yy = (y1c - y0c) / NY * j / sc; d.line([(0, yy), (prev.size[0], yy)], fill=(120, 120, 120))
+    for i, (p, v, r) in enumerate(zip(P, loo_v, loo)):
+        col = (0, 150, 0) if r < 20 else (230, 160, 0) if r < 40 else (220, 0, 0)
+        u, w = (p[0] - x0c) / sc, (p[1] - y0c) / sc
+        d.line([(u, w), (u + v[0] * 20 / sc, w + v[1] * 20 / sc)], fill=col, width=2)
+        d.ellipse((u - 5, w - 5, u + 5, w + 5), fill=col, outline=(0, 0, 0) if (hold is not None and hold[i]) else None, width=2)
+    for c in empty:
+        cx = (c[0] + 0.5) * (x1c - x0c) / NX / sc; cy = (c[1] + 0.5) * (y1c - y0c) / NY / sc
+        d.rectangle((cx - 8, cy - 8, cx + 8, cy + 8), outline=(0, 0, 255), width=2)
+    d.rectangle((0, 0, 640, 40), fill=(255, 255, 255))
+    d.text((6, 4), f'{NAME}: {len(G)} control points (black ring = checkpoint); colour = leave-one-out residual of {model_name}:', fill=(0, 0, 0))
+    d.text((6, 20), f'green < 20 m, orange 20-40 m, red > 40 m (RMSE {np.sqrt((loo ** 2).mean()):.1f} m); lines = residual x20; blue box = cell with streets, no point', fill=(0, 0, 0))
+    prev.save(f'work2/gcps_{NAME}_coverage.jpg', quality=88)
+    return loo
+
+if '--coverage' in sys.argv:
+    gj = json.load(open(f'work2/gcps_{NAME}.json')); pts = [o for o in gj['gcps'] if o.get('inlier')]
+    G = np.array([[o['x'], o['y']] for o in pts]); P = np.array([[o['u'], o['v']] for o in pts])
+    rng = np.random.default_rng(0); hold = np.zeros(len(G), bool); hold[rng.choice(len(G), int(round(0.2 * len(G))), replace=False)] = True
+    v = json.load(open(f'work2/gcps_{NAME}_validation.json'))
+    loo = coverage_image(G, P, gj['mpp'], sys.argv[sys.argv.index('--coverage') + 1], hold, [tuple(c) for c in v['cells_without_point']], *v['grid'])
+    print('coverage image; LOO RMSE', round(float(np.sqrt((loo ** 2).mean())), 1), 'm'); sys.exit(0)
 seed = json.load(open(f'work2/gcps_{NAME}.json'))
 mpp = seed['mpp']
 if 'seed' in seed: seed['gcps'] = seed['seed']               # rerun: start again from plate_gcps.py's points
