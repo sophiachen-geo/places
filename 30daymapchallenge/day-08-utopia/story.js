@@ -577,7 +577,8 @@
     const oldName = (p) => (p.op === "PE" ? "Red Cars (Pacific Electric)" : "Yellow Cars (Los Angeles Railway)");
     const lineName = (p) => (!p.name ? oldName(p) : /Line|Railway/.test(p.name) ? p.name : `Line ${p.name}`);
     const HOW = { plate: "Traced from the Kelker, De Leuw plan of 1925.", wiki: "Route as mapped for the line’s Wikipedia article from historical maps.",
-      ohm: "Track as mapped on OpenHistoricalMap, kept where the 1925 plan shows it.", streets: "Routed on today’s streets from the line’s 1920s route." };
+      ohm: "Track as mapped on OpenHistoricalMap, kept where the 1925 plan shows it.", streets: "Routed on today’s streets from the line’s 1920s route.",
+      pe1927: "Traced from the Pacific Electric’s 1927 engineering map of rail and bus lines.", usgs: "Traced from a 1920s U.S. Geological Survey map." };
     const oldnetLayer = L.geoJSON({ type: "FeatureCollection", features: oldnet.features.filter((f) => !f.properties.last) }, { pane: "g-transit", style: (f) => oldStyle(f.properties),
       onEachFeature: (f, l) => l.bindPopup(pop(lineName(f.properties), `${oldName(f.properties)}, about 1925`, `<p>${HOW[f.properties.src] || ""}</p>`)) });
     const lastF = (yr) => oldnet.features.filter((f) => f.properties.last === yr);
