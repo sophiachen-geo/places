@@ -13,6 +13,8 @@
   const LINE = { pastoral: "#007a42", autopia: "#b07600", centers: "#22397a", transit: "#7a1f20", coop: "#d12c8a" }; // darker steps of the same inks, for strokes
   const GROUPS = ["transit", "pastoral", "autopia", "centers", "coop"];   // chapter order
   const NUM = { transit: "I", pastoral: "II", autopia: "III", centers: "IV", coop: "V" };
+  const MSC = (ch) => COL[ch] || "#6b6b6b";   // milestone colour: the chapter's ink, or grey for the city's general history
+  const MSTXT = (ch) => (["autopia", "pastoral", "coop"].includes(ch) ? INK : "#ffffff");   // year text that stays legible on that ink
   const UNAME = { pastoral: "Pastoral suburb", autopia: "Autopia", centers: "Polycentric", transit: "Transit", coop: "Cooperative" };
   const INK = "#111111";
   const D0 = "";
@@ -26,7 +28,27 @@
     region: [[33.66, -118.80], [34.56, -117.70]],
     centers: [[33.74, -118.62], [34.28, -118.08]],
   };
-  const MILESTONES = [   // year, utopia, label, where to read more
+  const MILESTONES = [   // year, utopia (or "city" for the general history around them), label, where to read more
+    [1771, "city", "Mission San Gabriel founded on Tongva land", "https://en.wikipedia.org/wiki/Mission_San_Gabriel_Arc%C3%A1ngel"],
+    [1781, "city", "El Pueblo de la Reina de los Ángeles founded by 44 settlers, near the Tongva village of Yaanga", "https://en.wikipedia.org/wiki/History_of_Los_Angeles"],
+    [1821, "city", "Mexico wins independence; Los Angeles becomes a Mexican pueblo", "https://en.wikipedia.org/wiki/Alta_California"],
+    [1848, "city", "Treaty of Guadalupe Hidalgo: California passes to the United States", "https://en.wikipedia.org/wiki/Treaty_of_Guadalupe_Hidalgo"],
+    [1850, "city", "Los Angeles incorporated as a city; California becomes a state", "https://en.wikipedia.org/wiki/History_of_Los_Angeles"],
+    [1869, "city", "First railroad: Los Angeles to the harbour at Wilmington", "https://en.wikipedia.org/wiki/Los_Angeles_and_San_Pedro_Railroad"],
+    [1871, "city", "Chinese Massacre: a mob kills 18 Chinese residents", "https://en.wikipedia.org/wiki/Chinese_massacre_of_1871"],
+    [1876, "city", "Southern Pacific links Los Angeles to San Francisco", "https://en.wikipedia.org/wiki/Southern_Pacific_Transportation_Company"],
+    [1887, "city", "Land boom, after the Santa Fe’s arrival sets off a fare war", "https://en.wikipedia.org/wiki/Boom_of_the_1880s"],
+    [1892, "city", "Edward Doheny strikes oil in the city", "https://en.wikipedia.org/wiki/Edward_L._Doheny"],
+    [1913, "city", "Los Angeles Aqueduct brings Owens Valley water", "https://en.wikipedia.org/wiki/Los_Angeles_Aqueduct"],
+    [1915, "city", "The City annexes most of the San Fernando Valley", "https://en.wikipedia.org/wiki/San_Fernando_Valley"],
+    [1932, "city", "Summer Olympic Games", "https://en.wikipedia.org/wiki/1932_Summer_Olympics"],
+    [1942, "city", "Japanese Americans removed and incarcerated", "https://en.wikipedia.org/wiki/Internment_of_Japanese_Americans"],
+    [1943, "city", "Zoot Suit Riots", "https://en.wikipedia.org/wiki/Zoot_Suit_Riots"],
+    [1965, "city", "Watts uprising", "https://en.wikipedia.org/wiki/Watts_riots"],
+    [1984, "city", "Summer Olympic Games", "https://en.wikipedia.org/wiki/1984_Summer_Olympics"],
+    [1992, "city", "Unrest after the Rodney King verdicts", "https://en.wikipedia.org/wiki/1992_Los_Angeles_riots"],
+    [1994, "city", "Northridge earthquake", "https://en.wikipedia.org/wiki/1994_Northridge_earthquake"],
+    [2025, "city", "Palisades and Eaton fires", "https://en.wikipedia.org/wiki/January_2025_Southern_California_wildfires"],
     [1874, "transit", "First horsecar line, Spring and Sixth Streets", "https://metroprimaryresources.info/this-date-in-los-angeles-transportation-history/july/july-1/"],
     [1901, "transit", "Pacific Electric incorporated; Red Cars to Long Beach in 1902", "https://en.wikipedia.org/wiki/Pacific_Electric"],
     [1904, "pastoral", "Residential District Ordinance", "https://en.wikipedia.org/wiki/Zoning_in_the_United_States#Los_Angeles,_1904-1909"],
@@ -50,7 +72,7 @@
     [1990, "transit", "Blue Line: first modern rail line opens", "https://en.wikipedia.org/wiki/A_Line_(Los_Angeles_Metro)"],
     [1996, "centers", "General Plan Framework adopted", "https://planning.lacity.gov/plans-policies/framework-element"],
     [2016, "transit", "Measure M passes with 71% of the vote", "https://en.wikipedia.org/wiki/2008_Los_Angeles_County_Measure_R"],
-  ];
+  ].sort((a, b) => a[0] - b[0]);
 
   async function init() {
     const [S, M, SS, places, centers, towers, rail, stations, fwy, aadt, bott, holc, utop, topoMeta, cities, fwy500, chartPlaces, todayC, metro] = await Promise.all([
@@ -61,6 +83,7 @@
       J("data/metro_lines.geojson"),
     ]);
     const oldnet = await J("data/old_network.geojson").catch(() => ({ type: "FeatureCollection", features: [] }));
+    const traits = await J("data/centres_traits.json").catch(() => null);
     const mobile = window.matchMedia("(max-width: 900px)");
 
     /* ======================= map & panes ======================= */
@@ -160,7 +183,7 @@
     const hmax = Math.max(...Object.entries(H).filter(([y]) => +y >= Y0).map(([, v]) => v));
     function buildHist() {
       const w = tEl.clientWidth, h = tEl.clientHeight; if (!w) return; tw = w;
-      const n = Y1 - Y0 + 1, bw = w / n, mr = bw < 2.5 ? 2.5 : 3.2, top = 4 * mr + 5, bot = h - 13;
+      const n = Y1 - Y0 + 1, bw = w / n, mr = bw < 2.5 ? 2.5 : 3.2, top = 6 * mr + 6, bot = h - 13;
       const svg = document.createElementNS(SVGNS, "svg"); svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
       bars = [];
       for (let y = Y0; y <= Y1; y++) {
@@ -176,17 +199,17 @@
         const t = document.createElementNS(SVGNS, "text"); t.setAttribute("x", (y - Y0 + 0.5) * bw); t.setAttribute("y", h - 1);
         t.setAttribute("text-anchor", "middle"); t.textContent = y; svg.appendChild(t);
       }
-      // two rows of milestone dots; a dot drops to the second row when the first is taken
-      const rowEnd = [-1e9, -1e9];
-      MILESTONES.forEach(([y, ch, label]) => {
+      // three rows of milestone squares in each chapter's ink (general history in grey); a square drops a row when one is taken
+      const rowEnd = [-1e9, -1e9, -1e9];
+      MILESTONES.filter(([y]) => y >= Y0).forEach(([y, ch, label]) => {
         let cx = (y - Y0 + 0.5) * bw, row = rowEnd.findIndex((e) => cx - e >= 2 * mr + 1);
-        if (row < 0) { row = rowEnd[0] <= rowEnd[1] ? 0 : 1; cx = rowEnd[row] + 2 * mr + 1; }
+        if (row < 0) { row = rowEnd.indexOf(Math.min(...rowEnd)); cx = rowEnd[row] + 2 * mr + 1; }
         rowEnd[row] = cx;
-        const c = document.createElementNS(SVGNS, "rect");   // neutral markers: the utopia colours stay on the utopias
+        const c = document.createElementNS(SVGNS, "rect");
         c.setAttribute("x", cx - mr); c.setAttribute("y", 1 + row * (2 * mr + 1)); c.setAttribute("width", 2 * mr); c.setAttribute("height", 2 * mr);
-        c.setAttribute("fill", INK);
+        c.setAttribute("fill", MSC(ch));
         c.classList.add("ms"); c.dataset.year = y;
-        const ti = document.createElementNS(SVGNS, "title"); ti.textContent = `${y} · ${NUM[ch]} · ${label.replace(/<[^>]+>/g, "")}`; c.appendChild(ti);
+        const ti = document.createElementNS(SVGNS, "title"); ti.textContent = `${y} · ${NUM[ch] ? NUM[ch] + " · " : ""}${label.replace(/<[^>]+>/g, "")}`; c.appendChild(ti);
         svg.appendChild(c);
       });
       cursor = document.createElementNS(SVGNS, "line"); cursor.setAttribute("y1", top - 2); cursor.setAttribute("y2", bot + 3);
@@ -1181,8 +1204,53 @@
         key([["background:#e7c9c4;border:1px solid " + LINE.transit, "private company"], [`background:${COL.transit}`, "public agency"]]) +
         `<p class="mini-note">LATL: Los Angeles Transit Lines (National City Lines), 1945 to 1958. MCL: Metropolitan Coach Lines, which took over the Pacific Electric’s passenger services in 1953. From 1958 the public Los Angeles Metropolitan Transit Authority ran both until their last lines closed; Metro rail and busways are run today by the Los Angeles County Metropolitan Transportation Authority (1993), Metrolink by the Southern California Regional Rail Authority. Sources: LA Metro Research Library (“This Date in Los Angeles Transportation History” and its record of rail openings); Kelker, De Leuw &amp; Co. (1925).</p>`;
     }
+    // IV · why some centres came about: they were already there (a building of 150 ft or more before 1974), and what else the outcomes share
+    function headStart() {
+      if (!traits) return "";
+      const R = traits.centres, ORD = ["realised", "towers", "rail", "neither"], NBO = ["transit", "jobs", "urban", "suburban"];
+      const rank = (c) => ORD.indexOf(c.oc) * 10 + (c.oc === "neither" ? NBO.indexOf(c.nb) : 0);
+      const W = cardW(), narrow = W < 420, S = narrow ? 12 : 15, G = 3, PER = narrow ? 6 : 7;
+      const blocks = [["A tall building before 1974", R.filter((c) => c.tw_pre74 > 0)], ["None before 1974", R.filter((c) => !(c.tw_pre74 > 0))]];
+      const bw = PER * (S + G), gap = W - 2 * bw > 60 ? (W - 2 * bw) / 2 : 24;
+      const style = (c) => (c.oc === "neither" ? { fill: NB[c.nb].fill, stroke: NB[c.nb].stroke || "#8b877e", w: NB[c.nb].stroke ? 1.6 : 1, dash: NB[c.nb].dash || "2 1.5" }
+        : { fill: OUT[c.oc].fill, stroke: OUT[c.oc].stroke, w: c.oc === "rail" ? 2 : 1, dash: "" });
+      let s = "", hmax = 0;
+      blocks.forEach(([title, cs], b) => {
+        const x0 = b * (bw + gap), got = cs.filter((c) => c.oc === "realised" || c.oc === "towers").length;
+        s += `<text x="${x0}" y="12" class="lbl" style="font-size:11.5px">${title} · ${cs.length}</text>
+          <text x="${x0}" y="27" style="font-size:10px;fill:#6b6b6b">${got} of ${cs.length} got tall buildings</text>`;
+        cs.slice().sort((a, c) => rank(a) - rank(c) || a.name.localeCompare(c.name)).forEach((c, i) => {
+          const x = x0 + (i % PER) * (S + G), y = 36 + Math.floor(i / PER) * (S + G), st = style(c), nm = ALIAS[c.name] || c.name;
+          hmax = Math.max(hmax, y + S);
+          s += `<rect x="${x + 0.5}" y="${y + 0.5}" width="${S - 1}" height="${S - 1}" fill="${st.fill}" stroke="${st.stroke}" stroke-width="${st.w}"${st.dash ? ` stroke-dasharray="${st.dash}"` : ""}><title>${nm}: ${c.tw_pre74} building${c.tw_pre74 === 1 ? "" : "s"} of 150 ft+ before 1974, ${c.tw_post74} since</title></rect>`;
+        });
+      });
+      const T = traits.summary, M = T.median, CT = T.count_true;
+      const ROWS = [["Tall buildings before 1974", (k) => M.tw_pre74[k], (v) => String(v), "150 ft and up, median count"],
+        ["Commercial floor space", (k) => M.com_ksqft_pre74[k], (v) => (v / 1000).toFixed(1) + "M", "built before 1974, median sq ft, City only"],
+        ["Distance to Downtown", (k) => M.km_downtown[k], (v) => Math.round(v) + " km", "median"],
+        ["Median household income", (k) => M.income[k], (v) => "$" + Math.round(v / 1000) + "k", "median of the four groups"],
+        ["Freeway within half a mile", (k) => CT.fwy_half[k][0] / CT.fwy_half[k][1] * 100, (v, k) => `${CT.fwy_half[k][0]} of ${CT.fwy_half[k][1]}`, "share of the group"]];
+      const LW2 = narrow ? 118 : 196, cw = (W - LW2) / 4, top = hmax + 34;
+      let t = `<line x1="0" x2="${W}" y1="${top - 22}" y2="${top - 22}" stroke="#d6d6d6"/>`;
+      ORD.forEach((k, j) => { const st = k === "neither" ? { fill: "#e8e4dc", stroke: "#8b877e", w: 1, dash: "3 2" } : style({ oc: k });
+        t += `<rect x="${LW2 + j * cw + 1}" y="${top - 12}" width="11" height="11" fill="${st.fill}" stroke="${st.stroke}" stroke-width="${st.w}"${st.dash ? ` stroke-dasharray="${st.dash}"` : ""}/>
+          <text x="${LW2 + j * cw + 16}" y="${top - 3}" style="font-size:${narrow ? 9 : 10}px;font-weight:600;fill:#111">${{ realised: "Both", towers: "Towers", rail: "Rail", neither: "Neither" }[k]} · ${T.n[k]}</text>`; });
+      const SHORT = ["Tall, pre-1974", "Commercial space", "To Downtown", "Income", "Freeway nearby"];
+      ROWS.forEach(([lab, get, fmtv, note], i) => {
+        const y = top + 10 + i * 34, vals = ORD.map(get), mx = Math.max(...vals);
+        t += `<text x="0" y="${y + 10}" class="lbl" style="font-size:${narrow ? 10 : 11}px">${narrow ? SHORT[i] : lab}</text>${narrow ? "" : `<text x="0" y="${y + 22}" style="font-size:9px;fill:#6b6b6b">${note}</text>`}`;
+        ORD.forEach((k, j) => { const v = vals[j], bwid = Math.max(1.5, v / mx * (cw - 14));
+          t += `<rect x="${LW2 + j * cw}" y="${y + 13}" width="${bwid}" height="6" fill="${i < 2 ? COL.centers : "#9d988d"}"/>
+            <text x="${LW2 + j * cw}" y="${y + 9}" style="font-size:10.5px;font-weight:600;fill:#111">${fmtv(v, k)}</text>`; });
+      });
+      const H = top + 10 + ROWS.length * 34;
+      return `<h4>Why Some Centres Came About: They Were Already There</h4>` + svgEl(W, H, s + t) +
+        `<p class="mini-note">Each square is one of the 56 centres, coloured as in the bar at the head of this chapter (the four greys and the pale blue are the centres that got neither, by what they became instead); hover for its name. Of the 21 centres where a building of 150 ft or more already stood before 1974, 16 got tall buildings; of the 35 where none did, only Warner Center grew them, and Civic Center appears among them only because its public buildings carry no construction date. Buildings of 150 ft and up (LARIAC 2020, City certificates of occupancy) are dated by their parcel’s year built on the 2026 Assessor roll; demolished older towers are missing, so the head start is if anything understated. Commercial floor space: Assessor roll, City of Los Angeles centres only. Distance from Pershing Square; income: ACS 2020–2024. Blue rows separate the outcomes; grey rows barely do.</p>`;
+    }
     // charts set in the essay itself, beside the paragraph they illustrate
     const INLINE = {
+      headstart: headStart,
       systems: systemsChart,
       ballots: () => `<h4>Nine Countywide Votes on Transit, 1968 to 2016</h4>${ballotBars()}
         <p class="mini-note">LA Metro Research Library, Los Angeles County Mass Transit Ballot Initiative Vote History (2017), with the share each measure required: the 1980 and 1990 taxes were held exempt from Proposition 13, while those of the merged agency since 1993 need two-thirds.</p>`,
@@ -1201,7 +1269,7 @@
 
     /* chronology interlude */
     const msList = document.getElementById("milestones");
-    msList.innerHTML = MILESTONES.map(([y, ch, t, u]) => `<li data-year="${y}"><b>${y}</b><span><a class="ms-link" href="${u}" target="_blank" rel="noopener" title="Read more">${t}</a></span><i title="${UNAME[ch]}">${NUM[ch]}</i></li>`).join("");
+    msList.innerHTML = MILESTONES.map(([y, ch, t, u]) => `<li data-year="${y}" data-ch="${ch}"><b style="background:${MSC(ch)};color:${MSTXT(ch)}">${y}</b><span><a class="ms-link" href="${u}" target="_blank" rel="noopener" title="Read more">${t}</a></span><i title="${UNAME[ch] || "Los Angeles"}">${NUM[ch] || ""}</i></li>`).join("");
     msList.querySelectorAll("li").forEach((li) => li.addEventListener("click", () => tweenYear(+li.dataset.year, 900)));
     msList.querySelectorAll(".ms-link").forEach((a_) => a_.addEventListener("click", (e) => e.stopPropagation()));
 
