@@ -139,10 +139,10 @@ button, select, input { font-family: var(--sans); }
   background: var(--paper) !important; color: var(--ink) !important; padding: 9px 14px !important; }
 .pl-play:hover { background: var(--u-autopia) !important; }
 .milestones { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: 22px; }
-.milestones li { break-inside: avoid; display: grid; grid-template-columns: 2.8em 1fr auto; gap: 8px; align-items: baseline; font: 400 0.8rem/1.35 var(--sans);
+.milestones li { break-inside: avoid; display: grid; grid-template-columns: 3.3em 1fr auto; gap: 8px; align-items: baseline; font: 400 0.8rem/1.35 var(--sans);
   padding: 4px 0; border-top: 1px solid #333; cursor: pointer; color: #e6e6e6; }
 .milestones li:hover { color: var(--paper); }
-.milestones li b { font-weight: 600; color: var(--paper); font-variant-numeric: tabular-nums; }
+.milestones li b { font-weight: 600; color: var(--paper); font-variant-numeric: tabular-nums; padding: 1px 4px; text-align: center; align-self: start; }
 .milestones li i { font: italic 600 0.8rem/1 var(--serif); color: #bdbdbd; }
 
 /* ---------- photographs (filled from photos/photos.json) ---------- */
