@@ -367,10 +367,12 @@ def vec27(mask, spur=30, minlen=12):
     out = []
     for P in skel_paths(skeletonize(mask), spur):
         if len(P) < minlen: continue
-        Q = P[::3] if len(P) > 6 else P
+        if len(P) >= 15:      # smooth out the teeth where a dashed motor coach line touches a rail line on the same street
+            S_ = np.c_[ndi.uniform_filter1d(P[:, 0], 15, mode='nearest'), ndi.uniform_filter1d(P[:, 1], 15, mode='nearest')]; S_[0], S_[-1] = P[0], P[-1]; P = S_
+        Q = P[::4] if len(P) > 8 else P
         if not np.array_equal(Q[-1], P[-1]): Q = np.vstack([Q, P[-1]])
         L = LineString(inv27(Q + PAD27))
-        out.append(snap_line(L, r=60.0, step=10.0, minrun=4, lines=SNAPL_ALL, tree=SNAPTREE_ALL).simplify(3.0))
+        out.append(snap_line(L, r=60.0, ang=30.0, step=10.0, minrun=4, lines=SNAPL_ALL, tree=SNAPTREE_ALL).simplify(4.0))
     return out
 PE27 = vec27(solid27(RED27)); LARY27 = vec27(solid27(YEL27))
 SUB27 = vec27(ndi.binary_closing(ndi.binary_dilation(dashed27(BLK27), iterations=2), structure=np.ones((15, 15))), spur=10)
@@ -462,7 +464,9 @@ def add(geom, op, name, src, last=None):
     feats.append({'type': 'Feature', 'geometry': {'type': 'MultiLineString', 'coordinates': out}, 'properties': {'op': op, 'name': name, 'src': src, 'last': last}})
     meta.append((op, geom, last))
 def rest(L, cover, buf=60.0, minlen=200.0):
-    if not cover: return L if L.length >= minlen else None
+    if not cover:
+        parts = [p for p in (L.geoms if hasattr(L, 'geoms') else [L]) if p.length >= minlen]
+        return MultiLineString(parts) if parts else None
     d = L.difference(unary_union(cover).buffer(buf))
     parts = [p for p in (d.geoms if hasattr(d, 'geoms') else [d]) if p.geom_type == 'LineString' and p.length >= minlen]
     return MultiLineString(parts) if parts else None
@@ -473,26 +477,38 @@ def name_from(L, named, buf=150.0, need=0.6):
         f = L.intersection(gm.buffer(buf)).length / max(L.length, 1e-9)
         if f > best[0]: best = (f, nm)
     return best[1] if best[0] >= need else None
-# Pacific Electric: wiki > usgs > 1927 map > plate > ohm (a later source fills only what the earlier ones leave out)
+# Pacific Electric: inside the 1927 map, the map's own lines come first (it is the company's engineering map of its rail
+# lines); then the Wikipedia route maps, the USGS traces, the plate and OpenHistoricalMap fill only what is still missing
 taken = []; named = {}
 for nm, ls in WIKI.items():
-    gm = unary_union(ls); add(gm.simplify(4.0), 'PE', nm, 'wiki'); taken.append(gm); named[nm] = gm
+    gm = unary_union(ls); named[nm] = gm
     if nm.startswith('Long Beach Line'): add(gm.simplify(4.0), 'PE', nm, 'wiki', last='1961')
 for nm, L in TOPO.items():
-    r = rest(L, taken, minlen=100.0); nm = nm.replace(' (south)', '')
-    if r is not None: add(r, 'PE', nm, 'usgs'); taken.append(r); named[nm] = unary_union([named[nm], L]) if nm in named else L
+    nm2 = nm.replace(' (south)', ''); named[nm2] = unary_union([named[nm2], L]) if nm2 in named else L
 traced = {nm: snap_line(LineString(inv(trace(wps)))) for nm, wps in PE_TRACE.items() if nm != 'Hawthorne–Redondo Beach'}   # that one: usgs
-for L in PE27 + SUB27:
+for L in SUB27:
+    add(L, 'PE', 'Hollywood Subway', 'pe1927'); taken.append(L)
+for L in PE27:
     r = rest(L, taken, minlen=60.0)
     if r is None: continue
-    sub = any(L is q for q in SUB27)
-    nm = 'Hollywood Subway' if sub else (name_from(r, {**named, **traced}) or None)
-    add(r, 'PE', nm, 'pe1927'); taken.append(r)
+    add(r, 'PE', name_from(r, {**named, **traced}), 'pe1927'); taken.append(r)
+for nm, ls in WIKI.items():
+    r = rest(named[nm], taken, buf=150.0, minlen=150.0)
+    if r is not None: add(r.simplify(4.0), 'PE', nm, 'wiki'); taken.append(r)
+for nm, L in TOPO.items():
+    r = rest(L, taken, minlen=100.0)
+    if r is not None: add(r, 'PE', nm.replace(' (south)', ''), 'usgs'); taken.append(r)
+IN27 = COVER27.buffer(-300.0)          # inside the 1927 map its lines are the record: the plate and OpenHistoricalMap only fill outside it
+def outside27(L):
+    d = L.difference(IN27); parts = [p for p in (d.geoms if hasattr(d, 'geoms') else [d]) if p.geom_type == 'LineString']
+    return MultiLineString(parts) if parts else None
 for nm, L in traced.items():
-    r = rest(L, taken, buf=150.0)                                   # the plate is good to ~150 m: a parallel trace within that is the same line
+    L = outside27(L)
+    r = rest(L, taken, buf=150.0) if L is not None else None        # the plate is good to ~150 m: a parallel trace within that is the same line
     if r is not None: add(r, 'PE', nm.replace(' (south)', ''), 'plate'); taken.append(r)
 for L in OHM:
-    r = rest(L, taken)
+    L = outside27(L)
+    r = rest(L, taken) if L is not None else None
     if r is not None: add(r, 'PE', None, 'ohm'); taken.append(r)
 # Los Angeles Railway: routed lines (pruned where the 1927 map shows no transit line on the street) > 1927 map
 routed = {}; pruned = {}
@@ -500,7 +516,7 @@ for nm, spec in LARY.items():
     L = route(spec)
     if L is None: print('no route', nm); continue
     L2, cut = prune_by_1927(L)
-    pruned[nm] = round(cut / 1000, 2)
+    pruned[nm] = round(float(cut) / 1000, 2)
     if L2 is None: continue
     routed[nm] = L2; add(L2, 'LARy', nm, 'streets')
     if nm in LAST_1963: add(L2, 'LARy', nm, 'streets', last='1963')
