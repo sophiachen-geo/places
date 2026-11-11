@@ -97,7 +97,7 @@ CUSTOM = {
         thr_px=12.0),
     'pe1927': dict(
         img='dl_maps/1927_pe_lary_engineer.jpg', load=_load_1927, lines=_lines_1927, streets=_streets_1927,
-        centrelines='raw4/roads_all_pe1927.geojson', dense_cell_m=350, dense_half_m=650, dense_search_m=80, grid_cells=(12, 14),
+        centrelines='raw4/roads_all_pe1927.geojson', dense_cell_m=350, dense_half_m=650, dense_search_m=80, grid_cells=(12, 14), dense_keep=1500,
         crop=(250 + PAD27, 300 + PAD27, 4590 + PAD27, 5540 + PAD27), zmax=15, window=(-118.50, 33.92, -118.08, 34.24),
         anchors=[((2270 + PAD27, 3780 + PAD27), (-118.29154, 34.01838)),   # Vermont Av and Exposition Bl
                  ((2125 + PAD27, 3780 + PAD27), (-118.30018, 34.01818)),   # Normandie Av and Exposition Bl

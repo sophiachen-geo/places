@@ -12,7 +12,10 @@ plate_gcps.py gives a first model from a few dozen points matched on the plate's
   5. the whole is run twice, the second time with the model refitted on the first round's points;
   6. where the leave-one-out residuals cluster (a point off by more than 25 m: folds, paper stretch, the sheet's edges),
      every intersection within 1.2 km on a 150 m cell is matched as well, and empty cells are searched with all of their
-     intersections (up to 20, clear-peak ratio 1.03); the consensus is then rerun on everything.
+     intersections (up to 20, clear-peak ratio 1.03); the consensus is then rerun on everything;
+  7. the inliers are thinned to an even spread of about `dense_keep` points (the best-scoring point per square cell, the
+     cell size chosen to reach that number, every grid cell keeping at least one point), so that the leave-one-out
+     comparison of models (here and in refit_plate.py) stays tractable.
 Validation: 20% of the points (seeded) are held out, the models are fitted on the rest, and the held-out residuals are
 reported next to the leave-one-out figures; refit_plate.py then fits on all points and selects the model.
 
@@ -186,6 +189,27 @@ ok, e = consensus(cand3)
 for o, k, ee in zip(cand3, ok, e): o['inlier'] = bool(k); o['local_px'] = round(float(ee), 2)
 pts = [o for o in cand3 if o['inlier']]
 print(f'round 2 (residual clusters): +{len(more)} sites near {len(hot)} points, +{len(fill)} in empty cells; candidates {len(cand3)}, inliers {len(pts)}', flush=True)
+# 7. thin to an even spread
+target = cfg.get('dense_keep', 1500)
+def thin(points, cell):
+    best = {}
+    for o in points:
+        key = (int(o['x'] // cell), int(o['y'] // cell))
+        if key not in best or o['score'] > best[key]['score']: best[key] = o
+    kept = list(best.values()); got = {cell_of(o['u'], o['v'], NX, NY) for o in kept}
+    for o in sorted(points, key=lambda o: -o['score']):              # a grid cell must not lose its last point
+        c = cell_of(o['u'], o['v'], NX, NY)
+        if c not in got: kept.append(o); got.add(c)
+    return kept
+lo_, hi_ = 100.0, 3000.0
+for _ in range(30):
+    mid = (lo_ + hi_) / 2; n_ = len(thin(pts, mid))
+    if n_ > target: lo_ = mid
+    else: hi_ = mid
+kept = thin(pts, hi_); keep_ids = {id(o) for o in kept}
+for o in cand3: o['dense_inlier'] = o['inlier']; o['inlier'] = id(o) in keep_ids
+pts = kept
+print(f'thinned to {len(pts)} points (one per {hi_:.0f} m cell)', flush=True)
 model = tps([[o['x'], o['y']] for o in pts], [[o['u'], o['v']] for o in pts], 50.0)
 allc = cand3
 
