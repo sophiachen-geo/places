@@ -1,0 +1,182 @@
+{
+ "name": "pe1927",
+ "method": "Pacific Electric Ry., map C.E. 8214 (1927). First model: 40 control points matched on the coloured transit lines against LA County CAMS arterial centrelines (plate_gcps.py). Then dense_gcps.py: the street spaces of the blue street map reduced to centrelines and matched locally (650 m windows, 80 m search) against every CAMS street at intersections all over the sheet, kept where clear of the next peak and agreeing with their 10 nearest neighbours; denser around clustered residuals (the sheet edges: paper stretch); 2,872 agreeing points, thinned to an even 1,500 (one per ~400 m). Model chosen by refit_plate.py: lowest stretch among the models within 10% of the best leave-one-out error.",
+ "control_points": 1500,
+ "m_per_px": 6,
+ "model": "tps_s10",
+ "models": {
+  "affine": {
+   "rmse_m": 79,
+   "loo_rmse_m": 79,
+   "loo_median_m": 66,
+   "loo_p90_m": 119,
+   "scale_variation_pct": 0.0,
+   "stretch_p95": 1.025
+  },
+  "poly2": {
+   "rmse_m": 52,
+   "loo_rmse_m": 52,
+   "loo_median_m": 42,
+   "loo_p90_m": 81,
+   "scale_variation_pct": 1.9,
+   "stretch_p95": 1.053
+  },
+  "poly3": {
+   "rmse_m": 46,
+   "loo_rmse_m": 46,
+   "loo_median_m": 35,
+   "loo_p90_m": 73,
+   "scale_variation_pct": 2.1,
+   "stretch_p95": 1.053
+  },
+  "tps_s1000": {
+   "rmse_m": 34,
+   "loo_rmse_m": 35,
+   "loo_median_m": 25,
+   "loo_p90_m": 55,
+   "scale_variation_pct": 1.5,
+   "stretch_p95": 1.046
+  },
+  "tps_s200": {
+   "rmse_m": 27,
+   "loo_rmse_m": 28,
+   "loo_median_m": 18,
+   "loo_p90_m": 44,
+   "scale_variation_pct": 1.9,
+   "stretch_p95": 1.05
+  },
+  "tps_s50": {
+   "rmse_m": 21,
+   "loo_rmse_m": 23,
+   "loo_median_m": 13,
+   "loo_p90_m": 36,
+   "scale_variation_pct": 2.2,
+   "stretch_p95": 1.056
+  },
+  "tps_s10": {
+   "rmse_m": 15,
+   "loo_rmse_m": 17,
+   "loo_median_m": 9,
+   "loo_p90_m": 27,
+   "scale_variation_pct": 2.7,
+   "stretch_p95": 1.067
+  }
+ },
+ "zmax": 15,
+ "validation": {
+  "checkpoints": 300,
+  "note": "20% of the points held out (seeded), models fitted on the other 80%",
+  "by_model": {
+   "affine": {
+    "check_rmse_m": 80.1,
+    "check_median_m": 67.2,
+    "check_p90_m": 117.8
+   },
+   "poly2": {
+    "check_rmse_m": 53.0,
+    "check_median_m": 39.9,
+    "check_p90_m": 82.7
+   },
+   "poly3": {
+    "check_rmse_m": 48.8,
+    "check_median_m": 34.5,
+    "check_p90_m": 73.2
+   },
+   "tps_s1000": {
+    "check_rmse_m": 36.8,
+    "check_median_m": 26.3,
+    "check_p90_m": 58.6
+   },
+   "tps_s200": {
+    "check_rmse_m": 30.0,
+    "check_median_m": 21.0,
+    "check_p90_m": 48.7
+   },
+   "tps_s50": {
+    "check_rmse_m": 24.8,
+    "check_median_m": 14.9,
+    "check_p90_m": 41.3
+   },
+   "tps_s10": {
+    "check_rmse_m": 20.1,
+    "check_median_m": 9.8,
+    "check_p90_m": 33.4
+   }
+  },
+  "grid": [
+   12,
+   14
+  ],
+  "cells_with_streets": 166,
+  "cells_without_point": [
+   [
+    0,
+    3
+   ],
+   [
+    1,
+    10
+   ],
+   [
+    1,
+    11
+   ],
+   [
+    2,
+    3
+   ],
+   [
+    3,
+    3
+   ],
+   [
+    4,
+    3
+   ],
+   [
+    5,
+    3
+   ],
+   [
+    7,
+    0
+   ],
+   [
+    9,
+    1
+   ],
+   [
+    9,
+    13
+   ],
+   [
+    10,
+    7
+   ],
+   [
+    10,
+    9
+   ],
+   [
+    11,
+    3
+   ],
+   [
+    11,
+    5
+   ],
+   [
+    11,
+    6
+   ],
+   [
+    11,
+    7
+   ],
+   [
+    11,
+    9
+   ]
+  ]
+ }
+}

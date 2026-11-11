@@ -1903,11 +1903,11 @@
  "old_network": {
   "period": "about 1925 (the networks near their peak); the central lines as drawn on the 1927 engineering map",
   "miles_1925": {
-   "PE": 419.5,
+   "PE": 418.8,
    "LARy": 189.0
   },
   "miles_1925_plate_window": {
-   "PE": 398.4,
+   "PE": 397.6,
    "LARy": 189.0
   },
   "miles_1927_map_window": {
@@ -1916,9 +1916,9 @@
   },
   "miles_by_source": {
    "wiki": 174.2,
-   "usgs": 13.5,
+   "usgs": 18.1,
    "pe1927": 177.3,
-   "plate": 94.6,
+   "plate": 89.3,
    "ohm": 20.1,
    "streets": 128.5
   },
@@ -1983,6 +1983,7 @@
    "PE_usgs": [
     "Hawthorne\u2013El Nido Line",
     "Long Beach\u2013San Pedro Line",
+    "San Pedro via Dominguez Line",
     "Westgate Line"
    ],
    "PE_plate": [
@@ -2033,7 +2034,7 @@
     "V"
    ]
   },
-  "method": "Pacific Electric: Wikipedia route maps where a line has one; the Long Beach-San Pedro, Hawthorne-El Nido and Westgate lines traced on USGS 1:24,000 sheets of 1924-25; in central Los Angeles every rail line drawn solid red on the Pacific Electric engineering department's 1927 map (C.E. 8214), extracted by colour, its motor coach (bus) lines left out by their dashes; elsewhere the lines traced from the 1925 Kelker, De Leuw plate and snapped to surviving rail or road centrelines, and OpenHistoricalMap track where the plate agrees. Los Angeles Railway: each line routed on today's streets from the street sequence its Wikipedia article gives for the 1920s, checked against the 1927 map, plus every other line drawn solid yellow on that map. The layer shows the networks about 1925; the central lines are as of 1927. Route miles: lines buffered 25 m and unioned, shared track counted once, per company.",
+  "method": "Pacific Electric: Wikipedia route maps where a line has one; the Long Beach-San Pedro, Hawthorne-El Nido and Westgate lines, and the San Pedro via Dominguez Line through Wilmington, traced on USGS 1:24,000 sheets of 1924-25; in central Los Angeles every rail line drawn solid red on the Pacific Electric engineering department's 1927 map (C.E. 8214), extracted by colour, its motor coach (bus) lines left out by their dashes; elsewhere the lines traced from the 1925 Kelker, De Leuw plate and snapped to surviving rail or road centrelines, and OpenHistoricalMap track where the plate agrees. Los Angeles Railway: each line routed on today's streets from the street sequence its Wikipedia article gives for the 1920s, checked against the 1927 map, plus every other line drawn solid yellow on that map. The layer shows the networks about 1925; the central lines are as of 1927. Route miles: lines buffered 25 m and unioned, shared track counted once, per company.",
   "src": "Wikipedia line articles and route maps (CC BY-SA); Pacific Electric Railway, map C.E. 8214 (1927) and Kelker, De Leuw & Co. 1925, Plate 1 (LA Metro Research Library); USGS Historical Topographic Map Collection (Wilmington 1925, Torrance 1924, Inglewood 1924, Sawtelle 1925); OpenHistoricalMap (CC0); LA County CAMS centrelines"
  }
 }

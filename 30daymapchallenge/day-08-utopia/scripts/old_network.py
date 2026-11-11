@@ -581,3 +581,33 @@ json.dump(st, open(DAY + 'data/story_stats.json', 'w'), indent=1)
 print('features', len(feats), 'PE miles', st['old_network']['miles_1925']['PE'], 'LARy miles', st['old_network']['miles_1925']['LARy'])
 print('by source', st['old_network']['miles_by_source'], 'pruned km', pruned)
 print(os.path.getsize(DAY + 'data/old_network.geojson') // 1024, 'KB')
+
+# ---------------------------------------------------------------------------------------------------------------
+# Last step: smooth the jitter of pixel-traced lines (1927 map, 1925 plate, USGS sheets). A traced line with more
+# than two sharp turns (over 60 degrees) is resampled every 10 m, moving-averaged over about 120 m (end points kept)
+# and lightly simplified; this moves no line more than about 35 m, within the sources' own accuracy.
+import math as _m
+from shapely.geometry import shape as _shape, mapping as _mapping, LineString as _LS, MultiLineString as _MLS
+from shapely.ops import transform as _tf
+_m2g = Transformer.from_crs(3310, 4326, always_xy=True).transform
+def _turns(ln):
+    c = list(ln.coords); t = 0
+    for a, b, cc in zip(c, c[1:], c[2:]):
+        v1 = (b[0] - a[0], b[1] - a[1]); v2 = (cc[0] - b[0], cc[1] - b[1]); n1 = _m.hypot(*v1); n2 = _m.hypot(*v2)
+        if n1 >= 1 and n2 >= 1 and _m.degrees(_m.acos(max(-1, min(1, (v1[0] * v2[0] + v1[1] * v2[1]) / (n1 * n2))))) > 60: t += 1
+    return t
+def _smooth(ln, k=6):
+    n = max(3, int(ln.length / 10)); pts = [ln.interpolate(i / n, normalized=True).coords[0] for i in range(n + 1)]
+    out = [pts[0]] + [tuple(sum(p[j] for p in pts[max(0, i - k): i + k + 1]) / len(pts[max(0, i - k): i + k + 1]) for j in (0, 1)) for i in range(1, n)] + [pts[-1]]
+    return _LS(out).simplify(3)
+def _rnd(o): return [_rnd(v) for v in o] if o and isinstance(o[0], (list, tuple)) else [round(o[0], 5), round(o[1], 5)]
+_d = json.load(open(DAY + 'data/old_network.geojson')); _n = 0
+for _f in _d['features']:
+    if _f['properties']['src'] not in ('pe1927', 'plate', 'usgs'): continue
+    _g = _tf(g2m, _shape(_f['geometry'])); _parts = list(_g.geoms) if _g.geom_type == 'MultiLineString' else [_g]
+    if sum(_turns(p) for p in _parts) <= 2: continue
+    _new = [_smooth(p) if _turns(p) > 2 else p for p in _parts]
+    _gm = _mapping(_tf(_m2g, _MLS(_new) if _g.geom_type == 'MultiLineString' else _new[0])); _gm['coordinates'] = _rnd(_gm['coordinates'])
+    _f['geometry'] = _gm; _n += 1
+json.dump(_d, open(DAY + 'data/old_network.geojson', 'w'), separators=(',', ':'))
+print('smoothed', _n, 'traced lines')
