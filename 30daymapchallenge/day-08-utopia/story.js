@@ -290,6 +290,9 @@
       transit1925: { url: "tiles/transit1925/{z}/{x}/{y}.webp", maxN: 13, bounds: [[33.66, -118.69], [34.37, -117.61]], tag: "1925 Plan",
         cap: "Kelker, De Leuw &amp; Co., 1925", href: "https://libraryarchives.metro.net/DPGTL/trafficplans/1925_comprehensive_rapid_transit_plan_los_angeles.pdf",
         win: [[33.72, -118.66], [34.30, -117.80]] },
+      pe1927: { url: "tiles/pe1927/{z}/{x}/{y}.webp", maxN: 15, bounds: [[33.926, -118.421], [34.207, -118.148]], tag: "1927 Map",
+        cap: "Pacific Electric Railway, Office of Chief Engineer, map C.E. 8214, 1927", href: "https://libraryarchives.metro.net/DPGTL/maps/1927_pe_lary_engineer.jpg",
+        win: [[33.93, -118.42], [34.205, -118.15]] },
       parks1930: { url: "tiles/parks1930/{z}/{x}/{y}.webp", maxN: 12, bounds: [[33.73, -118.73], [34.45, -117.52]], tag: "1930 Plan",
         cap: "Olmsted Brothers &amp; Bartholomew, 1930", href: "https://libraryarchives.metro.net/DPGTL/trafficplans/1930_parks_playgrounds_beaches_los_angeles_region.pdf",
         win: [[33.80, -118.81], [34.45, -117.60]] },
@@ -316,6 +319,9 @@
       .map(([k, v]) => `<option value="sheet:${k}">${v.year} · ${v.names.join(" and ")}</option>`).join("");
     // each original map's own printed legend (colours sampled from the scans)
     const OLEG = {
+      pe1927: [["line", "#d56149", "Pacific Electric rail lines (Red Cars)"], ["dash", "#d56149", "Pacific Electric bus lines"], ["dash", "#5a4a42", "Pacific Electric subway"],
+        ["line", "#e2bd40", "Los Angeles Railway rail lines (Yellow Cars)"], ["dash", "#e2bd40", "Los Angeles Railway bus lines"], ["line", "#62bf99", "Los Angeles Motor Coach Co."],
+        ["line", "#c2a9c0", "Motor Transit Co. buses"]],
       transit1925: [["band", "#211916", "Rapid transit, existing"], ["band", "#d8775e", "Rapid transit for immediate construction"], ["bandd", "#d8775e", "Rapid transit for future construction"],
         ["bando", "#d8775e", "Future separation of grades"], ["tdash", "#c88845", "Los Angeles Railway (streetcars)"], ["line", "#ba7c3b", "Pacific Electric Railway (Red Cars)"]],
       parks1930: [["fill", "#659257", "Existing parks"], ["fill", "#ea7669", "Proposed parks, parkways and beaches"], ["line", "#4a4a4a", "Roads, railways and terrain (base map)"]],
@@ -437,7 +443,7 @@
       if (k !== "none") { const l = getOrig(k); l.setOpacity(opFor(k)); l.addTo(map); document.getElementById("o-op").value = Math.round(opFor(k) * 100); }
       oSel.value = k.startsWith("topo:") ? "sheet:" + (topoMeta[k.slice(5)].tiles || k.slice(5)) : k;
       oPanel.classList.toggle("is-none", k === "none");
-      oCap.innerHTML = k === "none" ? "" : `Source: ${ORIGS[k].cap} · <a href="${ORIGS[k].href}" target="_blank" rel="noopener">Open the original (PDF)</a>`;
+      oCap.innerHTML = k === "none" ? "" : `Source: ${ORIGS[k].cap} · <a href="${ORIGS[k].href}" target="_blank" rel="noopener">Open the original${/\.pdf$/i.test(ORIGS[k].href) ? " (PDF)" : ""}</a>`;
       oLeg.innerHTML = k === "none" ? "" : OLEG[k.startsWith("topo:") ? "topo" : k].map(([t, c, l]) => lgRow(t, c, l)).join("");
       divider.querySelector(".swipe-tag.l").textContent = k === "none" ? "" : ORIGS[k].tag;
       clipOrig();

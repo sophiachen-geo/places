@@ -1901,23 +1901,60 @@
   "src": "Block groups (2020): ACS 2020-2024 B08301, B19013; homes and the 500 ft band as in the 500 ft ranking; Metro rail stations and bus stops (GTFS 2026). Cluster-robust errors by tract."
  },
  "old_network": {
+  "period": "about 1925 (the networks near their peak); the central lines as drawn on the 1927 engineering map",
   "miles_1925": {
-   "PE": 407.2,
-   "LARy": 134.8
+   "PE": 418.8,
+   "LARy": 189.0
   },
   "miles_1925_plate_window": {
-   "PE": 386.0,
-   "LARy": 134.8
+   "PE": 397.6,
+   "LARy": 189.0
+  },
+  "miles_1927_map_window": {
+   "PE": 122.4,
+   "LARy": 188.4
+  },
+  "miles_by_source": {
+   "wiki": 174.2,
+   "usgs": 18.1,
+   "pe1927": 177.3,
+   "plate": 89.3,
+   "ohm": 20.1,
+   "streets": 128.5
   },
   "accuracy": {
    "wiki": "as drawn by Wikipedia editors on modern maps (tens of metres)",
+   "usgs": "traced on USGS 1:24,000 sheets of 1924-25, placed by the coordinates printed in each GeoPDF (exact to the survey grid; sheet accuracy about 12 m), snapped to today's centrelines within 40 m",
+   "pe1927": "1927 map georeferenced on 1500 control points (tps_s10, leave-one-out error 17 m), lines snapped to today's street or rail centrelines within 60 m",
    "plate": "plate georeference 113 m (leave-one-out RMSE) plus tracing 50-80 m; about half the traced length snapped to a surviving rail or road centreline",
-   "streets": "exact street centrelines; the route follows each article's street list (plate agrees within ~65 m along 65-94% of each line)",
+   "streets": "exact street centrelines, following each article's street list; stretches of 300 m or more on streets where the 1927 map shows no transit line are dropped",
    "ohm": "OpenHistoricalMap track, kept only where the plate shows a line within 6 px (about 100 m)"
   },
+  "routed_km_dropped_by_1927_map": {
+   "A": 0.33,
+   "B": 0.33,
+   "D": 0.38,
+   "F": 0.33,
+   "G": 0.0,
+   "I": 0.0,
+   "J": 0.0,
+   "K": 0.45,
+   "L": 2.05,
+   "N": 0.0,
+   "O": 1.18,
+   "P": 0.0,
+   "R": 0.0,
+   "S": 2.17,
+   "V": 0.0,
+   "W": 0.0,
+   "3": 0.33,
+   "5 (Eagle Rock)": 0.42,
+   "5 (Hawthorne)": 1.1,
+   "M (later 8)": 2.8
+  },
   "gaps": [
-   "Pacific Electric: Long Beach-San Pedro (harbour belt too tangled on the plate to trace); Annandale, Westgate, Hawthorne-El Nido, Catalina Dock and East Washington locals; the Santa Ana-Huntington Beach line and the Inland Empire lines beyond the plate (Redlands, Highland, Arrowhead, Riverside-Rialto/Arlington, Upland-Ontario)",
-   "Los Angeles Railway: lines without a Wikipedia route description (C, E before it became 5, H, Q, U and branches) and short-lived 1920s variants; the 1932-1955 numbered routes (2, 7, 8, 9, 10) are not drawn separately"
+   "Pacific Electric: the Catalina Dock Line's own spur at Wilmington (it used the San Pedro via Dominguez Line to Wilmington; its 1925 dock track cannot be told apart on the sheet); lines closed before 1925 are left out (Santa Ana-Huntington Beach 1922, East Washington 1923); the Inland Empire lines beyond the 1925 plate (Redlands, Highland, Arrowhead, Riverside-Rialto/Arlington, Upland-Ontario)",
+   "Los Angeles Railway: outside the 1927 map, only the lines with a Wikipedia route description; the 1932-1955 numbered routes are not drawn separately"
   ],
   "lines": {
    "PE_wiki": [
@@ -1943,11 +1980,16 @@
     "Western and Franklin Avenue Line",
     "Whittier Line"
    ],
+   "PE_usgs": [
+    "Hawthorne\u2013El Nido Line",
+    "Long Beach\u2013San Pedro Line",
+    "San Pedro via Dominguez Line",
+    "Westgate Line"
+   ],
    "PE_plate": [
     "Alhambra\u2013San Gabriel Line",
     "Glendale\u2013Burbank Line",
     "Hawthorne\u2013El Segundo Line",
-    "Hawthorne\u2013Redondo Beach",
     "Hawthorne\u2013South Los Angeles",
     "Pomona local lines",
     "Pomona local lines (south)",
@@ -1992,7 +2034,7 @@
     "V"
    ]
   },
-  "method": "Pacific Electric: Wikipedia route maps where a line has one; the other lines traced from the 1925 Kelker, De Leuw plate (georeferenced, leave-one-out error 113 m) and snapped to surviving rail or road centrelines; OpenHistoricalMap track where the plate agrees. Los Angeles Railway: each line routed on today's streets from the street sequence its Wikipedia article gives for the 1920s. Route miles: lines buffered 25 m and unioned, shared track counted once, per company.",
-  "src": "Wikipedia line articles and route maps (CC BY-SA); OpenHistoricalMap (CC0); Kelker, De Leuw & Co. 1925, Plate 1 (LA Metro Research Library); LA County CAMS centrelines"
+  "method": "Pacific Electric: Wikipedia route maps where a line has one; the Long Beach-San Pedro, Hawthorne-El Nido and Westgate lines, and the San Pedro via Dominguez Line through Wilmington, traced on USGS 1:24,000 sheets of 1924-25; in central Los Angeles every rail line drawn solid red on the Pacific Electric engineering department's 1927 map (C.E. 8214), extracted by colour, its motor coach (bus) lines left out by their dashes; elsewhere the lines traced from the 1925 Kelker, De Leuw plate and snapped to surviving rail or road centrelines, and OpenHistoricalMap track where the plate agrees. Los Angeles Railway: each line routed on today's streets from the street sequence its Wikipedia article gives for the 1920s, checked against the 1927 map, plus every other line drawn solid yellow on that map. The layer shows the networks about 1925; the central lines are as of 1927. Route miles: lines buffered 25 m and unioned, shared track counted once, per company.",
+  "src": "Wikipedia line articles and route maps (CC BY-SA); Pacific Electric Railway, map C.E. 8214 (1927) and Kelker, De Leuw & Co. 1925, Plate 1 (LA Metro Research Library); USGS Historical Topographic Map Collection (Wilmington 1925, Torrance 1924, Inglewood 1924, Sawtelle 1925); OpenHistoricalMap (CC0); LA County CAMS centrelines"
  }
 }
