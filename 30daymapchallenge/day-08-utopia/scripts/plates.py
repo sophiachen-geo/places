@@ -6,6 +6,15 @@ transit1925  Kelker, De Leuw & Co., Report and Recommendations on a Comprehensiv
              https://libraryarchives.metro.net/DPGTL/maps/1925-kelker-deleuw-plan.tif
              First guess: ten towns' station symbols on the plate <-> their present-day centres; the interior control
              points then come from matching today's road and rail network (plate_gcps.py).
+pe1927       Pacific Electric Railway, Office of Chief Engineer, map C.E. 8214 (1927): central Los Angeles street map with the
+             Pacific Electric and Los Angeles Railway rail and motor coach lines. LA Metro Research Library scan, 4806 x 5673 px.
+             https://libraryarchives.metro.net/DPGTL/maps/1927_pe_lary_engineer.jpg
+             The matcher sees the coloured transit lines (they run down the middle of the streets, and their network is
+             irregular where the block grid repeats) against County CAMS centrelines of the Highway, Primary and Secondary
+             roads and railroads: run plate_gcps.py pe1927 in a working directory whose raw4/roads_major.geojson holds those
+             classes over the map (33.86-34.26 N, 118.52-118.05 W). First guess: eight street intersections.
+             The sheet is padded with 1400 px of plain paper on every side (all pixel positions below include the pad), so that
+             the matcher's first-round templates (4.5 km, searched over 3 km) also fit at sites near the edges of the map.
 """
 import numpy as np
 from PIL import Image
@@ -28,6 +37,24 @@ def _load_1925(path):
     Image.MAX_IMAGE_PIXELS = None
     return np.asarray(Image.open(path).convert('RGB').rotate(180))
 
+PAD27 = 1400
+def _load_1927(path):
+    Image.MAX_IMAGE_PIXELS = None
+    A = np.asarray(Image.open(path).convert('RGB'))
+    out = np.empty((A.shape[0] + 2 * PAD27, A.shape[1] + 2 * PAD27, 3), np.uint8); out[:] = (220, 206, 196)   # the paper's colour
+    out[PAD27:PAD27 + A.shape[0], PAD27:PAD27 + A.shape[1]] = A
+    return out
+
+PE1927_OUT = [(100, 150, 450, 470), (4280, 150, 4806, 470), (3600, 4980, 4806, 5673), (0, 5480, 4806, 5673)]   # corner ornaments, legend, title (unpadded px)
+def _lines_1927(A):
+    """the coloured transit lines (Pacific Electric red, Los Angeles Railway yellow, LA Motor Coach green, Motor Transit
+    lavender, the black subway): they run in the middle of the streets and form an irregular network, where the block
+    grid of the blue street map repeats itself every few hundred metres and cannot pin a match"""
+    A = A.astype(np.int16); R, G, B = A[..., 0], A[..., 1], A[..., 2]
+    col = ((R - G > 60) & (R - B > 70)) | ((R - B > 90) & (G - B > 70) & (R > 170)) | ((G - R > 45) & (G - B > 8)) | ((B - G > 18) & (R - G > 10) & (B > 170))
+    for x0, y0, x1, y1 in PE1927_OUT: col[y0 + PAD27:y1 + PAD27, x0 + PAD27:x1 + PAD27] = False
+    return ndi.binary_opening(col, iterations=1)
+
 CUSTOM = {
     'transit1925': dict(
         img='dl1925/1925-kelker-deleuw-plan.tif', load=_load_1925, lines=_lines_1925,
@@ -43,4 +70,16 @@ CUSTOM = {
                  ((2697, 1570), (-118.3090, 34.1808)),   # Burbank
                  ((6244, 2750), (-117.6889, 34.0122))],  # Chino
         thr_px=12.0),
+    'pe1927': dict(
+        img='dl_maps/1927_pe_lary_engineer.jpg', load=_load_1927, lines=_lines_1927,
+        crop=(250 + PAD27, 300 + PAD27, 4590 + PAD27, 5540 + PAD27), zmax=15, window=(-118.50, 33.92, -118.08, 34.24),
+        anchors=[((2270 + PAD27, 3780 + PAD27), (-118.29154, 34.01838)),   # Vermont Av and Exposition Bl
+                 ((2125 + PAD27, 3780 + PAD27), (-118.30018, 34.01818)),   # Normandie Av and Exposition Bl
+                 ((2270 + PAD27, 3925 + PAD27), (-118.29156, 34.01087)),   # Vermont Av and Santa Barbara Av (Martin Luther King Jr Bl)
+                 ((2920 + PAD27, 1290 + PAD27), (-118.25507, 34.14627)),   # Brand Bl and Broadway, Glendale
+                 ((1745 + PAD27, 2180 + PAD27), (-118.32669, 34.10163)),   # Hollywood Bl and Vine St
+                 ((1265 + PAD27, 4920 + PAD27), (-118.35334, 33.96178)),   # La Brea Av and Manchester Bl, Inglewood
+                 ((3420 + PAD27, 4632 + PAD27), (-118.22523, 33.97421)),   # Pacific Bl and Florence Av
+                 ((3540 + PAD27, 1462 + PAD27), (-118.21407, 34.13911))],  # Colorado Bl and Eagle Rock Bl
+        thr_px=10.0),
 }
