@@ -4,10 +4,11 @@ about 1925, near the networks' peak (the central lines as drawn in 1927).
 Sources, in order of precedence (a later source only fills what an earlier one leaves out):
 Pacific Electric
   wiki     lines whose Wikipedia article has a route map (Template:Attached KML/<line>, CC BY-SA)
-  usgs     Long Beach-San Pedro, Hawthorne-El Nido and Westgate, traced on USGS 1:24,000 sheets of 1924-25 (usgs/pdf/), each
-           placed by the coordinates printed in its GeoPDF: between waypoints set on the printed railway, the cheapest path
-           along the sheet's black linework, snapped to today's centrelines within 40 m (Westgate west of Westgate station:
-           today's San Vicente Boulevard, in whose median it ran)
+  usgs     Long Beach-San Pedro, San Pedro via Dominguez (on the Wilmington sheet), Hawthorne-El Nido and Westgate, traced on
+           USGS 1:24,000 sheets of 1924-25 (usgs/pdf/), each placed by the coordinates printed in its GeoPDF: between waypoints
+           set on the printed railway, the cheapest path along the sheet's black linework, snapped to today's centrelines
+           within 40 m (not Westgate's private way; west of Westgate station: today's San Vicente Boulevard, in whose median
+           it ran); on a sheet where a line is traced, the trace replaces the plate's
   pe1927   every rail line drawn solid red (and the dashed black subway) on the Pacific Electric engineering department's
            map C.E. 8214 (1927), georeferenced by plate_gcps.py + dense_gcps.py + refit_plate.py (img/pe1927_registration.json):
            colour masks (legend swatches: rail #dc7864, motor coach #da765e, subway #7c5748), long strokes only (the motor
@@ -421,17 +422,23 @@ def topo(pdf, ppi=300):
         px = (np.asarray(col, float) + 0.5 + X) / s; py = H - (np.asarray(row, float) + 0.5 + Y) / s
         lo, la = n2w.transform(a * px + c * py + e, b * px + d * py + f); return np.c_[g2m(lo, la)]
     blk = (A_.sum(-1) < 330) & ((A_.max(-1) - A_.min(-1)) < 70)     # black linework (railways are black, ticked)
-    return dict(cost=np.where(ndi.binary_dilation(blk), 1.0, 25.0).astype(np.float32), px2m=px2m)
+    lo4, la4 = Transformer.from_crs(crs.geodetic_crs, CRS.from_epsg(4326), always_xy=True).transform([lon.min(), lon.max(), lon.max(), lon.min()], [lat.min(), lat.min(), lat.max(), lat.max()])
+    face = LineString(np.c_[g2m(np.r_[lo4, lo4[:1]], np.r_[la4, la4[:1]])]).convex_hull     # the sheet's map face, EPSG:3310
+    return dict(cost=np.where(ndi.binary_dilation(blk), 1.0, 25.0).astype(np.float32), px2m=px2m, face=face)
 USGS = {   # waypoints on the printed railway (sheet px at 300 ppi); sheets in usgs/pdf/ (prd-tnm.s3.amazonaws.com/StagedProducts/Maps/HistoricalTopo/PDF/CA/24000/)
  'Long Beach–San Pedro Line': ('CA_Wilmington_295813_1925', [(4262, 1330), (4256, 1200), (4250, 1060), (4215, 1008), (4000, 1003), (3760, 985), (3655, 958),
-                                                              (3500, 905), (3300, 912), (3100, 932), (2900, 950), (2700, 963), (2500, 985)]),
+                                                              (3500, 905), (3300, 912), (3100, 932), (2900, 950), (2700, 963), (2500, 985), (2350, 993), (2215, 1000)]),
+ 'San Pedro via Dominguez Line': ('CA_Wilmington_295813_1925', [(2805, 30), (2730, 200), (2640, 350), (2560, 480), (2490, 600), (2420, 720), (2350, 840), (2290, 920),
+                                                                (2215, 1000), (2050, 1150), (1955, 1250), (1840, 1350), (1790, 1400), (1640, 1560), (1510, 1660), (1460, 1800),
+                                                                (1420, 1900), (1380, 2100), (1340, 2300), (1300, 2450), (1240, 2600), (1180, 2750)]),
  'Hawthorne–El Nido Line': ('CA_Inglewood_291567_1924', [(2200, 4400), (2200, 4900), (2201, 5460)]),
  'Hawthorne–El Nido Line (south)': ('CA_Torrance_295502_1924', [(3722, 5), (3722, 400), (3722, 900), (3720, 1390), (3672, 1600), (3600, 1790), (3560, 1880),
                                                                 (3440, 2100), (3360, 2200), (3160, 2500), (3000, 2660), (2720, 2780), (2500, 2840)]),
  'Westgate Line': ('CA_Sawtelle_295108_1925', [(2260, 2930), (2210, 2895), (2170, 2845), (2120, 2785), (2070, 2715), (2000, 2655), (1950, 2630), (1880, 2590), (1775, 2525)]),
 }
 _sheets = {}
-def trace_topo(sheet, wps, margin=40):
+NOSNAP = {'Westgate Line'}     # its private way runs diagonally through a diagonal street grid: snapping would pull it onto a street
+def trace_topo(sheet, wps, margin=25, snap=True):
     if sheet not in _sheets: _sheets[sheet] = topo(S + f'usgs/pdf/{sheet}.pdf')
     T = _sheets[sheet]; C = T['cost']; Hc, Wc = C.shape; out = []
     for (u0, v0), (u1, v1) in zip(wps[:-1], wps[1:]):
@@ -441,8 +448,10 @@ def trace_topo(sheet, wps, margin=40):
         out.append(seg if not out else seg[1:])
     P = np.concatenate(out)
     Q = np.c_[ndi.uniform_filter1d(P[:, 0], 9, mode='nearest'), ndi.uniform_filter1d(P[:, 1], 9, mode='nearest')]; Q[0], Q[-1] = P[0], P[-1]
-    return snap_line(LineString(T['px2m'](Q[:, 0], Q[:, 1])), r=40.0, step=10.0, minrun=4, lines=SNAPL_ALL, tree=SNAPTREE_ALL)
-TOPO = {nm: trace_topo(sh, w) for nm, (sh, w) in USGS.items()}
+    L = LineString(T['px2m'](Q[:, 0], Q[:, 1]))
+    return snap_line(L, r=40.0, step=10.0, minrun=4, lines=SNAPL_ALL, tree=SNAPTREE_ALL) if snap else L.simplify(6.0)
+TOPO = {nm: trace_topo(sh, w, snap=nm not in NOSNAP) for nm, (sh, w) in USGS.items()}
+FACE = {nm: _sheets[sh]['face'] for nm, (sh, w) in USGS.items()}       # where a line is traced on a sheet, the sheet replaces the plate
 # the Westgate Line west of Westgate ran in the middle of San Vicente Boulevard to Santa Monica: today's centreline
 _sv = nx.Graph([(a, b, d) for a, b, d in G.edges(data=True) if d['key'] == 'SAN VICENTE'])
 _w0 = Point(TOPO['Westgate Line'].coords[-1])
@@ -500,10 +509,12 @@ for nm, L in TOPO.items():
     if r is not None: add(r, 'PE', nm.replace(' (south)', ''), 'usgs'); taken.append(r)
 IN27 = COVER27.buffer(-300.0)          # inside the 1927 map its lines are the record: the plate and OpenHistoricalMap only fill outside it
 def outside27(L):
-    d = L.difference(IN27); parts = [p for p in (d.geoms if hasattr(d, 'geoms') else [d]) if p.geom_type == 'LineString']
+    if L is None or L.is_empty: return None
+    d = L.difference(IN27); parts = [p for p in (d.geoms if hasattr(d, 'geoms') else [d]) if p.geom_type == 'LineString' and not p.is_empty and p.length > 1]
     return MultiLineString(parts) if parts else None
 for nm, L in traced.items():
-    L = outside27(L)
+    if nm in FACE: L = L.difference(FACE[nm])
+    L = outside27(L) if not L.is_empty else None
     r = rest(L, taken, buf=150.0) if L is not None else None        # the plate is good to ~150 m: a parallel trace within that is the same line
     if r is not None: add(r, 'PE', nm.replace(' (south)', ''), 'plate'); taken.append(r)
 for L in OHM:
@@ -558,7 +569,7 @@ st['old_network'] = {
              'Los Angeles Railway: outside the 1927 map, only the lines with a Wikipedia route description; the 1932-1955 numbered routes are not drawn separately'],
     'lines': {'PE_wiki': sorted(WIKI), 'PE_usgs': sorted({k.replace(' (south)', '') for k in USGS}), 'PE_plate': sorted(traced), 'LARy_streets': sorted(routed),
               'last_1961': ['Long Beach Line'], 'last_1963': LAST_1963},
-    'method': ('Pacific Electric: Wikipedia route maps where a line has one; the Long Beach-San Pedro, Hawthorne-El Nido and Westgate lines traced on USGS 1:24,000 sheets of 1924-25; '
+    'method': ('Pacific Electric: Wikipedia route maps where a line has one; the Long Beach-San Pedro, Hawthorne-El Nido and Westgate lines, and the San Pedro via Dominguez Line through Wilmington, traced on USGS 1:24,000 sheets of 1924-25; '
                'in central Los Angeles every rail line drawn solid red on the Pacific Electric engineering department\'s 1927 map (C.E. 8214), extracted by colour, its motor coach '
                '(bus) lines left out by their dashes; elsewhere the lines traced from the 1925 Kelker, De Leuw plate and snapped to surviving rail or road centrelines, and OpenHistoricalMap '
                'track where the plate agrees. Los Angeles Railway: each line routed on today\'s streets from the street sequence its Wikipedia article gives for the 1920s, checked against '

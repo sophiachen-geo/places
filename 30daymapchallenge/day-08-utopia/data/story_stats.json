@@ -1903,54 +1903,54 @@
  "old_network": {
   "period": "about 1925 (the networks near their peak); the central lines as drawn on the 1927 engineering map",
   "miles_1925": {
-   "PE": 451.5,
-   "LARy": 191.5
+   "PE": 419.5,
+   "LARy": 189.0
   },
   "miles_1925_plate_window": {
-   "PE": 430.4,
-   "LARy": 191.5
+   "PE": 398.4,
+   "LARy": 189.0
   },
   "miles_1927_map_window": {
-   "PE": 149.8,
-   "LARy": 190.9
+   "PE": 122.4,
+   "LARy": 188.4
   },
   "miles_by_source": {
-   "wiki": 253.1,
+   "wiki": 174.2,
    "usgs": 13.5,
-   "pe1927": 122.2,
-   "plate": 100.6,
-   "ohm": 25.0,
-   "streets": 128.6
+   "pe1927": 177.3,
+   "plate": 94.6,
+   "ohm": 20.1,
+   "streets": 128.5
   },
   "accuracy": {
    "wiki": "as drawn by Wikipedia editors on modern maps (tens of metres)",
    "usgs": "traced on USGS 1:24,000 sheets of 1924-25, placed by the coordinates printed in each GeoPDF (exact to the survey grid; sheet accuracy about 12 m), snapped to today's centrelines within 40 m",
-   "pe1927": "1927 map georeferenced on 32 control points (tps_s50, leave-one-out error 28 m), lines snapped to today's street or rail centrelines within 60 m",
+   "pe1927": "1927 map georeferenced on 1500 control points (tps_s10, leave-one-out error 17 m), lines snapped to today's street or rail centrelines within 60 m",
    "plate": "plate georeference 113 m (leave-one-out RMSE) plus tracing 50-80 m; about half the traced length snapped to a surviving rail or road centreline",
    "streets": "exact street centrelines, following each article's street list; stretches of 300 m or more on streets where the 1927 map shows no transit line are dropped",
    "ohm": "OpenHistoricalMap track, kept only where the plate shows a line within 6 px (about 100 m)"
   },
   "routed_km_dropped_by_1927_map": {
-   "A": 0.35,
-   "B": 0.0,
-   "D": 0.0,
-   "F": 0.48,
+   "A": 0.33,
+   "B": 0.33,
+   "D": 0.38,
+   "F": 0.33,
    "G": 0.0,
    "I": 0.0,
    "J": 0.0,
    "K": 0.45,
-   "L": 1.82,
+   "L": 2.05,
    "N": 0.0,
-   "O": 1.15,
+   "O": 1.18,
    "P": 0.0,
    "R": 0.0,
-   "S": 2.25,
-   "V": 1.02,
+   "S": 2.17,
+   "V": 0.0,
    "W": 0.0,
-   "3": 0.35,
-   "5 (Eagle Rock)": 0.0,
-   "5 (Hawthorne)": 0.88,
-   "M (later 8)": 2.85
+   "3": 0.33,
+   "5 (Eagle Rock)": 0.42,
+   "5 (Hawthorne)": 1.1,
+   "M (later 8)": 2.8
   },
   "gaps": [
    "Pacific Electric: the Catalina Dock Line's own spur at Wilmington (it used the San Pedro via Dominguez Line to Wilmington; its 1925 dock track cannot be told apart on the sheet); lines closed before 1925 are left out (Santa Ana-Huntington Beach 1922, East Washington 1923); the Inland Empire lines beyond the 1925 plate (Redlands, Highland, Arrowhead, Riverside-Rialto/Arlington, Upland-Ontario)",
