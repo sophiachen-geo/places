@@ -13,6 +13,9 @@ pe1927       Pacific Electric Railway, Office of Chief Engineer, map C.E. 8214 (
              irregular where the block grid repeats) against County CAMS centrelines of the Highway, Primary and Secondary
              roads and railroads: run plate_gcps.py pe1927 in a working directory whose raw4/roads_major.geojson holds those
              classes over the map (33.86-34.26 N, 118.52-118.05 W). First guess: eight street intersections.
+             Then dense_gcps.py pe1927 adds control points at street intersections all over the sheet: the street spaces of
+             the blue map (the paper connected between block outlines) reduced to their centrelines, matched locally against
+             every County CAMS street centreline (raw4/roads_all_pe1927.geojson: Highway, Primary, Secondary and Minor).
              The sheet is padded with 1400 px of plain paper on every side (all pixel positions below include the pad), so that
              the matcher's first-round templates (4.5 km, searched over 3 km) also fit at sites near the edges of the map.
 """
@@ -55,6 +58,28 @@ def _lines_1927(A):
     for x0, y0, x1, y1 in PE1927_OUT: col[y0 + PAD27:y1 + PAD27, x0 + PAD27:x1 + PAD27] = False
     return ndi.binary_opening(col, iterations=1)
 
+def _streets_1927(A):
+    """street centrelines of the blue street map: paper (not ink) connected over large areas -- the street spaces, since
+    each block is closed by its own outline -- thinned to its medial axis where it is street-wide (<= 9 px to the ink)"""
+    from skimage.morphology import skeletonize
+    x0, y0, x1, y1 = 250 + PAD27, 300 + PAD27, 4590 + PAD27, 5540 + PAD27
+    a = A[y0:y1, x0:x1].astype(np.int16); s = a.sum(-1); R, G, B = a[..., 0], a[..., 1], a[..., 2]
+    bg = ndi.maximum_filter(ndi.median_filter(s[::2, ::2], 5), 5)
+    bg = np.kron(bg, np.ones((2, 2), np.int16))[:s.shape[0], :s.shape[1]]
+    col = ((R - G > 60) & (R - B > 70)) | ((R - B > 90) & (G - B > 70) & (R > 170)) | ((G - R > 45) & (G - B > 8))
+    dark = ((bg - s) > 40) & ~ndi.binary_dilation(col, iterations=2)    # the coloured transit lines run in the streets
+    del a, s, R, G, B, bg, col
+    paper = ~dark
+    lab, n = ndi.label(paper); sz = ndi.sum(paper, lab, range(1, n + 1))
+    big = np.zeros(n + 1, bool); big[1:] = sz >= 15000
+    street = big[lab]; del lab
+    edt = ndi.distance_transform_edt(street)
+    st = skeletonize(street) & (edt <= 9)
+    for a0, b0, c0, d0 in PE1927_OUT:
+        st[max(0, b0 + PAD27 - y0):max(0, d0 + PAD27 - y0), max(0, a0 + PAD27 - x0):max(0, c0 + PAD27 - x0)] = False
+    out = np.zeros(A.shape[:2], bool); out[y0:y1, x0:x1] = st
+    return out
+
 CUSTOM = {
     'transit1925': dict(
         img='dl1925/1925-kelker-deleuw-plan.tif', load=_load_1925, lines=_lines_1925,
@@ -71,7 +96,8 @@ CUSTOM = {
                  ((6244, 2750), (-117.6889, 34.0122))],  # Chino
         thr_px=12.0),
     'pe1927': dict(
-        img='dl_maps/1927_pe_lary_engineer.jpg', load=_load_1927, lines=_lines_1927,
+        img='dl_maps/1927_pe_lary_engineer.jpg', load=_load_1927, lines=_lines_1927, streets=_streets_1927,
+        centrelines='raw4/roads_all_pe1927.geojson', dense_cell_m=350, dense_half_m=650, dense_search_m=80, grid_cells=(12, 14),
         crop=(250 + PAD27, 300 + PAD27, 4590 + PAD27, 5540 + PAD27), zmax=15, window=(-118.50, 33.92, -118.08, 34.24),
         anchors=[((2270 + PAD27, 3780 + PAD27), (-118.29154, 34.01838)),   # Vermont Av and Exposition Bl
                  ((2125 + PAD27, 3780 + PAD27), (-118.30018, 34.01818)),   # Normandie Av and Exposition Bl
