@@ -1140,6 +1140,56 @@
         ["height:12px;width:0;border-left:1px dashed #a9a49a", "a transit tax passes"]]) +
         `<p class="mini-note">Route miles of today’s network by the year each section opened, shared track counted once (LA Metro rail and bus GTFS, November 2026); lines since closed are not counted. The marked votes are those that passed (see the chart of all nine in the text).</p>`;
     }
+    // V · the experiments compared on seven sourced 0–3 scores (none, slight, substantial, defining); exclusion is told, not scored
+    const COOPS = [
+      { id: "llano", n: "Llano del Rio", y: "1914 to 1918", s: [3, 3, 1, 3, 1, 1, 0],
+        ex: "Admitted white applicants only (a 1916 advertisement turned Black and Asian applicants away); joining meant buying $2,000 of shares." },
+      { id: "landers", n: "Little Landers", y: "1913 to about 1917", s: [1, 1, 0, 2, 2, 1, 0],
+        ex: "Open to anyone who could buy a lot, quarter acres from $250; whether its deeds carried racial restrictions is not recorded." },
+      { id: "village", n: "Baldwin Hills Village", y: "1942 to today", s: [0, 1, 3, 0, 3, 3, 1],
+        ex: "Restricted by race and religion through FHA practice and covenants; tenants screened from 1949, children barred until a 1983 court ruling." },
+      { id: "crestwood", n: "Crestwood Hills", y: "1946 to about 1952", s: [2, 2, 1, 0, 1, 2, 1],
+        ex: "Founded on open membership; the FHA required covenants admitting only white owners, and the one Japanese American couple was asked to withdraw." },
+      { id: "elysian", n: "Elysian Park Heights", y: "1950 to 1953, never built", s: [0, 1, 2, 0, 0, 0, 3],
+        ex: "Planned as integrated public housing, but homeowners and families whose main earner was undocumented were ineligible; at least 1,100 families were displaced." },
+    ];
+    const AXES = [["Owned in", "common"], ["Shared", "housework"], ["Shared", "landscape"], ["Self-", "sufficient"], ["Built as", "planned"], ["Endured"], ["Public", "initiative"]];
+    function radars() {
+      const W = cardW(), narrow = W < 420, COLS = 2, cw = W / COLS, R = narrow ? 36 : 56, LBL = narrow ? 9 : 10;
+      const wrap = (t, n) => t.split(" ").reduce((ls, w) => { const l = ls[ls.length - 1]; if ((l + " " + w).trim().length > n) ls.push(w); else ls[ls.length - 1] = (l + " " + w).trim(); return ls; }, [""]);
+      const ang = (i) => -Math.PI / 2 + i * 2 * Math.PI / AXES.length;
+      const cells = COOPS.map((c) => ({ c, note: wrap(c.ex, narrow ? 27 : 46) }));
+      const PADR = narrow ? 16 : 28, CH = 30 + 2 * (R + PADR) + Math.max(...cells.map((x) => x.note.length)) * 11 + 12;
+      let s = "";
+      cells.forEach(({ c, note }, k) => {
+        const x0 = (k % COLS) * cw, y0 = Math.floor(k / COLS) * CH, cx = x0 + cw / 2, cy = y0 + 30 + R + PADR;
+        s += `<g class="row" data-place="${c.id}" tabindex="0" role="button" aria-label="Show ${c.n} on the map"><rect class="hit" x="${x0 + 2}" y="${y0}" width="${cw - 4}" height="${CH - 4}" fill="transparent"/>
+          <text x="${cx}" y="${y0 + 12}" text-anchor="middle" class="lbl" style="font-size:${narrow ? 10.5 : 11.5}px">${c.n}</text>
+          <text x="${cx}" y="${y0 + 24}" text-anchor="middle" style="font-size:9.5px;fill:#6b6b6b">${c.y}</text>`;
+        [1, 2, 3].forEach((r) => { s += `<polygon points="${AXES.map((a, i) => `${cx + Math.cos(ang(i)) * R * r / 3},${cy + Math.sin(ang(i)) * R * r / 3}`).join(" ")}" fill="none" stroke="${r === 3 ? "#c9c3b6" : "#e6e2d9"}" stroke-width="1"/>`; });
+        AXES.forEach((a, i) => {
+          const ex = cx + Math.cos(ang(i)) * R, ey = cy + Math.sin(ang(i)) * R, lx = cx + Math.cos(ang(i)) * (R + 6), ly = cy + Math.sin(ang(i)) * (R + 6);
+          const anc = Math.abs(Math.cos(ang(i))) < 0.2 ? "middle" : Math.cos(ang(i)) > 0 ? "start" : "end", dy = Math.sin(ang(i)) < -0.5 ? -(a.length - 1) * LBL - 2 : Math.sin(ang(i)) > 0.5 ? LBL : LBL / 2 - (a.length - 1) * LBL / 2;
+          s += `<line x1="${cx}" y1="${cy}" x2="${ex}" y2="${ey}" stroke="#e6e2d9"/>`;
+          if (narrow) s += `<text x="${lx}" y="${ly + (Math.sin(ang(i)) < -0.5 ? -2 : Math.sin(ang(i)) > 0.5 ? LBL : LBL / 2 - 1)}" text-anchor="${anc}" style="font-size:${LBL}px;font-weight:600;fill:#3a3a3a">${i + 1}</text>`;
+          else a.forEach((w, j) => { s += `<text x="${lx}" y="${ly + dy + j * LBL}" text-anchor="${anc}" style="font-size:${LBL}px;fill:#3a3a3a">${w}</text>`; });
+        });
+        const pts = c.s.map((v, i) => [cx + Math.cos(ang(i)) * R * v / 3, cy + Math.sin(ang(i)) * R * v / 3]);
+        s += `<polygon points="${pts.map((p) => p.join(",")).join(" ")}" fill="${COL.coop}" fill-opacity="0.35" stroke="${LINE.coop}" stroke-width="1.8" stroke-linejoin="round"/>`;
+        pts.forEach((p, i) => { s += `<circle cx="${p[0]}" cy="${p[1]}" r="2.4" fill="${LINE.coop}"><title>${AXES[i].join(" ")}: ${["none", "slight", "substantial", "defining"][c.s[i]]}</title></circle>`; });
+        note.forEach((l, j) => { s += `<text x="${x0 + 8}" y="${cy + R + PADR + 6 + j * 11}" style="font-size:9px;fill:#6b6b6b">${l}</text>`; });
+        s += `</g>`;
+      });
+      // the last cell, when there is one, explains the scale
+      if (COOPS.length % COLS) {
+        const k = COOPS.length, x0 = (k % COLS) * cw + 10, y0 = Math.floor(k / COLS) * CH + 14;
+        (narrow ? ["1 Owned in common", "2 Shared housework", "3 Shared landscape", "4 Self-sufficient", "5 Built as planned", "6 Endured", "7 Public initiative", "", "Centre 0 (none) to", "outer ring 3 (defining)"]
+          : ["Each spoke runs from the centre (none)", "to the outer ring (defining):", "0 none, 1 slight, 2 substantial, 3 defining.", "", "Who could live there is told beneath", "each experiment, not scored."])
+          .forEach((l, j) => { s += `<text x="${x0}" y="${y0 + j * 13}" style="font-size:10px;fill:#3a3a3a">${l}</text>`; });
+      }
+      return svgEl(W, Math.ceil(COOPS.length / COLS) * CH, s) +
+        `<p class="mini-note">Click an experiment to see it on the map. Scores judge each scheme as planned and, where it ran, as practised; “built as planned” and “endured” judge what was realized and how long it lasted, so Elysian Park Heights is scored on paper. “Owned in common” means owned by its residents together: a single landlord, private or public, scores none. Sources: Dolores Hayden on Alice Constance Austin; California Historical Landmark No. 933; Lancaster Museum of Art and History; PBS SoCal; National Park Service, Baldwin Hills Village National Historic Landmark nomination; Village Green Owners Association; Los Angeles Conservancy; Los Angeles Review of Books; National Association of Housing Cooperatives; UCLA Library and LMU Library on Chávez Ravine.</p>`;
+    }
     const CARDS = {
       pastoral: () => `<p class="orig-link">Original map: <a href="${ORIGS.parks1930.href}" target="_blank" rel="noopener">1930 · Olmsted Brothers and Bartholomew, <i>Parks, Playgrounds and Beaches for the Los Angeles Region</i></a></p>
         <div class="tiles">
@@ -1168,7 +1218,8 @@
         <div class="mini"><h4>Metro Route Miles Open, 1980 to 2026</h4>${milesChart()}</div>`,
       coop: () => `<p class="orig-link">Original maps: U.S. Geological Survey sheets, ${Object.entries(topoMeta).map(([id, t]) => `<a href="${ORIGS["topo:" + id].href}" target="_blank" rel="noopener">${topoName(t.file)} ${t.year}</a>`).join(", ")}</p>
         <div class="mini"><h4>The Experiments</h4>${gantt()}
-          <p class="glegend"><span class="g1"></span>Community <span class="g2"></span>Buildings still standing <span class="g3"></span>Never built</p></div>`,
+          <p class="glegend"><span class="g1"></span>Community <span class="g2"></span>Buildings still standing <span class="g3"></span>Never built</p></div>
+        <div class="mini"><h4>Five Experiments, Seven Characteristics</h4>${radars()}</div>`,
     };
     // who ran what, when: each rail or busway system, private company years light, public agency years full ink
     function systemsChart() {
