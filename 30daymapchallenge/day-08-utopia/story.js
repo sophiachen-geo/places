@@ -930,11 +930,11 @@
     function twoBars({ rows, refs, head1, fmt1, max1, cap1, ch, gapAfter, head2 = "Median household income", fmt2 = money, max2 = 200000, head1s, head2s }) {
       const W = cardW(), narrow = W < 420, LW = narrow ? 136 : 178;
       if (narrow) { head1 = head1s || head1; head2 = head2s || head2; }
-      const RH = 30, GAP = 14, imax = max2;
-      const pw = (W - LW - GAP) * 0.5, X1 = LW, X2 = LW + pw + GAP, bw = pw - (narrow ? 34 : 40);
+      const RH = 30, GAP = 14, imax = max2, one = head2 === null;
+      const pw = one ? W - LW : (W - LW - GAP) * 0.5, X1 = LW, X2 = LW + pw + GAP, bw = pw - (narrow ? 34 : 40);
       const PX = (v) => X1 + Math.min(v, cap1 || max1) / max1 * bw, IX = (v) => X2 + Math.min(v, imax) / imax * bw;
       let s = `<text x="${X1}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">${head1}</text>
-        <text x="${X2}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">${head2}</text>`;
+        ${one ? "" : `<text x="${X2}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">${head2}</text>`}`;
       const T0 = 18;
       const row = ({ n, k, v, inc, hi, id }, y) => {
         y += T0;
@@ -942,8 +942,8 @@
         s += `<text class="lbl" x="0" y="${y + 11}" style="${hi ? "font-weight:700;" : ""}${narrow ? "font-size:10px" : ""}">${n}</text><text x="0" y="${y + 23}" style="font-size:9.5px;fill:#6b6b6b">${narrow ? k.replace(/^the whole \w+, /, "") : k}</text>
           <rect x="${X1}" y="${y + 3}" width="${Math.max(hi ? 4 : 1, PX(v) - X1)}" height="16" rx="3" fill="${hi ? COL[ch] : "#c9c3b6"}"/>`;
         if (cap1 && v > cap1) s += `<path d="M${PX(v) - 12} ${y + 1}l-5 20M${PX(v) - 7} ${y + 1}l-5 20" stroke="#fff" stroke-width="2.5"/>`;   // broken bar: off the scale
-        s += `<text x="${PX(v) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${fmt1(v)}</text>
-          <rect x="${X2}" y="${y + 3}" width="${Math.max(1, IX(inc || 0) - X2)}" height="16" rx="3" fill="#fff" stroke="#6f6b63" stroke-width="1.4"/>
+        s += `<text x="${PX(v) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${fmt1(v)}</text>`;
+        if (!one) s += `<rect x="${X2}" y="${y + 3}" width="${Math.max(1, IX(inc || 0) - X2)}" height="16" rx="3" fill="#fff" stroke="#6f6b63" stroke-width="1.4"/>
           <text x="${IX(inc || 0) + 5}" y="${y + 15}" style="font-weight:600;fill:#111">${fmt2(inc)}</text>`;
         if (id) s += `</g>`;
       };
@@ -1007,34 +1007,12 @@
         `<p class="mini-note">Click a plan area to see it on the map. The City of Los Angeles’s ${all.length} community plan areas with at least 5,000 homes: the ten with the most and the ten with the least of each, bars to scale (park bars beyond ${cap} acres are cut); a line joins a plan area that appears on both sides. Public park: open-access land in the California Protected Areas Database (GreenInfo Network, current release), federal forest excluded; homes on the 2026 Assessor roll. ${INCOME_NOTE}</p>`;
     }
     function proxBars() {
-      const rows = B.places.slice(0, 10).map((p) => ({ n: placeName(p), k: KIND[p.kind], v: p.within_500ft_pct, inc: p.transit_pct,
+      const rows = B.places.slice(0, 10).map((p) => ({ n: placeName(p), k: KIND[p.kind], v: p.within_500ft_pct,
         hi: p.name === "Boyle Heights", id: (p.kind === "la" ? "la:" : "cc:") + p.name }));
-      const refs = [{ n: "City of Los Angeles", k: "the whole city, for comparison", v: B.city.within_500ft_pct, inc: B.city.transit_pct },
-                    { n: "Los Angeles County", k: "the whole county, for comparison", v: B.county.within_500ft_pct, inc: B.county.transit_pct }];
-      const tmax = Math.ceil(Math.max(...rows.map((r) => r.inc || 0), B.city.transit_pct) / 5) * 5;
-      return twoBars({ rows, refs, head1: "Homes within 500 ft of a freeway", fmt1: (v) => Math.round(v) + "%", max1: Math.ceil(rows[0].v / 5) * 5, ch: "autopia",
-                       head2: "Commute by transit", head1s: "Within 500 ft", head2s: "By transit", fmt2: (v) => (v == null ? "n/a" : v.toFixed(1) + "%"), max2: tmax }) +
-        `<p class="mini-note">Click a place to see it on the map. Ranked among the ${B.places.length} places with at least 5,000 homes: the City of Los Angeles’s ${B.places.filter((p) => p.kind === "la").length} community plan areas, the County’s other cities and its unincorporated communities. Homes on the 2026 Assessor roll; freeways from Caltrans. Commuting by transit: workers 16 and over who get to work by public transportation (taxis excluded), U.S. Census Bureau, American Community Survey 2020–2024; a city’s or community’s own published figure where the Bureau publishes one, otherwise its census tracts pooled.</p>`;
-    }
-    // does living by a freeway go with less transit? block groups compared within income fifths
-    function fwyTransit() {
-      const F = SS.fwy_transit, Q = F.by_income_quintile, W = cardW(), narrow = W < 420, LW = narrow ? 96 : 120, RH = 36, T0 = 18, BH = 12;
-      const max = Math.ceil(Math.max(...Q.flatMap((q) => [q.near_pct, q.none_pct])) / 2) * 2, bw = W - LW - 44, X = (v) => LW + v / max * bw;
-      const kk = (v) => "$" + Math.round(v / 1000) + "k";
-      const band = (i) => (i === 0 ? `under ${kk(Q[1].inc_lo)}` : i === 4 ? `${kk(Q[4].inc_lo)} and up` : `${kk(Q[i].inc_lo)} to ${kk(Q[i + 1].inc_lo)}`);
-      let s = `<text x="${LW}" y="9" style="font-size:9.5px;font-weight:600;fill:#111">Workers commuting by transit</text>`;
-      Q.forEach((q, i) => {
-        const y = T0 + i * RH;
-        s += `<text class="lbl" x="0" y="${y + 12}">${["Lowest", "Second", "Middle", "Fourth", "Highest"][i]} fifth</text>
-          <text x="0" y="${y + 25}" style="font-size:9.5px;fill:#6b6b6b">${band(i)}</text>
-          <g><title>${band(i)}: ${q.near_pct}% in ${q.near_n} block groups by a freeway</title><rect x="${LW}" y="${y + 2}" width="${Math.max(2, X(q.near_pct) - LW)}" height="${BH}" fill="${COL.autopia}"/>
-          <text x="${X(q.near_pct) + 4}" y="${y + 12}" style="font-weight:600;fill:#111">${q.near_pct.toFixed(1)}%</text></g>
-          <g><title>${band(i)}: ${q.none_pct}% in ${q.none_n} block groups with no home within 500 ft</title><rect x="${LW}" y="${y + 16}" width="${Math.max(2, X(q.none_pct) - LW)}" height="${BH}" fill="#c9c3b6"/>
-          <text x="${X(q.none_pct) + 4}" y="${y + 26}" style="font-weight:600;fill:#111">${q.none_pct.toFixed(1)}%</text></g>`;
-      });
-      const c = F.ols_controlled_per10pts, d = F.ols_controlled_drive_alone_per10pts, sgn = (v) => (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(2);
-      return svgEl(W, T0 + 5 * RH, s) + key([[`background:${COL.autopia}`, "by a freeway: a quarter or more of homes within 500 ft"], ["background:#c9c3b6", "no home within 500 ft"]]) +
-        `<p class="mini-note">Within each fifth of household income, block groups by a freeway and block groups away from one send almost the same share of workers to work by transit; across the fifths, the share falls more than fivefold as income rises. Across all ${fmt(F.n_block_groups)} block groups in the County, with income, housing density, rail and bus service and distance to Downtown held equal, ten more points of homes within 500 ft of a freeway change the transit share by ${sgn(c.b)} points (95% range ${sgn(c.lo)} to ${sgn(c.hi)}): no measurable effect. Living by a freeway goes with slightly more driving alone (${sgn(d.b)} points per ten), not with less transit. Census block groups with 200 or more workers (ACS 2020–2024, B08301 and B19013); homes and the 500 ft band as above; Metro rail stations and bus stops (GTFS 2026); errors clustered by tract.</p>`;
+      const refs = [{ n: "City of Los Angeles", k: "the whole city, for comparison", v: B.city.within_500ft_pct },
+                    { n: "Los Angeles County", k: "the whole county, for comparison", v: B.county.within_500ft_pct }];
+      return twoBars({ rows, refs, head1: "Homes within 500 ft of a freeway", fmt1: (v) => Math.round(v) + "%", max1: Math.ceil(rows[0].v / 5) * 5, ch: "autopia", head2: null }) +
+        `<p class="mini-note">Click a place to see it on the map. Ranked among the ${B.places.length} places with at least 5,000 homes: the City of Los Angeles’s ${B.places.filter((p) => p.kind === "la").length} community plan areas, the County’s other cities and its unincorporated communities. Homes on the 2026 Assessor roll; freeways from Caltrans.</p>`;
     }
     function outcomeBar() {
       const o = C.outcomes_half_mile, keys = ["realised", "towers", "rail", "neither"], W = cardW(), h = 22;
@@ -1208,8 +1186,7 @@
           ${tile(fmt(S.aadt.max.v), "vehicles a day on the Santa Monica Freeway")}
           ${tile(`${Math.round(B.bh.within_500ft_pct)}%`, `of Boyle Heights homes stand within 500 ft of a freeway, the highest share of ${B.places.length} places in the County`)}
         </div>
-        <div class="mini"><h4>The Ten Places with the Most Homes within 500 ft of a Freeway</h4>${proxBars()}</div>
-        <div class="mini"><h4>Transit Use Follows Income, Not the Freeway</h4>${fwyTransit()}</div>`,
+        <div class="mini"><h4>The Ten Places with the Most Homes within 500 ft of a Freeway</h4>${proxBars()}</div>`,
       centers: () => `<p class="orig-link">Original map: <a href="${ORIGS.plan1974.href}" target="_blank" rel="noopener">1974 · City of Los Angeles, <i>Concept Los Angeles</i>, adopted centers map</a></p>
         <div class="tiles">
           ${tile(`${C.outcomes_half_mile.realised} of ${C.n}`, "planned centres got both tall buildings and a rail station")}
